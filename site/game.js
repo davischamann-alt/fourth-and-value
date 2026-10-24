@@ -69,6 +69,8 @@ function headerCard(g, s) {
       <div><span class="k">Total</span><span class="v">${g.total ?? "—"}</span></div>
     </div>
     ${venue ? `<p class="note">${esc(venue.fullName)}${venue.address?.city ? `, ${esc(venue.address.city)}${venue.address.state ? ", " + esc(venue.address.state) : ""}` : ""}</p>` : ""}
+    ${g.state === "post" ? "" : `<p class="note gd-updated">Updated ${new Date().toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit", second: "2-digit" })} ·
+      ${g.state === "in" ? "refreshes every 30 seconds" : "refreshes every 30 seconds from 15 minutes before kickoff"}</p>`}
   </div>`;
 }
 
@@ -253,17 +255,31 @@ async function renderGameDetail(id) {
   try {
     const [s, log] = await Promise.all([getJSON(`${ESPN}/summary?event=${id}`), gameLog ? Promise.resolve(gameLog) : loadGameLog()]);
     if ($("#tab-game").hidden || location.hash !== `#game/${id}`) return;  // user navigated away
-    const g = state.games.find((x) => x.id === id) || gameFromSummary(s);
+    // Score, clock and status come from the summary just fetched (the freshest copy); lines and
+    // the rest come from the board when the game is on it
+    const fresh = gameFromSummary(s), board = state.games.find((x) => x.id === id);
+    const g = board ? { ...board, state: fresh.state, status: fresh.status, period: fresh.period, clock: fresh.clock,
+      home: { ...board.home, score: fresh.home.score, winner: fresh.home.winner },
+      away: { ...board.away, score: fresh.away.score, winner: fresh.away.winner } } : fresh;
     if (g.line == null) {
       const pc = s.pickcenter?.[0];
       if (pc?.spread != null) Object.assign(g, { line: num(pc.spread), openLine: num(pc.pointSpread?.home?.open?.line), total: num(pc.overUnder) });
     }
     document.title = `${g.away.abbr} @ ${g.home.abbr} · Fourth & Value`;
     box.innerHTML = headerCard(g, s) + `<div class="gd-grid">${pickCard(g)}${lineCard(g, log[id])}${matchupCard(g, s)}${opinionCard(g, s)}${conditionsCard(g, s)}${forwardCard(g, log[id])}${flowCard(g, s)}${injuryNote}</div>`;
+    // Live, or within 15 minutes of kickoff: every 30 seconds, like the board. Earlier: every
+    // 5 minutes, for line moves. Finished: no more updates.
     clearTimeout(gameTimer);
-    if (g.state === "in") gameTimer = setTimeout(() => renderGameDetail(id), 30e3);
+    const soon = g.state === "pre" && Date.parse(g.date) - Date.now() < 15 * 60e3;
+    if (g.state === "in" || soon) gameTimer = setTimeout(() => renderGameDetail(id), 30e3);
+    else if (g.state === "pre") gameTimer = setTimeout(() => renderGameDetail(id), 300e3);
   } catch (e) {
-    box.innerHTML = `<div class="card error">Couldn't load this game from ESPN (${esc(e.message)}). Check your connection and try again.</div>`;
+    // keep a loaded page on screen through a brief network blip; just try again
+    if (!box.querySelector(".gd-head")) {
+      box.innerHTML = `<div class="card error">Couldn't load this game from ESPN (${esc(e.message)}). Check your connection; it will retry.</div>`;
+    }
+    clearTimeout(gameTimer);
+    gameTimer = setTimeout(() => renderGameDetail(id), 30e3);
   }
 }
 
