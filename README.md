@@ -69,7 +69,7 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
   - **Forward test:** when the pick was recorded, at what line, and how it graded.
   - **Live and finished games:** ESPN's play-by-play win chance and each team's leaders, updating every 30 seconds while the game is on.
   - **Not included:** injuries, because ESPN doesn't publish them for college football. Check quarterback news yourself.
-- **Ratings:** every FBS team's FPI and adjusted offense and defense, sortable and searchable.
+- **Ratings:** every FBS team's FPI and adjusted offense and defense, sortable and searchable, with a **How to read the ratings** guide (what each column means and how the projections use it) and a **Compare two teams** tool: pick any matchup, home or neutral, and optionally enter the betting line to see each projection's pick and edge.
 - **My picks:** tap **☆ Track pick** on a game before kickoff, and it's graded automatically when the game ends.
 - **Bets:** log bets and see your record, profit and ROI, and download or import them as CSV.
 - **Track record:** live results of picks recorded before kickoff ([The forward test](#the-forward-test)), then the backtest results in plain language.

@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=25">
 </head>
 <body>
   <header class="top">
@@ -141,6 +141,57 @@
 
     <!-- Ratings -->
     <section id="tab-ratings" class="tab" hidden>
+      <h2 class="section-head">Team ratings <span>the numbers every pick is built on</span></h2>
+      <div class="rt-intro">
+        <details class="card rt-guide" id="rt-guide" open>
+          <summary>How to read the ratings</summary>
+          <h4 class="gd-h4">What each column means</h4>
+          <dl class="gd-dl rt-dl">
+            <dt>#</dt><dd>The team's rank by FPI, from best (1) to worst.</dd>
+            <dt>FPI</dt><dd>ESPN's Football Power Index: how many points better (+) or worse (−) the team is than an average FBS team
+              on a neutral field. A 10 would be expected to beat an average team by 10.</dd>
+            <dt>Offense</dt><dd>Points the team scores per game against an average defense. It's adjusted for who they played, so 40
+              points against a top defense counts for more than 40 against a weak one. <b>Higher is better.</b></dd>
+            <dt>Defense</dt><dd>Points the team allows per game against an average offense, adjusted the same way. <b>Lower is better.</b></dd>
+            <dt>Net</dt><dd>Offense minus defense: how many points per game the team outscores an average opponent by. Green is
+              better than average, red is worse.</dd>
+            <dt>Games</dt><dd>Games played against FBS teams so far. Fewer games means less certain ratings, especially early in the season.</dd>
+          </dl>
+          <h4 class="gd-h4">How the picks use them</h4>
+          <ul class="rt-list">
+            <li><b>ESPN FPI projection:</b> home team's FPI − away team's FPI + <span data-hfa>3</span> points for home field (none at a neutral site).</li>
+            <li><b>Adjusted points projection:</b> (home offense + away defense) − (away offense + home defense) + <span data-hfa>3</span>.</li>
+            <li><b>Blend:</b> the average of those two.</li>
+            <li><b>Market-anchored</b> (the default): starts from the betting line and shifts it toward what FPI and adjusted points say.</li>
+            <li>The difference between a projection and the betting line is the <b>edge</b>. That's what the Games tab labels Go for it, Lean or Punt.</li>
+          </ul>
+          <p class="rt-example" id="rt-example"></p>
+          <h4 class="gd-h4">Tips</h4>
+          <ul class="rt-list">
+            <li><b>Search a team</b> before a game to see how it stacks up, or use <b>Compare two teams</b>.</li>
+            <li><b>Sort by Net or FPI</b> (click a column) to see the strongest teams. Click again to flip the order.</li>
+            <li>When FPI and Net disagree a lot about a team, the projections will split on its games. That's often a reason to punt.</li>
+            <li>Ratings refresh every morning from the latest results. FCS teams aren't rated.</li>
+          </ul>
+        </details>
+        <div class="card rt-compare">
+          <h3>Compare two teams</h3>
+          <div class="rt-pickers">
+            <label class="field"><span>Away team</span><select id="cmp-away"></select></label>
+            <label class="field"><span>Home team</span><select id="cmp-home"></select></label>
+          </div>
+          <div class="controls rt-opts">
+            <div class="chips" id="cmp-site" role="group" aria-label="Site">
+              <button data-v="home" class="on" type="button">Home field</button>
+              <button data-v="neutral" type="button">Neutral site</button>
+            </div>
+            <label class="field rt-line"><span>Home team's line (optional)</span>
+              <input id="cmp-line" type="number" step="0.5" inputmode="decimal" placeholder="e.g. -3.5"></label>
+          </div>
+          <div id="cmp-out"></div>
+        </div>
+      </div>
+
       <div class="controls">
         <label class="field grow">
           <span>Find a team</span>
@@ -149,9 +200,7 @@
       </div>
       <p class="summary" id="ratings-summary"></p>
       <div class="table-wrap"><table id="ratings-table" class="data"></table></div>
-      <p class="note"><b>FPI</b> is ESPN's rating: points better or worse than an average FBS team on a neutral field.
-        <b>Offense</b> and <b>Defense</b> are points scored and allowed per game, adjusted for opponent strength.
-        <b>Net</b> is offense minus defense. Click a column to sort.</p>
+      <p class="note">Click a column to sort; hover a column name for what it means.</p>
     </section>
 
     <!-- My picks -->
@@ -266,8 +315,9 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=21"></script>
-  <script src="game.js?v=21"></script>
-  <script src="updates.js?v=21"></script>
+  <script src="app.js?v=25"></script>
+  <script src="game.js?v=25"></script>
+  <script src="updates.js?v=25"></script>
+  <script src="ratings.js?v=25"></script>
 </body>
 </html>

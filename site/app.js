@@ -478,8 +478,13 @@ function renderRatings() {
   const rows = list.filter((t) => !q || t.team.toLowerCase().includes(q)).map((t) => ({ ...t, net: t.ppg - t.papg, rank: fpiRank.get(t.team) }));
   const k = ratingSort.key, d = ratingSort.dir;
   rows.sort((a, b) => (typeof a[k] === "string" ? a[k].localeCompare(b[k]) : ((a[k] ?? -1e9) - (b[k] ?? -1e9))) * d);
-  const cols = [["rank", "#"], ["team", "Team"], ["fpi", "FPI"], ["ppg", "Offense"], ["papg", "Defense"], ["net", "Net"], ["games", "Games"]];
-  $("#ratings-table").innerHTML = `<tr>${cols.map(([c, l]) => `<th data-sort="${c}" class="${c === "team" ? "l" : ""}">${l}${k === c ? (d > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>` +
+  const cols = [["rank", "#", "Rank by FPI"], ["team", "Team", "Team name"],
+    ["fpi", "FPI", "Points better (+) or worse (−) than an average FBS team on a neutral field"],
+    ["ppg", "Offense", "Points scored per game vs an average defense, adjusted for opponents (higher is better)"],
+    ["papg", "Defense", "Points allowed per game vs an average offense, adjusted for opponents (lower is better)"],
+    ["net", "Net", "Offense minus defense: points per game better than an average opponent"],
+    ["games", "Games", "Games played against FBS teams this season"]];
+  $("#ratings-table").innerHTML = `<tr>${cols.map(([c, l, tip]) => `<th data-sort="${c}" title="${esc(tip)}" class="${c === "team" ? "l" : ""}">${l}${k === c ? (d > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>` +
     rows.map((t) => `<tr><td>${t.rank ?? ""}</td><td class="l"><img src="${LOGO(t.id)}" alt="" loading="lazy">${esc(t.team)}</td>
       <td>${t.fpi?.toFixed(1) ?? "—"}</td><td>${t.ppg.toFixed(1)}</td><td>${t.papg.toFixed(1)}</td>
       <td class="${t.net > 0 ? "good" : "bad"}">${(t.net > 0 ? "+" : "") + t.net.toFixed(1)}</td><td>${t.games}</td></tr>`).join("");
