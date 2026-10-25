@@ -54,9 +54,11 @@ function headerCard(g, s) {
   const venue = s.gameInfo?.venue;
   const when = new Date(g.date).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   const status = g.state === "pre" ? when : g.status;
+  const ev = evaluate(g);
+  const hasPick = ev.margin != null && ev.line != null;
   const team = (t) => `<div class="gd-team${g.state === "post" && t.winner === false ? " lost" : ""}">
       <img src="${esc(t.logo)}" alt="">
-      <div class="gd-name">${t.rank ? `<span class="rank">${t.rank}</span>` : ""}${esc(t.name)}<span>${esc(t.record)}</span></div>
+      <div class="gd-name">${t.rank ? `<span class="rank">${t.rank}</span>` : ""}${esc(t.name)}${hasPick && ev.team === t ? ` <span class="pick-tag">Pick</span>` : ""}<span>${esc(t.record)}</span></div>
       ${g.state === "pre" ? "" : `<div class="gd-score">${t.score}</div>`}
     </div>`;
   return `<div class="card gd-head">
@@ -68,6 +70,7 @@ function headerCard(g, s) {
         ${g.openLine != null && g.openLine !== g.line ? `<span class="open"> opened ${fmtLine(g.openLine)}</span>` : ""}</div>
       <div><span class="k">Total</span><span class="v">${g.total ?? "—"}</span></div>
     </div>
+    ${hasPick ? pickBox(g, ev, { tierTxt: TIER_LABEL }) : ""}
     ${venue ? `<p class="note">${esc(venue.fullName)}${venue.address?.city ? `, ${esc(venue.address.city)}${venue.address.state ? ", " + esc(venue.address.state) : ""}` : ""}</p>` : ""}
     ${g.state === "post" ? "" : `<p class="note gd-updated">Updated ${new Date().toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit", second: "2-digit" })} ·
       ${g.state === "in" ? "refreshes every 30 seconds" : "refreshes every 30 seconds from 15 minutes before kickoff"}</p>`}

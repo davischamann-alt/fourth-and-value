@@ -445,3 +445,30 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
   .up-layout { grid-template-columns: 1fr; }
   .up-layout aside { position: static; }
 }
+
+/* Model pick box: who the model picked and how it's doing, impossible to misread */
+.pickbox { margin: 10px 0 2px; padding: 10px 12px 11px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); }
+.pickbox-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pickbox-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.pickbox-main { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.pickbox-main img { width: 30px; height: 30px; object-fit: contain; flex: none; }
+.pickbox-main .pick { font-size: 22px; }
+.pickbox-note { margin-top: 6px; font-size: 13px; line-height: 1.35; }
+.pick-chip { padding: 3px 9px; border-radius: 6px; font: 800 14px/1.2 var(--display); text-transform: uppercase; letter-spacing: .05em;
+  white-space: nowrap; background: var(--pass-bg); color: var(--pass); }
+.pb-win { background: var(--strong-bg); border-color: var(--win); }
+.pb-win .pick-chip { background: var(--win); color: var(--surface); font-size: 16px; }
+.pb-loss { background: color-mix(in srgb, var(--loss) 10%, var(--surface)); border-color: var(--loss); }
+.pb-loss .pick-chip { background: var(--loss); color: var(--surface); font-size: 16px; }
+.pb-loss .pickbox-main .pick { color: var(--muted); }
+.pb-push .pick-chip { background: var(--muted); color: var(--surface); font-size: 16px; }
+.pb-covering { border-color: var(--win); }
+.pb-covering .pick-chip { background: var(--strong-bg); color: var(--win); }
+.pb-behind { border-color: var(--lean); }
+.pb-behind .pick-chip { background: var(--lean-bg); color: var(--lean); }
+/* the picked team in the score rows */
+.team.picked .name { font-weight: 800; }
+.pick-tag { padding: 1px 6px; border-radius: 4px; font: 800 11px/1.3 var(--display); letter-spacing: .08em; text-transform: uppercase;
+  background: var(--yellow); color: var(--yellow-ink); flex: none; }
+.gd-name .pick-tag { display: inline-block; vertical-align: middle; margin-left: 8px; font: 800 13px/1.3 var(--display); color: var(--yellow-ink);
+  text-transform: uppercase; letter-spacing: .08em; }

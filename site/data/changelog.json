@@ -1,6 +1,12 @@
 [
  {
   "date": "2026-10-25",
+  "type": "design",
+  "title": "Clearer picks and results on every game",
+  "summary": "From user feedback: each game now has a labeled Model pick box with the team's logo and line, and the picked team gets a PICK tag next to its score. Finished games say plainly whether the pick covered (a green ✓ Covered or red ✗ Missed) with a sentence like \"Delaware won by 23, covering −3 by 20 points.\" Live games show Covering now or Not covering yet, and game details use the same box."
+ },
+ {
+  "date": "2026-10-25",
   "type": "feature",
   "title": "Updates tab and a way to send suggestions",
   "summary": "This page: every improvement in one place, newest first. You can also suggest a change or report something that looks wrong, which opens a pre-filled issue on GitHub so it's tracked in the open."

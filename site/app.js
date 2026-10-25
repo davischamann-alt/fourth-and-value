@@ -7,6 +7,7 @@ const LOGO = (id) => `https://a.espncdn.com/i/teamlogos/ncaa/500/${id}.png`;
 const STRONG = 3, LEAN = 1.5;          // edge thresholds in points
 const BREAKEVEN = 0.524;               // hit rate needed at -110
 const SOURCE_LABEL = { anchored: "Market-anchored", fpi: "ESPN FPI", blend: "Blend", points: "Adjusted points" };
+const TIER_LABEL = { strong: "Go for it", lean: "Lean", pass: "Punt" };  // edge sizes as fourth-down calls
 
 const store = {
   get(key, fallback) {
@@ -249,13 +250,49 @@ function renderGames() {
   box.innerHTML = byDay ? html + "</div>" : `<div class="grid">${html}</div>`;
 }
 
-function teamRow(t, g) {
+function teamRow(t, g, picked) {
   const showScore = g.state !== "pre";
   const lost = g.state === "post" && t.winner === false;
-  return `<div class="team${lost ? " lost" : ""}">
+  return `<div class="team${lost ? " lost" : ""}${picked ? " picked" : ""}">
     <img src="${esc(t.logo)}" alt="" loading="lazy">
     <span class="name">${t.rank ? `<span class="rank">${t.rank}</span>` : ""}${esc(t.name)}<span class="rec">${esc(t.record)}</span></span>
+    ${picked ? `<span class="pick-tag">Pick</span>` : ""}
     ${showScore ? `<span class="score">${t.score}</span>` : ""}
+  </div>`;
+}
+
+const pts = (x) => { const v = Math.abs(x); return `${v % 1 ? v.toFixed(1) : v} point${v === 1 ? "" : "s"}`; };
+const lineWord = (l) => (l === 0 ? "a pick'em" : fmtLine(l).replace("-", "−"));
+
+/** Where the model's pick stands: "pre", "covering"/"behind" during a game, or "win"/"loss"/"push"
+ *  when final, with a plain-English sentence. ev comes from evaluate(). */
+function pickStatus(g, ev) {
+  const t = ev.team, line = ev.pickLine;
+  const diff = (ev.side === "home" ? 1 : -1) * (g.home.score - g.away.score);  // the picked team's margin
+  const by = diff + line;                                                       // margin against the spread
+  const lead = diff > 0 ? `${t.name} ${g.state === "post" ? "won" : "leads"} by ${diff}`
+    : diff < 0 ? `${t.name} ${g.state === "post" ? "lost" : "trails"} by ${-diff}` : g.state === "post" ? `${t.name} tied` : "Tied";
+  if (g.state === "pre") return { state: "pre", text: "" };
+  if (g.state === "in") {
+    return by > 0 ? { state: "covering", chip: "Covering now", text: `${lead}, covering ${lineWord(line)} by ${pts(by)}.` }
+      : by < 0 ? { state: "behind", chip: "Not covering yet", text: `${lead}, ${pts(by)} short of covering ${lineWord(line)}.` }
+      : { state: "behind", chip: "On the number", text: `${lead}: exactly on the line right now.` };
+  }
+  return by > 0 ? { state: "win", chip: "✓ Covered", text: `${lead}, covering ${lineWord(line)} by ${pts(by)}.` }
+    : by < 0 ? { state: "loss", chip: "✗ Missed", text: `${lead}, missing ${lineWord(line)} by ${pts(by)}.` }
+    : { state: "push", chip: "Push", text: `${lead}: landed exactly on the line, so bets are refunded.` };
+}
+
+/** The "Model pick" box shared by game cards and the game detail header. */
+function pickBox(g, ev, { tierTxt } = {}) {
+  const st = pickStatus(g, ev);
+  const chip = st.state === "pre"
+    ? `<span class="badge ${ev.tier}">${tierTxt[ev.tier]} · ${ev.edge.toFixed(1)}</span>`
+    : `<span class="pick-chip">${esc(st.chip)}</span>`;
+  return `<div class="pickbox pb-${st.state}">
+    <div class="pickbox-top"><span class="pickbox-label">Model pick</span>${chip}</div>
+    <div class="pickbox-main"><img src="${esc(ev.team.logo)}" alt="" loading="lazy"><span class="pick">${esc(ev.team.name)} ${esc(lineWord(ev.pickLine))}</span></div>
+    ${st.text ? `<div class="pickbox-note">${esc(st.text)}</div>` : ""}
   </div>`;
 }
 
@@ -273,21 +310,18 @@ function card(g, ev, isTracked) {
   } else {
     const fav = ev.margin >= 0 ? g.home : g.away;
     const modelTxt = Math.abs(ev.margin) < 0.05 ? "Even" : `${esc(fav.abbr)} by ${Math.abs(ev.margin).toFixed(1)}`;
-    const tierTxt = { strong: "Go for it", lean: "Lean", pass: "Punt" }[ev.tier];  // fourth-down calls
     const p = ev.live ?? ev.pre;
     const done = g.state === "post";
-    const barCls = done ? (ev.live > 0.5 ? "good" : ev.live < 0.5 ? "bad" : "") : "";
-    const result = done ? (ev.live > 0.5 ? `<span class="badge win">Covered</span>` : ev.live < 0.5 ? `<span class="badge loss">Didn't cover</span>` : `<span class="badge pass">Push</span>`) : "";
-    body = `
-      <div class="pick-row">
-        <span class="pick">${esc(ev.team.name)} ${fmtLine(ev.pickLine)}</span>
-        ${result || `<span class="badge ${ev.tier}">${tierTxt} · ${ev.edge.toFixed(1)}</span>`}
-      </div>
-      <div class="prob">
-        <div class="row"><span>${g.state === "pre" ? "Cover chance" : done ? "Final" : "Live cover chance"}</span><b>${done ? "" : pct(p)}</b></div>
-        <div class="bar ${barCls}"><i style="width:${(100 * p).toFixed(0)}%"></i></div>
-        ${g.state !== "pre" ? `<div class="row"><span>Before kickoff</span><b>${pct(ev.pre)}</b></div>` : ""}
-      </div>
+    // finished games drop the bar (it only said 100% or 0%) and keep the pregame chance as context
+    const prob = done
+      ? `<div class="prob"><div class="row"><span>Cover chance before kickoff</span><b>${pct(ev.pre)}</b></div></div>`
+      : `<div class="prob">
+          <div class="row"><span>${g.state === "pre" ? "Chance the pick covers" : "Live chance the pick covers"}</span><b>${pct(p)}</b></div>
+          <div class="bar"><i style="width:${(100 * p).toFixed(0)}%"></i></div>
+          ${g.state === "in" ? `<div class="row"><span>Before kickoff</span><b>${pct(ev.pre)}</b></div>` : ""}
+        </div>`;
+    body = pickBox(g, ev, { tierTxt: TIER_LABEL }) + prob;
+    body += `
       <div class="lines" style="margin-bottom:0"><div><span class="k">Model</span><span class="v">${modelTxt}</span></div>
         <div><span class="k">Edge</span><span class="v">${ev.edge.toFixed(1)} pts</span></div></div>`;
   }
@@ -295,7 +329,7 @@ function card(g, ev, isTracked) {
   return `<article class="card game${ev.tier === "strong" ? " strong" : ""}" data-game="${esc(g.id)}" tabindex="0"
     aria-label="${esc(`${g.away.name} at ${g.home.name}: open game details`)}">
     <div class="game-top"><span class="${statusCls}">${esc(time)}</span><span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
-    ${teamRow(g.away, g)}${teamRow(g.home, g)}
+    ${teamRow(g.away, g, ev.side === "away")}${teamRow(g.home, g, ev.side === "home")}
     <div class="lines">
       <div><span class="k">Line</span><span class="v">${homeLine}</span>${moved}</div>
       <div><span class="k">Total</span><span class="v">${g.total ?? "—"}</span></div>
