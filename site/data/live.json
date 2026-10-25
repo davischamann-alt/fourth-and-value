@@ -1,15 +1,15 @@
 {
- "updated": "2026-10-25T01:35Z",
+ "updated": "2026-10-25T02:02Z",
  "since": "2026-10-22T02:29Z",
- "games": 67,
+ "games": 68,
  "summary": [
   {
    "source": "Market-anchored",
    "key": "anchored",
    "tier": "all",
    "label": "Every game",
-   "picks": 67,
-   "pending": 28,
+   "picks": 68,
+   "pending": 29,
    "at_logged": {
     "wins": 15,
     "losses": 23,
@@ -74,8 +74,8 @@
    "key": "fpi",
    "tier": "all",
    "label": "Every game",
-   "picks": 67,
-   "pending": 28,
+   "picks": 68,
+   "pending": 29,
    "at_logged": {
     "wins": 13,
     "losses": 25,
@@ -96,8 +96,8 @@
    "key": "fpi",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 42,
-   "pending": 21,
+   "picks": 43,
+   "pending": 22,
    "at_logged": {
     "wins": 6,
     "losses": 14,
@@ -140,8 +140,8 @@
    "key": "blend",
    "tier": "all",
    "label": "Every game",
-   "picks": 67,
-   "pending": 28,
+   "picks": 68,
+   "pending": 29,
    "at_logged": {
     "wins": 16,
     "losses": 22,
@@ -162,8 +162,8 @@
    "key": "blend",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 38,
-   "pending": 17,
+   "picks": 39,
+   "pending": 18,
    "at_logged": {
     "wins": 5,
     "losses": 15,
@@ -206,8 +206,8 @@
    "key": "points",
    "tier": "all",
    "label": "Every game",
-   "picks": 67,
-   "pending": 28,
+   "picks": 68,
+   "pending": 29,
    "at_logged": {
     "wins": 16,
     "losses": 22,
