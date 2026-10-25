@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
   <header class="top">
@@ -29,6 +29,7 @@
   <main>
     <!-- Games -->
     <section id="tab-games" class="tab">
+      <div id="model-notice"></div>
       <div class="weekbar">
         <button class="icon-btn" id="week-prev" aria-label="Previous week">‹</button>
         <div class="week-label"><strong id="week-name">Loading…</strong><span id="week-dates"></span></div>
@@ -157,6 +158,9 @@
       <h3>Recent Market-anchored picks (edge 1.5+)</h3>
       <div class="table-wrap scroll"><table id="live-table" class="data"></table></div>
 
+      <h2 class="section-head">Model changes <span>every adjustment, dated, so you know what produced each number</span></h2>
+      <div id="changelog"></div>
+
       <h2 class="section-head">Backtest <span>past seasons, replayed week by week</span></h2>
       <div id="record-headline" class="cards"></div>
       <div class="controls">
@@ -209,7 +213,7 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=13"></script>
-  <script src="game.js?v=13"></script>
+  <script src="app.js?v=14"></script>
+  <script src="game.js?v=14"></script>
 </body>
 </html>

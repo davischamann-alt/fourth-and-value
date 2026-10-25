@@ -3,12 +3,17 @@ import math
 import numpy as np
 import pandas as pd
 
+# Home-field advantage in points, used everywhere (app, website builder, forward test). Raised from
+# 2.5 to 3.0 on Oct 25, 2026: at 2.5 the projections underrated home teams in the 2023-2026
+# backtest (see "Model changes" in the README).
+HFA = 3.0
+
 
 def load_ratings(path):
     return pd.read_csv(path).set_index("team")
 
 
-def project(home, away, r, neutral=False, hfa=2.5):
+def project(home, away, r, neutral=False, hfa=HFA):
     """Expected (home_pts, away_pts) from each side's scoring vs the other's defense."""
     if home not in r.index or away not in r.index:
         return None
@@ -18,7 +23,7 @@ def project(home, away, r, neutral=False, hfa=2.5):
     return (h["ppg"] + a["papg"] - avg + bump, a["ppg"] + h["papg"] - avg - bump)
 
 
-def fpi_margin(home, away, r, neutral=False, hfa=2.5):
+def fpi_margin(home, away, r, neutral=False, hfa=HFA):
     """Projected home margin from ESPN FPI (points vs an average team on a neutral field)."""
     if "fpi" not in r.columns or home not in r.index or away not in r.index:
         return None
@@ -76,7 +81,7 @@ def pool_fcs(games, fbs=None):
     return [tuple(t if t in fbs else "FCS" for t in g[:2]) + tuple(g[2:]) for g in games]
 
 
-def walk_forward(games, lines, fpi_by_week, fbs, hfa=2.5, start_week=3):
+def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3):
     """Predict each week using only what was known before it: points ratings fit on earlier
     games, and the FPI snapshot from the previous week. games: DataFrame of completed games
     (id, week, home, away, home_id, away_id, home_pts, away_pts, neutral);

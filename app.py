@@ -5,7 +5,7 @@ import pandas as pd
 import streamlit as st
 
 import sources
-from model import (add_anchored, anchored_margin, cover_prob, fit_anchor, fpi_margin, live_cover_prob, load_ratings,
+from model import (HFA, add_anchored, anchored_margin, cover_prob, fit_anchor, fpi_margin, live_cover_prob, load_ratings,
                    project, score_backtest)
 from sources import ANCHOR, DATA, RATINGS, cfbd_key, season_of
 
@@ -55,7 +55,7 @@ st.title("Fourth & Value")
 st.caption("Only go for it when the numbers say so.")
 day = st.sidebar.date_input("Date", dt.date.today())
 sigma = st.sidebar.slider("Margin std dev (pts)", 10.0, 20.0, 14.0, 0.5)
-hfa = st.sidebar.slider("Home-field advantage (pts)", 0.0, 5.0, 2.5, 0.5)
+hfa = st.sidebar.slider("Home-field advantage (pts)", 0.0, 5.0, HFA, 0.5)
 SOURCES = ["Blend (points + FPI)", "Adjusted points", "ESPN FPI", "Market-anchored"]
 source = st.sidebar.radio("Projection source", SOURCES,
                           help="Blend averages points and FPI when both are available and falls back to whichever one "

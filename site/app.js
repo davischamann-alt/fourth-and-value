@@ -33,6 +33,7 @@ const state = {
   search: "",
   settings: store.get("settings", { hfa: null, sigma: null, theme: "auto" }),
   timer: null,
+  changelog: [],        // changelog.json: dated model changes
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -65,7 +66,7 @@ function erf(x) {
 }
 const normCdf = (z) => 0.5 * (1 + erf(z / Math.SQRT2));
 
-const hfa = () => state.settings.hfa ?? state.model?.hfa ?? 2.5;
+const hfa = () => state.settings.hfa ?? state.model?.hfa ?? 3.0;  // model.HFA, normally from data/model.json
 const sigma = () => state.settings.sigma || state.model?.sigma?.[state.source] || 15.5;
 
 /** Projected home margin for one game from every source, or null where a source can't make one. */
@@ -530,6 +531,29 @@ function renderLive() {
       : `<tr><td colspan="6" class="empty">No picks with an edge yet.</td></tr>`);
 }
 
+// ---------- Model changes ----------
+
+/** Track record keeps the full, dated history; the Games tab shows the newest change for two
+ *  weeks, until the visitor dismisses it. Entries live in data/changelog.json. */
+function renderChangelog() {
+  const log = [...(state.changelog || [])].sort((a, b) => b.date.localeCompare(a.date));
+  const day = (d) => new Date(d + "T12:00:00").toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+  $("#changelog").innerHTML = log.length ? log.map((c) => `<div class="card change">
+      <div class="change-date">${esc(day(c.date))}</div><h4>${esc(c.title)}</h4>
+      <dl class="gd-dl"><dt>Why</dt><dd>${esc(c.why)}</dd><dt>Effect</dt><dd>${esc(c.effect)}</dd>
+      <dt>Pick log</dt><dd>${esc(c.forward_test)}</dd></dl></div>`).join("")
+    : `<p class="note">No changes since the forward test started.</p>`;
+  const latest = log[0];
+  const fresh = latest && Date.now() - Date.parse(latest.date) < 14 * 864e5;
+  if (!fresh || store.get("noticeSeen", "") === latest.date) { $("#model-notice").innerHTML = ""; return; }
+  $("#model-notice").innerHTML = `<div class="notice" role="status">
+      <span class="notice-tag">Model update · ${esc(day(latest.date))}</span>
+      <span>${esc(latest.title)}. <a href="#record" data-to-changelog>What changed and why</a></span>
+      <button class="notice-x" type="button" aria-label="Dismiss" data-dismiss-notice>✕</button></div>`;
+  $("[data-dismiss-notice]").addEventListener("click", () => { store.set("noticeSeen", latest.date); renderChangelog(); });
+  $("[data-to-changelog]").addEventListener("click", () => setTimeout(() => $("#changelog").scrollIntoView({ block: "start" }), 50));
+}
+
 // ---------- Wiring ----------
 
 function renderAll() { renderWeekbar(); renderGames(); renderPicks(); renderBets(); }
@@ -655,12 +679,14 @@ function bind() {
 async function init() {
   applyTheme();
   bind();
-  const [ratings, model, record, live] = await Promise.all(
-    ["ratings", "model", "track_record", "live"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
+  const [ratings, model, record, live, changelog] = await Promise.all(
+    ["ratings", "model", "track_record", "live", "changelog"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
   if (ratings) state.ratings = { ...ratings, list: ratings.teams, byId: Object.fromEntries(ratings.teams.map((t) => [String(t.id), t])) };
   state.model = model;
   state.record = record;
   state.live = live;
+  state.changelog = changelog || [];
+  renderChangelog();
   renderRatings();
   renderRecord();
   renderLive();

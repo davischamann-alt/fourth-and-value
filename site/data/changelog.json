@@ -1,0 +1,9 @@
+[
+ {
+  "date": "2026-10-25",
+  "title": "Home-field advantage raised from 2.5 to 3.0 points",
+  "why": "Week 8's picks leaned heavily toward road teams, and home teams went 23-14 against the spread. A check of 2023-2026 found the projections underrated home teams slightly at 2.5 points; at 3.0 that bias goes away.",
+  "effect": "Small. In the 2023-2026 backtest, ESPN FPI's picks at the opening line went from 53.3% to 54.0%, and every projection moved by less than one percentage point. Market-anchored was retrained and barely changed.",
+  "forward_test": "Picks already in the forward-test log were made with 2.5 and are not changed. Picks logged from October 25, 2026 on use 3.0."
+ }
+]

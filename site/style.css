@@ -394,3 +394,16 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
 .gd-grid table.data th, .gd-grid table.data td { padding: 7px 8px; }
 .gd-grid .badge { font-size: 12px; padding: 2px 7px; }
 .gd-grid > * { min-width: 0; }  /* let wide tables scroll inside their card instead of stretching it */
+
+/* Model change notice (Games tab) and log (Track record) */
+.notice { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; padding: 10px 12px 10px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--yellow); border-radius: 12px;
+  font-size: 14px; box-shadow: var(--shadow); }
+.notice > span:nth-child(2) { flex: 1; min-width: 200px; }
+.notice-tag { font: 700 13px/1.2 var(--display); text-transform: uppercase; letter-spacing: .05em; color: var(--yellow-ink);
+  background: var(--yellow); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+.notice-x { border: 0; background: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 4px; }
+.notice-x:hover { color: var(--text); }
+.change { margin-bottom: 12px; border-left: 5px solid var(--yellow); }
+.change h4 { margin: 2px 0 10px; font: 800 20px/1.2 var(--display); text-transform: uppercase; }
+.change-date { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }

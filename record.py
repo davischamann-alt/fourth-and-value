@@ -21,13 +21,12 @@ import pandas as pd
 
 import sources
 from build_site import clean
-from model import projections
+from model import HFA, projections
 
 LIVE = sources.DATA / "live"
 LINES, PICKS = LIVE / "line_history.csv", LIVE / "picks.csv"
 SITE_LIVE = sources.DATA.parent / "site" / "data" / "live.json"
 SITE_GAMES = sources.DATA.parent / "site" / "data" / "game_log.json"
-HFA = 2.5
 STRONG, LEAN = 3.0, 1.5
 SOURCES = {"anchored": "Market-anchored", "fpi": "ESPN FPI", "blend": "Blend", "points": "Adjusted points"}
 LINE_COLS = ["seen_at", "id", "season", "week", "kickoff", "home", "away", "line", "open_line", "total"]

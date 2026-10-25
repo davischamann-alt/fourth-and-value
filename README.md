@@ -38,7 +38,7 @@ It's free. Scores, lines and ESPN's team ratings come from ESPN's public data. T
 7. [Testing on past seasons](#testing-on-past-seasons)
 8. [What the testing found](#what-the-testing-found)
 9. [The forward test](#the-forward-test)
-10. [How the model works](#how-the-model-works)
+10. [How the model works](#how-the-model-works) and [model changes](#model-changes)
 11. [Publishing the website](#publishing-the-website)
 12. [Files](#files)
 13. [Troubleshooting](#troubleshooting)
@@ -220,7 +220,7 @@ Two sections:
 | --- | --- | --- |
 | **Date** | Which day's games to show | Today |
 | **Margin std dev** | How spread out game results are around the projection; this drives the cover percentages | 14. Testing suggests about 15.5 for FPI, Market-anchored and Blend, and 16.5 for Adjusted points. |
-| **Home-field advantage** | Points given to the home team (none at neutral sites) | 2.5 |
+| **Home-field advantage** | Points given to the home team (none at neutral sites) | 3.0 (was 2.5 before October 25, 2026; see [Model changes](#model-changes)) |
 | **Projection source** | Which prediction method to use (see below) | Blend |
 | **Refresh now** | Reloads all data right away | — |
 | **Auto-refresh every 30s** | Keeps the scoreboard updating on its own | On |
@@ -333,6 +333,18 @@ live sigma            = sigma x sqrt(time left / 60 min)
 Finished games show 100% or 0% (50% for a push). Overtime counts as about two minutes left.
 
 **Avoiding look-ahead in the backtest.** Each week's ratings use only earlier games. FPI comes from the newest ESPN snapshot taken before that week's first game, and weeks with no snapshot from the previous 10 days are skipped, because ESPN overwrote some old snapshots with later data.
+
+---
+
+## Model changes
+
+Any change to how picks are made is logged here and on the website (a notice on the Games tab for two weeks, and a permanent dated list on the **Track record** tab), so anyone reading the numbers knows what produced them. Changes never touch picks already in the forward-test log; each pick's `logged_at` time shows which version made it.
+
+| Date | Change | Why | Effect |
+| --- | --- | --- | --- |
+| October 25, 2026 | Home-field advantage raised from **2.5** to **3.0** points; Market-anchored retrained | Week 8's picks leaned heavily toward road teams while home teams went 23–14 against the spread. A 2023–2026 check found the projections underrated home teams slightly at 2.5 (FPI by 0.4 points on average); at 3.0 the bias goes away. | Small: every projection moved by less than one percentage point in the backtest (FPI at the opening line: 53.3% → 54.0%). Forward-test picks logged before this date used 2.5 and are unchanged. |
+
+**To log a future change:** add an entry to `site/data/changelog.json` (date, title, why, effect, and what it means for the pick log), add a row to the table above, and change the setting in one place: the constant in `model.py` (for example `HFA`).
 
 ---
 

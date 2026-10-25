@@ -13,10 +13,9 @@ from pathlib import Path
 import pandas as pd
 
 import sources
-from model import add_anchored, fit_anchor, score_backtest
+from model import HFA, add_anchored, fit_anchor, score_backtest
 
 OUT = Path(__file__).parent / "site" / "data"
-HFA = 2.5
 PAST = [2023, 2024, 2025]  # seasons with reliable FPI history (see README)
 SOURCE_NAMES = {"Adjusted points": "points", "ESPN FPI": "fpi", "Blend": "blend", "Market-anchored": "anchored"}
 
@@ -64,6 +63,8 @@ def main():
     done = res[res["season"].isin(seasons)]
     anchor = ({"weights": fit_anchor(done), "seasons": seasons} if len(done)
               else json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else None)
+    if len(done):  # keep the forward test and the Streamlit app on the same weights as the site
+        sources.ANCHOR.write_text(json.dumps(clean({**anchor, "hfa": HFA})))
 
     # typical miss in points for each source: the right margin std dev for its cover percentages
     close = score_backtest(res, 0, "close")
