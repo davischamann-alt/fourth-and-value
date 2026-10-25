@@ -59,7 +59,7 @@ It's free. Scores, lines and ESPN's team ratings come from ESPN's public data. T
 
 Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.github.io/fourth-and-value/)**. It works on phones, and you can add it to your home screen from the browser's Share menu.
 
-- **Games:** one week at a time (use ‹ › to change weeks), grouped by day. Each game card shows the line and where it opened, the model's pick, an edge badge labeled like a fourth-down call (**Go for it** at 3+ points, **Lean** at 1.5–3, **Punt** under 1.5, meaning no bet), and the cover chance, which updates live during games. Filter to go-for-it edges or live games, sort by biggest edge, or search for a team.
+- **Games:** one week at a time (use ‹ › to change weeks), grouped by day. Each game card shows the line and where it opened, the model's pick, an edge badge labeled like a fourth-down call (**Go for it** at 3+ points, **Lean** at 1.5–3, **Punt** under 1.5, meaning no bet), and the cover chance, which updates live during games. Filter to go-for-it edges, live games, or **close** games (live and within 4 points of the spread, sorted tightest first), sort by biggest edge, or search for a team.
 - **Game details:** tap any game card for the full breakdown. Each game has its own link (like `#game/401858274`) that you can share.
   - **Why this pick:** what all four projections say, and whether they agree. A split is a reason to punt.
   - **Line movement:** a chart of the line through the week, from the forward test's two-hourly recordings.

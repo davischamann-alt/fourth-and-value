@@ -5,6 +5,7 @@
 const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/college-football";
 const LOGO = (id) => `https://a.espncdn.com/i/teamlogos/ncaa/500/${id}.png`;
 const STRONG = 3, LEAN = 1.5;          // edge thresholds in points
+const CLOSE = 4;                       // a live game this close to the spread could flip on a field goal
 const BREAKEVEN = 0.524;               // hit rate needed at -110
 const SOURCE_LABEL = { anchored: "Market-anchored", fpi: "ESPN FPI", blend: "Blend", points: "Adjusted points" };
 const TIER_LABEL = { strong: "Go for it", lean: "Lean", pass: "Punt" };  // edge sizes as fourth-down calls
@@ -85,6 +86,12 @@ function projections(g) {
     ? w.const - w.line * base + w.fpi * fpi + w.points * points : null;
   return { points, fpi, blend, anchored };
 }
+
+/** How far a live game is from the spread: home margin + home line (0 = right on the number). */
+function spreadGap(g) {
+  return g.state === "in" && g.line != null ? g.home.score - g.away.score + g.line : null;
+}
+const isClose = (g) => { const x = spreadGap(g); return x != null && Math.abs(x) <= CLOSE; };
 
 function secsLeft(g) {
   if (g.state === "pre") return 3600;
@@ -220,23 +227,27 @@ function renderGames() {
     if (state.filter === "edge") return ev.edge >= LEAN;
     if (state.filter === "strong") return ev.edge >= STRONG;
     if (state.filter === "live") return g.state === "in";
+    if (state.filter === "close") return isClose(g);
     return true;
   });
-  if (state.sort === "edge") rows.sort((a, b) => (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
+  if (state.filter === "close") rows.sort((a, b) => Math.abs(spreadGap(a.g)) - Math.abs(spreadGap(b.g)));  // tightest first
+  else if (state.sort === "edge") rows.sort((a, b) => (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
   else rows.sort((a, b) => a.g.date.localeCompare(b.g.date) || (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
 
   const all = state.games.map(evaluate);
   const counts = {
     all: state.games.length, edge: all.filter((e) => e.edge >= LEAN).length,
     strong: all.filter((e) => e.edge >= STRONG).length, live: state.games.filter((g) => g.state === "in").length,
+    close: state.games.filter(isClose).length,
   };
   $$("[data-count]").forEach((el) => (el.textContent = state.games.length ? counts[el.dataset.count] : ""));
   $('#filter [data-filter="live"]').classList.toggle("is-live", counts.live > 0);
+  $('#filter [data-filter="close"]').classList.toggle("is-live", counts.close > 0);
   $("#games-summary").textContent = state.games.length ? `Cover chances use a ${sigma()}-point std dev` : "";
 
   const box = $("#games");
   if (!rows.length) {
-    box.innerHTML = `<div class="card nopick">${state.games.length ? "No games match these filters." : "No games this week."}</div>`;
+    box.innerHTML = `<div class="card nopick">${!state.games.length ? "No games this week." : state.filter === "close" ? `No live games within ${CLOSE} points of the spread right now.` : "No games match these filters."}</div>`;
     return;
   }
   const tracked = new Set(store.get("picks", []).map((p) => p.id));
@@ -328,7 +339,8 @@ function card(g, ev, isTracked) {
   const canTrack = g.state === "pre" && ev.margin != null && ev.line != null;
   return `<article class="card game${ev.tier === "strong" ? " strong" : ""}" data-game="${esc(g.id)}" tabindex="0"
     aria-label="${esc(`${g.away.name} at ${g.home.name}: open game details`)}">
-    <div class="game-top"><span class="${statusCls}">${esc(time)}</span><span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
+    <div class="game-top"><span class="${statusCls}">${esc(time)}</span>${isClose(g)
+      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}<span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
     ${teamRow(g.away, g, ev.side === "away")}${teamRow(g.home, g, ev.side === "home")}
     <div class="lines">
       <div><span class="k">Line</span><span class="v">${homeLine}</span>${moved}</div>

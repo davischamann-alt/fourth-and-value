@@ -2,6 +2,12 @@
  {
   "date": "2026-10-25",
   "type": "feature",
+  "title": "Close filter: live games near the spread",
+  "summary": "A new Close button next to Live shows games in progress where the score is within 4 points of the spread, so a field goal could flip who covers. They're sorted tightest first, and every close game gets a yellow tag on its card, like \"Close · 2.5 from the spread\", under any filter."
+ },
+ {
+  "date": "2026-10-25",
+  "type": "feature",
   "title": "Ratings tab explains itself, plus a matchup tool",
   "summary": "A How to read the ratings guide covers what every column means, how each projection turns the ratings into a predicted margin, a worked example with today's numbers, and tips. A new Compare two teams tool shows what each projection predicts for any matchup, home or neutral, and if you enter the betting line, which side it would pick and how big the edge is. Hover a column name for a quick definition."
  },
