@@ -155,22 +155,22 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-22T02:29Z,401860907,2026,2,8,2026-10-24T22:00Z,Washington State,Boise State,False,fpi,-17.83,13.5,14.0,4.33,away,strong,14.5,-21.0,W,W,1.0
 2026-10-22T02:29Z,401860907,2026,2,8,2026-10-24T22:00Z,Washington State,Boise State,False,blend,-14.44,13.5,14.0,0.94,away,small,14.5,-21.0,W,W,1.0
 2026-10-22T02:29Z,401860907,2026,2,8,2026-10-24T22:00Z,Washington State,Boise State,False,anchored,-15.75,13.5,14.0,2.25,away,lean,14.5,-21.0,W,W,1.0
-2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,points,0.23,1.5,3.0,1.73,home,lean,1.5,,,,
-2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,fpi,-1.25,1.5,3.0,0.25,home,small,1.5,,,,
-2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,blend,-0.51,1.5,3.0,0.99,home,small,1.5,,,,
-2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,anchored,-1.2,1.5,3.0,0.3,home,small,1.5,,,,
+2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,points,0.23,1.5,3.0,1.73,home,lean,1.5,7.0,W,W,0.0
+2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,fpi,-1.25,1.5,3.0,0.25,home,small,1.5,7.0,W,W,0.0
+2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,blend,-0.51,1.5,3.0,0.99,home,small,1.5,7.0,W,W,0.0
+2026-10-22T02:29Z,401860905,2026,2,8,2026-10-24T22:30Z,Colorado State,San Diego State,False,anchored,-1.2,1.5,3.0,0.3,home,small,1.5,7.0,W,W,0.0
 2026-10-22T02:29Z,401856836,2026,2,8,2026-10-24T23:00Z,Oklahoma State,Colorado,False,points,18.05,-13.5,-14.5,4.55,home,strong,-13.5,,,,
 2026-10-22T02:29Z,401856836,2026,2,8,2026-10-24T23:00Z,Oklahoma State,Colorado,False,fpi,10.5,-13.5,-14.5,3.0,away,strong,-13.5,,,,
 2026-10-22T02:29Z,401856836,2026,2,8,2026-10-24T23:00Z,Oklahoma State,Colorado,False,blend,14.27,-13.5,-14.5,0.77,home,small,-13.5,,,,
 2026-10-22T02:29Z,401856836,2026,2,8,2026-10-24T23:00Z,Oklahoma State,Colorado,False,anchored,13.93,-13.5,-14.5,0.43,home,small,-13.5,,,,
-2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,points,-3.54,-2.5,1.5,6.04,away,strong,-3.0,,,,
-2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,fpi,2.37,-2.5,1.5,0.13,away,small,-3.0,,,,
-2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,blend,-0.58,-2.5,1.5,3.08,away,strong,-3.0,,,,
-2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,anchored,2.03,-2.5,1.5,0.47,away,small,-3.0,,,,
-2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,points,-4.76,2.5,1.5,2.26,away,lean,2.5,,,,
-2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,fpi,-0.39,2.5,1.5,2.11,home,lean,2.5,,,,
-2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,blend,-2.58,2.5,1.5,0.08,away,small,2.5,,,,
-2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,anchored,-2.01,2.5,1.5,0.49,home,small,2.5,,,,
+2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,points,-3.54,-2.5,1.5,6.04,away,strong,-3.0,-4.0,W,W,-0.5
+2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,fpi,2.37,-2.5,1.5,0.13,away,small,-3.0,-4.0,W,W,-0.5
+2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,blend,-0.58,-2.5,1.5,3.08,away,strong,-3.0,-4.0,W,W,-0.5
+2026-10-22T02:29Z,401858276,2026,2,8,2026-10-24T23:00Z,Clemson,Virginia Tech,False,anchored,2.03,-2.5,1.5,0.47,away,small,-3.0,-4.0,W,W,-0.5
+2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,points,-4.76,2.5,1.5,2.26,away,lean,2.5,6.0,L,L,-0.0
+2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,fpi,-0.39,2.5,1.5,2.11,home,lean,2.5,6.0,W,W,0.0
+2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,blend,-2.58,2.5,1.5,0.08,away,small,2.5,6.0,L,L,-0.0
+2026-10-22T02:29Z,401869935,2026,2,8,2026-10-24T23:00Z,Arkansas State,Georgia State,False,anchored,-2.01,2.5,1.5,0.49,home,small,2.5,6.0,W,W,0.0
 2026-10-22T02:29Z,401856732,2026,2,8,2026-10-24T23:30Z,Texas,Ole Miss,False,points,3.68,-3.5,-9.5,0.18,home,small,-3.0,,,,
 2026-10-22T02:29Z,401856732,2026,2,8,2026-10-24T23:30Z,Texas,Ole Miss,False,fpi,7.34,-3.5,-9.5,3.84,home,strong,-3.0,,,,
 2026-10-22T02:29Z,401856732,2026,2,8,2026-10-24T23:30Z,Texas,Ole Miss,False,blend,5.51,-3.5,-9.5,2.01,home,lean,-3.0,,,,
@@ -271,3 +271,11 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-25T02:02Z,401871058,2026,2,9,2026-10-28T23:00Z,Middle Tennessee,Kennesaw State,False,fpi,0.62,-2.5,-2.5,1.88,away,lean,-2.5,,,,
 2026-10-25T02:02Z,401871058,2026,2,9,2026-10-28T23:00Z,Middle Tennessee,Kennesaw State,False,blend,0.95,-2.5,-2.5,1.55,away,lean,-2.5,,,,
 2026-10-25T02:02Z,401871058,2026,2,9,2026-10-28T23:00Z,Middle Tennessee,Kennesaw State,False,anchored,1.67,-2.5,-2.5,0.83,away,small,-2.5,,,,
+2026-10-25T02:33Z,401871057,2026,2,9,2026-10-29T00:00Z,New Mexico State,Jacksonville State,False,points,0.9,3.0,3.0,3.9,home,strong,3.0,,,,
+2026-10-25T02:33Z,401871057,2026,2,9,2026-10-29T00:00Z,New Mexico State,Jacksonville State,False,fpi,-1.31,3.0,3.0,1.69,home,lean,3.0,,,,
+2026-10-25T02:33Z,401871057,2026,2,9,2026-10-29T00:00Z,New Mexico State,Jacksonville State,False,blend,-0.21,3.0,3.0,2.79,home,lean,3.0,,,,
+2026-10-25T02:33Z,401871057,2026,2,9,2026-10-29T00:00Z,New Mexico State,Jacksonville State,False,anchored,-2.24,3.0,3.0,0.76,home,small,3.0,,,,
+2026-10-25T02:33Z,401856733,2026,2,9,2026-10-31T23:45Z,Arkansas,Missouri,False,points,-9.02,10.5,10.5,1.48,home,small,10.5,,,,
+2026-10-25T02:33Z,401856733,2026,2,9,2026-10-31T23:45Z,Arkansas,Missouri,False,fpi,-7.14,10.5,10.5,3.36,home,strong,10.5,,,,
+2026-10-25T02:33Z,401856733,2026,2,9,2026-10-31T23:45Z,Arkansas,Missouri,False,blend,-8.08,10.5,10.5,2.42,home,lean,10.5,,,,
+2026-10-25T02:33Z,401856733,2026,2,9,2026-10-31T23:45Z,Arkansas,Missouri,False,anchored,-9.9,10.5,10.5,0.6,home,small,10.5,,,,
