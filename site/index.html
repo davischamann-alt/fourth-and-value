@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=19">
 </head>
 <body>
   <header class="top">
@@ -19,9 +19,10 @@
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="games" aria-selected="true">Games</button>
       <button role="tab" data-tab="ratings">Ratings</button>
-      <button role="tab" data-tab="picks">My picks</button>
+      <button role="tab" data-tab="picks"><span class="hide-sm">My picks</span><span class="show-sm">Picks</span></button>
       <button role="tab" data-tab="bets">Bets</button>
-      <button role="tab" data-tab="record">Track record</button>
+      <button role="tab" data-tab="record"><span class="hide-sm">Track record</span><span class="show-sm">Record</span></button>
+      <button role="tab" data-tab="updates">Updates</button>
     </nav>
     <button class="icon-btn" id="settings-btn" aria-label="Settings" title="Settings">⚙︎</button>
   </header>
@@ -85,6 +86,57 @@
     <section id="tab-game" class="tab" hidden>
       <button class="link gd-back" type="button" onclick="history.length > 1 ? history.back() : (location.hash = 'games')">‹ All games</button>
       <div id="game-detail"></div>
+    </section>
+
+    <!-- Updates (updates.js): change log and feedback -->
+    <section id="tab-updates" class="tab" hidden>
+      <h2 class="section-head">Updates <span>everything we've changed, newest first</span></h2>
+      <p class="note" id="updates-summary"></p>
+      <div class="up-layout">
+        <div>
+          <div class="controls">
+            <div class="chips" id="updates-filter" role="group" aria-label="Show">
+              <button data-v="all" class="on">All</button>
+              <button data-v="model">Model</button>
+              <button data-v="site">Site</button>
+              <button data-v="fixes">Fixes &amp; data</button>
+            </div>
+          </div>
+          <p class="note"><b>Model</b> updates change how picks are made, so they're dated and explained. Picks already in the
+            forward-test log are never changed afterward.</p>
+          <div id="updates-list"></div>
+        </div>
+        <aside>
+          <div class="card fb-card">
+            <h3>Suggest an improvement</h3>
+            <p class="note">Ideas, numbers that look off, or anything that's broken or confusing. It opens a pre-filled post on
+              our GitHub page, where every suggestion is tracked in the open.</p>
+            <form id="fb-form" class="fb-form">
+              <label class="field"><span>What is it?</span>
+                <select id="fb-type">
+                  <option value="suggestion">A suggestion or idea</option>
+                  <option value="wrong">A pick, line, score or rating looks wrong</option>
+                  <option value="broken">Something doesn't work</option>
+                  <option value="confusing">Something is confusing</option>
+                </select></label>
+              <label class="field"><span>Short title</span>
+                <input id="fb-title" maxlength="90" placeholder="e.g. Show each team's injuries"></label>
+              <label class="field"><span>Details</span>
+                <textarea id="fb-details" rows="5" required placeholder="What would help, or what did you see?"></textarea></label>
+              <label class="field" id="fb-page-row"><span>Link to the page or game (optional)</span>
+                <input id="fb-page" placeholder="Paste the address from your browser"></label>
+              <button class="primary" type="submit">Continue on GitHub ↗</button>
+              <p class="note">Needs a free GitHub account. Posts are public, so leave out personal information. Nothing is
+                sent from this site.</p>
+            </form>
+          </div>
+          <div class="card fb-card">
+            <h3>Open suggestions</h3>
+            <div id="fb-open"><p class="note">Loading…</p></div>
+            <p class="note"><a href="https://github.com/davischamann-alt/fourth-and-value/issues" target="_blank" rel="noopener">All suggestions on GitHub ↗</a></p>
+          </div>
+        </aside>
+      </div>
     </section>
 
     <!-- Ratings -->
@@ -158,8 +210,9 @@
       <h3>Recent Market-anchored picks (edge 1.5+)</h3>
       <div class="table-wrap scroll"><table id="live-table" class="data"></table></div>
 
-      <h2 class="section-head">Model changes <span>every adjustment, dated, so you know what produced each number</span></h2>
+      <h2 class="section-head">Model changes <span>every adjustment to how picks are made, dated</span></h2>
       <div id="changelog"></div>
+      <p class="note">Site and data updates are on the <a href="#updates">Updates</a> tab.</p>
 
       <h2 class="section-head">Backtest <span>past seasons, replayed week by week</span></h2>
       <div id="record-headline" class="cards"></div>
@@ -213,7 +266,8 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=14"></script>
-  <script src="game.js?v=14"></script>
+  <script src="app.js?v=19"></script>
+  <script src="game.js?v=19"></script>
+  <script src="updates.js?v=19"></script>
 </body>
 </html>

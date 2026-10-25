@@ -1,9 +1,104 @@
 [
  {
   "date": "2026-10-25",
+  "type": "feature",
+  "title": "Updates tab and a way to send suggestions",
+  "summary": "This page: every improvement in one place, newest first. You can also suggest a change or report something that looks wrong, which opens a pre-filled issue on GitHub so it's tracked in the open."
+ },
+ {
+  "date": "2026-10-25",
+  "type": "model",
   "title": "Home-field advantage raised from 2.5 to 3.0 points",
+  "summary": "The home team now gets 3 points instead of 2.5 in every projection, and Market-anchored was retrained to match.",
   "why": "Week 8's picks leaned heavily toward road teams, and home teams went 23-14 against the spread. A check of 2023-2026 found the projections underrated home teams slightly at 2.5 points; at 3.0 that bias goes away.",
   "effect": "Small. In the 2023-2026 backtest, ESPN FPI's picks at the opening line went from 53.3% to 54.0%, and every projection moved by less than one percentage point. Market-anchored was retrained and barely changed.",
   "forward_test": "Picks already in the forward-test log were made with 2.5 and are not changed. Picks logged from October 25, 2026 on use 3.0."
+ },
+ {
+  "date": "2026-10-24",
+  "type": "fix",
+  "title": "Game details keep live scores fresh",
+  "summary": "A game's detail page now updates its score and clock every 30 seconds from ESPN's latest data, starts updating 15 minutes before kickoff if you opened it early, and shows when it last updated."
+ },
+ {
+  "date": "2026-10-24",
+  "type": "design",
+  "title": "Cleaner Games toolbar",
+  "summary": "Filters became one segmented control with game counts built in, plus a search box and matching dropdowns. Every button group on the site now shares the same style, and nothing gets cut off on small phones."
+ },
+ {
+  "date": "2026-10-24",
+  "type": "feature",
+  "title": "Game details: tap any game for the full breakdown",
+  "summary": "What all four projections say and whether they agree, how the line moved through the week, the matchup, ESPN's win chance, weather, the forward-test entry, and a live win-chance chart during the game. Each game has its own shareable link."
+ },
+ {
+  "date": "2026-10-24",
+  "type": "design",
+  "title": "New name: Fourth & Value",
+  "summary": "The project was renamed from CFB Edge, with a new broadcast-football look and edge labels that read like fourth-down calls: Go for it, Lean and Punt. The site moved to davischamann-alt.github.io/fourth-and-value; the old address no longer works."
+ },
+ {
+  "date": "2026-10-21",
+  "type": "data",
+  "title": "Cleaner pick-log history",
+  "summary": "The two-hourly recording job now saves to GitHub only when a line moves, a new game is logged, or a result comes in, so every entry in the log's history means something happened."
+ },
+ {
+  "date": "2026-10-21",
+  "type": "feature",
+  "title": "Tried and removed: run your own backtest",
+  "summary": "A panel for running backtests in the browser with your own CollegeFootballData key was added and then taken out the same day. It may come back later."
+ },
+ {
+  "date": "2026-10-21",
+  "type": "model",
+  "title": "Market-anchored starts from the line you'd actually bet",
+  "summary": "Market-anchored used to start from the opening line even after the line had moved. It now starts from the current line, or the pregame line once a game has started.",
+  "why": "Starting from an old line counted the line's own movement as edge. Texas A&M at Alabama opened at Alabama -2.5 and moved to -14, which showed a 5.4-point 'Go for it' edge that was really just the line move. The backtest always started from the same line it graded against, so this matches how the model was tested.",
+  "effect": "Fewer, more honest edges: that week's strong edges dropped from 10 to 4. Backtest results don't change.",
+  "forward_test": "Made before the first forward-test pick was logged, so every logged pick uses it."
+ },
+ {
+  "date": "2026-10-21",
+  "type": "feature",
+  "title": "Forward test: every pick recorded before kickoff",
+  "summary": "Every two hours, each game's picks are saved the first time its line appears and never changed afterward, then graded when the game ends. The history on GitHub proves when each pick was made. Results are on the Track record tab."
+ },
+ {
+  "date": "2026-10-21",
+  "type": "feature",
+  "title": "The website launches",
+  "summary": "A free, no-install site that works on phones: live game cards with cover chances, ratings, tracked picks, a bet tracker and the track record. Ratings refresh automatically every morning."
+ },
+ {
+  "date": "2026-10-20",
+  "type": "model",
+  "title": "Market-anchored projection added",
+  "summary": "A new projection that starts from the betting line and shifts it toward what ESPN FPI and adjusted points say, with weights learned from past seasons.",
+  "why": "The plain projections predicted margins from scratch, and the market beat them. Starting from the line and adjusting only where the ratings disagree tested better.",
+  "effect": "Fewer picks, but its 3+ point edges hit about 60% at the opening line in the 2024-2026 backtest (a small sample).",
+  "forward_test": "Before the forward test started."
+ },
+ {
+  "date": "2026-10-20",
+  "type": "data",
+  "title": "Backtest covers past seasons and opening lines",
+  "summary": "Picks are now tested on 2021-2026 using CollegeFootballData, graded against both opening and closing lines, with closing line value: how often the line moved toward each pick."
+ },
+ {
+  "date": "2026-10-20",
+  "type": "model",
+  "title": "Opponent-adjusted ratings and ESPN FPI",
+  "summary": "Ratings went from raw points per game to points adjusted for opponent strength, and ESPN's Football Power Index was added as a second projection.",
+  "why": "Raw scoring averages missed the market's line by about 8.8 points per game; opponent adjustment cut that to 3.3, and FPI to 2.3.",
+  "effect": "Projections land much closer to the betting line, so far fewer false edges.",
+  "forward_test": "Before the forward test started."
+ },
+ {
+  "date": "2026-10-02",
+  "type": "feature",
+  "title": "First version",
+  "summary": "A dashboard on one computer comparing a simple scoring model to the Vegas spread, with live cover chances, a bet tracker and pick logging."
  }
 ]

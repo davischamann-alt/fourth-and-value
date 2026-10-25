@@ -1,0 +1,35 @@
+name: Something looks wrong
+description: A number that seems off, a bug, or something that doesn't work
+title: "Problem: "
+labels: ["problem"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the report. Reports are public, so please don't include personal information.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem?
+      options:
+        - A pick, line, score or rating looks wrong
+        - Something on the site doesn't work
+        - Something is confusing or hard to read
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Link to the page or game
+      description: Copy the address from your browser, for example a game's #game/... link.
+  - type: textarea
+    id: details
+    attributes:
+      label: What happened?
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser (optional)
+      placeholder: e.g. iPhone, Safari

@@ -536,7 +536,7 @@ function renderLive() {
 /** Track record keeps the full, dated history; the Games tab shows the newest change for two
  *  weeks, until the visitor dismisses it. Entries live in data/changelog.json. */
 function renderChangelog() {
-  const log = [...(state.changelog || [])].sort((a, b) => b.date.localeCompare(a.date));
+  const log = [...(state.changelog || [])].filter((c) => c.type === "model").sort((a, b) => b.date.localeCompare(a.date));
   const day = (d) => new Date(d + "T12:00:00").toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
   $("#changelog").innerHTML = log.length ? log.map((c) => `<div class="card change">
       <div class="change-date">${esc(day(c.date))}</div><h4>${esc(c.title)}</h4>
@@ -548,10 +548,9 @@ function renderChangelog() {
   if (!fresh || store.get("noticeSeen", "") === latest.date) { $("#model-notice").innerHTML = ""; return; }
   $("#model-notice").innerHTML = `<div class="notice" role="status">
       <span class="notice-tag">Model update · ${esc(day(latest.date))}</span>
-      <span>${esc(latest.title)}. <a href="#record" data-to-changelog>What changed and why</a></span>
+      <span>${esc(latest.title)}. <a href="#updates" data-to-changelog>What changed and why</a></span>
       <button class="notice-x" type="button" aria-label="Dismiss" data-dismiss-notice>✕</button></div>`;
   $("[data-dismiss-notice]").addEventListener("click", () => { store.set("noticeSeen", latest.date); renderChangelog(); });
-  $("[data-to-changelog]").addEventListener("click", () => setTimeout(() => $("#changelog").scrollIntoView({ block: "start" }), 50));
 }
 
 // ---------- Wiring ----------
@@ -584,6 +583,7 @@ function bind() {
     const game = h.startsWith("game/") ? h.slice(5) : null;  // #game/<id>: game detail view (game.js)
     const name = game ? "game" : $(`.tabs button[data-tab="${h}"]`) ? h : "games";
     $$(".tabs button").forEach((x) => x.setAttribute("aria-selected", x.dataset.tab === (game ? "games" : name)));
+    $(".tabs button[aria-selected=true]")?.scrollIntoView({ block: "nearest", inline: "nearest" });  // phones: keep it visible
     $$(".tab").forEach((s) => (s.hidden = s.id !== "tab-" + name));
     if (name === "picks") gradeOldPicks();
     if (typeof showGame === "function") { if (game) showGame(game); else leaveGame(); }

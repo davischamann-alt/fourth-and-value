@@ -73,6 +73,8 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
 - **My picks:** tap **☆ Track pick** on a game before kickoff, and it's graded automatically when the game ends.
 - **Bets:** log bets and see your record, profit and ROI, and download or import them as CSV.
 - **Track record:** live results of picks recorded before kickoff ([The forward test](#the-forward-test)), then the backtest results in plain language.
+- **Updates:** every improvement to the project, newest first, with model changes dated and explained. Filter by model, site, or fixes and data.
+- **Suggestions and problem reports:** the form on the Updates tab opens a pre-filled post in the repo's [GitHub Issues](https://github.com/davischamann-alt/fourth-and-value/issues), labeled `suggestion` or `problem`, so feedback is tracked in the open. Posting needs a free GitHub account; nothing is sent from the site itself. The Updates tab also lists the suggestions that are still open.
 - **⚙︎ Settings:** home-field advantage, std dev (it uses the tested value for each projection automatically) and light or dark theme.
 
 Picks and bets are saved only in the browser you use, so they don't follow you between devices; use **Download as CSV** to move bets. The page gets scores and lines straight from ESPN while you have it open, and a GitHub job refreshes the ratings and track record every morning ([Publishing the website](#publishing-the-website)).
@@ -338,13 +340,19 @@ Finished games show 100% or 0% (50% for a push). Overtime counts as about two mi
 
 ## Model changes
 
-Any change to how picks are made is logged here and on the website (a notice on the Games tab for two weeks, and a permanent dated list on the **Track record** tab), so anyone reading the numbers knows what produced them. Changes never touch picks already in the forward-test log; each pick's `logged_at` time shows which version made it.
+Any change to how picks are made is logged here and on the website (a notice on the Games tab for two weeks, a permanent dated list on the **Track record** tab, and the full project history on the **Updates** tab), so anyone reading the numbers knows what produced them. Changes never touch picks already in the forward-test log; each pick's `logged_at` time shows which version made it.
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
 | October 25, 2026 | Home-field advantage raised from **2.5** to **3.0** points; Market-anchored retrained | Week 8's picks leaned heavily toward road teams while home teams went 23–14 against the spread. A 2023–2026 check found the projections underrated home teams slightly at 2.5 (FPI by 0.4 points on average); at 3.0 the bias goes away. | Small: every projection moved by less than one percentage point in the backtest (FPI at the opening line: 53.3% → 54.0%). Forward-test picks logged before this date used 2.5 and are unchanged. |
 
-**To log a future change:** add an entry to `site/data/changelog.json` (date, title, why, effect, and what it means for the pick log), add a row to the table above, and change the setting in one place: the constant in `model.py` (for example `HFA`).
+**To log a future change:** add an entry at the top of `site/data/changelog.json`. Every entry has a `date`, `type` and `title`, plus a `summary`:
+- `type` is `model` (changes how picks are made), `feature`, `design`, `fix` or `data`.
+- `model` entries also need `why`, `effect` and `forward_test` (what it means for the pick log). Add a row to the table above, and change the setting in one place: the constant in `model.py` (for example `HFA`).
+
+The newest `model` entry shows as a notice on the Games tab for two weeks.
+
+**Feedback:** the site's suggestion form uses the issue forms in `.github/ISSUE_TEMPLATE/` (`suggestion.yml` and `problem.yml`). Field `id`s in those forms are filled in from the link the site builds, so keep them in sync with `site/updates.js` if you edit them.
 
 ---
 
@@ -372,7 +380,8 @@ fourth-and-value/
 ├── model.py                  # the math: ratings, projections, cover chances, backtest scoring
 ├── build_site.py             # builds the website's data files
 ├── record.py                 # forward test: records lines and picks, grades them
-├── site/                     # the website: index.html, style.css, app.js, game.js (game details), data/
+├── site/                     # the website: index.html, style.css, app.js, game.js (game details), updates.js (Updates tab), data/ (changelog.json is the change log)
+├── .github/ISSUE_TEMPLATE/   # GitHub issue forms behind the site's suggestion form
 ├── .github/workflows/site.yml # nightly job that refreshes and publishes the website
 ├── requirements.txt          # Python libraries to install
 ├── .streamlit/secrets.toml   # your CollegeFootballData key (you create it; never uploaded)
