@@ -59,7 +59,7 @@ It's free. Scores, lines and ESPN's team ratings come from ESPN's public data. T
 
 Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.github.io/fourth-and-value/)**. It works on phones, and you can add it to your home screen from the browser's Share menu.
 
-- **Games:** one week at a time (use ‹ › to change weeks), grouped by day. Each game card shows the line and where it opened, the model's pick, an edge badge labeled like a fourth-down call (**Go for it** at 3+ points, **Lean** at 1.5–3, **Punt** under 1.5, meaning no bet), and the cover chance, which updates live during games. Filter to go-for-it edges, live games, or **close** games (live and within 4 points of the spread, sorted tightest first), sort by biggest edge, or search for a team.
+- **Games:** one week at a time (use ‹ › to change weeks), grouped by day. Each game card shows the line and where it opened, the model's pick, an edge badge labeled like a fourth-down call (**Go for it** at 3–5 points, **Lean** at 1.5–3, **Punt** under 1.5, meaning no bet, and **Check the news** at 5+, where the gap is more likely missing information than extra value), and the cover chance, which updates live during games. Filter to go-for-it edges, live games, or **close** games (live and within 4 points of the spread, sorted tightest first), sort by biggest edge, or search for a team.
 - **Game details:** tap any game card for the full breakdown. Each game has its own link (like `#game/401858274`) that you can share.
   - **Why this pick:** what all four projections say, and whether they agree. A split is a reason to punt.
   - **Line movement:** a chart of the line through the week, from the forward test's two-hourly recordings.
@@ -232,7 +232,7 @@ Two sections:
 - **Adjusted points:** built from each team's points scored and allowed, adjusted for who they played.
 - **ESPN FPI:** built from ESPN's power ratings.
 - **Blend:** the average of the two.
-- **Market-anchored:** starts from the current betting line and shifts it toward what FPI and the points ratings say. It makes fewer picks but tested best. It only works once the season backtest has been run on past seasons, which saves the weights it uses (`data/anchor_weights.json`). Those saved weights are included in the download, so it works right away.
+- **Market-anchored:** starts from the current betting line and shifts it toward what FPI and the points ratings say. It stays closest to the betting line, so it shows the fewest and smallest edges, which is why it's the default. It only works once the season backtest has been run on past seasons, which saves the weights it uses (`data/anchor_weights.json`). Those saved weights are included in the download, so it works right away.
 
 ---
 
@@ -268,21 +268,24 @@ On the **Backtest** tab, choose **Seasons** and click **▶ Run season backtest*
 
 ## What the testing found
 
-These results are from 2023–2026 (through week 7 of 2026), about 2,270 games. Market-anchored was tested on 2024–2026 because 2023 was its training data.
+These results are from 2023–2026 (through week 8 of 2026), about 2,300 games, with home-field advantage at 3.0. Opening lines that moved 7+ points before kickoff are excluded: they're look-ahead lines posted weeks early that nobody could bet with that season's information (see [Model changes](#model-changes)). Market-anchored is graded from 2024 on, because 2023 was its training data.
 
 | Picks made at the… | Result |
 | --- | --- |
-| **Closing line** | No source beats it: about 50–51% for every source, below break-even. |
-| **Opening line, every game** | About 53.5% for every source, just above the 52.4% break-even. |
-| **Opening line, edge 3+ points** | FPI 55.6% (855 picks), Adjusted points 55.3% (1,277 picks), Market-anchored **59.5% (168 picks)**. |
-| **Line movement** | After the open, lines moved toward the model's picks 60–67% of the time, and 89% of the time for Market-anchored with a 3+ point edge. |
+| **Closing line** | No projection beats it: about 50–51% for every one, below break-even. |
+| **Opening line, every game** | About 53% for every projection, just above the 52.4% break-even. |
+| **Opening line, edge 3+ points** | ESPN FPI 53.8% (825 picks), Adjusted points 53.8%, Blend 53.3%. Market-anchored 62.1%, but on only 29 picks. |
+| **Opening line, edge 5+ points** | No better than 3–5 point edges (ESPN FPI 52.6%). That's why the site labels them **Check the news** instead of Go for it. |
+| **Line movement** | After the open, lines moved toward the model's picks about 62–72% of the time. |
 
 **What this means:**
 
-- **The Vegas closing line is more accurate than any of these sources.** Betting near kickoff shows no edge.
-- **Any edge comes from betting early, right after opening lines are posted, and only on large disagreements.** Lines kept moving toward the picks, which is the most encouraging sign.
-- **It isn't proven.** Even the best result is about two standard errors above break-even, and some sportsbooks post opening lines before the ESPN ratings used here were updated. Opening lines also have low betting limits.
-- **Adjusted points adds little on top of FPI.** Market-anchored gives it about a tenth of the weight.
+- **The Vegas closing line is more accurate than any of these projections.** Betting near kickoff shows no edge.
+- **The opening-line edge is real but small:** about 53–54%, barely above break-even and within what luck alone could produce. Lines moving toward the picks is the most encouraging sign.
+- **Huge disagreements with the market aren't extra value.** A 5+ point gap usually means the market knows something the model can't see, such as injuries, which ESPN doesn't publish for college football.
+- **Adjusted points adds little on top of FPI**, and Market-anchored mostly follows the line.
+- **The forward test is the real judge.** Picks recorded before kickoff from week 9 on are the cleanest test.
+
 
 ---
 
@@ -316,7 +319,7 @@ Blend:            average of the two
 Market-anchored:  const + w_line x (-home line) + w_fpi x FPI margin + w_pts x points margin
 ```
 
-There's no home-field advantage (HFA) at neutral sites. Market-anchored starts from the line you'd be betting: the current line, or the pregame line once a game has started. In the backtest it started from the opening line and was graded against that same line. Starting from an older line than the one being bet would count the line's own movement as edge. The weights are learned by regression on past seasons. Learned from 2023–2025, they come out to about 0.57 × line, 0.39 × FPI and 0.12 × adjusted points.
+There's no home-field advantage (HFA) at neutral sites. Market-anchored starts from the line you'd be betting: the current line, or the pregame line once a game has started. In the backtest it started from the opening line and was graded against that same line. Starting from an older line than the one being bet would count the line's own movement as edge. The weights are learned by regression on past seasons. Learned from 2023–2025 (look-ahead opening lines excluded), they come out to about 0.73 × line, 0.21 × FPI and 0.12 × adjusted points.
 
 **Pregame cover chance.** The final margin is treated as a bell curve around the projection, with spread equal to the **Margin std dev** setting (sigma):
 
@@ -344,6 +347,8 @@ Any change to how picks are made is logged here and on the website (a notice on 
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
+| October 25, 2026 | **Backtest correction:** opening lines that moved 7+ points before kickoff (look-ahead lines, 63 of 2,323 games) are excluded | They made the biggest edges look like big winners, but nobody could have bet them with that season's information. | Opening-line results drop to about 53–54% on 3+ point edges (FPI: 55.7% → 53.8%). Closing-line results barely change. |
+| October 25, 2026 | 5+ point edges labeled **Check the news** instead of Go for it; Market-anchored retrained on the corrected data | On clean data, 5+ edges did no better than 3–5 point ones, and a gap that big usually means missing information. | Market-anchored leans more on the line (0.57 → 0.73) and less on FPI (0.39 → 0.21). Logged picks are unchanged. |
 | October 25, 2026 | Home-field advantage raised from **2.5** to **3.0** points; Market-anchored retrained | Week 8's picks leaned heavily toward road teams while home teams went 23–14 against the spread. A 2023–2026 check found the projections underrated home teams slightly at 2.5 (FPI by 0.4 points on average); at 3.0 the bias goes away. | Small: every projection moved by less than one percentage point in the backtest (FPI at the opening line: 53.3% → 54.0%). Forward-test picks logged before this date used 2.5 and are unchanged. |
 
 **To log a future change:** add an entry at the top of `site/data/changelog.json`. Every entry has a `date`, `type` and `title`, plus a `summary`:

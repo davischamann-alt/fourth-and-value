@@ -5,10 +5,14 @@
 const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/college-football";
 const LOGO = (id) => `https://a.espncdn.com/i/teamlogos/ncaa/500/${id}.png`;
 const STRONG = 3, LEAN = 1.5;          // edge thresholds in points
+const CHECK = 5;                       // bigger gaps usually mean the market knows something (injury, QB change)
 const CLOSE = 4;                       // a live game this close to the spread could flip on a field goal
 const BREAKEVEN = 0.524;               // hit rate needed at -110
 const SOURCE_LABEL = { anchored: "Market-anchored", fpi: "ESPN FPI", blend: "Blend", points: "Adjusted points" };
-const TIER_LABEL = { strong: "Go for it", lean: "Lean", pass: "Punt" };  // edge sizes as fourth-down calls
+const TIER_LABEL = { check: "Check the news", strong: "Go for it", lean: "Lean", pass: "Punt" };  // fourth-down calls
+/** Edge size to label. 5+ points isn't "more value": in the cleaned 2023-2026 backtest it did no
+ *  better than 3-5, and a gap that big usually means the model is missing news the market has. */
+const tierOf = (edge) => { const e = Math.abs(edge); return e >= CHECK ? "check" : e >= STRONG ? "strong" : e >= LEAN ? "lean" : "pass"; };
 
 const store = {
   get(key, fallback) {
@@ -115,7 +119,7 @@ function evaluate(g) {
   const edge = Math.abs(margin + line);
   return {
     margin, line, edge,
-    tier: edge >= STRONG ? "strong" : edge >= LEAN ? "lean" : "pass",
+    tier: tierOf(edge),
     side: homePick ? "home" : "away",
     team: homePick ? g.home : g.away,
     pickLine: homePick ? line : -line,
@@ -225,7 +229,7 @@ function renderGames() {
   rows = rows.filter(({ g, ev }) => {
     if (q && !`${g.home.name} ${g.away.name} ${g.home.abbr} ${g.away.abbr}`.toLowerCase().includes(q)) return false;
     if (state.filter === "edge") return ev.edge >= LEAN;
-    if (state.filter === "strong") return ev.edge >= STRONG;
+    if (state.filter === "strong") return ev.tier === "strong";
     if (state.filter === "live") return g.state === "in";
     if (state.filter === "close") return isClose(g);
     return true;
@@ -237,7 +241,7 @@ function renderGames() {
   const all = state.games.map(evaluate);
   const counts = {
     all: state.games.length, edge: all.filter((e) => e.edge >= LEAN).length,
-    strong: all.filter((e) => e.edge >= STRONG).length, live: state.games.filter((g) => g.state === "in").length,
+    strong: all.filter((e) => e.tier === "strong").length, live: state.games.filter((g) => g.state === "in").length,
     close: state.games.filter(isClose).length,
   };
   $$("[data-count]").forEach((el) => (el.textContent = state.games.length ? counts[el.dataset.count] : ""));
@@ -513,14 +517,16 @@ function renderRecord() {
   const r = state.record;
   if (!r) { $("#record-headline").innerHTML = `<div class="card">Track record isn't available yet.</div>`; return; }
   const rows = (key) => (r.tables[key] || []).filter((x) => !/baseline/.test(x.name));
-  const best = (key) => rows(key).filter((x) => x.picks).sort((a, b) => b.hit_rate - a.hit_rate)[0];
+  // headline cards only feature results with enough picks to mean something
+  const MIN_PICKS = 200;
+  const best = (key) => rows(key).filter((x) => x.picks >= MIN_PICKS).sort((a, b) => b.hit_rate - a.hit_rate)[0];
   const open3 = best("open_3"), close0 = best("close_0"), open0 = best("open_0");
-  const moved = rows("open_3").filter((x) => x.clv_beat_rate != null).sort((a, b) => b.clv_beat_rate - a.clv_beat_rate)[0];
+  const moved = rows("open_3").filter((x) => x.clv_beat_rate != null && x.picks >= MIN_PICKS).sort((a, b) => b.clv_beat_rate - a.clv_beat_rate)[0];
   $("#record-headline").innerHTML = [
     ["Betting at the closing line", close0 && close0.hit_rate >= BREAKEVEN ? pct(close0.hit_rate, 1) : "No edge",
       `Best source: ${close0?.name} at ${pct(close0?.hit_rate, 1)}. Break-even is 52.4%. The final line is very hard to beat.`],
     ["Opening line, every game", pct(open0?.hit_rate, 1), `${open0?.name}, ${open0?.wins}-${open0?.losses}. Just above break-even.`],
-    ["Opening line, 3+ pt edges", pct(open3?.hit_rate, 1), `${open3?.name}, ${open3?.wins}-${open3?.losses}. The strongest result, but a small sample.`],
+    ["Opening line, 3+ pt edges", pct(open3?.hit_rate, 1), `${open3?.name}, ${open3?.wins}-${open3?.losses}. Barely above break-even; the edge is real but small.`],
     ["Line moved toward the pick", pct(moved?.clv_beat_rate), `${moved?.name}, 3+ pt edges. Lines moving your way is the best sign of a real edge.`],
   ].map(([h, big, p]) => `<div class="card"><h4>${h}</h4><div class="big">${big}</div><p>${esc(p)}</p></div>`).join("");
 

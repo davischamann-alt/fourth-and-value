@@ -8,6 +8,12 @@ import pandas as pd
 # backtest (see "Model changes" in the README).
 HFA = 3.0
 
+# An "opening line" more than this far from the closing line is treated as missing in the backtest.
+# Those are almost always look-ahead lines posted weeks before the game, which nobody could bet with
+# this season's information, and they made big edges look far better than they are (Oct 25, 2026;
+# see "Model changes" in the README).
+MAX_OPEN_MOVE = 7.0
+
 
 def load_ratings(path):
     return pd.read_csv(path).set_index("team")
@@ -104,6 +110,8 @@ def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3):
                 f = fpi[g.home_id] - fpi[g.away_id] + (0 if g.neutral else hfa)
             if pts is None or f is None:
                 continue
+            if open_line is not None and not pd.isna(open_line) and abs(open_line - line) >= MAX_OPEN_MOVE:
+                open_line = None  # look-ahead line, not a real opener
             rows.append(dict(id=g.id, week=w, game=f"{g.away} @ {g.home}", line=line, open_line=open_line,
                              final_margin=g.home_pts - g.away_pts, points=pts, fpi=f, blend=(pts + f) / 2))
     return pd.DataFrame(rows)

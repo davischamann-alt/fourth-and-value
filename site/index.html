@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=26">
+  <link rel="stylesheet" href="style.css?v=28">
 </head>
 <body>
   <header class="top">
@@ -42,7 +42,7 @@
           <div class="chips" id="filter" role="group" aria-label="Show">
             <button data-filter="all" class="on"><span class="lbl">All</span><span class="count" data-count="all"></span></button>
             <button data-filter="edge"><span class="lbl">Edges<span class="hide-sm">&nbsp;1.5+</span></span><span class="count" data-count="edge"></span></button>
-            <button data-filter="strong"><span class="lbl">Go for it</span><span class="count" data-count="strong"></span></button>
+            <button data-filter="strong" title="Edges of 3-5 points"><span class="lbl">Go for it</span><span class="count" data-count="strong"></span></button>
             <button data-filter="live"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Live</span><span class="count" data-count="live"></span></button>
             <button data-filter="close" title="Live games within 4 points of the spread: a field goal could flip who covers"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Close</span><span class="count" data-count="close"></span></button>
           </div>
@@ -52,7 +52,7 @@
           </label>
         </div>
         <div class="toolbar-row toolbar-sub">
-          <label class="inline-select" title="★ tested best. Blend averages FPI and adjusted points."><span>Projection</span>
+          <label class="inline-select" title="★ the default: it stays closest to the betting line and rarely shows big edges. Blend averages FPI and adjusted points."><span>Projection</span>
             <select id="source">
               <option value="anchored">★ Market-anchored</option>
               <option value="fpi">ESPN FPI</option>
@@ -75,7 +75,7 @@
         <ul>
           <li><b>Line</b> is the betting spread from ESPN. The small gray number is where it opened, so you can see how it moved.</li>
           <li><b>Model</b> is the predicted final margin. <b>Pick</b> is the side the model thinks covers the line.</li>
-          <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3+ points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet.</li>
+          <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3–5 points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury or a quarterback change.</li>
           <li><b>Cover chance</b> is the model's chance the pick covers. During a game it updates with the score and clock. The yellow tick on the bar marks 52.4%, the break-even point at standard -110 odds.</li>
           <li>The <b>Track</b> button saves a pick to <b>My picks</b>, where it's graded automatically when the game ends.</li>
           <li><b>Close</b> shows live games within 4 points of the spread, where a field goal could flip who covers. They're sorted tightest first and tagged on every card.</li>
@@ -165,7 +165,7 @@
             <li><b>Adjusted points projection:</b> (home offense + away defense) − (away offense + home defense) + <span data-hfa>3</span>.</li>
             <li><b>Blend:</b> the average of those two.</li>
             <li><b>Market-anchored</b> (the default): starts from the betting line and shifts it toward what FPI and adjusted points say.</li>
-            <li>The difference between a projection and the betting line is the <b>edge</b>. That's what the Games tab labels Go for it, Lean or Punt.</li>
+            <li>The difference between a projection and the betting line is the <b>edge</b>. That's what the Games tab labels Go for it (3–5 points), Lean or Punt, or Check the news when the gap is 5+ points.</li>
           </ul>
           <p class="rt-example" id="rt-example"></p>
           <h4 class="gd-h4">Tips</h4>
@@ -317,9 +317,9 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=26"></script>
-  <script src="game.js?v=26"></script>
-  <script src="updates.js?v=26"></script>
-  <script src="ratings.js?v=26"></script>
+  <script src="app.js?v=28"></script>
+  <script src="game.js?v=28"></script>
+  <script src="updates.js?v=28"></script>
+  <script src="ratings.js?v=28"></script>
 </body>
 </html>

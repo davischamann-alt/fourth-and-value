@@ -1,6 +1,21 @@
 [
  {
   "date": "2026-10-25",
+  "type": "model",
+  "title": "5+ point edges now say Check the news, and Market-anchored was retrained",
+  "summary": "Edges of 5 or more points are no longer labeled Go for it. They show a caution badge, Check the news, instead. Go for it now means a 3-5 point edge. Market-anchored was also retrained on the corrected backtest data.",
+  "why": "Once look-ahead opening lines were removed (see the correction below), 5+ point edges did no better than 3-5 point ones: ESPN FPI's went 52.6% at the opening line and about 50% at the closing line. A gap that big usually means the market knows something the model can't see, like an injury or a quarterback change.",
+  "effect": "Market-anchored now leans more on the betting line (weight 0.57 to 0.73) and less on FPI (0.39 to 0.21), so it shows big edges much less often. The bad lines had made FPI look more useful than it is.",
+  "forward_test": "Picks already logged keep their original numbers. New picks use the retrained Market-anchored weights. The forward-test summary still groups every 3+ point edge together."
+ },
+ {
+  "date": "2026-10-25",
+  "type": "data",
+  "title": "Correction: the backtest's opening-line results were too optimistic",
+  "summary": "About 3% of the historical opening lines (63 of 2,323 games) were look-ahead lines posted weeks before kickoff. Those lines then moved 7+ points by game time, as when Oklahoma vs Texas in 2023 opened Oklahoma +6.5 and closed -5.5. Nobody could have bet them with that season's information, but they made the model's biggest edges look like big winners. They're now excluded. At the opening line, ESPN FPI's 3+ point edges went from 55.7% to 53.8%, and Market-anchored's from 60.5% (172 picks) to 62.1% on just 29 picks. Closing-line results barely changed and stay around 50%. The edge at the opening line is real but small, barely above the 52.4% needed to break even."
+ },
+ {
+  "date": "2026-10-25",
   "type": "feature",
   "title": "Close filter: live games near the spread",
   "summary": "A new Close button next to Live shows games in progress where the score is within 4 points of the spread, so a field goal could flip who covers. They're sorted tightest first, and every close game gets a yellow tag on its card, like \"Close · 2.5 from the spread\", under any filter."

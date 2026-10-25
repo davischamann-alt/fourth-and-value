@@ -496,3 +496,6 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
 .rt-intro:has(.rt-guide:not([open])) { grid-template-columns: 1fr; }
 .close-tag { padding: 2px 7px; border-radius: 5px; font: 800 12px/1.3 var(--display); letter-spacing: .05em; text-transform: uppercase;
   background: var(--yellow); color: var(--yellow-ink); white-space: nowrap; }
+/* 5+ point edges: a caution, not a stronger pick */
+.badge.check { color: var(--lean); background: transparent; box-shadow: inset 0 0 0 1.5px var(--lean); }
+.badge.check::before { content: "⚠ "; }

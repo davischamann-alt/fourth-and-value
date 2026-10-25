@@ -41,12 +41,12 @@ function allSources(g) {
     return {
       src, margin: m, edge: Math.abs(edge), side: home ? "home" : "away", team: home ? g.home : g.away,
       pickLine: home ? g.line : -g.line, prob: home ? homeProb : 1 - homeProb,
-      tier: Math.abs(edge) >= STRONG ? "strong" : Math.abs(edge) >= LEAN ? "lean" : "pass",
+      tier: tierOf(edge),
     };
   });
 }
 
-const TIER_TXT = { strong: "Go for it", lean: "Lean", pass: "Punt" };
+const TIER_TXT = TIER_LABEL;
 const marginTxt = (g, m) => (Math.abs(m) < 0.05 ? "Even" : `${(m >= 0 ? g.home : g.away).abbr} by ${Math.abs(m).toFixed(1)}`);
 const lineTxt = (g, line) => (line == null ? "—" : `${g.home.abbr} ${fmtLine(line)}`);
 
@@ -242,7 +242,7 @@ function forwardCard(g, log) {
         // until the game is graded, show movement so far from the logged line to the latest one
         const clv = p.clv ?? (L.close != null ? (L.line - L.close) * (p.side === "home" ? 1 : -1) : null);
         return `<tr><td class="l">${esc(SOURCE_LABEL[k])}</td><td class="l"><b>${esc(team.abbr)} ${fmtLine(p.side === "home" ? L.line : -L.line)}</b></td>
-          <td><span class="badge ${p.tier === "small" ? "pass" : p.tier}">${p.edge.toFixed(1)}</span></td>
+          <td><span class="badge ${tierOf(p.edge)}">${p.edge.toFixed(1)}</span></td>
           <td class="${clv > 0 ? "good" : clv < 0 ? "bad" : ""}">${clv == null ? "—" : (clv > 0 ? "+" : "") + clv}</td>
           <td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td></tr>`;
       }).join("")}

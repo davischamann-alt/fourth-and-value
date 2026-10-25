@@ -38,7 +38,7 @@ function renderCompare() {
     let pick = "";
     if (g.line != null) {
       const edge = m + g.line, homeSide = edge >= 0, t = homeSide ? home : away;
-      const tier = Math.abs(edge) >= STRONG ? "strong" : Math.abs(edge) >= LEAN ? "lean" : "pass";
+      const tier = tierOf(edge);
       pick = `<td class="l"><b>${esc(t.team)} ${fmtLine(homeSide ? g.line : -g.line)}</b>
         <span class="badge ${tier}">${TIER_LABEL[tier]} · ${Math.abs(edge).toFixed(1)}</span></td>`;
     }
