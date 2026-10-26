@@ -1,15 +1,15 @@
 {
- "updated": "2026-10-26T00:27Z",
+ "updated": "2026-10-26T07:53Z",
  "since": "2026-10-22T02:29Z",
- "games": 108,
+ "games": 110,
  "summary": [
   {
    "source": "Market-anchored",
    "key": "anchored",
    "tier": "all",
    "label": "Every game",
-   "picks": 108,
-   "pending": 56,
+   "picks": 110,
+   "pending": 58,
    "at_logged": {
     "wins": 24,
     "losses": 27,
@@ -30,8 +30,8 @@
    "key": "anchored",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 40,
-   "pending": 23,
+   "picks": 41,
+   "pending": 24,
    "at_logged": {
     "wins": 6,
     "losses": 10,
@@ -74,8 +74,8 @@
    "key": "fpi",
    "tier": "all",
    "label": "Every game",
-   "picks": 108,
-   "pending": 56,
+   "picks": 110,
+   "pending": 58,
    "at_logged": {
     "wins": 20,
     "losses": 31,
@@ -96,8 +96,8 @@
    "key": "fpi",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 70,
-   "pending": 40,
+   "picks": 71,
+   "pending": 41,
    "at_logged": {
     "wins": 11,
     "losses": 18,
@@ -118,8 +118,8 @@
    "key": "fpi",
    "tier": "strong",
    "label": "Edge 3+",
-   "picks": 47,
-   "pending": 27,
+   "picks": 48,
+   "pending": 28,
    "at_logged": {
     "wins": 6,
     "losses": 13,
@@ -140,8 +140,8 @@
    "key": "blend",
    "tier": "all",
    "label": "Every game",
-   "picks": 108,
-   "pending": 56,
+   "picks": 110,
+   "pending": 58,
    "at_logged": {
     "wins": 25,
     "losses": 26,
@@ -162,8 +162,8 @@
    "key": "blend",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 65,
-   "pending": 35,
+   "picks": 66,
+   "pending": 36,
    "at_logged": {
     "wins": 11,
     "losses": 18,
@@ -184,8 +184,8 @@
    "key": "blend",
    "tier": "strong",
    "label": "Edge 3+",
-   "picks": 36,
-   "pending": 18,
+   "picks": 37,
+   "pending": 19,
    "at_logged": {
     "wins": 4,
     "losses": 13,
@@ -206,8 +206,8 @@
    "key": "points",
    "tier": "all",
    "label": "Every game",
-   "picks": 108,
-   "pending": 56,
+   "picks": 110,
+   "pending": 58,
    "at_logged": {
     "wins": 24,
     "losses": 27,
@@ -228,8 +228,8 @@
    "key": "points",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 79,
-   "pending": 37,
+   "picks": 80,
+   "pending": 38,
    "at_logged": {
     "wins": 16,
     "losses": 25,
@@ -250,8 +250,8 @@
    "key": "points",
    "tier": "strong",
    "label": "Edge 3+",
-   "picks": 47,
-   "pending": 22,
+   "picks": 48,
+   "pending": 23,
    "at_logged": {
     "wins": 10,
     "losses": 14,
@@ -270,6 +270,19 @@
  ],
  "recent": [
   {
+   "id": "401858514",
+   "kickoff": "2026-11-07T05:00Z",
+   "game": "Oregon @ Ohio State",
+   "side": "home",
+   "team": "Ohio State",
+   "line": -6.0,
+   "edge": 2.73,
+   "tier": "lean",
+   "logged_at": "2026-10-26T07:53Z",
+   "result": null,
+   "clv": null
+  },
+  {
    "id": "401858504",
    "kickoff": "2026-11-01T00:00Z",
    "game": "Washington @ Nebraska",
@@ -283,19 +296,6 @@
    "clv": null
   },
   {
-   "id": "401858281",
-   "kickoff": "2026-10-31T23:30Z",
-   "game": "Georgia Tech @ Pittsburgh",
-   "side": "home",
-   "team": "Pittsburgh",
-   "line": -7.0,
-   "edge": 3.3,
-   "tier": "strong",
-   "logged_at": "2026-10-25T17:41Z",
-   "result": null,
-   "clv": null
-  },
-  {
    "id": "401858509",
    "kickoff": "2026-10-31T23:30Z",
    "game": "Ohio State @ USC",
@@ -305,6 +305,19 @@
    "edge": 2.11,
    "tier": "lean",
    "logged_at": "2026-10-22T02:29Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401858281",
+   "kickoff": "2026-10-31T23:30Z",
+   "game": "Georgia Tech @ Pittsburgh",
+   "side": "home",
+   "team": "Pittsburgh",
+   "line": -7.0,
+   "edge": 3.3,
+   "tier": "strong",
+   "logged_at": "2026-10-25T17:41Z",
    "result": null,
    "clv": null
   },
@@ -348,13 +361,26 @@
    "clv": null
   },
   {
-   "id": "401871095",
+   "id": "401858501",
    "kickoff": "2026-10-31T19:30Z",
-   "game": "Southern Miss @ UL Monroe",
-   "side": "away",
-   "team": "Southern Miss",
-   "line": -3.0,
-   "edge": 1.53,
+   "game": "Minnesota @ Indiana",
+   "side": "home",
+   "team": "Indiana",
+   "line": -22.5,
+   "edge": 3.6,
+   "tier": "strong",
+   "logged_at": "2026-10-22T02:29Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401864531",
+   "kickoff": "2026-10-31T19:30Z",
+   "game": "UTEP @ North Dakota State",
+   "side": "home",
+   "team": "North Dakota State",
+   "line": -26.5,
+   "edge": 1.92,
    "tier": "lean",
    "logged_at": "2026-10-25T17:41Z",
    "result": null,
@@ -374,28 +400,15 @@
    "clv": null
   },
   {
-   "id": "401864531",
+   "id": "401871095",
    "kickoff": "2026-10-31T19:30Z",
-   "game": "UTEP @ North Dakota State",
-   "side": "home",
-   "team": "North Dakota State",
-   "line": -26.5,
-   "edge": 1.92,
+   "game": "Southern Miss @ UL Monroe",
+   "side": "away",
+   "team": "Southern Miss",
+   "line": -3.0,
+   "edge": 1.53,
    "tier": "lean",
    "logged_at": "2026-10-25T17:41Z",
-   "result": null,
-   "clv": null
-  },
-  {
-   "id": "401858501",
-   "kickoff": "2026-10-31T19:30Z",
-   "game": "Minnesota @ Indiana",
-   "side": "home",
-   "team": "Indiana",
-   "line": -22.5,
-   "edge": 3.6,
-   "tier": "strong",
-   "logged_at": "2026-10-22T02:29Z",
    "result": null,
    "clv": null
   },
@@ -439,45 +452,6 @@
    "clv": null
   },
   {
-   "id": "401862816",
-   "kickoff": "2026-10-31T16:00Z",
-   "game": "UAB @ South Florida",
-   "side": "home",
-   "team": "South Florida",
-   "line": -9.5,
-   "edge": 1.8,
-   "tier": "lean",
-   "logged_at": "2026-10-25T17:41Z",
-   "result": null,
-   "clv": null
-  },
-  {
-   "id": "401866452",
-   "kickoff": "2026-10-31T16:00Z",
-   "game": "Bowling Green @ Western Michigan",
-   "side": "home",
-   "team": "Western Michigan",
-   "line": -15.5,
-   "edge": 1.71,
-   "tier": "lean",
-   "logged_at": "2026-10-25T17:41Z",
-   "result": null,
-   "clv": null
-  },
-  {
-   "id": "401858279",
-   "kickoff": "2026-10-31T16:00Z",
-   "game": "Boston College @ Duke",
-   "side": "home",
-   "team": "Duke",
-   "line": -7.0,
-   "edge": 1.54,
-   "tier": "lean",
-   "logged_at": "2026-10-25T17:41Z",
-   "result": null,
-   "clv": null
-  },
-  {
    "id": "401856842",
    "kickoff": "2026-10-31T16:00Z",
    "game": "Arizona @ Texas Tech",
@@ -504,6 +478,45 @@
    "clv": null
   },
   {
+   "id": "401858279",
+   "kickoff": "2026-10-31T16:00Z",
+   "game": "Boston College @ Duke",
+   "side": "home",
+   "team": "Duke",
+   "line": -7.0,
+   "edge": 1.54,
+   "tier": "lean",
+   "logged_at": "2026-10-25T17:41Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401862816",
+   "kickoff": "2026-10-31T16:00Z",
+   "game": "UAB @ South Florida",
+   "side": "home",
+   "team": "South Florida",
+   "line": -9.5,
+   "edge": 1.8,
+   "tier": "lean",
+   "logged_at": "2026-10-25T17:41Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401866452",
+   "kickoff": "2026-10-31T16:00Z",
+   "game": "Bowling Green @ Western Michigan",
+   "side": "home",
+   "team": "Western Michigan",
+   "line": -15.5,
+   "edge": 1.71,
+   "tier": "lean",
+   "logged_at": "2026-10-25T17:41Z",
+   "result": null,
+   "clv": null
+  },
+  {
    "id": "401862813",
    "kickoff": "2026-10-30T23:00Z",
    "game": "Tulane @ Charlotte",
@@ -517,19 +530,6 @@
    "clv": null
   },
   {
-   "id": "401869963",
-   "kickoff": "2026-10-29T23:30Z",
-   "game": "Troy @ James Madison",
-   "side": "home",
-   "team": "James Madison",
-   "line": -17.5,
-   "edge": 2.44,
-   "tier": "lean",
-   "logged_at": "2026-10-25T07:39Z",
-   "result": null,
-   "clv": null
-  },
-  {
    "id": "401862812",
    "kickoff": "2026-10-29T23:30Z",
    "game": "Florida Atlantic @ North Texas",
@@ -537,6 +537,19 @@
    "team": "North Texas",
    "line": -12.5,
    "edge": 2.01,
+   "tier": "lean",
+   "logged_at": "2026-10-25T07:39Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401869963",
+   "kickoff": "2026-10-29T23:30Z",
+   "game": "Troy @ James Madison",
+   "side": "home",
+   "team": "James Madison",
+   "line": -17.5,
+   "edge": 2.44,
    "tier": "lean",
    "logged_at": "2026-10-25T07:39Z",
    "result": null,
@@ -595,19 +608,6 @@
    "clv": -0.5
   },
   {
-   "id": "401856729",
-   "kickoff": "2026-10-24T23:30Z",
-   "game": "Vanderbilt @ Kentucky",
-   "side": "home",
-   "team": "Kentucky",
-   "line": -10.5,
-   "edge": 3.03,
-   "tier": "strong",
-   "logged_at": "2026-10-22T02:29Z",
-   "result": "W",
-   "clv": 0.0
-  },
-  {
    "id": "401856732",
    "kickoff": "2026-10-24T23:30Z",
    "game": "Ole Miss @ Texas",
@@ -619,6 +619,19 @@
    "logged_at": "2026-10-22T02:29Z",
    "result": "W",
    "clv": -0.5
+  },
+  {
+   "id": "401856729",
+   "kickoff": "2026-10-24T23:30Z",
+   "game": "Vanderbilt @ Kentucky",
+   "side": "home",
+   "team": "Kentucky",
+   "line": -10.5,
+   "edge": 3.03,
+   "tier": "strong",
+   "logged_at": "2026-10-22T02:29Z",
+   "result": "W",
+   "clv": 0.0
   },
   {
    "id": "401860907",
@@ -660,6 +673,19 @@
    "clv": -1.0
   },
   {
+   "id": "401856731",
+   "kickoff": "2026-10-24T19:30Z",
+   "game": "Tennessee @ South Carolina",
+   "side": "away",
+   "team": "Tennessee",
+   "line": 2.5,
+   "edge": 2.8,
+   "tier": "lean",
+   "logged_at": "2026-10-22T02:29Z",
+   "result": "L",
+   "clv": -0.0
+  },
+  {
    "id": "401858497",
    "kickoff": "2026-10-24T19:30Z",
    "game": "Iowa @ Minnesota",
@@ -699,19 +725,6 @@
    "clv": 0.0
   },
   {
-   "id": "401856731",
-   "kickoff": "2026-10-24T19:30Z",
-   "game": "Tennessee @ South Carolina",
-   "side": "away",
-   "team": "Tennessee",
-   "line": 2.5,
-   "edge": 2.8,
-   "tier": "lean",
-   "logged_at": "2026-10-22T02:29Z",
-   "result": "L",
-   "clv": -0.0
-  },
-  {
    "id": "401858495",
    "kickoff": "2026-10-24T19:00Z",
    "game": "Oregon @ Illinois",
@@ -725,19 +738,6 @@
    "clv": 1.5
   },
   {
-   "id": "401858498",
-   "kickoff": "2026-10-24T16:00Z",
-   "game": "Rutgers @ Northwestern",
-   "side": "home",
-   "team": "Northwestern",
-   "line": -16.5,
-   "edge": 1.87,
-   "tier": "lean",
-   "logged_at": "2026-10-22T02:29Z",
-   "result": "W",
-   "clv": -1.0
-  },
-  {
    "id": "401858496",
    "kickoff": "2026-10-24T16:00Z",
    "game": "Indiana @ Michigan",
@@ -749,6 +749,19 @@
    "logged_at": "2026-10-22T02:29Z",
    "result": "P",
    "clv": -0.0
+  },
+  {
+   "id": "401858498",
+   "kickoff": "2026-10-24T16:00Z",
+   "game": "Rutgers @ Northwestern",
+   "side": "home",
+   "team": "Northwestern",
+   "line": -16.5,
+   "edge": 1.87,
+   "tier": "lean",
+   "logged_at": "2026-10-22T02:29Z",
+   "result": "W",
+   "clv": -1.0
   },
   {
    "id": "401858272",
