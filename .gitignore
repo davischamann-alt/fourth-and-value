@@ -10,3 +10,7 @@ data/history.csv
 data/cfbd/
 # ESPN box-score cache for build_props.py
 data/box/
+# environment files with keys or passwords (none today; just in case)
+.env
+.env.*
+!.env.example
