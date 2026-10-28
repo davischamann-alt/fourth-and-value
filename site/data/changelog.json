@@ -1,5 +1,11 @@
 [
  {
+  "date": "2026-10-28",
+  "type": "feature",
+  "title": "Player props: projections for this week's players",
+  "summary": "A new Props tab projects passing yards, passing TDs, rushing yards, receiving yards and receptions for players in this week's games, from ESPN box scores. Enter the line and odds from your sportsbook to see the chance of going over or under, how often the player cleared that line in his last five games, and a lean when the chance beats the odds' break-even by 3+ points. The projections are a season average, nudged for the opponent's defense on rushing yards, passing TDs and receptions; weighting recent games more tested worse. They've never been tested against real prop lines, since free historical prop lines don't exist, and the tab says so."
+ },
+ {
   "date": "2026-10-25",
   "type": "model",
   "title": "5+ point edges now say Check the news, and Market-anchored was retrained",

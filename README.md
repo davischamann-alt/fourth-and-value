@@ -69,6 +69,7 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
   - **Forward test:** when the pick was recorded, at what line, and how it graded.
   - **Live and finished games:** ESPN's play-by-play win chance and each team's leaders, updating every 30 seconds while the game is on.
   - **Not included:** injuries, because ESPN doesn't publish them for college football. Check quarterback news yourself.
+- **Props:** projections for this week's players in five stats: passing yards, passing TDs, rushing yards, receiving yards and receptions. Enter the line and odds from your sportsbook, and the page shows the over/under chance, how often the player cleared that line in his last five games, and a lean when the chance beats break-even by 3+ points. Each projection is the player's per-game average this season (from ESPN box scores), nudged by half of how much the opponent's defense allows for rushing yards, passing TDs and receptions. In a week-by-week check on 2026, that matched or slightly beat a plain season average; weighting recent games more did worse. **They're untested against real prop lines**, because free historical prop lines don't exist, and books know about injuries and depth charts that the model doesn't. `build_props.py` builds them as part of the GitHub job, and box scores are cached in `data/box/`.
 - **Ratings:** every FBS team's FPI and adjusted offense and defense, sortable and searchable, with a **How to read the ratings** guide (what each column means and how the projections use it) and a **Compare two teams** tool: pick any matchup, home or neutral, and optionally enter the betting line to see each projection's pick and edge.
 - **My picks:** tap **☆ Track pick** on a game before kickoff, and it's graded automatically when the game ends.
 - **Bets:** log bets and see your record, profit and ROI, and download or import them as CSV.
@@ -385,7 +386,8 @@ fourth-and-value/
 ├── model.py                  # the math: ratings, projections, cover chances, backtest scoring
 ├── build_site.py             # builds the website's data files
 ├── record.py                 # forward test: records lines and picks, grades them
-├── site/                     # the website: index.html, style.css, app.js, game.js (game details), updates.js (Updates tab), data/ (changelog.json is the change log)
+├── build_props.py            # player prop projections for the Props tab (ESPN box scores)
+├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), data/ (changelog.json is the change log)
 ├── .github/ISSUE_TEMPLATE/   # GitHub issue forms behind the site's suggestion form
 ├── .github/workflows/site.yml # nightly job that refreshes and publishes the website
 ├── requirements.txt          # Python libraries to install

@@ -9,7 +9,7 @@ on:
     - cron: "17 */2 * * *"   # every two hours, at 17 minutes past (GitHub is busiest on the hour)
   push:
     branches: [main]
-    paths: ["site/**", "build_site.py", "record.py", "sources.py", "model.py", ".github/workflows/site.yml"]
+    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "sources.py", "model.py", ".github/workflows/site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -60,6 +60,16 @@ jobs:
           # Optional: add a CFBD_API_KEY repository secret to include past seasons in the track record
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
         run: python build_site.py
+      # ESPN box scores for player props: finished games never change, so keep them between runs
+      - uses: actions/cache@v6
+        with:
+          path: data/box
+          key: espn-box-${{ github.run_id }}
+          restore-keys: espn-box-
+      - name: Build player props
+        # a hiccup at ESPN shouldn't stop the rest of the site from publishing; the last props stay up
+        continue-on-error: true
+        run: python build_props.py
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

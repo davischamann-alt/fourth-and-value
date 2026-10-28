@@ -8,3 +8,5 @@ data/history.csv
 .streamlit/secrets.toml
 # CollegeFootballData downloads (cached locally, not redistributed)
 data/cfbd/
+# ESPN box-score cache for build_props.py
+data/box/
