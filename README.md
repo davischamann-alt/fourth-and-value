@@ -43,6 +43,7 @@ It's free. Scores, lines and ESPN's team ratings come from ESPN's public data. T
 12. [Files](#files)
 13. [Troubleshooting](#troubleshooting)
 14. [Limitations](#limitations)
+15. [Ideas for later](#ideas-for-later)
 
 ---
 
@@ -432,3 +433,20 @@ fourth-and-value/
 - **Lines differ by sportsbook.** Lines come from one book per game (DraftKings when available), so yours may differ.
 - **Small samples mislead.** A few weeks of results can look great or terrible by luck alone. Judge by hundreds of picks and by line movement.
 - **No guarantees.** A high cover percentage is still not a sure thing.
+
+---
+
+## Ideas for later
+
+### First-half lines
+
+A **Full game / 1st half** switch on the Games tab, with Full game selected by default. The 1st half view would show each game's first-half line, the model's first-half projection and pick, and grade picks at halftime, with live "covering now" status during the first half.
+
+**What we found (October 28, 2026):**
+- **No free source has first-half lines** for college football. ESPN's odds feed and game summaries carry full-game lines only, and CollegeFootballData has none.
+- **ESPN does have quarter-by-quarter scores** for every game, so first-half results can be graded for free, live and after the game.
+- **Full-game lines translate predictably:** across 344 games this season, the first-half margin averaged about **0.59 × the full-game line** (a 10-point favorite led by about 6 at halftime). First halves are steadier, with a typical miss of 10.5 points versus 14.1 for full games, and **8.4% of first halves were tied**, so whole-number first-half lines push often.
+
+**Two ways to build it:**
+1. **Free:** show an *estimated* first-half line (0.59 × the full-game line, clearly labeled as an estimate), and let visitors type their book's real first-half line on any card to replace it. Since the estimate comes from the full-game line, the estimated pick mostly echoes the full-game pick; the real value comes when visitors enter actual lines.
+2. **Paid (about $30/month, The Odds API):** real first-half spreads from sportsbooks, fetched by the GitHub job like the ratings. This would also let first-half picks go into the forward test, and the same subscription could fill in real player prop lines on the Props tab. Check the service's terms on displaying odds publicly first.
