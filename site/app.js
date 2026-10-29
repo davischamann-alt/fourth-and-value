@@ -12,7 +12,8 @@ const BREAKEVEN = 0.524;               // hit rate needed at -110
 // in the 2023-2026 backtest (opening vs closing results); it turns line movement into an estimated
 // hit rate long before wins and losses can say anything.
 const CLV_PER_POINT = { spread: 0.03, total: 0.025 };
-const SOURCE_LABEL = { anchored: "Market-anchored", fpi: "ESPN FPI", blend: "Blend", points: "Adjusted points" };
+const SOURCE_LABEL = { anchored: "Market-anchored", fpi: "ESPN FPI", efficiency: "Efficiency", blend: "Blend", points: "Adjusted points" };
+const SPREAD_SOURCES = ["anchored", "fpi", "efficiency", "blend", "points"];
 const TIER_LABEL = { check: "Check the news", strong: "Go for it", lean: "Lean", pass: "Punt" };  // fourth-down calls
 /** Edge size to label. 5+ points isn't "more value": in the cleaned 2023-2026 backtest it did no
  *  better than 3-5, and a gap that big usually means the model is missing news the market has. */
@@ -92,13 +93,17 @@ function projections(g) {
   const bump = g.neutral ? 0 : hfa();
   const points = h && a && h.ppg != null && a.ppg != null ? (h.ppg + a.papg) - (a.ppg + h.papg) + bump : null;
   const fpi = h && a && h.fpi != null && a.fpi != null ? h.fpi - a.fpi + bump : null;
-  const both = [points, fpi].filter((x) => x != null);
+  // EPA per play this matchup should produce, in points (model.efficiency_margin)
+  const es = state.model?.eff_scale;
+  const efficiency = es && h && a && h.off_eff != null && a.off_eff != null
+    ? es * ((h.off_eff + a.def_eff) - (a.off_eff + h.def_eff)) + bump : null;
+  const both = [fpi, efficiency].filter((x) => x != null);  // Blend: FPI and Efficiency (adjusted points before Oct 30, 2026)
   const blend = both.length ? both.reduce((s, x) => s + x, 0) / both.length : null;
   const w = state.model?.anchor?.weights;
   const base = g.line;  // start from the line being bet, as tested (see model.projections)
   const anchored = w && points != null && fpi != null && base != null
     ? w.const - w.line * base + w.fpi * fpi + w.points * points : null;
-  return { points, fpi, blend, anchored };
+  return { points, fpi, efficiency, blend, anchored };
 }
 
 /** Projected total points from each totals source (same math as record.log_totals). */
@@ -605,11 +610,15 @@ function renderRatings() {
     ["ppg", "Offense", "Points scored per game vs an average defense, adjusted for opponents (higher is better)"],
     ["papg", "Defense", "Points allowed per game vs an average offense, adjusted for opponents (lower is better)"],
     ["net", "Net", "Offense minus defense: points per game better than an average opponent"],
+    ["off_eff", "Off EPA", "Expected points added per play on offense vs an average defense, adjusted for opponents (higher is better)"],
+    ["def_eff", "Def EPA", "Expected points added per play allowed vs an average offense, adjusted for opponents (lower is better)"],
     ["games", "Games", "Games played against FBS teams this season"]];
+  const epa = (x) => (x == null ? "—" : (x > 0 ? "+" : "") + x.toFixed(2));
   $("#ratings-table").innerHTML = `<tr>${cols.map(([c, l, tip]) => `<th data-sort="${c}" title="${esc(tip)}" class="${c === "team" ? "l" : ""}">${l}${k === c ? (d > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>` +
     rows.map((t) => `<tr><td>${t.rank ?? ""}</td><td class="l"><img src="${LOGO(t.id)}" alt="" loading="lazy">${esc(t.team)}</td>
       <td>${t.fpi?.toFixed(1) ?? "—"}</td><td>${t.ppg.toFixed(1)}</td><td>${t.papg.toFixed(1)}</td>
-      <td class="${t.net > 0 ? "good" : "bad"}">${(t.net > 0 ? "+" : "") + t.net.toFixed(1)}</td><td>${t.games}</td></tr>`).join("");
+      <td class="${t.net > 0 ? "good" : "bad"}">${(t.net > 0 ? "+" : "") + t.net.toFixed(1)}</td>
+      <td>${epa(t.off_eff)}</td><td>${epa(t.def_eff)}</td><td>${t.games}</td></tr>`).join("");
   $("#ratings-summary").textContent = state.ratings
     ? `${list.length} FBS teams · updated ${new Date(state.ratings.updated).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}`
     : "";
@@ -783,7 +792,7 @@ function renderAll() { renderWeekbar(); renderGames(); renderPicks(); renderBets
 function renderSourceSelect() {
   const opts = state.market === "total"
     ? [["anchored", "★ Market-anchored"], ["points", "Adjusted points"]]
-    : [["anchored", "★ Market-anchored"], ["fpi", "ESPN FPI"], ["blend", "Blend"], ["points", "Adjusted points"]];
+    : SPREAD_SOURCES.map((k) => [k, (k === "anchored" ? "★ " : "") + SOURCE_LABEL[k]]);
   const sel = $("#source");
   sel.innerHTML = opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
   sel.value = state.market === "total" ? state.totalSource : state.source;

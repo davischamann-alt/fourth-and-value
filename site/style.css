@@ -558,3 +558,25 @@ table.data .moe { font-size: 11px; font-weight: 500; }
 .vbar em { position: absolute; top: -4px; width: 3px; height: 18px; margin-left: -1.5px; background: var(--yellow); border-radius: 2px; }
 .vbar span { position: absolute; top: 15px; transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
 .vbar span.be { color: var(--text); font-weight: 700; }
+
+/* Alerts button and panel */
+.top-btns { display: flex; gap: 8px; flex: none; }
+#alerts-dlg { width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 48px); }
+.al-head { display: flex; align-items: center; justify-content: space-between; }
+.al-head form { margin: 0; }
+.alerts > .note { margin: 0; }
+.al-way { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface-2); font-size: 14px; }
+.al-way code { white-space: nowrap; font-size: 13px; padding: 1px 5px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border); }
+.al-copy { display: flex; gap: 8px; margin-top: 4px; }
+.al-copy input { flex: 1; min-width: 0; height: 34px; padding: 0 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface); color: var(--text); font-size: 13px; }
+.al-sub { margin: 4px 0 0; font: 700 15px/1.2 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+.al-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.al-list li { padding: 10px 0; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.al-list li p { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--muted); }
+.al-list li .note { margin-left: auto; font-size: 12px; }
+.al-kind { font: 700 11px/1.2 var(--display); text-transform: uppercase; letter-spacing: .05em; padding: 2px 6px; border-radius: 5px;
+  background: var(--pass-bg); color: var(--pass); }
+.al-kind.al-pick, .al-kind.al-total { background: var(--strong-bg); color: var(--strong); }
+.al-kind.al-key { background: var(--lean-bg); color: var(--lean); }

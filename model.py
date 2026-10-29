@@ -87,17 +87,20 @@ def pool_fcs(games, fbs=None):
     return [tuple(t if t in fbs else "FCS" for t in g[:2]) + tuple(g[2:]) for g in games]
 
 
-def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3):
-    """Predict each week using only what was known before it: points ratings fit on earlier
-    games, and the FPI snapshot from the previous week. games: DataFrame of completed games
-    (id, week, home, away, home_id, away_id, home_pts, away_pts, neutral);
+def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3, eff=None):
+    """Predict each week using only what was known before it: points and efficiency ratings fit
+    on earlier games, and the FPI snapshot from the previous week. games: DataFrame of completed
+    games (id, week, home, away, home_id, away_id, home_pts, away_pts, neutral);
     lines: {id: (closing home line, opening home line[, closing total, opening total])};
-    fpi_by_week: {week: {team id: fpi}}. Returns one row per FBS-vs-FBS game with a line."""
+    fpi_by_week: {week: {team id: fpi}}; eff: (efficiency rows, FBS team ids) as
+    sources.efficiency_rows returns, or None. Returns one row per FBS-vs-FBS game with a line;
+    eff_diff is the efficiency matchup (see efficiency_diff), turned into points by add_efficiency."""
     rows = []
     for w in sorted(games.loc[games.week >= start_week, "week"].unique()):
         train = games[games.week < w]
         fit = list(train[["home", "away", "home_pts", "away_pts", "neutral"]].itertuples(index=False, name=None))
         r = fit_ratings(pool_fcs(fit, fbs))[0].set_index("team")
+        er = None if eff is None else fit_efficiency(eff[0][eff[0].week < w], eff[1])
         fpi = fpi_by_week.get(w - 1, {})
         for g in games[games.week == w].itertuples():
             line, open_line, total, open_tot = (tuple(lines.get(g.id, ())) + (None,) * 4)[:4]
@@ -117,7 +120,8 @@ def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3):
             elif open_tot is not None and not pd.isna(open_tot) and abs(open_tot - total) >= MAX_OPEN_MOVE:
                 open_tot = None
             rows.append(dict(id=g.id, week=w, game=f"{g.away} @ {g.home}", line=line, open_line=open_line,
-                             final_margin=g.home_pts - g.away_pts, points=pts, fpi=f, blend=(pts + f) / 2,
+                             neutral=bool(g.neutral), final_margin=g.home_pts - g.away_pts, points=pts, fpi=f,
+                             eff_diff=None if er is None else efficiency_diff(str(g.home_id), str(g.away_id), er),
                              total=total, open_total=open_tot, final_total=g.home_pts + g.away_pts,
                              points_total=p[0] + p[1]))
     return pd.DataFrame(rows)
@@ -140,21 +144,29 @@ def anchored_margin(w, home_line, fpi, pts):
     return w["const"] - w["line"] * home_line + w["fpi"] * fpi + w["points"] * pts
 
 
-def projections(home, away, r, neutral, hfa, line, anchor_weights):
+def projections(home, away, r, neutral, hfa, line, anchor_weights, eff_scale=None):
     """Projected home margin from every source, None where a source can't make one. The same
     math as projections() in site/app.js. Market-anchored starts from the line being bet (the
     current line, or the pregame line once a game has started): it was tested by starting from
     the opening line and grading against that same line, and starting from an older line than
-    the one being bet would count the line's own movement as edge."""
+    the one being bet would count the line's own movement as edge. Blend averages FPI and
+    Efficiency (it was FPI and adjusted points before October 29, 2026)."""
     p = project(home, away, r, neutral, hfa)
     pts = None if p is None else p[0] - p[1]
     fpi = fpi_margin(home, away, r, neutral, hfa)
-    both = [m for m in (pts, fpi) if m is not None]
+    eff = None
+    if eff_scale and "off_eff" in r.columns and home in r.index and away in r.index:
+        h, a = r.loc[home], r.loc[away]
+        if not pd.isna(h["off_eff"]) and not pd.isna(a["off_eff"]):
+            diff = (h["off_eff"] + a["def_eff"]) - (a["off_eff"] + h["def_eff"])
+            eff = float(efficiency_margin(diff, neutral, eff_scale, hfa))
+    both = [m for m in (fpi, eff) if m is not None]
     base = line
     anchored = None
     if anchor_weights and pts is not None and fpi is not None and base is not None and not pd.isna(base):
         anchored = anchored_margin(anchor_weights, base, fpi, pts)
-    return {"points": pts, "fpi": fpi, "blend": sum(both) / len(both) if both else None, "anchored": anchored}
+    return {"points": pts, "fpi": fpi, "efficiency": eff, "blend": sum(both) / len(both) if both else None,
+            "anchored": anchored}
 
 
 def add_anchored(res, first_train_season=2023):
@@ -181,9 +193,9 @@ def score_backtest(res, min_edge=0.0, against="close"):
     col_line = "open_line" if against == "open" else "line"
     res = res.dropna(subset=[col_line])
     out = []
-    sources = [("Adjusted points", "points"), ("ESPN FPI", "fpi"), ("Blend", "blend")]
-    if "anchored" in res.columns and res["anchored"].notna().any():
-        sources.append(("Market-anchored", "anchored"))
+    sources = [("Adjusted points", "points"), ("ESPN FPI", "fpi")]
+    sources += [(n, c) for n, c in (("Efficiency", "efficiency"), ("Blend", "blend"), ("Market-anchored", "anchored"))
+                if c in res.columns and res[c].notna().any()]
     for name, col in sources:
         edge = res[col] + res[col_line]  # NaN for games a source has no projection for: never picked
         pick = res[edge.abs() >= min_edge]
@@ -205,6 +217,78 @@ def score_backtest(res, min_edge=0.0, against="close"):
     out.append(dict(source=("Opening" if against == "open" else "Closing") + " line (baseline)",
                     mae_vs_result=err.abs().mean(), rmse_vs_result=np.sqrt((err ** 2).mean()), mae_vs_line=0.0))
     return pd.DataFrame(out).set_index("source")
+
+
+# ---------- Efficiency (EPA per play) ----------
+# Points are noisy: a defensive touchdown or a garbage-time score counts the same as a long drive.
+# Expected points added (EPA) per play measures how well each offense and defense actually moved
+# the ball, and CollegeFootballData publishes it per game with garbage time left out. Added
+# October 29, 2026, replacing adjusted points in Blend: in 2024-2026, Blend picked a little better
+# with it (every game: 54.4% vs 53.3% at the opening line, 52.2% vs 50.1% at the closing line)
+# with the same accuracy. On its own it misses by more than FPI, so it isn't the default.
+EFF_RIDGE = 4.0  # how hard ratings are pulled toward average early in the season; 4 tested best of 1-16
+
+
+def fit_efficiency(rows, fbs, ridge=EFF_RIDGE):
+    """Opponent-adjusted efficiency. rows: one per team per game (team, opp ESPN ids as strings;
+    off: the team's EPA per play; loc: +0.5 home, -0.5 away, 0 neutral). Fits
+    off = avg + off_eff[team] + def_eff[opp] + h*loc by ridge least squares, the same way as
+    fit_ratings, so moving the ball on a good defense counts for more. Non-FBS teams share one
+    rating. Returns {team id: (off_eff, def_eff)}: EPA per play above average on offense, and
+    allowed above average on defense (lower is better)."""
+    if rows.empty:
+        return {}
+    team = rows["team"].where(rows["team"].isin(fbs), "FCS")
+    opp = rows["opp"].where(rows["opp"].isin(fbs), "FCS")
+    teams = sorted(set(team) | set(opp))
+    ix, n = {t: i for i, t in enumerate(teams)}, len(teams)
+    X = np.zeros((len(rows), 2 * n + 2))
+    X[:, 0], X[:, -1] = 1, rows["loc"].to_numpy()
+    X[np.arange(len(rows)), 1 + team.map(ix).to_numpy()] = 1
+    X[np.arange(len(rows)), 1 + n + opp.map(ix).to_numpy()] = 1
+    pen = np.sqrt(ridge) * np.eye(2 * n + 2)[1:-1]
+    coef = np.linalg.lstsq(np.vstack([X, pen]), np.concatenate([rows["off"].to_numpy(), np.zeros(2 * n)]), rcond=None)[0]
+    return {t: (coef[1 + i], coef[1 + n + i]) for t, i in ix.items() if t != "FCS"}
+
+
+def efficiency_diff(home_id, away_id, ratings):
+    """Home minus away EPA per play expected in this matchup, or None if either isn't rated."""
+    if home_id not in ratings or away_id not in ratings:
+        return None
+    (oh, dh), (oa, da) = ratings[home_id], ratings[away_id]
+    return (oh + da) - (oa + dh)
+
+
+def efficiency_margin(diff, neutral, scale, hfa=HFA):
+    """Projected home margin: points per unit of EPA-per-play difference (learned), plus HFA."""
+    return scale * diff + np.where(neutral, 0.0, hfa)
+
+
+def fit_eff_scale(res, hfa=HFA):
+    """Points of margin per unit of efficiency difference, by least squares on backtest rows."""
+    d = res.dropna(subset=["eff_diff"])
+    y = d["final_margin"] - np.where(d["neutral"], 0, hfa)
+    return round(float(np.dot(d["eff_diff"], y) / np.dot(d["eff_diff"], d["eff_diff"])), 2)
+
+
+def add_efficiency(res, first_train_season=2023, hfa=HFA):
+    """Adds "efficiency" (each season scaled with a fit on earlier seasons only, from
+    first_train_season on) and "blend" (the average of FPI and Efficiency). Seasons with no
+    earlier season to learn from get NaN for both."""
+    res = res.copy()
+    res["efficiency"] = res["blend"] = np.nan
+    if "eff_diff" not in res.columns:
+        return res
+    res["eff_diff"] = res["eff_diff"].astype(float)
+    for s in sorted(res["season"].unique()):
+        train = res[(res["season"] < s) & (res["season"] >= first_train_season)]
+        if train["eff_diff"].notna().sum() < 200:
+            continue
+        m = res["season"] == s
+        res.loc[m, "efficiency"] = efficiency_margin(res.loc[m, "eff_diff"], res.loc[m, "neutral"].to_numpy(),
+                                                     fit_eff_scale(train, hfa), hfa)
+        res.loc[m, "blend"] = (res.loc[m, "fpi"] + res.loc[m, "efficiency"]) / 2
+    return res
 
 
 # ---------- Totals (over/under) ----------

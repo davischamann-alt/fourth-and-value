@@ -2,6 +2,21 @@
  {
   "date": "2026-10-29",
   "type": "model",
+  "title": "Efficiency (EPA per play) added, and Blend now uses it",
+  "summary": "A fifth projection, Efficiency, rates every offense and defense by expected points added (EPA) per play, adjusted for opponents and with garbage time left out, from CollegeFootballData. Blend now averages FPI and Efficiency instead of FPI and adjusted points. The Ratings tab shows each team's offensive and defensive EPA. Market-anchored, the default, is unchanged.",
+  "why": "Points are a noisy measure of how good a team is: a pick-six or a garbage-time touchdown counts the same as a long drive. EPA per play measures every snap.",
+  "effect": "Small. On the same 2024-2026 games, the new Blend went 54.4% at the opening line on every game (old Blend 53.3%) and 52.2% at the closing line (old 50.1%), with the same accuracy; on 3+ point edges the two were even. It wasn't better in every season (2025 dipped), and in 2022, a season nothing was tuned on, Efficiency alone did only 51.7% at the opening line on 3+ edges. Starting each season from last year's efficiency, and adding it to Market-anchored, were also tested and didn't help.",
+  "forward_test": "Efficiency picks are logged from October 29, 2026. Blend picks logged before then used adjusted points and aren't changed, so Blend's forward-test record mixes the two until the old picks age out."
+ },
+ {
+  "date": "2026-10-29",
+  "type": "feature",
+  "title": "Alerts: new edges and key-number line moves",
+  "summary": "A bell at the top of the site opens Alerts. You get one when the model finds an edge of 1.5+ as soon as a line opens, or when a line moves through, onto or off 3 or 7 on a game it has a pick for. Follow them in any RSS reader with the feed address in the panel, which also lists the latest alerts. Phone notifications (through the free ntfy app) and a Discord channel can be switched on by the site's owner. Checked every two hours, with at most one notification per check."
+ },
+ {
+  "date": "2026-10-29",
+  "type": "model",
   "title": "Over/unders: a totals pick for every game",
   "summary": "A new Spread / Total switch on the Games tab shows the model's over/under pick for every game, from two new totals projections: Market-anchored (the default) starts from the betting total and adjusts it slightly toward what the teams' scoring says, and Adjusted points adds each offense's points against the other's defense. Game details get an Over/under card, and you can track total picks in My picks.",
   "why": "Totals are part of every game, and the only way to know whether the model can pick them is to record its picks before kickoff, the same way spreads are recorded.",

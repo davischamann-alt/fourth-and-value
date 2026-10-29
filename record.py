@@ -29,7 +29,8 @@ LINES, PICKS, TOTALS = LIVE / "line_history.csv", LIVE / "picks.csv", LIVE / "to
 SITE_LIVE = sources.DATA.parent / "site" / "data" / "live.json"
 SITE_GAMES = sources.DATA.parent / "site" / "data" / "game_log.json"
 STRONG, LEAN = 3.0, 1.5
-SOURCES = {"anchored": "Market-anchored", "fpi": "ESPN FPI", "blend": "Blend", "points": "Adjusted points"}
+SOURCES = {"anchored": "Market-anchored", "fpi": "ESPN FPI", "efficiency": "Efficiency", "blend": "Blend",
+           "points": "Adjusted points"}
 TOTAL_SOURCES = {"anchored": "Market-anchored", "points": "Adjusted points"}  # FPI doesn't project scoring
 LINE_COLS = ["seen_at", "id", "season", "week", "kickoff", "home", "away", "line", "open_line", "total"]
 # columns up to "tier" are written once when a pick is logged and never edited
@@ -75,7 +76,7 @@ def record_lines(weeks, now):
     return len(new)
 
 
-def log_picks(weeks, picks, ratings, weights, now):
+def log_picks(weeks, picks, ratings, weights, now, eff_scale=None):
     """Logs every source's pick for games seen with a line for the first time."""
     have = set(picks["id"])
     new = []
@@ -83,7 +84,7 @@ def log_picks(weeks, picks, ratings, weights, now):
         for g in games[(games.state == "pre") & games.line.notna()].itertuples():
             if g.id in have:
                 continue
-            proj = projections(g.home, g.away, ratings, g.neutral, HFA, g.line, weights)
+            proj = projections(g.home, g.away, ratings, g.neutral, HFA, g.line, weights, eff_scale)
             for src, m in proj.items():
                 if m is None:
                     continue
@@ -265,7 +266,7 @@ def main():
     ratings, _, _ = sources.season_ratings(weeks[0][0]["season"])
     ratings = ratings.set_index("team")
     anchor = json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else {}
-    picks, n_new = log_picks(weeks, picks, ratings, anchor.get("weights"), now)
+    picks, n_new = log_picks(weeks, picks, ratings, anchor.get("weights"), now, anchor.get("eff_scale"))
     totals = load(TOTALS, TOTAL_COLS).astype({c: object for c in ("result_logged", "result_close")})
     totals, n_tot = log_totals(weeks, totals, ratings, anchor.get("total_weights"), now)
     scores = final_scores(weeks, picks, totals)

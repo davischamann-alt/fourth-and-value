@@ -9,7 +9,7 @@ on:
     - cron: "17 */2 * * *"   # every two hours, at 17 minutes past (GitHub is busiest on the hour)
   push:
     branches: [main]
-    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "sources.py", "model.py", ".github/workflows/site.yml"]
+    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "sources.py", "model.py", ".github/workflows/site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -33,14 +33,27 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      # Past seasons from CollegeFootballData never change, so keep them between runs
+      # CollegeFootballData downloads: past seasons never change, and this season's efficiency data
+      # is refreshed once a day. A new cache each day keeps that to one download a day (the free
+      # plan allows 1,000 calls a month).
+      - id: day
+        run: echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
       - uses: actions/cache@v6
         with:
           path: data/cfbd
-          key: cfbd-v1
+          key: cfbd-v2-${{ steps.day.outputs.day }}
+          restore-keys: cfbd-v2-
       # Recorded first, so a problem in the steps after it can't lose a pick
       - name: Record lines and picks
         run: python record.py
+      # New edges and key-number line moves: always to the site's feed; to phones and Discord
+      # when those are set up (see "Alerts" in the README). A failed send shouldn't stop the run.
+      - name: Send alerts
+        continue-on-error: true
+        env:
+          NTFY_TOPIC: ${{ vars.NTFY_TOPIC }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python alerts.py
       - name: Commit the pick log
         run: |
           git config user.name "github-actions[bot]"
@@ -49,6 +62,7 @@ jobs:
           # on its own, live.json just has a new timestamp
           [ -z "$(git status --porcelain -- data/live)" ] && exit 0
           git add data/live site/data/live.json site/data/game_log.json
+          git add site/data/alerts.json site/alerts.xml 2>/dev/null || true
           git commit -q -m "Record lines and picks $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3; do
             git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0

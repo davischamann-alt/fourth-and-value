@@ -32,7 +32,7 @@ function renderCompare() {
   const line = raw === "" ? null : parseFloat(raw);
   const g = { home: { id: String(home.id), name: home.team }, away: { id: String(away.id), name: away.team }, neutral, line: Number.isFinite(line) ? line : null };
   const proj = projections(g);
-  const rows = ["fpi", "points", "blend", "anchored"].map((src) => {
+  const rows = ["fpi", "efficiency", "blend", "points", "anchored"].map((src) => {
     const m = proj[src];
     if (m == null) return `<tr><td class="l">${esc(SOURCE_LABEL[src])}</td><td colspan="2" class="l note">${src === "anchored" ? "Enter the line to see it" : "—"}</td></tr>`;
     let pick = "";

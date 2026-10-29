@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T23:04:33.897553+00:00",
+ "updated": "2026-10-29T23:40:30.463433+00:00",
  "hfa": 3.0,
  "anchor": {
   "weights": {
@@ -13,6 +13,7 @@
    "total": 0.722,
    "points": 0.0898
   },
+  "eff_scale": 67.54,
   "seasons": [
    2023,
    2024,
@@ -22,11 +23,13 @@
  "sigma": {
   "points": 16.5,
   "fpi": 15.5,
+  "efficiency": 16.5,
   "blend": 15.5,
   "anchored": 15.0
  },
  "sigma_total": {
   "points": 16.5,
   "anchored": 16.0
- }
+ },
+ "eff_scale": 67.54
 }

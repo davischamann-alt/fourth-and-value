@@ -11,7 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=31">
+  <link rel="stylesheet" href="style.css?v=33">
+  <link rel="alternate" type="application/atom+xml" title="Fourth &amp; Value alerts" href="alerts.xml">
 </head>
 <body>
   <header class="top">
@@ -25,7 +26,12 @@
       <button role="tab" data-tab="record"><span class="hide-sm">Track record</span><span class="show-sm">Record</span></button>
       <button role="tab" data-tab="updates">Updates</button>
     </nav>
-    <button class="icon-btn" id="settings-btn" aria-label="Settings" title="Settings">⚙︎</button>
+    <div class="top-btns">
+      <button class="icon-btn" id="alerts-btn" aria-label="Alerts" title="Alerts">
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5a5 5 0 0 0-5 5v3.2L3.5 14h13L15 10.7V7.5a5 5 0 0 0-5-5z"/><path d="M8 16.5a2 2 0 0 0 4 0"/></svg>
+      </button>
+      <button class="icon-btn" id="settings-btn" aria-label="Settings" title="Settings">⚙︎</button>
+    </div>
   </header>
 
   <main>
@@ -59,10 +65,11 @@
             <button data-v="spread" type="button" title="Picks against the point spread">Spread</button>
             <button data-v="total" type="button" title="Over/under picks against the total">Total</button>
           </div>
-          <label class="inline-select" title="★ the default: it stays closest to the betting line and rarely shows big edges. Blend averages FPI and adjusted points."><span>Projection</span>
+          <label class="inline-select" title="★ the default: it stays closest to the betting line and rarely shows big edges. Blend averages FPI and Efficiency."><span>Projection</span>
             <select id="source">
               <option value="anchored">★ Market-anchored</option>
               <option value="fpi">ESPN FPI</option>
+              <option value="efficiency">Efficiency</option>
               <option value="blend">Blend</option>
               <option value="points">Adjusted points</option>
             </select>
@@ -208,13 +215,19 @@
             <dt>Defense</dt><dd>Points the team allows per game against an average offense, adjusted the same way. <b>Lower is better.</b></dd>
             <dt>Net</dt><dd>Offense minus defense: how many points per game the team outscores an average opponent by. Green is
               better than average, red is worse.</dd>
+            <dt>Off EPA</dt><dd>Expected points added per play on offense, against an average defense and adjusted for opponents.
+              It measures how well a team moves the ball on every play, so a fluky defensive touchdown or a garbage-time score
+              counts for little. +0.10 is good; <b>higher is better.</b> From CollegeFootballData, with garbage time left out.</dd>
+            <dt>Def EPA</dt><dd>The same, allowed per play on defense. <b>Lower is better.</b></dd>
             <dt>Games</dt><dd>Games played against FBS teams so far. Fewer games means less certain ratings, especially early in the season.</dd>
           </dl>
           <h4 class="gd-h4">How the picks use them</h4>
           <ul class="rt-list">
             <li><b>ESPN FPI projection:</b> home team's FPI − away team's FPI + <span data-hfa>3</span> points for home field (none at a neutral site).</li>
             <li><b>Adjusted points projection:</b> (home offense + away defense) − (away offense + home defense) + <span data-hfa>3</span>.</li>
-            <li><b>Blend:</b> the average of those two.</li>
+            <li><b>Efficiency projection:</b> the EPA per play each offense should get against the other's defense, turned into points
+              (about 67 points of margin per 1.0 EPA per play of difference) + <span data-hfa>3</span>.</li>
+            <li><b>Blend:</b> the average of FPI and Efficiency.</li>
             <li><b>Market-anchored</b> (the default): starts from the betting line and shifts it toward what FPI and adjusted points say.</li>
             <li>The difference between a projection and the betting line is the <b>edge</b>. That's what the Games tab labels Go for it (3–5 points), Lean or Punt, or Check the news when the gap is 5+ points.</li>
           </ul>
@@ -301,6 +314,7 @@
           <div class="chips" id="live-source">
             <button data-v="anchored" class="on"><span class="hide-sm">Market-anchored</span><span class="show-sm">Anchored</span></button>
             <button data-v="fpi" data-spread-only><span class="hide-sm">ESPN FPI</span><span class="show-sm">FPI</span></button>
+            <button data-v="efficiency" data-spread-only><span class="hide-sm">Efficiency</span><span class="show-sm">EPA</span></button>
             <button data-v="blend" data-spread-only>Blend</button>
             <button data-v="points"><span class="hide-sm">Adjusted points</span><span class="show-sm">Points</span></button>
           </div>
@@ -374,6 +388,20 @@
     <span>Data: ESPN · CollegeFootballData. For analysis only, not betting advice.</span>
   </footer>
 
+  <!-- Alerts (alerts.js): how to subscribe, and the latest alerts -->
+  <dialog id="alerts-dlg" aria-labelledby="alerts-title">
+    <div class="settings alerts">
+      <div class="al-head"><h3 id="alerts-title">Alerts</h3>
+        <form method="dialog"><button class="notice-x" aria-label="Close">✕</button></form></div>
+      <p class="note">Get told when the model finds an edge of 1.5+ as soon as a line opens, and when a line moves through 3 or 7
+        (the most common winning margins) on a game it has a pick for. The model tested best at the opening number, so early matters.
+        Checked every two hours.</p>
+      <div id="alerts-ways"></div>
+      <h4 class="al-sub">Latest alerts</h4>
+      <div id="alerts-list"><p class="note">Loading…</p></div>
+    </div>
+  </dialog>
+
   <dialog id="settings">
     <form method="dialog" class="settings">
       <h3>Settings</h3>
@@ -388,10 +416,11 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=31"></script>
-  <script src="game.js?v=31"></script>
-  <script src="updates.js?v=31"></script>
-  <script src="props.js?v=31"></script>
-  <script src="ratings.js?v=31"></script>
+  <script src="app.js?v=33"></script>
+  <script src="game.js?v=33"></script>
+  <script src="updates.js?v=33"></script>
+  <script src="props.js?v=33"></script>
+  <script src="ratings.js?v=33"></script>
+  <script src="alerts.js?v=33"></script>
 </body>
 </html>

@@ -13,11 +13,13 @@ from pathlib import Path
 import pandas as pd
 
 import sources
-from model import HFA, add_anchored, add_total_anchored, fit_anchor, fit_total_anchor, score_backtest, score_totals
+from model import (HFA, add_anchored, add_efficiency, add_total_anchored, fit_anchor, fit_eff_scale, fit_total_anchor,
+                   score_backtest, score_totals)
 
 OUT = Path(__file__).parent / "site" / "data"
 PAST = [2023, 2024, 2025]  # seasons with reliable FPI history (see README)
-SOURCE_NAMES = {"Adjusted points": "points", "ESPN FPI": "fpi", "Blend": "blend", "Market-anchored": "anchored"}
+SOURCE_NAMES = {"Adjusted points": "points", "ESPN FPI": "fpi", "Efficiency": "efficiency", "Blend": "blend",
+                "Market-anchored": "anchored"}
 
 
 def clean(x):
@@ -59,10 +61,11 @@ def main():
         return
     res = pd.concat([sources.season_backtest(y, HFA, now.date().isoformat()) for y in seasons + [season]],
                     ignore_index=True)
-    res = add_total_anchored(add_anchored(res))
+    res = add_total_anchored(add_anchored(add_efficiency(res)))
     done = res[res["season"].isin(seasons)]
-    anchor = ({"weights": fit_anchor(done), "total_weights": fit_total_anchor(done), "seasons": seasons} if len(done)
-              else json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else None)
+    anchor = ({"weights": fit_anchor(done), "total_weights": fit_total_anchor(done),
+               "eff_scale": fit_eff_scale(done) if done["eff_diff"].notna().any() else None, "seasons": seasons}
+              if len(done) else json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else None)
     if len(done):  # keep the forward test and the Streamlit app on the same weights as the site
         sources.ANCHOR.write_text(json.dumps(clean({**anchor, "hfa": HFA})))
 
@@ -72,7 +75,7 @@ def main():
     tclose = score_totals(res, 0, "close")
     sigma_total = {SOURCE_NAMES[n]: round(tclose.at[n, "rmse_vs_result"] * 2) / 2 for n in tclose.index if n in SOURCE_NAMES}
     write("model.json", {"updated": now.isoformat(), "hfa": HFA, "anchor": anchor, "sigma": sigma,
-                         "sigma_total": sigma_total})
+                         "sigma_total": sigma_total, "eff_scale": anchor and anchor.get("eff_scale")})
 
     write("track_record.json", {
         "updated": now.isoformat(), "seasons": sorted(res["season"].unique().tolist()), "games": len(res),

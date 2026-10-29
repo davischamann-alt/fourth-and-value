@@ -5,8 +5,8 @@ import pandas as pd
 import streamlit as st
 
 import sources
-from model import (HFA, add_anchored, anchored_margin, cover_prob, fit_anchor, fpi_margin, live_cover_prob, load_ratings,
-                   project, score_backtest)
+from model import (HFA, add_anchored, add_efficiency, anchored_margin, cover_prob, efficiency_margin, fit_anchor,
+                   fpi_margin, live_cover_prob, load_ratings, project, score_backtest)
 from sources import ANCHOR, DATA, RATINGS, cfbd_key, season_of
 
 HISTORY, BETS = DATA / "history.csv", DATA / "bets.csv"
@@ -56,10 +56,10 @@ st.caption("Only go for it when the numbers say so.")
 day = st.sidebar.date_input("Date", dt.date.today())
 sigma = st.sidebar.slider("Margin std dev (pts)", 10.0, 20.0, 14.0, 0.5)
 hfa = st.sidebar.slider("Home-field advantage (pts)", 0.0, 5.0, HFA, 0.5)
-SOURCES = ["Blend (points + FPI)", "Adjusted points", "ESPN FPI", "Market-anchored"]
+SOURCES = ["Blend (FPI + efficiency)", "Adjusted points", "ESPN FPI", "Efficiency", "Market-anchored"]
 source = st.sidebar.radio("Projection source", SOURCES,
-                          help="Blend averages points and FPI when both are available and falls back to whichever one "
-                               "is. Market-anchored starts from the opening line and shifts it by FPI and points, with "
+                          help="Blend averages FPI and Efficiency (EPA per play) when both are available and falls back "
+                               "to whichever one is. Efficiency needs a CollegeFootballData key. Market-anchored starts from the opening line and shifts it by FPI and points, with "
                                "weights learned in the season backtest.")
 if st.sidebar.button("Refresh now"):
     st.cache_data.clear()
@@ -96,17 +96,25 @@ def proj_margin(g, line):
     p = project(g.home, g.away, ratings, g.neutral, hfa)
     pts = None if p is None else p[0] - p[1]
     fpi = fpi_margin(g.home, g.away, ratings, g.neutral, hfa)
+    eff = None
+    scale = (anchor or {}).get("eff_scale")
+    if scale and "off_eff" in ratings.columns and g.home in ratings.index and g.away in ratings.index:
+        h, a = ratings.loc[g.home], ratings.loc[g.away]
+        if pd.notna(h["off_eff"]) and pd.notna(a["off_eff"]):
+            eff = float(efficiency_margin((h["off_eff"] + a["def_eff"]) - (a["off_eff"] + h["def_eff"]), g.neutral, scale, hfa))
     if source == "Adjusted points":
         return pts
     if source == "ESPN FPI":
         return fpi
+    if source == "Efficiency":
+        return eff
     if source == "Market-anchored":
         # start from the line being bet (current, or the saved pregame line once started)
         base = line
         if anchor is None or pts is None or fpi is None or pd.isna(base):
             return None
         return anchored_margin(anchor["weights"], base, fpi, pts)
-    both = [m for m in (pts, fpi) if m is not None]
+    both = [m for m in (fpi, eff) if m is not None]
     return sum(both) / len(both) if both else None
 
 
@@ -278,13 +286,14 @@ with t4:
     if st.button("▶ Run season backtest", disabled=not seasons or bool(past and not cfbd_key())):
         try:
             with st.spinner("Fetching games, lines and weekly FPI (first run takes a minute per season)..."):
-                res = add_anchored(pd.concat([season_backtest(y, hfa, dt.date.today().isoformat())
-                                              for y in sorted(seasons)], ignore_index=True))
+                res = add_anchored(add_efficiency(pd.concat([season_backtest(y, hfa, dt.date.today().isoformat())
+                                                             for y in sorted(seasons)], ignore_index=True), hfa=hfa))
                 st.session_state["bt"] = res
                 done = sorted(y for y in seasons if 2023 <= y < cur)
                 if done:  # weights for the live board, from every finished season run here
                     w = fit_anchor(res[res["season"].isin(done)])
-                    ANCHOR.write_text(json.dumps({"weights": w, "seasons": done, "hfa": hfa}))
+                    # keep the totals weights and efficiency scale the website builder saved
+                    ANCHOR.write_text(json.dumps({**(anchor or {}), "weights": w, "seasons": done, "hfa": hfa}))
                     anchor = json.loads(ANCHOR.read_text())
         except Exception as ex:
             st.error(f"Couldn't run backtest: {ex}")

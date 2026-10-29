@@ -33,7 +33,7 @@ function gameFromSummary(s) {
 /** Every source's view of the game, using each source's own tested std dev. */
 function allSources(g) {
   const proj = projections(g);
-  return ["anchored", "fpi", "blend", "points"].map((src) => {
+  return SPREAD_SOURCES.map((src) => {
     const m = proj[src];
     if (m == null || g.line == null) return { src, margin: m };
     const s = state.settings.sigma || state.model?.sigma?.[src] || 15.5;
@@ -273,7 +273,7 @@ function forwardCard(g, log) {
     <p>Recorded <b>${esc(at)}</b> at <b>${esc(lineTxt(g, L.line))}</b>${L.close != null ? `, ${g.state === "pre" ? "latest line" : "closed at"} ${esc(lineTxt(g, L.close))}` : ""}. These picks can't be changed after the fact.</p>
     <div class="table-wrap"><table class="data">
       <tr><th>Projection</th><th class="l">Pick</th><th>Edge</th><th>Line moved</th><th class="l">Result</th></tr>
-      ${["anchored", "fpi", "blend", "points"].filter((k) => L.picks[k]).map((k) => {
+      ${SPREAD_SOURCES.filter((k) => L.picks[k]).map((k) => {
         const p = L.picks[k], team = p.side === "home" ? g.home : g.away;
         // until the game is graded, show movement so far from the logged line to the latest one
         const clv = p.clv ?? (L.close != null ? (L.line - L.close) * (p.side === "home" ? 1 : -1) : null);

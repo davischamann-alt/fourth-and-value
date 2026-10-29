@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T23:04:33.897553+00:00",
+ "updated": "2026-10-29T23:40:30.463433+00:00",
  "seasons": [
   2023,
   2024,
@@ -36,17 +36,30 @@
     "clv_beat_rate": 0.6509
    },
    {
+    "name": "Efficiency",
+    "picks": 1611.0,
+    "wins": 883.0,
+    "losses": 728.0,
+    "pushes": 17.0,
+    "hit_rate": 0.5481,
+    "mae_vs_result": 13.1436,
+    "rmse_vs_result": 16.6395,
+    "mae_vs_line": 5.9271,
+    "avg_clv": 0.6563,
+    "clv_beat_rate": 0.6236
+   },
+   {
     "name": "Blend",
-    "picks": 2234.0,
-    "wins": 1182.0,
-    "losses": 1052.0,
-    "pushes": 30.0,
-    "hit_rate": 0.5291,
-    "mae_vs_result": 12.4238,
-    "rmse_vs_result": 15.6702,
-    "mae_vs_line": 3.5446,
-    "avg_clv": 0.642,
-    "clv_beat_rate": 0.639
+    "picks": 1611.0,
+    "wins": 876.0,
+    "losses": 735.0,
+    "pushes": 17.0,
+    "hit_rate": 0.5438,
+    "mae_vs_result": 12.3614,
+    "rmse_vs_result": 15.6409,
+    "mae_vs_line": 3.9135,
+    "avg_clv": 0.7755,
+    "clv_beat_rate": 0.6474
    },
    {
     "name": "Market-anchored",
@@ -103,17 +116,30 @@
     "clv_beat_rate": 0.7092
    },
    {
+    "name": "Efficiency",
+    "picks": 1250.0,
+    "wins": 682.0,
+    "losses": 568.0,
+    "pushes": 9.0,
+    "hit_rate": 0.5456,
+    "mae_vs_result": 13.1436,
+    "rmse_vs_result": 16.6395,
+    "mae_vs_line": 5.9271,
+    "avg_clv": 0.809,
+    "clv_beat_rate": 0.6467
+   },
+   {
     "name": "Blend",
-    "picks": 1360.0,
-    "wins": 721.0,
-    "losses": 639.0,
-    "pushes": 22.0,
-    "hit_rate": 0.5301,
-    "mae_vs_result": 12.4238,
-    "rmse_vs_result": 15.6702,
-    "mae_vs_line": 3.5446,
-    "avg_clv": 0.911,
-    "clv_beat_rate": 0.6894
+    "picks": 1054.0,
+    "wins": 587.0,
+    "losses": 467.0,
+    "pushes": 11.0,
+    "hit_rate": 0.5569,
+    "mae_vs_result": 12.3614,
+    "rmse_vs_result": 15.6409,
+    "mae_vs_line": 3.9135,
+    "avg_clv": 1.0775,
+    "clv_beat_rate": 0.6988
    },
    {
     "name": "Market-anchored",
@@ -170,17 +196,30 @@
     "clv_beat_rate": 0.7224
    },
    {
+    "name": "Efficiency",
+    "picks": 1070.0,
+    "wins": 587.0,
+    "losses": 483.0,
+    "pushes": 8.0,
+    "hit_rate": 0.5486,
+    "mae_vs_result": 13.1436,
+    "rmse_vs_result": 16.6395,
+    "mae_vs_line": 5.9271,
+    "avg_clv": 0.9058,
+    "clv_beat_rate": 0.6707
+   },
+   {
     "name": "Blend",
-    "picks": 1030.0,
-    "wins": 548.0,
-    "losses": 482.0,
-    "pushes": 19.0,
-    "hit_rate": 0.532,
-    "mae_vs_result": 12.4238,
-    "rmse_vs_result": 15.6702,
-    "mae_vs_line": 3.5446,
-    "avg_clv": 1.0014,
-    "clv_beat_rate": 0.7077
+    "picks": 815.0,
+    "wins": 445.0,
+    "losses": 370.0,
+    "pushes": 8.0,
+    "hit_rate": 0.546,
+    "mae_vs_result": 12.3614,
+    "rmse_vs_result": 15.6409,
+    "mae_vs_line": 3.9135,
+    "avg_clv": 1.2776,
+    "clv_beat_rate": 0.7293
    },
    {
     "name": "Market-anchored",
@@ -233,15 +272,26 @@
     "mae_vs_line": 2.6698
    },
    {
+    "name": "Efficiency",
+    "picks": 1645.0,
+    "wins": 851.0,
+    "losses": 794.0,
+    "pushes": 31.0,
+    "hit_rate": 0.5173,
+    "mae_vs_result": 13.1264,
+    "rmse_vs_result": 16.6105,
+    "mae_vs_line": 5.5472
+   },
+   {
     "name": "Blend",
-    "picks": 2283.0,
-    "wins": 1149.0,
-    "losses": 1134.0,
-    "pushes": 44.0,
-    "hit_rate": 0.5033,
-    "mae_vs_result": 12.403,
-    "rmse_vs_result": 15.6418,
-    "mae_vs_line": 3.366
+    "picks": 1645.0,
+    "wins": 858.0,
+    "losses": 787.0,
+    "pushes": 31.0,
+    "hit_rate": 0.5216,
+    "mae_vs_result": 12.3432,
+    "rmse_vs_result": 15.6242,
+    "mae_vs_line": 3.609
    },
    {
     "name": "Market-anchored",
@@ -290,15 +340,26 @@
     "mae_vs_line": 2.6698
    },
    {
+    "name": "Efficiency",
+    "picks": 1236.0,
+    "wins": 641.0,
+    "losses": 595.0,
+    "pushes": 19.0,
+    "hit_rate": 0.5186,
+    "mae_vs_result": 13.1264,
+    "rmse_vs_result": 16.6105,
+    "mae_vs_line": 5.5472
+   },
+   {
     "name": "Blend",
-    "picks": 1376.0,
-    "wins": 696.0,
-    "losses": 680.0,
-    "pushes": 29.0,
-    "hit_rate": 0.5058,
-    "mae_vs_result": 12.403,
-    "rmse_vs_result": 15.6418,
-    "mae_vs_line": 3.366
+    "picks": 1046.0,
+    "wins": 544.0,
+    "losses": 502.0,
+    "pushes": 16.0,
+    "hit_rate": 0.5201,
+    "mae_vs_result": 12.3432,
+    "rmse_vs_result": 15.6242,
+    "mae_vs_line": 3.609
    },
    {
     "name": "Market-anchored",
@@ -347,15 +408,26 @@
     "mae_vs_line": 2.6698
    },
    {
+    "name": "Efficiency",
+    "picks": 1030.0,
+    "wins": 535.0,
+    "losses": 495.0,
+    "pushes": 17.0,
+    "hit_rate": 0.5194,
+    "mae_vs_result": 13.1264,
+    "rmse_vs_result": 16.6105,
+    "mae_vs_line": 5.5472
+   },
+   {
     "name": "Blend",
-    "picks": 1003.0,
-    "wins": 507.0,
-    "losses": 496.0,
-    "pushes": 25.0,
-    "hit_rate": 0.5055,
-    "mae_vs_result": 12.403,
-    "rmse_vs_result": 15.6418,
-    "mae_vs_line": 3.366
+    "picks": 772.0,
+    "wins": 407.0,
+    "losses": 365.0,
+    "pushes": 12.0,
+    "hit_rate": 0.5272,
+    "mae_vs_result": 12.3432,
+    "rmse_vs_result": 15.6242,
+    "mae_vs_line": 3.609
    },
    {
     "name": "Market-anchored",
@@ -387,7 +459,6 @@
    "games": 651,
    "Adjusted points": 0.5056,
    "ESPN FPI": 0.5201,
-   "Blend": 0.5201,
    "Opening line (baseline)": null
   },
   {
@@ -395,7 +466,8 @@
    "games": 664,
    "Adjusted points": 0.5427,
    "ESPN FPI": 0.5538,
-   "Blend": 0.5411,
+   "Efficiency": 0.5538,
+   "Blend": 0.5665,
    "Market-anchored": 0.5206,
    "Opening line (baseline)": null
   },
@@ -404,7 +476,8 @@
    "games": 664,
    "Adjusted points": 0.5405,
    "ESPN FPI": 0.5234,
-   "Blend": 0.528,
+   "Efficiency": 0.5436,
+   "Blend": 0.5187,
    "Market-anchored": 0.5343,
    "Opening line (baseline)": null
   },
@@ -413,7 +486,8 @@
    "games": 348,
    "Adjusted points": 0.5193,
    "ESPN FPI": 0.5238,
-   "Blend": 0.5252,
+   "Efficiency": 0.546,
+   "Blend": 0.549,
    "Market-anchored": 0.5163,
    "Opening line (baseline)": null
   }

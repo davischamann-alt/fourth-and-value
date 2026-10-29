@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T23:04:33.897553+00:00",
+ "updated": "2026-10-29T23:40:30.463433+00:00",
  "season": 2026,
  "fitted_hfa": 5.2293,
  "fpi_error": null,
@@ -10,7 +10,9 @@
    "papg": 27.05,
    "games": 7,
    "fpi": -4.78,
-   "id": "2005"
+   "id": "2005",
+   "off_eff": 0.031,
+   "def_eff": 0.036
   },
   {
    "team": "Akron",
@@ -18,7 +20,9 @@
    "papg": 35.26,
    "games": 8,
    "fpi": -23.16,
-   "id": "2006"
+   "id": "2006",
+   "off_eff": -0.065,
+   "def_eff": 0.131
   },
   {
    "team": "Alabama",
@@ -26,7 +30,9 @@
    "papg": 19.57,
    "games": 8,
    "fpi": 24.51,
-   "id": "333"
+   "id": "333",
+   "off_eff": 0.111,
+   "def_eff": -0.118
   },
   {
    "team": "App State",
@@ -34,7 +40,9 @@
    "papg": 27.01,
    "games": 7,
    "fpi": -7.44,
-   "id": "2026"
+   "id": "2026",
+   "off_eff": -0.038,
+   "def_eff": 0.018
   },
   {
    "team": "Arizona",
@@ -42,7 +50,9 @@
    "papg": 20.78,
    "games": 7,
    "fpi": 13.35,
-   "id": "12"
+   "id": "12",
+   "off_eff": 0.055,
+   "def_eff": -0.07
   },
   {
    "team": "Arizona State",
@@ -50,7 +60,9 @@
    "papg": 30.72,
    "games": 7,
    "fpi": 0.58,
-   "id": "9"
+   "id": "9",
+   "off_eff": -0.033,
+   "def_eff": 0.008
   },
   {
    "team": "Arkansas",
@@ -58,7 +70,9 @@
    "papg": 26.52,
    "games": 7,
    "fpi": 2.0,
-   "id": "8"
+   "id": "8",
+   "off_eff": -0.061,
+   "def_eff": 0.064
   },
   {
    "team": "Arkansas State",
@@ -66,7 +80,9 @@
    "papg": 28.26,
    "games": 8,
    "fpi": -8.44,
-   "id": "2032"
+   "id": "2032",
+   "off_eff": 0.006,
+   "def_eff": 0.052
   },
   {
    "team": "Army",
@@ -74,7 +90,9 @@
    "papg": 25.55,
    "games": 7,
    "fpi": -0.29,
-   "id": "349"
+   "id": "349",
+   "off_eff": 0.113,
+   "def_eff": 0.087
   },
   {
    "team": "Auburn",
@@ -82,7 +100,9 @@
    "papg": 21.95,
    "games": 7,
    "fpi": 12.1,
-   "id": "2"
+   "id": "2",
+   "off_eff": 0.021,
+   "def_eff": -0.03
   },
   {
    "team": "BYU",
@@ -90,7 +110,9 @@
    "papg": 19.51,
    "games": 7,
    "fpi": 16.3,
-   "id": "252"
+   "id": "252",
+   "off_eff": 0.126,
+   "def_eff": -0.053
   },
   {
    "team": "Ball State",
@@ -98,7 +120,9 @@
    "papg": 35.66,
    "games": 8,
    "fpi": -20.05,
-   "id": "2050"
+   "id": "2050",
+   "off_eff": -0.035,
+   "def_eff": 0.124
   },
   {
    "team": "Baylor",
@@ -106,7 +130,9 @@
    "papg": 20.52,
    "games": 7,
    "fpi": 9.05,
-   "id": "239"
+   "id": "239",
+   "off_eff": 0.007,
+   "def_eff": -0.081
   },
   {
    "team": "Boise State",
@@ -114,7 +140,9 @@
    "papg": 24.24,
    "games": 7,
    "fpi": 11.34,
-   "id": "68"
+   "id": "68",
+   "off_eff": 0.125,
+   "def_eff": -0.031
   },
   {
    "team": "Boston College",
@@ -122,7 +150,9 @@
    "papg": 24.14,
    "games": 7,
    "fpi": 0.21,
-   "id": "103"
+   "id": "103",
+   "off_eff": -0.086,
+   "def_eff": -0.084
   },
   {
    "team": "Bowling Green",
@@ -130,7 +160,9 @@
    "papg": 33.15,
    "games": 8,
    "fpi": -17.85,
-   "id": "189"
+   "id": "189",
+   "off_eff": -0.121,
+   "def_eff": 0.082
   },
   {
    "team": "Buffalo",
@@ -138,7 +170,9 @@
    "papg": 30.92,
    "games": 8,
    "fpi": -12.94,
-   "id": "2084"
+   "id": "2084",
+   "off_eff": -0.115,
+   "def_eff": 0.054
   },
   {
    "team": "California",
@@ -146,7 +180,9 @@
    "papg": 30.74,
    "games": 8,
    "fpi": -6.0,
-   "id": "25"
+   "id": "25",
+   "off_eff": -0.083,
+   "def_eff": 0.094
   },
   {
    "team": "Central Michigan",
@@ -154,7 +190,9 @@
    "papg": 28.0,
    "games": 8,
    "fpi": -14.33,
-   "id": "2117"
+   "id": "2117",
+   "off_eff": -0.126,
+   "def_eff": 0.083
   },
   {
    "team": "Charlotte",
@@ -162,7 +200,9 @@
    "papg": 36.55,
    "games": 7,
    "fpi": -21.95,
-   "id": "2429"
+   "id": "2429",
+   "off_eff": -0.139,
+   "def_eff": 0.062
   },
   {
    "team": "Cincinnati",
@@ -170,7 +210,9 @@
    "papg": 27.59,
    "games": 7,
    "fpi": 6.47,
-   "id": "2132"
+   "id": "2132",
+   "off_eff": 0.082,
+   "def_eff": 0.033
   },
   {
    "team": "Clemson",
@@ -178,7 +220,9 @@
    "papg": 21.63,
    "games": 7,
    "fpi": 5.79,
-   "id": "228"
+   "id": "228",
+   "off_eff": -0.139,
+   "def_eff": -0.081
   },
   {
    "team": "Coastal Carolina",
@@ -186,7 +230,9 @@
    "papg": 28.15,
    "games": 7,
    "fpi": -11.92,
-   "id": "324"
+   "id": "324",
+   "off_eff": -0.035,
+   "def_eff": 0.046
   },
   {
    "team": "Colorado",
@@ -194,7 +240,9 @@
    "papg": 27.9,
    "games": 7,
    "fpi": -1.97,
-   "id": "38"
+   "id": "38",
+   "off_eff": -0.033,
+   "def_eff": -0.053
   },
   {
    "team": "Colorado State",
@@ -202,7 +250,9 @@
    "papg": 41.75,
    "games": 7,
    "fpi": -10.92,
-   "id": "36"
+   "id": "36",
+   "off_eff": 0.066,
+   "def_eff": 0.165
   },
   {
    "team": "Delaware",
@@ -210,7 +260,9 @@
    "papg": 30.96,
    "games": 8,
    "fpi": -9.22,
-   "id": "48"
+   "id": "48",
+   "off_eff": 0.006,
+   "def_eff": 0.079
   },
   {
    "team": "Duke",
@@ -218,7 +270,9 @@
    "papg": 21.59,
    "games": 7,
    "fpi": 7.63,
-   "id": "150"
+   "id": "150",
+   "off_eff": 0.025,
+   "def_eff": -0.047
   },
   {
    "team": "East Carolina",
@@ -226,7 +280,9 @@
    "papg": 28.31,
    "games": 7,
    "fpi": -4.21,
-   "id": "151"
+   "id": "151",
+   "off_eff": -0.014,
+   "def_eff": -0.015
   },
   {
    "team": "Eastern Michigan",
@@ -234,7 +290,9 @@
    "papg": 29.78,
    "games": 9,
    "fpi": -16.28,
-   "id": "2199"
+   "id": "2199",
+   "off_eff": -0.083,
+   "def_eff": 0.053
   },
   {
    "team": "Florida",
@@ -242,7 +300,9 @@
    "papg": 26.67,
    "games": 7,
    "fpi": 14.46,
-   "id": "57"
+   "id": "57",
+   "off_eff": 0.085,
+   "def_eff": -0.005
   },
   {
    "team": "Florida Atlantic",
@@ -250,7 +310,9 @@
    "papg": 35.34,
    "games": 7,
    "fpi": -10.94,
-   "id": "2226"
+   "id": "2226",
+   "off_eff": 0.073,
+   "def_eff": 0.125
   },
   {
    "team": "Florida International",
@@ -258,7 +320,9 @@
    "papg": 22.22,
    "games": 7,
    "fpi": -11.1,
-   "id": "2229"
+   "id": "2229",
+   "off_eff": -0.103,
+   "def_eff": -0.043
   },
   {
    "team": "Florida State",
@@ -266,7 +330,9 @@
    "papg": 25.66,
    "games": 7,
    "fpi": 9.88,
-   "id": "52"
+   "id": "52",
+   "off_eff": 0.068,
+   "def_eff": 0.043
   },
   {
    "team": "Fresno State",
@@ -274,7 +340,9 @@
    "papg": 24.34,
    "games": 7,
    "fpi": -1.03,
-   "id": "278"
+   "id": "278",
+   "off_eff": -0.027,
+   "def_eff": -0.029
   },
   {
    "team": "Georgia",
@@ -282,7 +350,9 @@
    "papg": 21.03,
    "games": 7,
    "fpi": 26.37,
-   "id": "61"
+   "id": "61",
+   "off_eff": 0.154,
+   "def_eff": -0.06
   },
   {
    "team": "Georgia Southern",
@@ -290,7 +360,9 @@
    "papg": 25.22,
    "games": 7,
    "fpi": -4.68,
-   "id": "290"
+   "id": "290",
+   "off_eff": 0.01,
+   "def_eff": 0.007
   },
   {
    "team": "Georgia State",
@@ -298,7 +370,9 @@
    "papg": 28.4,
    "games": 7,
    "fpi": -7.2,
-   "id": "2247"
+   "id": "2247",
+   "off_eff": 0.068,
+   "def_eff": 0.02
   },
   {
    "team": "Georgia Tech",
@@ -306,7 +380,9 @@
    "papg": 32.49,
    "games": 7,
    "fpi": -2.51,
-   "id": "59"
+   "id": "59",
+   "off_eff": 0.016,
+   "def_eff": 0.092
   },
   {
    "team": "Hawai'i",
@@ -314,7 +390,9 @@
    "papg": 28.1,
    "games": 8,
    "fpi": -9.58,
-   "id": "62"
+   "id": "62",
+   "off_eff": -0.041,
+   "def_eff": 0.082
   },
   {
    "team": "Houston",
@@ -322,7 +400,9 @@
    "papg": 19.91,
    "games": 8,
    "fpi": 14.39,
-   "id": "248"
+   "id": "248",
+   "off_eff": 0.138,
+   "def_eff": 0.023
   },
   {
    "team": "Illinois",
@@ -330,7 +410,9 @@
    "papg": 26.69,
    "games": 7,
    "fpi": 6.36,
-   "id": "356"
+   "id": "356",
+   "off_eff": 0.055,
+   "def_eff": 0.134
   },
   {
    "team": "Indiana",
@@ -338,7 +420,9 @@
    "papg": 14.45,
    "games": 8,
    "fpi": 23.94,
-   "id": "84"
+   "id": "84",
+   "off_eff": 0.13,
+   "def_eff": -0.112
   },
   {
    "team": "Iowa",
@@ -346,7 +430,9 @@
    "papg": 19.63,
    "games": 7,
    "fpi": 11.1,
-   "id": "2294"
+   "id": "2294",
+   "off_eff": 0.031,
+   "def_eff": -0.051
   },
   {
    "team": "Iowa State",
@@ -354,7 +440,9 @@
    "papg": 25.07,
    "games": 7,
    "fpi": 1.52,
-   "id": "66"
+   "id": "66",
+   "off_eff": -0.033,
+   "def_eff": -0.006
   },
   {
    "team": "Jacksonville State",
@@ -362,7 +450,9 @@
    "papg": 25.29,
    "games": 8,
    "fpi": -6.68,
-   "id": "55"
+   "id": "55",
+   "off_eff": 0.027,
+   "def_eff": 0.03
   },
   {
    "team": "James Madison",
@@ -370,7 +460,9 @@
    "papg": 23.0,
    "games": 8,
    "fpi": 5.36,
-   "id": "256"
+   "id": "256",
+   "off_eff": 0.07,
+   "def_eff": -0.013
   },
   {
    "team": "Kansas",
@@ -378,7 +470,9 @@
    "papg": 25.45,
    "games": 7,
    "fpi": 4.16,
-   "id": "2305"
+   "id": "2305",
+   "off_eff": 0.003,
+   "def_eff": -0.067
   },
   {
    "team": "Kansas State",
@@ -386,7 +480,9 @@
    "papg": 24.18,
    "games": 7,
    "fpi": 5.66,
-   "id": "2306"
+   "id": "2306",
+   "off_eff": 0.004,
+   "def_eff": 0.018
   },
   {
    "team": "Kennesaw State",
@@ -394,7 +490,9 @@
    "papg": 27.1,
    "games": 8,
    "fpi": -11.99,
-   "id": "338"
+   "id": "338",
+   "off_eff": -0.059,
+   "def_eff": 0.026
   },
   {
    "team": "Kent State",
@@ -402,7 +500,9 @@
    "papg": 31.33,
    "games": 8,
    "fpi": -20.94,
-   "id": "2309"
+   "id": "2309",
+   "off_eff": -0.132,
+   "def_eff": 0.061
   },
   {
    "team": "Kentucky",
@@ -410,7 +510,9 @@
    "papg": 24.37,
    "games": 8,
    "fpi": 13.11,
-   "id": "96"
+   "id": "96",
+   "off_eff": 0.065,
+   "def_eff": -0.06
   },
   {
    "team": "LSU",
@@ -418,7 +520,9 @@
    "papg": 18.22,
    "games": 8,
    "fpi": 24.05,
-   "id": "99"
+   "id": "99",
+   "off_eff": 0.114,
+   "def_eff": -0.169
   },
   {
    "team": "Liberty",
@@ -426,7 +530,9 @@
    "papg": 19.52,
    "games": 7,
    "fpi": 2.75,
-   "id": "2335"
+   "id": "2335",
+   "off_eff": 0.013,
+   "def_eff": -0.08
   },
   {
    "team": "Louisiana",
@@ -434,7 +540,9 @@
    "papg": 25.14,
    "games": 8,
    "fpi": -3.37,
-   "id": "309"
+   "id": "309",
+   "off_eff": -0.038,
+   "def_eff": -0.094
   },
   {
    "team": "Louisiana Tech",
@@ -442,7 +550,9 @@
    "papg": 24.44,
    "games": 7,
    "fpi": -2.33,
-   "id": "2348"
+   "id": "2348",
+   "off_eff": 0.047,
+   "def_eff": -0.053
   },
   {
    "team": "Louisville",
@@ -450,7 +560,9 @@
    "papg": 26.02,
    "games": 7,
    "fpi": 13.66,
-   "id": "97"
+   "id": "97",
+   "off_eff": 0.106,
+   "def_eff": -0.041
   },
   {
    "team": "Marshall",
@@ -458,7 +570,9 @@
    "papg": 31.16,
    "games": 7,
    "fpi": -14.82,
-   "id": "276"
+   "id": "276",
+   "off_eff": -0.038,
+   "def_eff": 0.1
   },
   {
    "team": "Maryland",
@@ -466,7 +580,9 @@
    "papg": 30.15,
    "games": 7,
    "fpi": -3.89,
-   "id": "120"
+   "id": "120",
+   "off_eff": -0.068,
+   "def_eff": 0.004
   },
   {
    "team": "Massachusetts",
@@ -474,7 +590,9 @@
    "papg": 27.45,
    "games": 8,
    "fpi": -15.02,
-   "id": "113"
+   "id": "113",
+   "off_eff": -0.042,
+   "def_eff": 0.006
   },
   {
    "team": "Memphis",
@@ -482,7 +600,9 @@
    "papg": 27.83,
    "games": 8,
    "fpi": 1.95,
-   "id": "235"
+   "id": "235",
+   "off_eff": 0.037,
+   "def_eff": -0.01
   },
   {
    "team": "Miami",
@@ -490,7 +610,9 @@
    "papg": 20.23,
    "games": 7,
    "fpi": 27.52,
-   "id": "2390"
+   "id": "2390",
+   "off_eff": 0.233,
+   "def_eff": -0.006
   },
   {
    "team": "Miami (OH)",
@@ -498,7 +620,9 @@
    "papg": 29.39,
    "games": 8,
    "fpi": -9.64,
-   "id": "193"
+   "id": "193",
+   "off_eff": 0.01,
+   "def_eff": 0.031
   },
   {
    "team": "Michigan",
@@ -506,7 +630,9 @@
    "papg": 20.58,
    "games": 7,
    "fpi": 11.11,
-   "id": "130"
+   "id": "130",
+   "off_eff": -0.04,
+   "def_eff": -0.12
   },
   {
    "team": "Michigan State",
@@ -514,7 +640,9 @@
    "papg": 23.68,
    "games": 8,
    "fpi": 1.22,
-   "id": "127"
+   "id": "127",
+   "off_eff": -0.062,
+   "def_eff": 0.006
   },
   {
    "team": "Middle Tennessee",
@@ -522,7 +650,9 @@
    "papg": 32.95,
    "games": 8,
    "fpi": -17.18,
-   "id": "2393"
+   "id": "2393",
+   "off_eff": -0.058,
+   "def_eff": 0.035
   },
   {
    "team": "Minnesota",
@@ -530,7 +660,9 @@
    "papg": 24.29,
    "games": 7,
    "fpi": 0.67,
-   "id": "135"
+   "id": "135",
+   "off_eff": -0.083,
+   "def_eff": -0.055
   },
   {
    "team": "Mississippi State",
@@ -538,7 +670,9 @@
    "papg": 25.81,
    "games": 7,
    "fpi": 8.49,
-   "id": "344"
+   "id": "344",
+   "off_eff": 0.062,
+   "def_eff": 0.005
   },
   {
    "team": "Missouri",
@@ -546,7 +680,9 @@
    "papg": 20.76,
    "games": 7,
    "fpi": 12.2,
-   "id": "142"
+   "id": "142",
+   "off_eff": 0.028,
+   "def_eff": -0.073
   },
   {
    "team": "Missouri State",
@@ -554,7 +690,9 @@
    "papg": 33.67,
    "games": 8,
    "fpi": -14.84,
-   "id": "2623"
+   "id": "2623",
+   "off_eff": -0.084,
+   "def_eff": 0.101
   },
   {
    "team": "NC State",
@@ -562,7 +700,9 @@
    "papg": 29.36,
    "games": 7,
    "fpi": 0.03,
-   "id": "152"
+   "id": "152",
+   "off_eff": 0.049,
+   "def_eff": 0.083
   },
   {
    "team": "Navy",
@@ -570,7 +710,9 @@
    "papg": 28.5,
    "games": 7,
    "fpi": -6.31,
-   "id": "2426"
+   "id": "2426",
+   "off_eff": 0.007,
+   "def_eff": 0.022
   },
   {
    "team": "Nebraska",
@@ -578,7 +720,9 @@
    "papg": 20.6,
    "games": 7,
    "fpi": 16.74,
-   "id": "158"
+   "id": "158",
+   "off_eff": 0.08,
+   "def_eff": -0.092
   },
   {
    "team": "Nevada",
@@ -586,7 +730,9 @@
    "papg": 27.93,
    "games": 7,
    "fpi": -7.74,
-   "id": "2440"
+   "id": "2440",
+   "off_eff": -0.061,
+   "def_eff": -0.003
   },
   {
    "team": "New Mexico",
@@ -594,7 +740,9 @@
    "papg": 19.99,
    "games": 7,
    "fpi": 7.66,
-   "id": "167"
+   "id": "167",
+   "off_eff": 0.011,
+   "def_eff": -0.133
   },
   {
    "team": "New Mexico State",
@@ -602,7 +750,9 @@
    "papg": 29.01,
    "games": 8,
    "fpi": -15.07,
-   "id": "166"
+   "id": "166",
+   "off_eff": -0.133,
+   "def_eff": 0.007
   },
   {
    "team": "North Carolina",
@@ -610,7 +760,9 @@
    "papg": 22.4,
    "games": 7,
    "fpi": 7.39,
-   "id": "153"
+   "id": "153",
+   "off_eff": 0.035,
+   "def_eff": -0.037
   },
   {
    "team": "North Dakota State",
@@ -618,7 +770,9 @@
    "papg": 19.22,
    "games": 8,
    "fpi": 0.03,
-   "id": "2449"
+   "id": "2449",
+   "off_eff": -0.038,
+   "def_eff": -0.132
   },
   {
    "team": "North Texas",
@@ -626,7 +780,9 @@
    "papg": 31.34,
    "games": 7,
    "fpi": 2.68,
-   "id": "249"
+   "id": "249",
+   "off_eff": 0.18,
+   "def_eff": 0.011
   },
   {
    "team": "Northern Illinois",
@@ -634,7 +790,9 @@
    "papg": 38.07,
    "games": 7,
    "fpi": -22.79,
-   "id": "2459"
+   "id": "2459",
+   "off_eff": -0.149,
+   "def_eff": 0.16
   },
   {
    "team": "Northwestern",
@@ -642,7 +800,9 @@
    "papg": 21.72,
    "games": 7,
    "fpi": 13.8,
-   "id": "77"
+   "id": "77",
+   "off_eff": 0.119,
+   "def_eff": -0.052
   },
   {
    "team": "Notre Dame",
@@ -650,7 +810,9 @@
    "papg": 16.93,
    "games": 7,
    "fpi": 27.73,
-   "id": "87"
+   "id": "87",
+   "off_eff": 0.195,
+   "def_eff": -0.181
   },
   {
    "team": "Ohio",
@@ -658,7 +820,9 @@
    "papg": 27.27,
    "games": 8,
    "fpi": -7.69,
-   "id": "195"
+   "id": "195",
+   "off_eff": 0.026,
+   "def_eff": -0.002
   },
   {
    "team": "Ohio State",
@@ -666,7 +830,9 @@
    "papg": 17.11,
    "games": 7,
    "fpi": 28.17,
-   "id": "194"
+   "id": "194",
+   "off_eff": 0.104,
+   "def_eff": -0.143
   },
   {
    "team": "Oklahoma",
@@ -674,7 +840,9 @@
    "papg": 17.42,
    "games": 7,
    "fpi": 14.11,
-   "id": "201"
+   "id": "201",
+   "off_eff": -0.04,
+   "def_eff": -0.165
   },
   {
    "team": "Oklahoma State",
@@ -682,7 +850,9 @@
    "papg": 23.78,
    "games": 7,
    "fpi": 11.17,
-   "id": "197"
+   "id": "197",
+   "off_eff": 0.077,
+   "def_eff": -0.016
   },
   {
    "team": "Old Dominion",
@@ -690,7 +860,9 @@
    "papg": 26.34,
    "games": 8,
    "fpi": -15.28,
-   "id": "295"
+   "id": "295",
+   "off_eff": -0.188,
+   "def_eff": -0.051
   },
   {
    "team": "Ole Miss",
@@ -698,7 +870,9 @@
    "papg": 22.94,
    "games": 7,
    "fpi": 18.86,
-   "id": "145"
+   "id": "145",
+   "off_eff": 0.134,
+   "def_eff": -0.002
   },
   {
    "team": "Oregon",
@@ -706,7 +880,9 @@
    "papg": 19.99,
    "games": 7,
    "fpi": 16.97,
-   "id": "2483"
+   "id": "2483",
+   "off_eff": -0.003,
+   "def_eff": -0.107
   },
   {
    "team": "Oregon State",
@@ -714,7 +890,9 @@
    "papg": 25.54,
    "games": 7,
    "fpi": 6.08,
-   "id": "204"
+   "id": "204",
+   "off_eff": 0.1,
+   "def_eff": -0.016
   },
   {
    "team": "Penn State",
@@ -722,7 +900,9 @@
    "papg": 22.22,
    "games": 7,
    "fpi": 11.93,
-   "id": "213"
+   "id": "213",
+   "off_eff": 0.047,
+   "def_eff": -0.032
   },
   {
    "team": "Pittsburgh",
@@ -730,7 +910,9 @@
    "papg": 21.56,
    "games": 8,
    "fpi": 8.58,
-   "id": "221"
+   "id": "221",
+   "off_eff": 0.067,
+   "def_eff": -0.055
   },
   {
    "team": "Purdue",
@@ -738,7 +920,9 @@
    "papg": 30.82,
    "games": 7,
    "fpi": 2.23,
-   "id": "2509"
+   "id": "2509",
+   "off_eff": 0.058,
+   "def_eff": 0.081
   },
   {
    "team": "Rice",
@@ -746,7 +930,9 @@
    "papg": 30.65,
    "games": 8,
    "fpi": -14.6,
-   "id": "242"
+   "id": "242",
+   "off_eff": -0.113,
+   "def_eff": 0.054
   },
   {
    "team": "Rutgers",
@@ -754,7 +940,9 @@
    "papg": 33.1,
    "games": 7,
    "fpi": -4.44,
-   "id": "164"
+   "id": "164",
+   "off_eff": -0.004,
+   "def_eff": 0.111
   },
   {
    "team": "SMU",
@@ -762,7 +950,9 @@
    "papg": 24.8,
    "games": 7,
    "fpi": 12.48,
-   "id": "2567"
+   "id": "2567",
+   "off_eff": 0.086,
+   "def_eff": 0.023
   },
   {
    "team": "Sacramento State",
@@ -770,7 +960,9 @@
    "papg": 36.05,
    "games": 8,
    "fpi": -33.11,
-   "id": "16"
+   "id": "16",
+   "off_eff": -0.189,
+   "def_eff": 0.105
   },
   {
    "team": "Sam Houston",
@@ -778,7 +970,9 @@
    "papg": 28.35,
    "games": 8,
    "fpi": -19.71,
-   "id": "2534"
+   "id": "2534",
+   "off_eff": -0.127,
+   "def_eff": 0.053
   },
   {
    "team": "San Diego State",
@@ -786,7 +980,9 @@
    "papg": 31.87,
    "games": 8,
    "fpi": -9.71,
-   "id": "21"
+   "id": "21",
+   "off_eff": -0.102,
+   "def_eff": 0.009
   },
   {
    "team": "San Jos\u00e9 State",
@@ -794,7 +990,9 @@
    "papg": 27.21,
    "games": 8,
    "fpi": -13.3,
-   "id": "23"
+   "id": "23",
+   "off_eff": -0.058,
+   "def_eff": -0.011
   },
   {
    "team": "South Alabama",
@@ -802,7 +1000,9 @@
    "papg": 34.53,
    "games": 7,
    "fpi": -8.72,
-   "id": "6"
+   "id": "6",
+   "off_eff": 0.016,
+   "def_eff": 0.109
   },
   {
    "team": "South Carolina",
@@ -810,7 +1010,9 @@
    "papg": 25.35,
    "games": 7,
    "fpi": 12.39,
-   "id": "2579"
+   "id": "2579",
+   "off_eff": 0.052,
+   "def_eff": 0.026
   },
   {
    "team": "South Florida",
@@ -818,7 +1020,9 @@
    "papg": 22.44,
    "games": 7,
    "fpi": -2.1,
-   "id": "58"
+   "id": "58",
+   "off_eff": -0.038,
+   "def_eff": -0.06
   },
   {
    "team": "Southern Miss",
@@ -826,7 +1030,9 @@
    "papg": 34.13,
    "games": 7,
    "fpi": -13.55,
-   "id": "2572"
+   "id": "2572",
+   "off_eff": -0.095,
+   "def_eff": 0.065
   },
   {
    "team": "Stanford",
@@ -834,7 +1040,9 @@
    "papg": 32.51,
    "games": 8,
    "fpi": -10.0,
-   "id": "24"
+   "id": "24",
+   "off_eff": -0.028,
+   "def_eff": 0.136
   },
   {
    "team": "Syracuse",
@@ -842,7 +1050,9 @@
    "papg": 26.37,
    "games": 7,
    "fpi": 1.59,
-   "id": "183"
+   "id": "183",
+   "off_eff": -0.024,
+   "def_eff": -0.022
   },
   {
    "team": "TCU",
@@ -850,7 +1060,9 @@
    "papg": 16.79,
    "games": 7,
    "fpi": 7.31,
-   "id": "2628"
+   "id": "2628",
+   "off_eff": -0.04,
+   "def_eff": -0.125
   },
   {
    "team": "Temple",
@@ -858,7 +1070,9 @@
    "papg": 29.8,
    "games": 7,
    "fpi": -9.14,
-   "id": "218"
+   "id": "218",
+   "off_eff": 0.016,
+   "def_eff": 0.075
   },
   {
    "team": "Tennessee",
@@ -866,7 +1080,9 @@
    "papg": 18.96,
    "games": 8,
    "fpi": 17.05,
-   "id": "2633"
+   "id": "2633",
+   "off_eff": 0.008,
+   "def_eff": -0.123
   },
   {
    "team": "Texas",
@@ -874,7 +1090,9 @@
    "papg": 17.75,
    "games": 7,
    "fpi": 23.95,
-   "id": "251"
+   "id": "251",
+   "off_eff": -0.025,
+   "def_eff": -0.102
   },
   {
    "team": "Texas A&M",
@@ -882,7 +1100,9 @@
    "papg": 19.89,
    "games": 8,
    "fpi": 13.53,
-   "id": "245"
+   "id": "245",
+   "off_eff": -0.013,
+   "def_eff": -0.069
   },
   {
    "team": "Texas State",
@@ -890,7 +1110,9 @@
    "papg": 30.29,
    "games": 7,
    "fpi": -0.27,
-   "id": "326"
+   "id": "326",
+   "off_eff": 0.097,
+   "def_eff": 0.051
   },
   {
    "team": "Texas Tech",
@@ -898,7 +1120,9 @@
    "papg": 22.54,
    "games": 7,
    "fpi": 16.51,
-   "id": "2641"
+   "id": "2641",
+   "off_eff": -0.0,
+   "def_eff": -0.108
   },
   {
    "team": "Toledo",
@@ -906,7 +1130,9 @@
    "papg": 30.6,
    "games": 8,
    "fpi": -2.51,
-   "id": "2649"
+   "id": "2649",
+   "off_eff": 0.023,
+   "def_eff": -0.036
   },
   {
    "team": "Troy",
@@ -914,7 +1140,9 @@
    "papg": 30.41,
    "games": 7,
    "fpi": -11.39,
-   "id": "2653"
+   "id": "2653",
+   "off_eff": -0.068,
+   "def_eff": 0.053
   },
   {
    "team": "Tulane",
@@ -922,7 +1150,9 @@
    "papg": 23.44,
    "games": 7,
    "fpi": -4.04,
-   "id": "2655"
+   "id": "2655",
+   "off_eff": -0.052,
+   "def_eff": -0.01
   },
   {
    "team": "Tulsa",
@@ -930,7 +1160,9 @@
    "papg": 25.68,
    "games": 8,
    "fpi": -3.91,
-   "id": "202"
+   "id": "202",
+   "off_eff": -0.004,
+   "def_eff": -0.016
   },
   {
    "team": "UAB",
@@ -938,7 +1170,9 @@
    "papg": 27.49,
    "games": 7,
    "fpi": -13.67,
-   "id": "5"
+   "id": "5",
+   "off_eff": -0.095,
+   "def_eff": -0.001
   },
   {
    "team": "UCF",
@@ -946,7 +1180,9 @@
    "papg": 22.62,
    "games": 7,
    "fpi": 6.62,
-   "id": "2116"
+   "id": "2116",
+   "off_eff": -0.024,
+   "def_eff": -0.074
   },
   {
    "team": "UCLA",
@@ -954,7 +1190,9 @@
    "papg": 17.71,
    "games": 7,
    "fpi": 11.67,
-   "id": "26"
+   "id": "26",
+   "off_eff": 0.021,
+   "def_eff": -0.169
   },
   {
    "team": "UConn",
@@ -962,7 +1200,9 @@
    "papg": 27.53,
    "games": 7,
    "fpi": -4.79,
-   "id": "41"
+   "id": "41",
+   "off_eff": 0.024,
+   "def_eff": -0.008
   },
   {
    "team": "UL Monroe",
@@ -970,7 +1210,9 @@
    "papg": 35.59,
    "games": 7,
    "fpi": -25.28,
-   "id": "2433"
+   "id": "2433",
+   "off_eff": -0.158,
+   "def_eff": 0.075
   },
   {
    "team": "UNLV",
@@ -978,7 +1220,9 @@
    "papg": 24.15,
    "games": 7,
    "fpi": -2.47,
-   "id": "2439"
+   "id": "2439",
+   "off_eff": -0.029,
+   "def_eff": -0.02
   },
   {
    "team": "USC",
@@ -986,7 +1230,9 @@
    "papg": 25.98,
    "games": 8,
    "fpi": 12.65,
-   "id": "30"
+   "id": "30",
+   "off_eff": 0.121,
+   "def_eff": -0.01
   },
   {
    "team": "UTEP",
@@ -994,7 +1240,9 @@
    "papg": 37.03,
    "games": 7,
    "fpi": -24.28,
-   "id": "2638"
+   "id": "2638",
+   "off_eff": -0.141,
+   "def_eff": 0.147
   },
   {
    "team": "UTSA",
@@ -1002,7 +1250,9 @@
    "papg": 27.62,
    "games": 8,
    "fpi": 0.54,
-   "id": "2636"
+   "id": "2636",
+   "off_eff": 0.023,
+   "def_eff": 0.025
   },
   {
    "team": "Utah",
@@ -1010,7 +1260,9 @@
    "papg": 20.84,
    "games": 7,
    "fpi": 17.0,
-   "id": "254"
+   "id": "254",
+   "off_eff": 0.118,
+   "def_eff": -0.061
   },
   {
    "team": "Utah State",
@@ -1018,7 +1270,9 @@
    "papg": 24.78,
    "games": 7,
    "fpi": -7.11,
-   "id": "328"
+   "id": "328",
+   "off_eff": -0.122,
+   "def_eff": -0.053
   },
   {
    "team": "Vanderbilt",
@@ -1026,7 +1280,9 @@
    "papg": 29.04,
    "games": 8,
    "fpi": 0.4,
-   "id": "238"
+   "id": "238",
+   "off_eff": -0.058,
+   "def_eff": 0.029
   },
   {
    "team": "Virginia",
@@ -1034,7 +1290,9 @@
    "papg": 21.03,
    "games": 8,
    "fpi": 6.16,
-   "id": "258"
+   "id": "258",
+   "off_eff": 0.004,
+   "def_eff": -0.032
   },
   {
    "team": "Virginia Tech",
@@ -1042,7 +1300,9 @@
    "papg": 24.95,
    "games": 8,
    "fpi": 6.59,
-   "id": "259"
+   "id": "259",
+   "off_eff": 0.072,
+   "def_eff": 0.043
   },
   {
    "team": "Wake Forest",
@@ -1050,7 +1310,9 @@
    "papg": 18.91,
    "games": 7,
    "fpi": 15.09,
-   "id": "154"
+   "id": "154",
+   "off_eff": 0.139,
+   "def_eff": -0.084
   },
   {
    "team": "Washington",
@@ -1058,7 +1320,9 @@
    "papg": 27.12,
    "games": 7,
    "fpi": 4.47,
-   "id": "264"
+   "id": "264",
+   "off_eff": -0.008,
+   "def_eff": -0.023
   },
   {
    "team": "Washington State",
@@ -1066,7 +1330,9 @@
    "papg": 28.09,
    "games": 8,
    "fpi": -9.09,
-   "id": "265"
+   "id": "265",
+   "off_eff": -0.125,
+   "def_eff": 0.002
   },
   {
    "team": "West Virginia",
@@ -1074,7 +1340,9 @@
    "papg": 32.44,
    "games": 8,
    "fpi": 1.93,
-   "id": "277"
+   "id": "277",
+   "off_eff": 0.074,
+   "def_eff": 0.115
   },
   {
    "team": "Western Kentucky",
@@ -1082,7 +1350,9 @@
    "papg": 31.87,
    "games": 8,
    "fpi": -13.64,
-   "id": "98"
+   "id": "98",
+   "off_eff": -0.087,
+   "def_eff": 0.108
   },
   {
    "team": "Western Michigan",
@@ -1090,7 +1360,9 @@
    "papg": 25.18,
    "games": 8,
    "fpi": -3.1,
-   "id": "2711"
+   "id": "2711",
+   "off_eff": 0.0,
+   "def_eff": 0.038
   },
   {
    "team": "Wisconsin",
@@ -1098,7 +1370,9 @@
    "papg": 17.99,
    "games": 7,
    "fpi": 10.67,
-   "id": "275"
+   "id": "275",
+   "off_eff": 0.002,
+   "def_eff": -0.132
   },
   {
    "team": "Wyoming",
@@ -1106,7 +1380,9 @@
    "papg": 25.42,
    "games": 8,
    "fpi": -13.17,
-   "id": "2751"
+   "id": "2751",
+   "off_eff": -0.05,
+   "def_eff": 0.065
   }
  ]
 }

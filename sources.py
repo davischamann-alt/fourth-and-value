@@ -13,7 +13,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from model import fit_ratings, pool_fcs, walk_forward
+from model import fit_efficiency, fit_ratings, pool_fcs, walk_forward
 
 DATA = Path(__file__).parent / "data"
 RATINGS = DATA / "team_ratings.csv"
@@ -124,7 +124,17 @@ def season_ratings(season):
     df = df[df["team"] != "FCS"]
     df["fpi"] = df["team"].map({names[i]: v for i, v in fpi.items() if i in names})
     df["id"] = df["team"].map({n: i for i, n in names.items()})
-    return df.round(2), fitted_hfa, fpi_err
+    df = df.round(2)
+    try:
+        eff = efficiency_rows(season, current=True)
+    except Exception as ex:  # efficiency is optional: keep the other ratings
+        eff = None
+        print(f"No efficiency ratings: {ex}")
+    if eff is not None:
+        er = fit_efficiency(*eff)
+        df["off_eff"] = df["id"].map(lambda i: er[i][0] if i in er else None).astype(float).round(3)
+        df["def_eff"] = df["id"].map(lambda i: er[i][1] if i in er else None).astype(float).round(3)
+    return df, fitted_hfa, fpi_err
 
 
 def espn_fpi(season):
@@ -218,7 +228,8 @@ def season_backtest(season, hfa, today):
     else:
         games, lines, fbs = cfbd_season(season)
         fpi_by_week = fpi_before_weeks(season, games)[0]
-    res = walk_forward(games, lines, fpi_by_week, fbs, hfa)
+    eff = efficiency_rows(season, current=season == season_of(dt.date.fromisoformat(today)))
+    res = walk_forward(games, lines, fpi_by_week, fbs, hfa, eff=eff)
     return res.assign(season=season)
 
 
@@ -232,10 +243,19 @@ def cfbd_key():
         return ""
 
 
-def cfbd(path, **params):
+def cfbd(path, max_age_hours=None, **params):
     """GET from CollegeFootballData, saved under data/cfbd/ so a finished season is only
-    downloaded once (the free plan allows 1,000 calls a month)."""
-    f = CFBD_DIR / f"{path.strip('/')}_{'_'.join(f'{k}{v}' for k, v in sorted(params.items()))}.json"
+    downloaded once (the free plan allows 1,000 calls a month). max_age_hours: for a season still
+    being played, download again once per that many hours (the saved file's name says which
+    period it's from, so this works the same after the GitHub job restores its cache)."""
+    name = path.strip("/").replace("/", "_")
+    stem = base = f"{name}_{'_'.join(f'{k}{v}' for k, v in sorted(params.items()))}"
+    if max_age_hours:
+        stem = f"{base}_t{int(dt.datetime.now(dt.timezone.utc).timestamp() // (max_age_hours * 3600))}"
+        for old in CFBD_DIR.glob(f"{base}_t*.json"):
+            if old.stem != stem:
+                old.unlink()  # an earlier period's copy
+    f = CFBD_DIR / f"{stem}.json"
     if f.exists():
         return json.loads(f.read_text())
     r = requests.get(CFBD + path, params=params, headers={"Authorization": f"Bearer {cfbd_key()}"}, timeout=60)
@@ -270,6 +290,28 @@ def cfbd_season(season):
         if pick:
             lines[str(g["id"])] = (pick["spread"], pick.get("spreadOpen"), tot.get("overUnder"), tot.get("overUnderOpen"))
     return games, lines, fbs
+
+
+def efficiency_rows(season, current=False):
+    """(rows, FBS team ids) for fit_efficiency: each team's EPA per play in each regular-season
+    game, garbage time excluded, from CollegeFootballData, keyed by ESPN team id. Needs a
+    CollegeFootballData key; returns None without one. current: the season is still being
+    played, so refresh once a day (2 calls a day, well within the free plan)."""
+    if not cfbd_key():
+        return None
+    age = 24 if current else None
+    games = cfbd("/games", age, year=season, seasonType="regular")
+    ids = {g[f"{s}Team"]: str(g[f"{s}Id"]) for g in games for s in ("home", "away")}
+    info = {str(g["id"]): g for g in games}
+    fbs = {str(g[f"{s}Id"]) for g in games for s in ("home", "away") if g.get(f"{s}Classification") == "fbs"}
+    rows = []
+    for r in cfbd("/ppa/games", age, year=season, seasonType="regular", excludeGarbageTime="true"):
+        g, off = info.get(str(r["gameId"])), (r.get("offense") or {}).get("overall")
+        if g is None or off is None or r["team"] not in ids or r["opponent"] not in ids:
+            continue
+        loc = 0.0 if g["neutralSite"] else 0.5 if r["team"] == g["homeTeam"] else -0.5
+        rows.append(dict(week=r["week"], team=ids[r["team"]], opp=ids[r["opponent"]], off=off, loc=loc))
+    return pd.DataFrame(rows, columns=["week", "team", "opp", "off", "loc"]), fbs
 
 
 def parse_events(events):

@@ -65,7 +65,7 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
   - **At open:** edges of 1.5+ where the line is still within half a point of its opening number, where the model tested best. Each pregame pick box also says how far the line has moved toward or away from the pick since it opened.
   - **Opening lines notice:** once next week's lines are posted (usually Sunday), a notice at the top says how many edges are still at the opening number, with a link straight to them.
 - **Game details:** tap any game card for the full breakdown. Each game has its own link (like `#game/401858274`) that you can share.
-  - **Why this pick:** what all four projections say, and whether they agree. A split is a reason to punt.
+  - **Why this pick:** what all five projections say, and whether they agree. A split is a reason to punt.
   - **Over/under:** both totals projections, the model's over or under pick, and its forward-test entry.
   - **Line movement:** a chart of the line through the week, from the forward test's two-hourly recordings.
   - **Matchup:** FPI rank and adjusted offense and defense, ESPN's season stats (or game stats once it starts), and each team's last five results.
@@ -75,12 +75,13 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
   - **Live and finished games:** ESPN's play-by-play win chance and each team's leaders, updating every 30 seconds while the game is on.
   - **Not included:** injuries, because ESPN doesn't publish them for college football. Check quarterback news yourself.
 - **Props:** projections for this week's players in five stats: passing yards, passing TDs, rushing yards, receiving yards and receptions. Enter the line and odds from your sportsbook, and the page shows the over/under chance, how often the player cleared that line in his last five games, and a lean when the chance beats break-even by 3+ points. Each projection is the player's per-game average this season (from ESPN box scores), nudged by half of how much the opponent's defense allows for rushing yards, passing TDs and receptions. In a week-by-week check on 2026, that matched or slightly beat a plain season average; weighting recent games more did worse. **They're untested against real prop lines**, because free historical prop lines don't exist, and books know about injuries and depth charts that the model doesn't. `build_props.py` builds them as part of the GitHub job, and box scores are cached in `data/box/`.
-- **Ratings:** every FBS team's FPI and adjusted offense and defense, sortable and searchable, with a **How to read the ratings** guide (what each column means and how the projections use it) and a **Compare two teams** tool: pick any matchup, home or neutral, and optionally enter the betting line to see each projection's pick and edge.
+- **Ratings:** every FBS team's FPI, adjusted offense and defense, and offensive and defensive EPA per play (efficiency), sortable and searchable, with a **How to read the ratings** guide (what each column means and how the projections use it) and a **Compare two teams** tool: pick any matchup, home or neutral, and optionally enter the betting line to see each projection's pick and edge.
 - **My picks:** tap **☆ Track pick** on a game before kickoff, and it's graded automatically when the game ends.
 - **Bets:** log bets and see your record, profit and ROI, and download or import them as CSV.
 - **Track record:** live results of picks recorded before kickoff ([The forward test](#the-forward-test)), led by the **expected hit rate from line movement**, then the backtest results in plain language. Every hit rate shows its margin of error (±). A switch at the top flips between spreads and totals.
 - **Updates:** every improvement to the project, newest first, with model changes dated and explained. Filter by model, site, or fixes and data.
 - **Suggestions and problem reports:** the form on the Updates tab opens a pre-filled post in the repo's [GitHub Issues](https://github.com/davischamann-alt/fourth-and-value/issues), labeled `suggestion` or `problem`, so feedback is tracked in the open. Posting needs a free GitHub account; nothing is sent from the site itself. The Updates tab also lists the suggestions that are still open.
+- **🔔 Alerts:** the bell at the top. Get told when the model finds an edge of 1.5+ as soon as a line opens, or when a line moves through 3 or 7 on a game it has a pick for: in any RSS reader, as phone notifications through the free ntfy app, or in Discord. The panel also lists the latest alerts. See [Alerts](#alerts).
 - **⚙︎ Settings:** home-field advantage, std dev (it uses the tested value for each projection automatically) and light or dark theme.
 
 Picks and bets are saved only in the browser you use, so they don't follow you between devices; use **Download as CSV** to move bets. The page gets scores and lines straight from ESPN while you have it open, and a GitHub job refreshes the ratings and track record every morning ([Publishing the website](#publishing-the-website)).
@@ -99,6 +100,7 @@ Picks and bets are saved only in the browser you use, so they don't follow you b
 | **Closing line** | The final line at kickoff, after all the betting has moved it. It's the hardest line to beat. |
 | **CLV (closing line value)** | How far the line moved toward your pick between open and kickoff. Lines that keep moving your way are the standard sign of a real edge. |
 | **Total (over/under)** | The sportsbook's line on combined points. An **over** bet wins if both teams together score more; an **under** wins if they score fewer. |
+| **EPA (expected points added)** | How much each play changed a team's expected points, based on down, distance and field position. EPA per play measures how well an offense moves the ball (or a defense stops it) without the noise of turnovers returned for touchdowns or garbage-time scores. |
 | **Margin of error (±)** | How far a hit rate could be from the truth by luck alone (95% of the time). After 50 picks it's about ±14 points; after 2,000 about ±2. |
 | **Hit rate** | The share of picks that covered. At standard -110 odds, you need **52.4%** to break even. |
 | **FPI** | ESPN's Football Power Index: how many points better or worse a team is than an average FBS team on a neutral field. |
@@ -239,7 +241,8 @@ Two sections:
 
 - **Adjusted points:** built from each team's points scored and allowed, adjusted for who they played.
 - **ESPN FPI:** built from ESPN's power ratings.
-- **Blend:** the average of the two.
+- **Efficiency:** built from each team's EPA per play on offense and defense, adjusted for opponents. Needs a CollegeFootballData key.
+- **Blend:** the average of FPI and Efficiency (FPI and adjusted points before October 29, 2026). Without a CollegeFootballData key, it's FPI alone.
 - **Market-anchored:** starts from the current betting line and shifts it toward what FPI and the points ratings say. It stays closest to the betting line, so it shows the fewest and smallest edges, which is why it's the default. It only works once the season backtest has been run on past seasons, which saves the weights it uses (`data/anchor_weights.json`). Those saved weights are included in the download, so it works right away.
 
 ---
@@ -282,7 +285,7 @@ These results are from 2023–2026 (through week 8 of 2026), about 2,300 games, 
 | --- | --- |
 | **Closing line** | No projection beats it: about 50–51% for every one, below break-even. |
 | **Opening line, every game** | About 53% for every projection, just above the 52.4% break-even. |
-| **Opening line, edge 3+ points** | ESPN FPI 53.8% (825 picks), Adjusted points 53.8%, Blend 53.3%. Market-anchored 62.1%, but on only 29 picks. |
+| **Opening line, edge 3+ points** | ESPN FPI 53.7% (826 picks), Adjusted points 53.7%, Efficiency 54.9%, Blend 54.6%. Market-anchored 62.1%, but on only 29 picks. |
 | **Opening line, edge 5+ points** | No better than 3–5 point edges (ESPN FPI 52.6%). That's why the site labels them **Check the news** instead of Go for it. |
 | **Line movement** | After the open, lines moved toward the model's picks about 62–72% of the time. |
 
@@ -296,6 +299,17 @@ These results are from 2023–2026 (through week 8 of 2026), about 2,300 games, 
 | **Total movement** | Totals moved toward the Adjusted points picks 55–61% of the time, but by only about +0.4 points on average, which isn't enough to profit. |
 
 Totals are shown because they're part of every game and the forward test now records them, not because they've proven to make money. The model doesn't know the weather, which moves totals more than spreads.
+
+**Efficiency (EPA per play)**, added October 29, 2026. These are 2024–2026 games, since 2023 was used to learn how many points one unit of EPA is worth:
+
+| On the same 2024–2026 games | Opening line, every game | Opening line, 3+ edges | Closing line, every game | Typical miss |
+| --- | --- | --- | --- | --- |
+| ESPN FPI | 53.5% | 54.7% | 51.2% | 15.3 |
+| Efficiency | **54.8%** | 54.9% | 51.7% | 16.6 |
+| Blend, old (FPI + adjusted points) | 53.3% | 54.7% | 50.1% | 15.6 |
+| Blend, new (FPI + Efficiency) | 54.4% | 54.6% | **52.2%** | 15.6 |
+
+The new Blend picked a little better than the old one in most of these columns, at the same accuracy, so Efficiency replaced adjusted points in it. It isn't better every season (2025 dipped), and it doesn't beat the closing line, so treat it as a small improvement, not a breakthrough. Also tested and **not** used: starting each season from last season's efficiency (it made the picks worse), and adding efficiency to Market-anchored (no change). In 2022, a season none of this was tuned on, Efficiency alone was only 51.7% at the opening line on 3+ edges.
 
 **What this means:**
 
@@ -330,12 +344,15 @@ The log started on October 21, 2026, partway through week 8, so some of that wee
 
 **Adjusted points ratings.** Every completed game this season is fitted at once: a team's points scored = league average + its offense rating + its opponent's defense rating ± home field. That way 40 points against a strong defense counts for more than 40 against a weak one. Teams with few games are pulled toward average (ridge regression), and all FCS opponents share one rating. `ppg` and `papg` are those ratings on the normal points scale.
 
+**Efficiency ratings.** The same kind of fit, on EPA per play instead of points: a team's EPA per play in a game = average + its offense rating + its opponent's defense rating ± home field, using every regular-season game so far with garbage time left out (from CollegeFootballData). `off_eff` and `def_eff` are those ratings, in EPA per play above average. The 67.5 turns a difference in EPA per play into points of margin; it's learned from 2023–2025.
+
 **Projected margin**, by source:
 
 ```
 Adjusted points:  (home.ppg + away.papg) - (away.ppg + home.papg) + HFA
 ESPN FPI:         home.fpi - away.fpi + HFA
-Blend:            average of the two
+Efficiency:       67.5 x [(home.off_eff + away.def_eff) - (away.off_eff + home.def_eff)] + HFA
+Blend:            average of FPI and Efficiency
 Market-anchored:  const + w_line x (-home line) + w_fpi x FPI margin + w_pts x points margin
 ```
 
@@ -376,6 +393,7 @@ Any change to how picks are made is logged here and on the website (a notice on 
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
+| October 29, 2026 | **Efficiency added:** a fifth projection from opponent-adjusted EPA per play, and **Blend** now averages FPI and Efficiency instead of FPI and adjusted points | Points are a noisy measure of how good a team is. EPA per play, with garbage time left out, measures every play. | In 2024–2026, the new Blend picked a little better than the old one (every game at the opening line: 54.4% vs 53.3%; at the closing line: 52.2% vs 50.1%) with the same accuracy. Market-anchored and the default are unchanged. Blend picks logged before this date used adjusted points. |
 | October 29, 2026 | **Totals added:** over/under projections (Market-anchored total and Adjusted points total), backtested and recorded in the forward test | Totals are part of every game, and the forward test can only judge them if they're recorded before kickoff. | No change to spread picks. Totals tested at about break-even (52% at the opening total), so they're presented as untested, not as an edge. |
 | October 25, 2026 | **Backtest correction:** opening lines that moved 7+ points before kickoff (look-ahead lines, 63 of 2,323 games) are excluded | They made the biggest edges look like big winners, but nobody could have bet them with that season's information. | Opening-line results drop to about 53–54% on 3+ point edges (FPI: 55.7% → 53.8%). Closing-line results barely change. |
 | October 25, 2026 | 5+ point edges labeled **Check the news** instead of Go for it; Market-anchored retrained on the corrected data | On clean data, 5+ edges did no better than 3–5 point ones, and a gap that big usually means missing information. | Market-anchored leans more on the line (0.57 → 0.73) and less on FPI (0.39 → 0.21). Logged picks are unchanged. |
@@ -391,6 +409,25 @@ The newest `model` entry shows as a notice on the Games tab for two weeks.
 
 ---
 
+## Alerts
+
+`alerts.py` runs in the GitHub job right after `record.py`, every two hours. It looks for two things, using Market-anchored, the default projection:
+
+- **New edges:** a spread or over/under pick with an edge of 1.5+, logged when the line first appears. The model tested best at the opening number, so these are worth seeing early.
+- **Key numbers:** on a game with such a spread pick, the line moving through, onto or off 3 or 7, the most common winning margins.
+
+Each run sends at most one notification, listing everything new. Alerts always go to the site's feed and the Alerts panel (🔔). Phone notifications and Discord are optional, and only the repo owner can turn them on:
+
+| Where | Setup (one time) |
+| --- | --- |
+| **Any RSS reader** | Nothing: subscribe to `https://davischamann-alt.github.io/fourth-and-value/alerts.xml`. |
+| **Phones (ntfy)** | Pick a topic name that's hard to guess, since anyone who knows it can subscribe (or post to it), then save it as a repository variable: `gh variable set NTFY_TOPIC -R davischamann-alt/fourth-and-value --body "your-topic-name"`. Then install the free [ntfy](https://ntfy.sh) app and subscribe to that topic. The Alerts panel shows the topic so visitors can subscribe too. |
+| **Discord** | In your Discord server: **Server Settings → Integrations → Webhooks → New Webhook**, pick the channel, and copy its URL. Save it as a secret: `gh secret set DISCORD_WEBHOOK_URL -R davischamann-alt/fourth-and-value` and paste the URL when asked. |
+
+`data/live/alerts.json` remembers what's been sent, so nothing is sent twice. The first run only records what's already on the board, rather than sending it all at once.
+
+---
+
 ## Publishing the website
 
 The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours, whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
@@ -400,7 +437,8 @@ Because the job commits to `main` every two hours, your copy falls behind quickl
 **One-time setup** (repo owner only):
 
 1. On GitHub, open the repo's **Settings → Pages**, and under **Build and deployment → Source**, choose **GitHub Actions**.
-2. Optional, to keep the multi-season track record current: in **Settings → Secrets and variables → Actions**, add a repository secret named `CFBD_API_KEY` containing your CollegeFootballData key. Without it, the job still refreshes the ratings every day and leaves the track record as it was last built.
+2. Optional, to keep the multi-season track record current and to get the Efficiency projection: in **Settings → Secrets and variables → Actions**, add a repository secret named `CFBD_API_KEY` containing your CollegeFootballData key. Without it, the job still refreshes the other ratings every day and leaves the track record as it was last built. With it, the job uses about 2 CollegeFootballData calls a day (the free plan allows 1,000 a month).
+3. Optional: phone or Discord alerts ([Alerts](#alerts)).
 
 To preview the website on your own computer, run `python build_site.py` once, then `python -m http.server 8600 --directory site`, and open **http://localhost:8600**.
 
@@ -415,8 +453,9 @@ fourth-and-value/
 ├── model.py                  # the math: ratings, projections, cover chances, backtest scoring
 ├── build_site.py             # builds the website's data files
 ├── record.py                 # forward test: records lines and picks, grades them
+├── alerts.py                 # alerts: new edges and key-number line moves, to the feed, ntfy and Discord
 ├── build_props.py            # player prop projections for the Props tab (ESPN box scores)
-├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), data/ (changelog.json is the change log)
+├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), alerts.js (Alerts panel), alerts.xml (feed), data/ (changelog.json is the change log)
 ├── .github/ISSUE_TEMPLATE/   # GitHub issue forms behind the site's suggestion form
 ├── .github/workflows/site.yml # nightly job that refreshes and publishes the website
 ├── requirements.txt          # Python libraries to install
@@ -426,7 +465,7 @@ fourth-and-value/
     ├── lines.csv             # pregame lines the dashboard has saved
     ├── closing_lines.csv     # this season's opening and closing lines and totals (backtest)
     ├── anchor_weights.json   # Market-anchored weights for spreads and totals (saved by the backtest)
-    ├── live/                 # forward test: line_history.csv, picks.csv and total_picks.csv (written by the GitHub job)
+    ├── live/                 # forward test: line_history.csv, picks.csv, total_picks.csv, and alerts.json (what's been sent); written by the GitHub job
     ├── history.csv           # your logged picks (created when you log; kept private)
     ├── bets.csv              # your bets (created when you save; kept private)
     └── cfbd/                 # past seasons' data (downloaded; kept private)
