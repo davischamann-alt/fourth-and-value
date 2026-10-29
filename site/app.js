@@ -8,6 +8,10 @@ const STRONG = 3, LEAN = 1.5;          // edge thresholds in points
 const CHECK = 5;                       // bigger gaps usually mean the market knows something (injury, QB change)
 const CLOSE = 4;                       // a live game this close to the spread could flip on a field goal
 const BREAKEVEN = 0.524;               // hit rate needed at -110
+// Hit rate gained per point the line moves toward a pick between the logged line and kickoff. Measured
+// in the 2023-2026 backtest (opening vs closing results); it turns line movement into an estimated
+// hit rate long before wins and losses can say anything.
+const CLV_PER_POINT = { spread: 0.03, total: 0.025 };
 const SOURCE_LABEL = { anchored: "Market-anchored", fpi: "ESPN FPI", blend: "Blend", points: "Adjusted points" };
 const TIER_LABEL = { check: "Check the news", strong: "Go for it", lean: "Lean", pass: "Punt" };  // fourth-down calls
 /** Edge size to label. 5+ points isn't "more value": in the cleaned 2023-2026 backtest it did no
@@ -31,10 +35,14 @@ const state = {
   live: null,           // live.json: the forward test (record.py)
   calendar: [],         // [{label, detail, week, seasontype, start, end}]
   weekIndex: -1,
+  currentIndex: -1,     // this week in ESPN's calendar
+  next: null,           // next week's games, for the opening-lines notice
   season: null,
   games: [],
   filter: "all",
+  market: store.get("market", "spread"),  // "spread" or "total" (over/under)
   source: store.get("source", "anchored"),
+  totalSource: store.get("totalSource", "anchored"),  // totals: Market-anchored or Adjusted points
   sort: store.get("sort", "time"),
   search: "",
   settings: store.get("settings", { hfa: null, sigma: null, theme: "auto" }),
@@ -73,7 +81,9 @@ function erf(x) {
 const normCdf = (z) => 0.5 * (1 + erf(z / Math.SQRT2));
 
 const hfa = () => state.settings.hfa ?? state.model?.hfa ?? 3.0;  // model.HFA, normally from data/model.json
-const sigma = () => state.settings.sigma || state.model?.sigma?.[state.source] || 15.5;
+const sigma = (market = state.market) => market === "total"
+  ? state.model?.sigma_total?.[state.totalSource] || 16
+  : state.settings.sigma || state.model?.sigma?.[state.source] || 15.5;
 
 /** Projected home margin for one game from every source, or null where a source can't make one. */
 function projections(g) {
@@ -91,6 +101,17 @@ function projections(g) {
   return { points, fpi, blend, anchored };
 }
 
+/** Projected total points from each totals source (same math as record.log_totals). */
+function totalProjections(g) {
+  const r = state.ratings?.byId || {};
+  const h = r[g.home.id], a = r[g.away.id];
+  if (!h || !a || h.ppg == null || a.ppg == null) return { points: null, anchored: null };
+  const points = h.ppg + a.papg + a.ppg + h.papg - 2 * state.ratings.avg;
+  const w = state.model?.anchor?.total_weights;
+  const anchored = w && g.total != null ? w.const + w.total * g.total + w.points * points : null;
+  return { points, anchored };
+}
+
 /** How far a live game is from the spread: home margin + home line (0 = right on the number). */
 function spreadGap(g) {
   return g.state === "in" && g.line != null ? g.home.score - g.away.score + g.line : null;
@@ -103,12 +124,14 @@ function secsLeft(g) {
   return g.period > 4 ? 120 : (4 - g.period) * 900 + g.clock;
 }
 
-/** Everything the card needs about the model's view of a game. */
-function evaluate(g) {
+/** Everything the card needs about the model's view of a game: its spread pick, or its over/under
+ *  pick when market is "total". */
+function evaluate(g, market = state.market) {
+  if (market === "total") return evaluateTotal(g);
   const margin = projections(g)[state.source];
   const line = g.line;
   if (margin == null || line == null) return { margin, reason: whyNoPick(g, margin, line) };
-  const s = sigma();
+  const s = sigma("spread");
   const homeProb = normCdf((margin + line) / s);
   const homePick = homeProb >= 0.5;
   const left = secsLeft(g), cur = g.home.score - g.away.score, x = cur + line;
@@ -128,13 +151,59 @@ function evaluate(g) {
   };
 }
 
-function whyNoPick(g, margin, line) {
+function evaluateTotal(g) {
+  const proj = totalProjections(g)[state.totalSource], line = g.total;
+  if (proj == null || line == null) return { total: true, margin: proj, reason: whyNoPick(g, proj, line, "total") };
+  const s = sigma("total");
+  const overProb = 1 - normCdf((line - proj) / s);
+  const over = overProb >= 0.5;
+  const left = secsLeft(g), cur = g.home.score + g.away.score;
+  let live = null;
+  if (g.state !== "pre") {
+    // points already scored, plus the projection for the time left; an over that's already past the line has won
+    if (cur > line) live = 1;
+    else if (left <= 0) live = cur < line ? 0 : 0.5;
+    else { const f = Math.min(left / 3600, 1); live = 1 - normCdf((line - cur - proj * f) / (s * Math.sqrt(f))); }
+  }
+  const edge = Math.abs(proj - line);
+  return {
+    total: true, margin: proj, line, edge, tier: tierOf(edge), side: over ? "over" : "under", team: null, pickLine: line,
+    pre: over ? overProb : 1 - overProb, live: live == null ? null : over ? live : 1 - live,
+  };
+}
+
+function whyNoPick(g, margin, line, market = "spread") {
   const r = state.ratings?.byId || {};
   const missing = [g.home, g.away].filter((t) => !r[t.id]).map((t) => t.name);
   if (missing.length) return `No rating for ${missing.join(" and ")} (usually an FCS team)`;
-  if (line == null) return g.state === "pre" ? "No line posted yet" : "No pregame line available";
-  if (margin == null && state.source === "anchored" && !state.model?.anchor) return "Market-anchored isn't trained yet";
+  const what = market === "total" ? "total" : "line";
+  if (line == null) return g.state === "pre" ? `No ${what} posted yet` : `No pregame ${what} available`;
+  const src = market === "total" ? state.totalSource : state.source;
+  const trained = market === "total" ? state.model?.anchor?.total_weights : state.model?.anchor;
+  if (margin == null && src === "anchored" && !trained) return "Market-anchored isn't trained yet";
   return "Not enough data for this projection";
+}
+
+/** Pregame: has the number moved toward the pick since it opened? The model tested best at the
+ *  opening number, so a line that's already moved its way has less value left. */
+function lineMove(g, ev) {
+  const open = ev.total ? g.openTotal : g.openLine;
+  // an "opener" 7+ points away is usually a look-ahead number, not a real one (model.MAX_OPEN_MOVE)
+  if (open == null || ev.line == null || Math.abs(ev.line - open) >= 7) return null;
+  // a home pick gains when the home line drops; an over gains when the total rises
+  return ev.total ? (ev.line - open) * (ev.side === "over" ? 1 : -1) : (open - ev.line) * (ev.side === "home" ? 1 : -1);
+}
+const atOpen = (g, ev) => g.state === "pre" && ev.edge >= LEAN && lineMove(g, ev) != null && Math.abs(lineMove(g, ev)) <= 0.5;
+
+function moveNote(g, ev) {
+  const m = lineMove(g, ev);
+  if (g.state !== "pre" || m == null) return "";
+  const open = ev.total ? g.openTotal : g.openLine;
+  const from = ev.total ? String(open) : lineWord(ev.side === "home" ? open : -open);
+  if (m === 0) return "Still at its opening number, where the model tested best.";
+  return m > 0
+    ? `Moved ${pts(m)} toward this pick since it opened at ${from}, so some of the value is gone.`
+    : `Moved ${pts(m)} away from this pick since it opened at ${from}: a better number, unless the market knows something.`;
 }
 
 // ---------- ESPN data ----------
@@ -157,14 +226,14 @@ function parseEvent(e) {
     state: c.status.type.state, status: c.status.type.shortDetail,
     period: c.status.period || 0, clock: parseFloat(c.status.clock || 0),
     neutral: !!c.neutralSite, tv: c.broadcasts?.[0]?.names?.join(", ") || "",
-    line: null, openLine: null, total: null,
+    line: null, openLine: null, total: null, openTotal: null,
   };
   const o = c.odds?.[0];
   if (o) Object.assign(g, parseOdds(o, g.home.abbr));
   // Remember the pregame line: once a game starts ESPN drops it from the scoreboard
   const saved = store.get("line." + g.id, null);
-  if (g.state === "pre" && g.line != null) store.set("line." + g.id, { line: g.line, open: g.openLine, total: g.total });
-  else if (saved) { g.line ??= saved.line; g.openLine ??= saved.open; g.total ??= saved.total; }
+  if (g.state === "pre" && g.line != null) store.set("line." + g.id, { line: g.line, open: g.openLine, total: g.total, openTotal: g.openTotal });
+  else if (saved) { g.line ??= saved.line; g.openLine ??= saved.open; g.total ??= saved.total; g.openTotal ??= saved.openTotal ?? null; }
   return g;
 }
 
@@ -175,7 +244,7 @@ function parseOdds(o, homeAbbr) {
     if (d.toUpperCase() === "EVEN") line = 0;
     else { const i = d.lastIndexOf(" "); const v = num(d.slice(i + 1)); if (v != null) line = d.slice(0, i) === homeAbbr ? v : -v; }
   }
-  return { line, openLine: num(o.pointSpread?.home?.open?.line), total: num(o.overUnder) };
+  return { line, openLine: num(o.pointSpread?.home?.open?.line), total: num(o.overUnder), openTotal: num(o.total?.over?.open?.line) };
 }
 
 /** Started games with no saved pregame line: ESPN's game summary still has it. */
@@ -186,7 +255,8 @@ async function fillMissingLines(games) {
       const pc = (await getJSON(`${ESPN}/summary?event=${g.id}`)).pickcenter?.[0];
       if (!pc || pc.spread == null) return;
       g.line = num(pc.spread); g.openLine = num(pc.pointSpread?.home?.open?.line); g.total = num(pc.overUnder);
-      store.set("line." + g.id, { line: g.line, open: g.openLine, total: g.total });
+      g.openTotal = num(pc.total?.over?.open?.line);
+      store.set("line." + g.id, { line: g.line, open: g.openLine, total: g.total, openTotal: g.openTotal });
     } catch { /* leave the game without a line */ }
   }));
 }
@@ -206,6 +276,7 @@ async function loadWeek(index) {
         label: x.label, detail: x.detail, week: x.value, seasontype: c.value, start: x.startDate, end: x.endDate })));
     state.weekIndex = state.calendar.findIndex((w) => String(w.week) === String(data.week?.number)
       && String(w.seasontype) === String(data.season?.type));
+    state.currentIndex = state.weekIndex;
   }
   const games = (data.events || []).map(parseEvent);
   await fillMissingLines(games);
@@ -230,6 +301,7 @@ function renderGames() {
     if (q && !`${g.home.name} ${g.away.name} ${g.home.abbr} ${g.away.abbr}`.toLowerCase().includes(q)) return false;
     if (state.filter === "edge") return ev.edge >= LEAN;
     if (state.filter === "strong") return ev.tier === "strong";
+    if (state.filter === "open") return atOpen(g, ev);
     if (state.filter === "live") return g.state === "in";
     if (state.filter === "close") return isClose(g);
     return true;
@@ -238,20 +310,21 @@ function renderGames() {
   else if (state.sort === "edge") rows.sort((a, b) => (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
   else rows.sort((a, b) => a.g.date.localeCompare(b.g.date) || (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
 
-  const all = state.games.map(evaluate);
+  const all = state.games.map((g) => evaluate(g));
   const counts = {
     all: state.games.length, edge: all.filter((e) => e.edge >= LEAN).length,
-    strong: all.filter((e) => e.tier === "strong").length, live: state.games.filter((g) => g.state === "in").length,
-    close: state.games.filter(isClose).length,
+    strong: all.filter((e) => e.tier === "strong").length, open: state.games.filter((g, i) => atOpen(g, all[i])).length,
+    live: state.games.filter((g) => g.state === "in").length, close: state.games.filter(isClose).length,
   };
   $$("[data-count]").forEach((el) => (el.textContent = state.games.length ? counts[el.dataset.count] : ""));
   $('#filter [data-filter="live"]').classList.toggle("is-live", counts.live > 0);
   $('#filter [data-filter="close"]').classList.toggle("is-live", counts.close > 0);
-  $("#games-summary").textContent = state.games.length ? `Cover chances use a ${sigma()}-point std dev` : "";
+  $("#games-summary").textContent = state.games.length ? `${state.market === "total" ? "Over/under" : "Cover"} chances use a ${sigma()}-point std dev` : "";
 
   const box = $("#games");
   if (!rows.length) {
-    box.innerHTML = `<div class="card nopick">${!state.games.length ? "No games this week." : state.filter === "close" ? `No live games within ${CLOSE} points of the spread right now.` : "No games match these filters."}</div>`;
+    box.innerHTML = `<div class="card nopick">${!state.games.length ? "No games this week." : state.filter === "close" ? `No live games within ${CLOSE} points of the spread right now.`
+      : state.filter === "open" ? "No edges of 1.5+ are still at their opening number. Lines for next week usually post on Sunday." : "No games match these filters."}</div>`;
     return;
   }
   const tracked = new Set(store.get("picks", []).map((p) => p.id));
@@ -260,7 +333,7 @@ function renderGames() {
   for (const { g, ev } of rows) {
     const d = new Date(g.date).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
     if (byDay && d !== day) { html += (day ? "</div>" : "") + `<h2 class="day-head">${esc(d)}</h2><div class="grid">`; day = d; }
-    html += card(g, ev, tracked.has(g.id));
+    html += card(g, ev, tracked.has(trackKey(g)));
   }
   box.innerHTML = byDay ? html + "</div>" : `<div class="grid">${html}</div>`;
 }
@@ -282,6 +355,7 @@ const lineWord = (l) => (l === 0 ? "a pick'em" : fmtLine(l).replace("-", "−"))
 /** Where the model's pick stands: "pre", "covering"/"behind" during a game, or "win"/"loss"/"push"
  *  when final, with a plain-English sentence. ev comes from evaluate(). */
 function pickStatus(g, ev) {
+  if (ev.total) return totalStatus(g, ev);
   const t = ev.team, line = ev.pickLine;
   const diff = (ev.side === "home" ? 1 : -1) * (g.home.score - g.away.score);  // the picked team's margin
   const by = diff + line;                                                       // margin against the spread
@@ -298,16 +372,38 @@ function pickStatus(g, ev) {
     : { state: "push", chip: "Push", text: `${lead}: landed exactly on the line, so bets are refunded.` };
 }
 
-/** The "Model pick" box shared by game cards and the game detail header. */
+/** Over/under version of pickStatus: points scored so far against the total. */
+function totalStatus(g, ev) {
+  const cur = g.home.score + g.away.score, line = ev.line, over = ev.side === "over";
+  const by = (cur - line) * (over ? 1 : -1);
+  if (g.state === "pre") return { state: "pre", text: "" };
+  if (g.state === "in") {
+    if (cur > line) return over ? { state: "win", chip: "✓ Over hit", text: `${cur} points already, past ${line}: the over has won.` }
+      : { state: "loss", chip: "✗ Gone over", text: `${cur} points already, past ${line}: the under can't win now.` };
+    return over ? { state: "behind", chip: "Not over yet", text: `${cur} points so far, ${pts(line - cur)} short of ${line}.` }
+      : { state: "covering", chip: "Under so far", text: `${cur} points so far, ${pts(line - cur)} under ${line} with time left.` };
+  }
+  return by > 0 ? { state: "win", chip: "✓ Hit", text: `Final total ${cur}, ${over ? "over" : "under"} ${line} by ${pts(by)}.` }
+    : by < 0 ? { state: "loss", chip: "✗ Missed", text: `Final total ${cur}, ${over ? "under" : "over"} ${line} by ${pts(by)}.` }
+    : { state: "push", chip: "Push", text: `Final total ${cur}: landed exactly on ${line}, so bets are refunded.` };
+}
+
+const pickName = (ev) => (ev.total ? `${ev.side === "over" ? "Over" : "Under"} ${ev.line}` : `${ev.team.name} ${lineWord(ev.pickLine)}`);
+
+/** The "Model pick" box shared by game cards and the game detail view. */
 function pickBox(g, ev, { tierTxt } = {}) {
   const st = pickStatus(g, ev);
   const chip = st.state === "pre"
     ? `<span class="badge ${ev.tier}">${tierTxt[ev.tier]} · ${ev.edge.toFixed(1)}</span>`
     : `<span class="pick-chip">${esc(st.chip)}</span>`;
+  const icon = ev.total
+    ? `<span class="ou-icon" aria-hidden="true">${ev.side === "over" ? "▲" : "▼"}</span>`
+    : `<img src="${esc(ev.team.logo)}" alt="" loading="lazy">`;
+  const note = st.text || moveNote(g, ev);
   return `<div class="pickbox pb-${st.state}">
-    <div class="pickbox-top"><span class="pickbox-label">Model pick</span>${chip}</div>
-    <div class="pickbox-main"><img src="${esc(ev.team.logo)}" alt="" loading="lazy"><span class="pick">${esc(ev.team.name)} ${esc(lineWord(ev.pickLine))}</span></div>
-    ${st.text ? `<div class="pickbox-note">${esc(st.text)}</div>` : ""}
+    <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
+    <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>
+    ${note ? `<div class="pickbox-note${st.text ? "" : " pickbox-move"}">${esc(note)}</div>` : ""}
   </div>`;
 }
 
@@ -318,20 +414,24 @@ function card(g, ev, isTracked) {
   const statusCls = g.state === "in" ? "status live" : "status";
   const moved = g.openLine != null && g.line != null && g.openLine !== g.line
     ? `<span class="open"> opened ${fmtLine(g.openLine)}</span>` : "";
+  const movedTotal = g.openTotal != null && g.total != null && g.openTotal !== g.total
+    ? `<span class="open"> opened ${g.openTotal}</span>` : "";
   const homeLine = g.line == null ? "—" : `${esc(g.home.abbr)} ${fmtLine(g.line)}`;
   let body;
   if (ev.margin == null || ev.line == null) {
     body = `<div class="nopick">${esc(ev.reason)}</div>`;
   } else {
     const fav = ev.margin >= 0 ? g.home : g.away;
-    const modelTxt = Math.abs(ev.margin) < 0.05 ? "Even" : `${esc(fav.abbr)} by ${Math.abs(ev.margin).toFixed(1)}`;
+    const modelTxt = ev.total ? `${ev.margin.toFixed(1)} pts`
+      : Math.abs(ev.margin) < 0.05 ? "Even" : `${esc(fav.abbr)} by ${Math.abs(ev.margin).toFixed(1)}`;
+    const hits = ev.total ? "hits" : "covers";
     const p = ev.live ?? ev.pre;
     const done = g.state === "post";
     // finished games drop the bar (it only said 100% or 0%) and keep the pregame chance as context
     const prob = done
-      ? `<div class="prob"><div class="row"><span>Cover chance before kickoff</span><b>${pct(ev.pre)}</b></div></div>`
+      ? `<div class="prob"><div class="row"><span>${ev.total ? "Chance" : "Cover chance"} before kickoff</span><b>${pct(ev.pre)}</b></div></div>`
       : `<div class="prob">
-          <div class="row"><span>${g.state === "pre" ? "Chance the pick covers" : "Live chance the pick covers"}</span><b>${pct(p)}</b></div>
+          <div class="row"><span>${g.state === "pre" ? `Chance the pick ${hits}` : `Live chance the pick ${hits}`}</span><b>${pct(p)}</b></div>
           <div class="bar"><i style="width:${(100 * p).toFixed(0)}%"></i></div>
           ${g.state === "in" ? `<div class="row"><span>Before kickoff</span><b>${pct(ev.pre)}</b></div>` : ""}
         </div>`;
@@ -348,30 +448,36 @@ function card(g, ev, isTracked) {
     ${teamRow(g.away, g, ev.side === "away")}${teamRow(g.home, g, ev.side === "home")}
     <div class="lines">
       <div><span class="k">Line</span><span class="v">${homeLine}</span>${moved}</div>
-      <div><span class="k">Total</span><span class="v">${g.total ?? "—"}</span></div>
+      <div><span class="k">Total</span><span class="v">${g.total ?? "—"}</span>${movedTotal}</div>
     </div>
     ${body}
     <div class="game-foot">
       <span>${g.away.abbr} @ ${g.home.abbr}</span>
-      <button class="track${isTracked ? " on" : ""}" data-track="${esc(g.id)}" ${canTrack || isTracked ? "" : "disabled"}>
+      <button class="track${isTracked ? " on" : ""}" data-track="${esc(trackKey(g))}" ${canTrack || isTracked ? "" : "disabled"}>
         ${isTracked ? "★ Tracked" : "☆ Track pick"}</button>
     </div>
   </article>`;
 }
 
-function toggleTrack(id) {
+/** Tracked picks are keyed by game id, plus ":total" for an over/under, so a game can have both. */
+const trackKey = (g) => (state.market === "total" ? `${g.id}:total` : g.id);
+const gameIdOf = (p) => p.game_id ?? p.id;
+
+function toggleTrack(key) {
   const picks = store.get("picks", []);
-  const i = picks.findIndex((p) => p.id === id);
+  const i = picks.findIndex((p) => p.id === key);
   if (i >= 0) { picks.splice(i, 1); store.set("picks", picks); return renderAll(); }
+  const [id, kind] = key.split(":");
   const g = state.games.find((x) => x.id === id);
-  const ev = g && evaluate(g);
-  if (!g || g.state !== "pre" || !ev || ev.margin == null) return;
+  const ev = g && evaluate(g, kind === "total" ? "total" : "spread");
+  if (!g || g.state !== "pre" || !ev || ev.margin == null || ev.line == null) return;
   const w = state.calendar[state.weekIndex];
   picks.push({
-    id, date: g.date, season: state.season, week: w?.week, seasontype: w?.seasontype,
-    game: `${g.away.name} @ ${g.home.name}`, pick: `${ev.team.name} ${fmtLine(ev.pickLine)}`,
+    id: key, game_id: id, market: ev.total ? "total" : "spread", date: g.date, season: state.season, week: w?.week,
+    seasontype: w?.seasontype, game: `${g.away.name} @ ${g.home.name}`,
+    pick: ev.total ? pickName(ev) : `${ev.team.name} ${fmtLine(ev.pickLine)}`,
     side: ev.side, line: ev.line, edge: +ev.edge.toFixed(1), prob: +ev.pre.toFixed(3),
-    source: state.source, result: null, finalMargin: null,
+    source: ev.total ? state.totalSource : state.source, result: null, finalMargin: null,
   });
   store.set("picks", picks);
   renderAll();
@@ -381,16 +487,16 @@ function toggleTrack(id) {
 
 function gradeOne(p, g) {
   if (!g || g.state !== "post" || p.result) return false;
-  const m = g.home.score - g.away.score;
-  const x = (m + p.line) * (p.side === "home" ? 1 : -1);
-  p.finalMargin = m; p.result = x > 0 ? "W" : x < 0 ? "L" : "P";
+  const m = g.home.score - g.away.score, t = g.home.score + g.away.score;
+  const x = p.market === "total" ? (t - p.line) * (p.side === "over" ? 1 : -1) : (m + p.line) * (p.side === "home" ? 1 : -1);
+  p.finalMargin = m; p.finalTotal = t; p.result = x > 0 ? "W" : x < 0 ? "L" : "P";
   return true;
 }
 
 function gradePicks(games) {
   const picks = store.get("picks", []);
   const byId = Object.fromEntries(games.map((g) => [g.id, g]));
-  if (picks.some((p) => gradeOne(p, byId[p.id]))) store.set("picks", picks);
+  if (picks.some((p) => gradeOne(p, byId[gameIdOf(p)]))) store.set("picks", picks);
 }
 
 /** Grade picks from other weeks by loading each of those weeks once. */
@@ -406,7 +512,7 @@ async function gradeOldPicks() {
     try {
       const d = await getJSON(`${ESPN}/scoreboard?groups=80&limit=300&dates=${p.season}&seasontype=${p.seasontype}&week=${p.week}`);
       const byId = Object.fromEntries((d.events || []).map((e) => [e.id, parseEvent(e)]));
-      for (const q of picks) changed = gradeOne(q, byId[q.id]) || changed;
+      for (const q of picks) changed = gradeOne(q, byId[gameIdOf(q)]) || changed;
     } catch { /* try again next visit */ }
   }
   if (changed) { store.set("picks", picks); renderPicks(); }
@@ -429,7 +535,7 @@ function renderPicks() {
     (picks.length ? picks.map((p) => `<tr>
       <td class="l">${esc(new Date(p.date).toLocaleDateString(undefined, { month: "short", day: "numeric" }))} · ${esc(p.game)}</td>
       <td class="l"><b>${esc(p.pick)}</b></td><td>${p.edge.toFixed(1)}</td><td>${pct(p.prob)}</td>
-      <td class="l">${esc(SOURCE_LABEL[p.source] || p.source)}</td>
+      <td class="l">${esc(SOURCE_LABEL[p.source] || p.source)}${p.market === "total" ? " · total" : ""}</td>
       <td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td>
       <td><button data-unpick="${esc(p.id)}" title="Remove">✕</button></td></tr>`).join("")
       : `<tr><td colspan="7" class="empty">No tracked picks yet. Use ☆ Track pick on the Games tab.</td></tr>`);
@@ -511,33 +617,42 @@ function renderRatings() {
 
 // ---------- Track record ----------
 
-let recAgainst = "open", recEdge = "0";
+let recAgainst = "open", recEdge = "0", recMarket = "spread";
+
+/** 95% margin of error on a hit rate from n picks (using 50%, the widest case). */
+const moe = (n) => (n ? 1.96 * Math.sqrt(0.25 / n) : null);
+const withMoe = (rate, n) => (rate == null ? "—" : `${pct(rate, 1)}<small class="moe"> ±${(100 * moe(n)).toFixed(1)}</small>`);
 
 function renderRecord() {
-  const r = state.record;
+  const r = recMarket === "total" ? state.record?.totals : state.record;
   if (!r) { $("#record-headline").innerHTML = `<div class="card">Track record isn't available yet.</div>`; return; }
+  const tot = recMarket === "total", line = tot ? "total" : "line";
   const rows = (key) => (r.tables[key] || []).filter((x) => !/baseline/.test(x.name));
   // headline cards only feature results with enough picks to mean something
   const MIN_PICKS = 200;
   const best = (key) => rows(key).filter((x) => x.picks >= MIN_PICKS).sort((a, b) => b.hit_rate - a.hit_rate)[0];
   const open3 = best("open_3"), close0 = best("close_0"), open0 = best("open_0");
   const moved = rows("open_3").filter((x) => x.clv_beat_rate != null && x.picks >= MIN_PICKS).sort((a, b) => b.clv_beat_rate - a.clv_beat_rate)[0];
+  const n = (x) => (x ? x.wins + x.losses : 0);
   $("#record-headline").innerHTML = [
-    ["Betting at the closing line", close0 && close0.hit_rate >= BREAKEVEN ? pct(close0.hit_rate, 1) : "No edge",
-      `Best source: ${close0?.name} at ${pct(close0?.hit_rate, 1)}. Break-even is 52.4%. The final line is very hard to beat.`],
-    ["Opening line, every game", pct(open0?.hit_rate, 1), `${open0?.name}, ${open0?.wins}-${open0?.losses}. Just above break-even.`],
-    ["Opening line, 3+ pt edges", pct(open3?.hit_rate, 1), `${open3?.name}, ${open3?.wins}-${open3?.losses}. Barely above break-even; the edge is real but small.`],
-    ["Line moved toward the pick", pct(moved?.clv_beat_rate), `${moved?.name}, 3+ pt edges. Lines moving your way is the best sign of a real edge.`],
+    [`Betting at the closing ${line}`, close0 && close0.hit_rate >= BREAKEVEN ? withMoe(close0.hit_rate, n(close0)) : "No edge",
+      `Best source: ${close0?.name} at ${pct(close0?.hit_rate, 1)}. Break-even is 52.4%. The final ${line} is very hard to beat.`],
+    [`Opening ${line}, every game`, withMoe(open0?.hit_rate, n(open0)),
+      `${open0?.name}, ${open0?.wins}-${open0?.losses}. ${open0?.hit_rate >= BREAKEVEN ? "Just above" : open0?.hit_rate >= 0.51 ? "Just below" : "Below"} break-even.`],
+    [`Opening ${line}, 3+ pt edges`, withMoe(open3?.hit_rate, n(open3)), `${open3?.name}, ${open3?.wins}-${open3?.losses}. ${open3?.hit_rate >= BREAKEVEN
+      ? "Barely above break-even; the edge is real but small." : "Below break-even: no reliable edge here yet."}`],
+    [`${tot ? "Total" : "Line"} moved toward the pick`, pct(moved?.clv_beat_rate), `${moved?.name}, 3+ pt edges. Lines moving your way is the best sign of a real edge.`],
   ].map(([h, big, p]) => `<div class="card"><h4>${h}</h4><div class="big">${big}</div><p>${esc(p)}</p></div>`).join("");
 
   const t = r.tables[`${recAgainst}_${recEdge}`] || [];
   const clv = recAgainst === "open";
-  $("#record-table").innerHTML = `<tr><th>Projection</th><th>Picks</th><th>Record</th><th>Hit rate</th><th>Typical miss</th>${clv ? "<th>Line moved our way</th>" : ""}</tr>` +
+  $("#record-table").innerHTML = `<tr><th>Projection</th><th>Picks</th><th>Record</th><th>Hit rate</th><th>Typical miss</th>${clv ? `<th>${tot ? "Total" : "Line"} moved our way</th>` : ""}</tr>` +
     t.map((x) => /baseline/.test(x.name)
       ? `<tr><td class="l note">${esc(x.name.replace(" (baseline)", ""))} itself</td><td></td><td></td><td></td><td>${x.rmse_vs_result?.toFixed(1)}</td>${clv ? "<td></td>" : ""}</tr>`
       : `<tr><td class="l">${esc(x.name)}</td><td>${x.picks ?? 0}</td><td>${x.wins ?? 0}-${x.losses ?? 0}</td>
-        <td class="${x.hit_rate >= BREAKEVEN ? "good" : "bad"}">${pct(x.hit_rate, 1)}</td><td>${x.rmse_vs_result?.toFixed(1)}</td>
+        <td class="${x.hit_rate >= BREAKEVEN ? "good" : "bad"}">${withMoe(x.hit_rate, n(x))}</td><td>${x.rmse_vs_result?.toFixed(1)}</td>
         ${clv ? `<td>${pct(x.clv_beat_rate)}</td>` : ""}</tr>`).join("");
+  $("#season-head").textContent = `By season (opening ${line}, every game)`;
 
   const names = (r.tables.open_0 || []).map((x) => x.name).filter((n) => !/baseline/.test(n));
   $("#season-table").innerHTML = `<tr><th>Season</th><th>Games</th>${names.map((n) => `<th>${esc(n)}</th>`).join("")}</tr>` +
@@ -547,7 +662,7 @@ function renderRecord() {
 
 // ---------- Live results (forward test) ----------
 
-let liveSource = "anchored", liveTier = "strong";
+let liveSource = "anchored", liveTier = "all";  // every game: the most finished picks
 
 /** Link to the pick log's history on GitHub, which shows when each pick was committed. */
 function proofLink() {
@@ -556,32 +671,82 @@ function proofLink() {
   return m && repo ? `https://github.com/${m[1]}/${repo}/commits/main/data/live/picks.csv` : null;
 }
 
+/** Estimated long-run hit rate from line movement: 50% (the closing line is about a coin flip) plus
+ *  CLV_PER_POINT for every point the line moved toward the picks on average, with a 95% margin of
+ *  error from how much the moves vary. Null until there are enough graded picks to say anything. */
+function clvEstimate(s, market) {
+  if (s.avg_clv == null || s.clv_sd == null || s.clv_n < 8) return null;
+  const k = CLV_PER_POINT[market];
+  return { rate: 0.5 + k * s.avg_clv, moe: 1.96 * k * s.clv_sd / Math.sqrt(s.clv_n) };
+}
+
+// position on the verdict bar, which runs from 40% to 65%
+const vpos = (x) => Math.max(0, Math.min(100, (100 * (x - 0.4)) / 0.25));
+
+function liveVerdict(s, market) {
+  const est = clvEstimate(s, market), what = market === "total" ? "total" : "line";
+  const n = s.at_logged.wins + s.at_logged.losses;
+  if (!est) {
+    return `<div class="card verdict"><h4>Expected hit rate, from how the ${what} moved</h4><div class="big">Too early</div>
+      <p>Fewer than 8 finished picks. The estimate appears once there are enough to measure.</p></div>`;
+  }
+  const lo = est.rate - est.moe, hi = est.rate + est.moe;
+  const call = lo > BREAKEVEN ? "Above the 52.4% break-even even at the low end: the strongest sign of a real edge."
+    : hi < BREAKEVEN ? "Below the 52.4% break-even even at the high end. The market moves toward these picks, but not far enough to profit."
+    : "The range includes the 52.4% break-even, so it's too close to call yet.";
+  const beat = s.moved_n ? ` toward these picks in ${pct(s.clv_beat_rate)} of the ${s.moved_n} games where it moved,` : "";
+  const per = (100 * CLV_PER_POINT[market]).toFixed(1).replace(/\.0$/, "");
+  return `<div class="card verdict">
+    <h4>Expected hit rate, from how the ${what} moved</h4>
+    <div class="big">${pct(est.rate, 1)}<small class="moe"> ±${(100 * est.moe).toFixed(1)}</small></div>
+    <div class="vbar" role="img" aria-label="Estimate ${pct(est.rate, 1)}, likely range ${pct(lo, 1)} to ${pct(hi, 1)}, break-even 52.4%">
+      <i style="left:${vpos(lo)}%;width:${vpos(hi) - vpos(lo)}%"></i><b style="left:${vpos(est.rate)}%"></b>
+      <em style="left:${vpos(BREAKEVEN)}%"></em><span style="left:${vpos(0.5)}%">50%</span><span class="be" style="left:${vpos(BREAKEVEN)}%">52.4%</span></div>
+    <p><b>${esc(call)}</b> Between the moment each pick was logged and kickoff, the ${what} moved${beat} by
+      ${s.avg_clv >= 0 ? "+" : ""}${s.avg_clv.toFixed(2)} points on average. In the 2023-2026 backtest, each point the ${what} moved
+      toward a pick was worth about ${per} points of hit rate.</p>
+    <p class="note">Why this instead of the record: with ${n} finished pick${n === 1 ? "" : "s"}, the win-loss record's margin of error is
+      ±${(100 * moe(n)).toFixed(0)} points, so it's still mostly luck. Line moves vary much less from game to game, so they say more,
+      sooner. It's an estimate: it assumes the closing ${what} is about a coin flip, as it was in the backtest.</p>
+  </div>`;
+}
+
 function renderLive() {
-  const L = state.live;
+  const tot = recMarket === "total", market = tot ? "total" : "spread";
+  const L = tot ? state.live?.totals : state.live;
+  $$("#live-source [data-spread-only]").forEach((b) => (b.hidden = tot));
+  if (tot && !["anchored", "points"].includes(liveSource)) {
+    liveSource = "anchored";
+    $$("#live-source button").forEach((x) => x.classList.toggle("on", x.dataset.v === liveSource));
+  }
+  $("#live-recent-head").textContent = `Recent Market-anchored ${tot ? "over/unders" : "picks"} (edge 1.5+)`;
   if (!L || !L.games) {
-    $("#live-intro").textContent = "No live picks recorded yet. They start appearing once lines are posted.";
-    $("#live-stats").innerHTML = ""; $("#live-table").innerHTML = "";
+    $("#live-intro").textContent = tot ? "No over/under picks recorded yet. They start appearing once totals are posted."
+      : "No live picks recorded yet. They start appearing once lines are posted.";
+    $("#live-verdict").innerHTML = ""; $("#live-stats").innerHTML = ""; $("#live-table").innerHTML = "";
     return;
   }
   const since = new Date(L.since).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
   const proof = proofLink();
-  $("#live-intro").innerHTML = `Since ${esc(since)}, every game's pick has been saved the first time its line appeared, at that line,
+  $("#live-intro").innerHTML = `Since ${esc(since)}, every game's ${tot ? "over/under pick has been saved the first time its total" : "pick has been saved the first time its line"} appeared, at that number,
     and never changed afterward (${L.games} games so far). This is the real test: unlike the backtest below, these picks were made
     before anyone knew the results.${proof ? ` <a href="${proof}" target="_blank" rel="noopener">See when each pick was recorded</a>.` : ""}`;
   const s = L.summary.find((x) => x.key === liveSource && x.tier === liveTier);
   const rec = (r) => `${r.wins}-${r.losses}${r.pushes ? "-" + r.pushes : ""}`;
-  const graded = s.at_logged.wins + s.at_logged.losses + s.at_logged.pushes;
+  const n = s.at_logged.wins + s.at_logged.losses;
+  const beat = s.moved_n ? Math.round(s.clv_beat_rate * s.moved_n) : 0;
+  $("#live-verdict").innerHTML = liveVerdict(s, market);
   $("#live-stats").innerHTML = [
+    [`${tot ? "Total" : "Line"} moved our way`, pct(s.clv_beat_rate), s.moved_n ? `${beat} of ${s.moved_n} moves · ±${(100 * moe(s.moved_n)).toFixed(0)}` : "No moves yet"],
+    ["Average move", s.avg_clv == null ? "—" : `${s.avg_clv >= 0 ? "+" : ""}${s.avg_clv.toFixed(2)}`, "points per pick, logged to kickoff"],
+    [`Record at the ${tot ? "total" : "line"} we logged`, rec(s.at_logged), n ? `${pct(s.at_logged.hit_rate, 1)} ±${(100 * moe(n)).toFixed(0)} · at the close ${rec(s.at_close)}` : "No games finished yet"],
     ["Picks", s.picks, `${s.pending} still to play`],
-    ["Record at the line we logged", rec(s.at_logged), graded ? `${pct(s.at_logged.hit_rate, 1)} · break-even 52.4%` : "No games finished yet"],
-    ["Record at the closing line", rec(s.at_close), s.at_close.hit_rate == null ? "" : pct(s.at_close.hit_rate, 1)],
-    ["Line moved our way", pct(s.clv_beat_rate), s.avg_clv == null ? "" : `avg ${s.avg_clv >= 0 ? "+" : ""}${s.avg_clv.toFixed(2)} pts`],
   ].map(([k, v, sub]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="k">${esc(sub)}</div></div>`).join("");
   const res = { W: `<span class="badge win">Won</span>`, L: `<span class="badge loss">Lost</span>`, P: `<span class="badge pass">Push</span>` };
-  $("#live-table").innerHTML = `<tr><th>Kickoff</th><th class="l">Game</th><th class="l">Pick</th><th>Edge</th><th>Line moved</th><th class="l">Result</th></tr>` +
+  $("#live-table").innerHTML = `<tr><th>Kickoff</th><th class="l">Game</th><th class="l">Pick</th><th>Edge</th><th>${tot ? "Total" : "Line"} moved</th><th class="l">Result</th></tr>` +
     (L.recent.length ? L.recent.map((p) => `<tr>
       <td>${esc(new Date(p.kickoff).toLocaleDateString(undefined, { month: "short", day: "numeric" }))}</td>
-      <td class="l">${esc(p.game)}</td><td class="l"><b>${esc(p.team)} ${fmtLine(p.line)}</b></td>
+      <td class="l">${esc(p.game)}</td><td class="l"><b>${tot ? `${p.side === "over" ? "Over" : "Under"} ${p.line}` : `${esc(p.team)} ${fmtLine(p.line)}`}</b></td>
       <td><span class="badge ${p.tier}">${p.edge.toFixed(1)}</span></td>
       <td class="${p.clv > 0 ? "good" : p.clv < 0 ? "bad" : ""}">${p.clv == null ? "—" : (p.clv > 0 ? "+" : "") + p.clv}</td>
       <td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td></tr>`).join("")
@@ -614,6 +779,55 @@ function renderChangelog() {
 
 function renderAll() { renderWeekbar(); renderGames(); renderPicks(); renderBets(); }
 
+/** The Projection dropdown lists what can project the chosen market: FPI doesn't project scoring. */
+function renderSourceSelect() {
+  const opts = state.market === "total"
+    ? [["anchored", "★ Market-anchored"], ["points", "Adjusted points"]]
+    : [["anchored", "★ Market-anchored"], ["fpi", "ESPN FPI"], ["blend", "Blend"], ["points", "Adjusted points"]];
+  const sel = $("#source");
+  sel.innerHTML = opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+  sel.value = state.market === "total" ? state.totalSource : state.source;
+  $$("#market button").forEach((b) => b.classList.toggle("on", b.dataset.v === state.market));
+}
+
+function setFilter(f) {
+  state.filter = f;
+  $$("#filter button").forEach((x) => x.classList.toggle("on", x.dataset.filter === f));
+}
+
+/** Once next week's lines are posted (usually Sunday), say so while the current week is on screen:
+ *  the model tested best at the opening number, before the market moves. */
+async function checkNextWeek() {
+  const box = $("#open-notice"), cur = state.currentIndex, nxt = state.calendar[cur + 1];
+  if (cur < 0 || !nxt || state.weekIndex !== cur) { box.innerHTML = ""; return; }
+  const key = `${state.season}-${nxt.seasontype}-${nxt.week}`;
+  if (store.get("openSeen", "") === key) { box.innerHTML = ""; return; }
+  try {
+    if (state.next?.key !== key || Date.now() - state.next.at > 30 * 60e3) {
+      const d = await getJSON(`${ESPN}/scoreboard?groups=80&limit=300&dates=${state.season}&seasontype=${nxt.seasontype}&week=${nxt.week}`);
+      state.next = { key, at: Date.now(), games: (d.events || []).map(parseEvent) };
+    }
+  } catch { return; }  // try again on the next refresh
+  const tot = state.market === "total";
+  const posted = state.next.games.filter((g) => g.state === "pre" && (tot ? g.total : g.line) != null);
+  if (!posted.length || state.weekIndex !== cur) { box.innerHTML = ""; return; }
+  const evs = posted.map((g) => evaluate(g));
+  const fresh = posted.filter((g, i) => atOpen(g, evs[i])).length;
+  box.innerHTML = `<div class="notice notice-open" role="status">
+      <span class="notice-tag">${tot ? "Totals" : "Lines"} are up · ${esc(nxt.label)}</span>
+      <span>${posted.length} game${posted.length === 1 ? " has" : "s have"} ${tot ? "a total" : "a line"}. ${fresh
+        ? `<b>${fresh}</b> ${fresh === 1 ? "edge is" : "edges are"} still at the opening number, where the model tested best.
+          <button class="link" type="button" data-next-week>See ${fresh === 1 ? "it" : "them"} ›</button>`
+        : `No edges are at their opening number right now; the model tested best there.
+          <button class="link" type="button" data-next-week>See the week ›</button>`}</span>
+      <button class="notice-x" type="button" aria-label="Dismiss" data-dismiss-open>✕</button></div>`;
+  $("[data-dismiss-open]").addEventListener("click", () => { store.set("openSeen", key); box.innerHTML = ""; });
+  $("[data-next-week]").addEventListener("click", () => {
+    setFilter(fresh ? "open" : "all");
+    state.weekIndex = cur + 1; box.innerHTML = ""; refresh(state.weekIndex);
+  });
+}
+
 function applyTheme() {
   const t = state.settings.theme;
   if (t === "auto") document.documentElement.removeAttribute("data-theme");
@@ -624,6 +838,7 @@ async function refresh(index = state.weekIndex) {
   try {
     await loadWeek(index);
     renderAll();
+    checkNextWeek();
     $("#updated").textContent = `Scores updated ${new Date().toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}` +
       (state.ratings ? ` · ratings ${new Date(state.ratings.updated).toLocaleDateString(undefined, { month: "short", day: "numeric" })}` : "");
   } catch (e) {
@@ -652,15 +867,21 @@ function bind() {
   $("#week-prev").addEventListener("click", () => { if (state.weekIndex > 0) refresh(--state.weekIndex); });
   $("#week-next").addEventListener("click", () => { if (state.weekIndex < state.calendar.length - 1) refresh(++state.weekIndex); });
 
-  const src = $("#source"); src.value = state.source;
-  src.addEventListener("change", () => { state.source = src.value; store.set("source", state.source); renderGames(); });
+  renderSourceSelect();
+  const src = $("#source");
+  src.addEventListener("change", () => {
+    if (state.market === "total") { state.totalSource = src.value; store.set("totalSource", src.value); }
+    else { state.source = src.value; store.set("source", src.value); }
+    renderGames();
+  });
+  $$("#market button").forEach((b) => b.addEventListener("click", () => {
+    state.market = b.dataset.v; store.set("market", state.market);
+    renderSourceSelect(); renderGames(); checkNextWeek();
+  }));
   const sort = $("#sort"); sort.value = state.sort;
   sort.addEventListener("change", () => { state.sort = sort.value; store.set("sort", state.sort); renderGames(); });
   $("#search").addEventListener("input", (e) => { state.search = e.target.value; renderGames(); });
-  $$("#filter button").forEach((b) => b.addEventListener("click", () => {
-    $$("#filter button").forEach((x) => x.classList.toggle("on", x === b));
-    state.filter = b.dataset.filter; renderGames();
-  }));
+  $$("#filter button").forEach((b) => b.addEventListener("click", () => { setFilter(b.dataset.filter); renderGames(); }));
 
   document.addEventListener("click", (e) => {
     const t = e.target.closest("[data-track],[data-unpick],[data-delbet],th[data-sort]");
@@ -715,7 +936,8 @@ function bind() {
   $("#rating-search").addEventListener("input", renderRatings);
   for (const [id, setter, render] of [["#rec-against", (v) => (recAgainst = v), renderRecord],
     ["#rec-edge", (v) => (recEdge = v), renderRecord], ["#live-source", (v) => (liveSource = v), renderLive],
-    ["#live-tier", (v) => (liveTier = v), renderLive]]) {
+    ["#live-tier", (v) => (liveTier = v), renderLive],
+    ["#rec-market", (v) => (recMarket = v), () => { renderLive(); renderRecord(); }]]) {
     $$(`${id} button`).forEach((b) => b.addEventListener("click", () => {
       $$(`${id} button`).forEach((x) => x.classList.toggle("on", x === b)); setter(b.dataset.v); render();
     }));
@@ -738,7 +960,10 @@ async function init() {
   bind();
   const [ratings, model, record, live, changelog] = await Promise.all(
     ["ratings", "model", "track_record", "live", "changelog"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
-  if (ratings) state.ratings = { ...ratings, list: ratings.teams, byId: Object.fromEntries(ratings.teams.map((t) => [String(t.id), t])) };
+  if (ratings) {
+    const avg = ratings.teams.reduce((s, t) => s + t.ppg + t.papg, 0) / (2 * ratings.teams.length || 1);  // model.project's avg
+    state.ratings = { ...ratings, avg, list: ratings.teams, byId: Object.fromEntries(ratings.teams.map((t) => [String(t.id), t])) };
+  }
   state.model = model;
   state.record = record;
   state.live = live;

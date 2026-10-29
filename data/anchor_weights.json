@@ -1,1 +1,1 @@
-{"weights": {"const": 0.0171, "line": 0.7334, "fpi": 0.2096, "points": 0.1155}, "seasons": [2023, 2024, 2025], "hfa": 3.0}
+{"weights": {"const": 0.0171, "line": 0.7334, "fpi": 0.2096, "points": 0.1155}, "total_weights": {"const": 10.6959, "total": 0.722, "points": 0.0898}, "seasons": [2023, 2024, 2025], "hfa": 3.0}

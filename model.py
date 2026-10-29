@@ -91,7 +91,7 @@ def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3):
     """Predict each week using only what was known before it: points ratings fit on earlier
     games, and the FPI snapshot from the previous week. games: DataFrame of completed games
     (id, week, home, away, home_id, away_id, home_pts, away_pts, neutral);
-    lines: {id: (closing home line, opening home line)};
+    lines: {id: (closing home line, opening home line[, closing total, opening total])};
     fpi_by_week: {week: {team id: fpi}}. Returns one row per FBS-vs-FBS game with a line."""
     rows = []
     for w in sorted(games.loc[games.week >= start_week, "week"].unique()):
@@ -100,7 +100,7 @@ def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3):
         r = fit_ratings(pool_fcs(fit, fbs))[0].set_index("team")
         fpi = fpi_by_week.get(w - 1, {})
         for g in games[games.week == w].itertuples():
-            line, open_line = lines.get(g.id, (None, None))
+            line, open_line, total, open_tot = (tuple(lines.get(g.id, ())) + (None,) * 4)[:4]
             if g.home not in fbs or g.away not in fbs or line is None or pd.isna(line):
                 continue
             p = project(g.home, g.away, r, g.neutral, hfa)
@@ -112,8 +112,14 @@ def walk_forward(games, lines, fpi_by_week, fbs, hfa=HFA, start_week=3):
                 continue
             if open_line is not None and not pd.isna(open_line) and abs(open_line - line) >= MAX_OPEN_MOVE:
                 open_line = None  # look-ahead line, not a real opener
+            if total is None or pd.isna(total):
+                total = open_tot = None
+            elif open_tot is not None and not pd.isna(open_tot) and abs(open_tot - total) >= MAX_OPEN_MOVE:
+                open_tot = None
             rows.append(dict(id=g.id, week=w, game=f"{g.away} @ {g.home}", line=line, open_line=open_line,
-                             final_margin=g.home_pts - g.away_pts, points=pts, fpi=f, blend=(pts + f) / 2))
+                             final_margin=g.home_pts - g.away_pts, points=pts, fpi=f, blend=(pts + f) / 2,
+                             total=total, open_total=open_tot, final_total=g.home_pts + g.away_pts,
+                             points_total=p[0] + p[1]))
     return pd.DataFrame(rows)
 
 
@@ -197,5 +203,67 @@ def score_backtest(res, min_edge=0.0, against="close"):
         out.append(row)
     err = -res[col_line] - res["final_margin"]
     out.append(dict(source=("Opening" if against == "open" else "Closing") + " line (baseline)",
+                    mae_vs_result=err.abs().mean(), rmse_vs_result=np.sqrt((err ** 2).mean()), mae_vs_line=0.0))
+    return pd.DataFrame(out).set_index("source")
+
+
+# ---------- Totals (over/under) ----------
+# Same approach as spreads: the market's total is the starting point, and adjusted points (each
+# offense against the other's defense) shifts it. FPI doesn't project scoring, so it isn't used.
+TOTAL_FEATURES = ["const", "total", "points"]
+
+
+def fit_total_anchor(res):
+    """Weights for the market-anchored total: final total regressed on the opening total and the
+    adjusted-points total, by least squares on backtest rows."""
+    d = res.dropna(subset=["open_total", "points_total"])
+    X = np.column_stack([np.ones(len(d)), d["open_total"], d["points_total"]])
+    return dict(zip(TOTAL_FEATURES, np.linalg.lstsq(X, d["final_total"], rcond=None)[0].round(4)))
+
+
+def anchored_total(w, total, pts_total):
+    return w["const"] + w["total"] * total + w["points"] * pts_total
+
+
+def add_total_anchored(res, first_train_season=2023):
+    """Adds an "anchored_total" column, each season predicted with weights fit on earlier seasons."""
+    res = res.copy()
+    res["anchored_total"] = np.nan
+    for s in sorted(res["season"].unique()):
+        train = res[(res["season"] < s) & (res["season"] >= first_train_season)]
+        if train["open_total"].notna().sum() < 200:
+            continue
+        w, m = fit_total_anchor(train), res["season"] == s
+        res.loc[m, "anchored_total"] = anchored_total(w, res.loc[m, "open_total"].fillna(res.loc[m, "total"]),
+                                                      res.loc[m, "points_total"])
+    return res
+
+
+def score_totals(res, min_edge=0.0, against="close"):
+    """Over/under record per totals source, like score_backtest. CLV here is how far the total
+    moved toward the pick between the open and kickoff (up for an over, down for an under)."""
+    col = "open_total" if against == "open" else "total"
+    res = res.dropna(subset=[col])
+    out = []
+    for name, src in (("Adjusted points", "points_total"), ("Market-anchored", "anchored_total")):
+        if src not in res.columns or res[src].isna().all():
+            continue
+        edge = res[src] - res[col]  # positive: over
+        pick = res[edge.abs() >= min_edge]
+        side = np.sign(edge[pick.index])
+        ou = (pick["final_total"] - pick[col]) * side
+        w, l = int((ou > 0).sum()), int((ou < 0).sum())
+        err = res[src] - res["final_total"]
+        row = dict(source=name, picks=w + l, wins=w, losses=l, pushes=int((ou == 0).sum()),
+                   hit_rate=w / (w + l) if w + l else None,
+                   mae_vs_result=err.abs().mean(), rmse_vs_result=np.sqrt((err ** 2).mean()),
+                   mae_vs_line=edge.abs().mean())
+        if against == "open":
+            clv = (pick["total"] - pick["open_total"]) * side
+            moved = clv[clv != 0]
+            row.update(avg_clv=clv.mean(), clv_beat_rate=(moved > 0).mean() if len(moved) else None)
+        out.append(row)
+    err = res[col] - res["final_total"]
+    out.append(dict(source=("Opening" if against == "open" else "Closing") + " total (baseline)",
                     mae_vs_result=err.abs().mean(), rmse_vs_result=np.sqrt((err ** 2).mean()), mae_vs_line=0.0))
     return pd.DataFrame(out).set_index("source")

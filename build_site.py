@@ -13,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 import sources
-from model import HFA, add_anchored, fit_anchor, score_backtest
+from model import HFA, add_anchored, add_total_anchored, fit_anchor, fit_total_anchor, score_backtest, score_totals
 
 OUT = Path(__file__).parent / "site" / "data"
 PAST = [2023, 2024, 2025]  # seasons with reliable FPI history (see README)
@@ -37,8 +37,8 @@ def write(name, data):
     print(f"wrote site/data/{name}")
 
 
-def table(res, edge, against):
-    t = score_backtest(res, edge, against).reset_index()
+def table(res, edge, against, score=score_backtest):
+    t = score(res, edge, against).reset_index()
     return t.rename(columns={"source": "name"}).to_dict("records")
 
 
@@ -59,9 +59,9 @@ def main():
         return
     res = pd.concat([sources.season_backtest(y, HFA, now.date().isoformat()) for y in seasons + [season]],
                     ignore_index=True)
-    res = add_anchored(res)
+    res = add_total_anchored(add_anchored(res))
     done = res[res["season"].isin(seasons)]
-    anchor = ({"weights": fit_anchor(done), "seasons": seasons} if len(done)
+    anchor = ({"weights": fit_anchor(done), "total_weights": fit_total_anchor(done), "seasons": seasons} if len(done)
               else json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else None)
     if len(done):  # keep the forward test and the Streamlit app on the same weights as the site
         sources.ANCHOR.write_text(json.dumps(clean({**anchor, "hfa": HFA})))
@@ -69,13 +69,25 @@ def main():
     # typical miss in points for each source: the right margin std dev for its cover percentages
     close = score_backtest(res, 0, "close")
     sigma = {SOURCE_NAMES[n]: round(close.at[n, "rmse_vs_result"] * 2) / 2 for n in close.index if n in SOURCE_NAMES}
-    write("model.json", {"updated": now.isoformat(), "hfa": HFA, "anchor": anchor, "sigma": sigma})
+    tclose = score_totals(res, 0, "close")
+    sigma_total = {SOURCE_NAMES[n]: round(tclose.at[n, "rmse_vs_result"] * 2) / 2 for n in tclose.index if n in SOURCE_NAMES}
+    write("model.json", {"updated": now.isoformat(), "hfa": HFA, "anchor": anchor, "sigma": sigma,
+                         "sigma_total": sigma_total})
 
     write("track_record.json", {
         "updated": now.isoformat(), "seasons": sorted(res["season"].unique().tolist()), "games": len(res),
         "tables": {f"{against}_{edge}": table(res, edge, against) for against in ("open", "close") for edge in (0, 2, 3)},
         "by_season": [{"season": int(s), "games": len(d), **{r["name"]: r["hit_rate"] for r in table(d, 0, "open")}}
                       for s, d in res.groupby("season")],
+        # over/unders, graded the same way against the opening and closing totals
+        "totals": {
+            "games": int(res["total"].notna().sum()),
+            "tables": {f"{against}_{edge}": table(res, edge, against, score_totals)
+                       for against in ("open", "close") for edge in (0, 2, 3)},
+            "by_season": [{"season": int(s), "games": int(d["total"].notna().sum()),
+                           **{r["name"]: r["hit_rate"] for r in table(d, 0, "open", score_totals)}}
+                          for s, d in res.groupby("season")],
+        },
     })
 
 

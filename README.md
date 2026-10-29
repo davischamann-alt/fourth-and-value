@@ -61,8 +61,12 @@ It's free. Scores, lines and ESPN's team ratings come from ESPN's public data. T
 Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.github.io/fourth-and-value/)**. It works on phones, and you can add it to your home screen from the browser's Share menu.
 
 - **Games:** one week at a time (use ‹ › to change weeks), grouped by day. Each game card shows the line and where it opened, the model's pick, an edge badge labeled like a fourth-down call (**Go for it** at 3–5 points, **Lean** at 1.5–3, **Punt** under 1.5, meaning no bet, and **Check the news** at 5+, where the gap is more likely missing information than extra value), and the cover chance, which updates live during games. Filter to go-for-it edges, live games, or **close** games (live and within 4 points of the spread, sorted tightest first), sort by biggest edge, or search for a team.
+  - **Spread / Total:** switches every card between the pick against the spread and the **over/under** pick against the total (see [What the testing found](#what-the-testing-found) for how totals tested).
+  - **At open:** edges of 1.5+ where the line is still within half a point of its opening number, where the model tested best. Each pregame pick box also says how far the line has moved toward or away from the pick since it opened.
+  - **Opening lines notice:** once next week's lines are posted (usually Sunday), a notice at the top says how many edges are still at the opening number, with a link straight to them.
 - **Game details:** tap any game card for the full breakdown. Each game has its own link (like `#game/401858274`) that you can share.
   - **Why this pick:** what all four projections say, and whether they agree. A split is a reason to punt.
+  - **Over/under:** both totals projections, the model's over or under pick, and its forward-test entry.
   - **Line movement:** a chart of the line through the week, from the forward test's two-hourly recordings.
   - **Matchup:** FPI rank and adjusted offense and defense, ESPN's season stats (or game stats once it starts), and each team's last five results.
   - **A second opinion:** ESPN's matchup predictor next to the model's win chance.
@@ -74,7 +78,7 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
 - **Ratings:** every FBS team's FPI and adjusted offense and defense, sortable and searchable, with a **How to read the ratings** guide (what each column means and how the projections use it) and a **Compare two teams** tool: pick any matchup, home or neutral, and optionally enter the betting line to see each projection's pick and edge.
 - **My picks:** tap **☆ Track pick** on a game before kickoff, and it's graded automatically when the game ends.
 - **Bets:** log bets and see your record, profit and ROI, and download or import them as CSV.
-- **Track record:** live results of picks recorded before kickoff ([The forward test](#the-forward-test)), then the backtest results in plain language.
+- **Track record:** live results of picks recorded before kickoff ([The forward test](#the-forward-test)), led by the **expected hit rate from line movement**, then the backtest results in plain language. Every hit rate shows its margin of error (±). A switch at the top flips between spreads and totals.
 - **Updates:** every improvement to the project, newest first, with model changes dated and explained. Filter by model, site, or fixes and data.
 - **Suggestions and problem reports:** the form on the Updates tab opens a pre-filled post in the repo's [GitHub Issues](https://github.com/davischamann-alt/fourth-and-value/issues), labeled `suggestion` or `problem`, so feedback is tracked in the open. Posting needs a free GitHub account; nothing is sent from the site itself. The Updates tab also lists the suggestions that are still open.
 - **⚙︎ Settings:** home-field advantage, std dev (it uses the tested value for each projection automatically) and light or dark theme.
@@ -94,6 +98,8 @@ Picks and bets are saved only in the browser you use, so they don't follow you b
 | **Opening line** | The first line a sportsbook posts, usually the Sunday before the game. It's the easiest line to beat. |
 | **Closing line** | The final line at kickoff, after all the betting has moved it. It's the hardest line to beat. |
 | **CLV (closing line value)** | How far the line moved toward your pick between open and kickoff. Lines that keep moving your way are the standard sign of a real edge. |
+| **Total (over/under)** | The sportsbook's line on combined points. An **over** bet wins if both teams together score more; an **under** wins if they score fewer. |
+| **Margin of error (±)** | How far a hit rate could be from the truth by luck alone (95% of the time). After 50 picks it's about ±14 points; after 2,000 about ±2. |
 | **Hit rate** | The share of picks that covered. At standard -110 odds, you need **52.4%** to break even. |
 | **FPI** | ESPN's Football Power Index: how many points better or worse a team is than an average FBS team on a neutral field. |
 | **FBS / FCS** | The top two divisions of college football. The dashboard rates FBS teams; FCS opponents share a single rating. |
@@ -280,6 +286,17 @@ These results are from 2023–2026 (through week 8 of 2026), about 2,300 games, 
 | **Opening line, edge 5+ points** | No better than 3–5 point edges (ESPN FPI 52.6%). That's why the site labels them **Check the news** instead of Go for it. |
 | **Line movement** | After the open, lines moved toward the model's picks about 62–72% of the time. |
 
+**Totals (over/unders)**, graded the same way, about 2,300 games:
+
+| Picks made at the… | Result |
+| --- | --- |
+| **Closing total** | 51–52% for both totals projections: no edge. |
+| **Opening total, every game** | Adjusted points 52.1% (2,272 picks), Market-anchored 51.8%: right around break-even. |
+| **Opening total, edge 3+ points** | Adjusted points 50.9%. Market-anchored 54.0%, but on only 50 picks. |
+| **Total movement** | Totals moved toward the Adjusted points picks 55–61% of the time, but by only about +0.4 points on average, which isn't enough to profit. |
+
+Totals are shown because they're part of every game and the forward test now records them, not because they've proven to make money. The model doesn't know the weather, which moves totals more than spreads.
+
 **What this means:**
 
 - **The Vegas closing line is more accurate than any of these projections.** Betting near kickoff shows no edge.
@@ -299,10 +316,11 @@ Every two hours, the GitHub job runs `record.py`, which:
 
 1. **Records lines:** saves each game's line whenever it changes, with the time, to `data/live/line_history.csv`. This builds a record of how lines move through the week.
 2. **Logs picks:** the first time a game has a line, saves every projection's pick at that line to `data/live/picks.csv`. Those columns are never changed afterward. Since the job checks every two hours, picks are logged within about two hours of the opening line.
-3. **Grades picks:** after kickoff, fills in the closing line, the result at the logged line, the result at the closing line and the CLV (how far the line moved toward the pick).
-4. **Commits** both files to the repository. Git history then shows exactly when each pick was recorded, which proves it was made before the game.
+3. **Logs over/unders:** the same for totals, the first time a game has a total, in `data/live/total_picks.csv` (started October 29, 2026).
+4. **Grades picks:** after kickoff, fills in the closing line, the result at the logged line, the result at the closing line and the CLV (how far the line moved toward the pick).
+5. **Commits** the files to the repository. Git history then shows exactly when each pick was recorded, which proves it was made before the game.
 
-The website's **Track record** tab shows the results by projection and edge size, with a link to that history. Watch two numbers: the record at the logged line, and how often the line moved our way. A few hundred strong-edge picks are needed before the record means much.
+The website's **Track record** tab shows the results by projection and edge size, with a link to that history. It leads with the **expected hit rate from line movement**, not the win-loss record, because the record needs hundreds of picks before it means much (after 50 picks its margin of error is about ±14 points). Line moves settle much faster: in the 2023–2026 backtest, every point the line moved toward a pick was worth about 3 points of hit rate (2.5 for totals). So the estimate is 50% plus that much for the average move, with its own margin of error. It assumes the closing line is about a coin flip, as it was in the backtest. To beat the 52.4% break-even, the line has to move about +0.8 points toward the picks on average.
 
 The log started on October 21, 2026, partway through week 8, so some of that week's games were logged after their lines had already moved. Everything from week 9 on is logged close to the open.
 
@@ -322,6 +340,15 @@ Market-anchored:  const + w_line x (-home line) + w_fpi x FPI margin + w_pts x p
 ```
 
 There's no home-field advantage (HFA) at neutral sites. Market-anchored starts from the line you'd be betting: the current line, or the pregame line once a game has started. In the backtest it started from the opening line and was graded against that same line. Starting from an older line than the one being bet would count the line's own movement as edge. The weights are learned by regression on past seasons. Learned from 2023–2025 (look-ahead opening lines excluded), they come out to about 0.73 × line, 0.21 × FPI and 0.12 × adjusted points.
+
+**Projected total** (over/unders), by source. FPI doesn't project scoring, so it isn't used:
+
+```
+Adjusted points:  (home.ppg + away.papg) + (away.ppg + home.papg) - 2 x league average
+Market-anchored:  const + w_total x (betting total) + w_pts x (adjusted points total)
+```
+
+Learned from 2023–2025, Market-anchored comes out to about 10.7 + 0.72 × total + 0.09 × adjusted points. It pulls very high and very low totals a little toward average, and the over/under chance uses a 16-point std dev (16.5 for Adjusted points).
 
 **Pregame cover chance.** The final margin is treated as a bell curve around the projection, with spread equal to the **Margin std dev** setting (sigma):
 
@@ -349,6 +376,7 @@ Any change to how picks are made is logged here and on the website (a notice on 
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
+| October 29, 2026 | **Totals added:** over/under projections (Market-anchored total and Adjusted points total), backtested and recorded in the forward test | Totals are part of every game, and the forward test can only judge them if they're recorded before kickoff. | No change to spread picks. Totals tested at about break-even (52% at the opening total), so they're presented as untested, not as an edge. |
 | October 25, 2026 | **Backtest correction:** opening lines that moved 7+ points before kickoff (look-ahead lines, 63 of 2,323 games) are excluded | They made the biggest edges look like big winners, but nobody could have bet them with that season's information. | Opening-line results drop to about 53–54% on 3+ point edges (FPI: 55.7% → 53.8%). Closing-line results barely change. |
 | October 25, 2026 | 5+ point edges labeled **Check the news** instead of Go for it; Market-anchored retrained on the corrected data | On clean data, 5+ edges did no better than 3–5 point ones, and a gap that big usually means missing information. | Market-anchored leans more on the line (0.57 → 0.73) and less on FPI (0.39 → 0.21). Logged picks are unchanged. |
 | October 25, 2026 | Home-field advantage raised from **2.5** to **3.0** points; Market-anchored retrained | Week 8's picks leaned heavily toward road teams while home teams went 23–14 against the spread. A 2023–2026 check found the projections underrated home teams slightly at 2.5 (FPI by 0.4 points on average); at 3.0 the bias goes away. | Small: every projection moved by less than one percentage point in the backtest (FPI at the opening line: 53.3% → 54.0%). Forward-test picks logged before this date used 2.5 and are unchanged. |
@@ -396,9 +424,9 @@ fourth-and-value/
 └── data/
     ├── team_ratings.csv      # team ratings (Auto-fill or edit by hand)
     ├── lines.csv             # pregame lines the dashboard has saved
-    ├── closing_lines.csv     # this season's opening and closing lines (backtest)
-    ├── anchor_weights.json   # Market-anchored weights (saved by the backtest)
-    ├── live/                 # forward test: line_history.csv and picks.csv (written by the GitHub job)
+    ├── closing_lines.csv     # this season's opening and closing lines and totals (backtest)
+    ├── anchor_weights.json   # Market-anchored weights for spreads and totals (saved by the backtest)
+    ├── live/                 # forward test: line_history.csv, picks.csv and total_picks.csv (written by the GitHub job)
     ├── history.csv           # your logged picks (created when you log; kept private)
     ├── bets.csv              # your bets (created when you save; kept private)
     └── cfbd/                 # past seasons' data (downloaded; kept private)

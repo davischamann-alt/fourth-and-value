@@ -23,10 +23,10 @@ function gameFromSummary(s) {
     id: String(c.id), date: c.date, home: team(t.home), away: team(t.away), state: c.status.type.state,
     status: c.status.type.shortDetail, period: c.status.period || 0, clock: parseFloat(c.status.clock || 0),
     neutral: !!c.neutralSite, tv: (c.broadcasts || []).map((b) => b.media?.shortName).filter(Boolean).join(", "),
-    line: null, openLine: null, total: null,
+    line: null, openLine: null, total: null, openTotal: null,
   };
   const saved = store.get("line." + g.id, null);
-  if (saved) Object.assign(g, { line: saved.line, openLine: saved.open, total: saved.total });
+  if (saved) Object.assign(g, { line: saved.line, openLine: saved.open, total: saved.total, openTotal: saved.openTotal ?? null });
   return g;
 }
 
@@ -54,7 +54,7 @@ function headerCard(g, s) {
   const venue = s.gameInfo?.venue;
   const when = new Date(g.date).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   const status = g.state === "pre" ? when : g.status;
-  const ev = evaluate(g);
+  const ev = evaluate(g, "spread");  // the over/under has its own card below
   const hasPick = ev.margin != null && ev.line != null;
   const team = (t) => `<div class="gd-team${g.state === "post" && t.winner === false ? " lost" : ""}">
       <img src="${esc(t.logo)}" alt="">
@@ -68,7 +68,8 @@ function headerCard(g, s) {
     <div class="lines">
       <div><span class="k">Line</span><span class="v">${esc(lineTxt(g, g.line))}</span>
         ${g.openLine != null && g.openLine !== g.line ? `<span class="open"> opened ${fmtLine(g.openLine)}</span>` : ""}</div>
-      <div><span class="k">Total</span><span class="v">${g.total ?? "—"}</span></div>
+      <div><span class="k">Total</span><span class="v">${g.total ?? "—"}</span>
+        ${g.openTotal != null && g.openTotal !== g.total ? `<span class="open"> opened ${g.openTotal}</span>` : ""}</div>
     </div>
     ${hasPick ? pickBox(g, ev, { tierTxt: TIER_LABEL }) : ""}
     ${venue ? `<p class="note">${esc(venue.fullName)}${venue.address?.city ? `, ${esc(venue.address.city)}${venue.address.state ? ", " + esc(venue.address.state) : ""}` : ""}</p>` : ""}
@@ -81,7 +82,7 @@ function pickCard(g) {
   const rows = allSources(g);
   const usable = rows.filter((r) => r.edge != null);
   if (!usable.length) {
-    return `<div class="card"><h3>Why this pick</h3><p class="nopick">${esc(evaluate(g).reason || "No projection for this game.")}</p></div>`;
+    return `<div class="card"><h3>Why this pick</h3><p class="nopick">${esc(evaluate(g, "spread").reason || "No projection for this game.")}</p></div>`;
   }
   const chosen = rows.find((r) => r.src === state.source && r.edge != null) || usable[0];
   const same = usable.filter((r) => r.side === chosen.side).length;
@@ -228,6 +229,41 @@ function flowCard(g, s) {
   </div>`;
 }
 
+/** The over/under: both totals projections, the model's pick, and its forward-test entry. */
+function totalCard(g, log) {
+  const ev = evaluate(g, "total");
+  if (ev.margin == null || ev.line == null) {
+    return `<div class="card"><h3>Over/under</h3><p class="nopick">${esc(ev.reason || "No total for this game.")}</p></div>`;
+  }
+  const proj = totalProjections(g), T = log?.totals;
+  const split = proj.anchored != null && proj.points != null && (proj.anchored >= g.total) !== (proj.points >= g.total);
+  const res = { W: `<span class="badge win">Won</span>`, L: `<span class="badge loss">Lost</span>`, P: `<span class="badge pass">Push</span>` };
+  const rows = ["anchored", "points"].filter((k) => proj[k] != null).map((k) => {
+    const edge = proj[k] - g.total, s = state.model?.sigma_total?.[k] || 16;
+    const over = edge >= 0, p = over ? 1 - normCdf(-edge / s) : normCdf(-edge / s);
+    return `<tr class="${k === state.totalSource ? "gd-chosen" : ""}"><td class="l">${esc(SOURCE_LABEL[k])}${k === state.totalSource ? " ★" : ""}</td>
+      <td>${proj[k].toFixed(1)}</td><td class="l"><b>${over ? "Over" : "Under"} ${g.total}</b></td>
+      <td><span class="badge ${tierOf(edge)}">${TIER_TXT[tierOf(edge)]} · ${Math.abs(edge).toFixed(1)}</span></td><td>${pct(p)}</td></tr>`;
+  }).join("");
+  const logged = T ? `<p>Forward test: recorded <b>${esc(new Date(T.at).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</b>
+      at <b>${T.total}</b>${T.close != null ? `, ${g.state === "pre" ? "latest" : "closed at"} ${T.close}` : ""}:
+      ${["anchored", "points"].filter((k) => T.picks[k]).map((k) => {
+        const p = T.picks[k];
+        const clv = p.clv ?? (T.close != null ? (T.close - T.total) * (p.side === "over" ? 1 : -1) : null);
+        return `${esc(SOURCE_LABEL[k])} took the <b>${p.side} ${T.total}</b>${clv ? ` (total moved ${clv > 0 ? "+" : ""}${clv} its way)` : ""}${p.result ? " " + res[p.result] : ""}`;
+      }).join("; ")}.</p>`
+    : `<p class="note">This game's over/under isn't in the pick log${g.state === "pre" ? " yet" : ""}.</p>`;
+  return `<div class="card"><h3>Over/under</h3>
+    ${pickBox(g, ev, { tierTxt: TIER_LABEL })}
+    ${split ? `<p>The two projections split: one takes the over, the other the under. A split is a reason to punt.</p>` : ""}
+    <div class="table-wrap"><table class="data">
+      <tr><th>Projection</th><th>Total</th><th class="l">Pick</th><th>Edge</th><th>Chance</th></tr>${rows}
+    </table></div>
+    ${logged}
+    <p class="note">Totals don't account for weather. Wind and rain cut scoring, so check the conditions card before betting an over.</p>
+  </div>`;
+}
+
 function forwardCard(g, log) {
   const L = log?.logged;
   if (!L) return `<div class="card"><h3>Forward test</h3><p class="note">This game isn't in the pick log${g.state === "pre" ? " yet. It's recorded the first time its line appears" : " (it may be outside the last three weeks)"}.</p></div>`;
@@ -266,10 +302,13 @@ async function renderGameDetail(id) {
       away: { ...board.away, score: fresh.away.score, winner: fresh.away.winner } } : fresh;
     if (g.line == null) {
       const pc = s.pickcenter?.[0];
-      if (pc?.spread != null) Object.assign(g, { line: num(pc.spread), openLine: num(pc.pointSpread?.home?.open?.line), total: num(pc.overUnder) });
+      if (pc?.spread != null) {
+        Object.assign(g, { line: num(pc.spread), openLine: num(pc.pointSpread?.home?.open?.line), total: num(pc.overUnder),
+          openTotal: num(pc.total?.over?.open?.line) });
+      }
     }
     document.title = `${g.away.abbr} @ ${g.home.abbr} · Fourth & Value`;
-    box.innerHTML = headerCard(g, s) + `<div class="gd-grid">${pickCard(g)}${lineCard(g, log[id])}${matchupCard(g, s)}${opinionCard(g, s)}${conditionsCard(g, s)}${forwardCard(g, log[id])}${flowCard(g, s)}${injuryNote}</div>`;
+    box.innerHTML = headerCard(g, s) + `<div class="gd-grid">${pickCard(g)}${totalCard(g, log[id])}${lineCard(g, log[id])}${matchupCard(g, s)}${opinionCard(g, s)}${conditionsCard(g, s)}${forwardCard(g, log[id])}${flowCard(g, s)}${injuryNote}</div>`;
     // Live, or within 15 minutes of kickoff: every 30 seconds, like the board. Earlier: every
     // 5 minutes, for line moves. Finished: no more updates.
     clearTimeout(gameTimer);

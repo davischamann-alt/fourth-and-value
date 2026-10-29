@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T12:51:22.224548+00:00",
+ "updated": "2026-10-29T23:04:33.897553+00:00",
  "hfa": 3.0,
  "anchor": {
   "weights": {
@@ -7,6 +7,11 @@
    "line": 0.7334,
    "fpi": 0.2096,
    "points": 0.1155
+  },
+  "total_weights": {
+   "const": 10.6959,
+   "total": 0.722,
+   "points": 0.0898
   },
   "seasons": [
    2023,
@@ -19,5 +24,9 @@
   "fpi": 15.5,
   "blend": 15.5,
   "anchored": 15.0
+ },
+ "sigma_total": {
+  "points": 16.5,
+  "anchored": 16.0
  }
 }

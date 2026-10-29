@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pandas as pd
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 from model import fit_ratings, pool_fcs, walk_forward
 
@@ -26,6 +28,10 @@ ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/college-football/
 FPI = "https://site.web.api.espn.com/apis/fitt/v3/sports/football/college-football/powerindex"
 FPI_WEEKLY = "https://sports.core.api.espn.com/v2/sports/football/leagues/college-football"
 SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/football/college-football/summary"
+# ESPN drops connections when hit with many requests at once: retry with backoff, a few at a time
+HTTP = requests.Session()
+HTTP.mount("https://", HTTPAdapter(max_retries=Retry(total=5, connect=5, read=5, backoff_factor=1.5,
+                                                     status_forcelist=(429, 500, 502, 503, 504))))
 
 
 def num(x):
@@ -35,11 +41,16 @@ def num(x):
         return None
 
 
+def open_total(o):
+    """Opening over/under from an ESPN odds or pickcenter entry ("o52.5"), or None."""
+    return num(o.get("total", {}).get("over", {}).get("open", {}).get("line", ""))
+
+
 def parse_odds(odds, home_abbr):
-    """(home line, home opening line, total). Prefers the numeric fields and falls back
-    to parsing the "ABBR -7.5" details text."""
+    """(home line, home opening line, total, opening total). Prefers the numeric fields and falls
+    back to parsing the "ABBR -7.5" details text."""
     if not odds:
-        return None, None, None
+        return None, None, None, None
     o = odds[0]
     line = num(o["spread"]) if o.get("spread") is not None else None
     if line is None:
@@ -49,7 +60,7 @@ def parse_odds(odds, home_abbr):
         elif " " in d and (v := num(d.rsplit(" ", 1)[1])) is not None:
             line = v if d.rsplit(" ", 1)[0] == home_abbr else -v
     open_line = num(o.get("pointSpread", {}).get("home", {}).get("open", {}).get("line", ""))
-    return line, open_line, num(o["overUnder"]) if o.get("overUnder") is not None else None
+    return line, open_line, num(o["overUnder"]) if o.get("overUnder") is not None else None, open_total(o)
 
 
 def espn_events(**params):
@@ -164,32 +175,34 @@ def fpi_before_weeks(season, games, max_age_days=10):
 
 
 def pregame_line(gid):
-    """(home closing line, home opening line, total) from ESPN's game summary, which keeps the
-    pregame lines after the game."""
-    r = requests.get(SUMMARY, params={"event": gid}, timeout=20)
+    """(home closing line, home opening line, closing total, opening total) from ESPN's game
+    summary, which keeps the pregame lines after the game."""
+    r = HTTP.get(SUMMARY, params={"event": gid}, timeout=20)
     r.raise_for_status()
     pc = r.json().get("pickcenter") or []
     if not pc or pc[0].get("spread") is None:
-        return gid, None, None, None
+        return gid, None, None, None, None
     o = pc[0]
     open_line = num(o.get("pointSpread", {}).get("home", {}).get("open", {}).get("line", ""))
-    return gid, num(o["spread"]), open_line, num(o["overUnder"]) if o.get("overUnder") is not None else None
+    return (gid, num(o["spread"]), open_line, num(o["overUnder"]) if o.get("overUnder") is not None else None,
+            open_total(o))
 
 
 def closing_lines(ids):
-    """{id: (closing line, opening line)} for finished games, cached in data/closing_lines.csv so
-    each game is fetched once. A cache from before opening lines were saved is refetched."""
-    cols = ["id", "line", "open", "total"]
+    """{id: (closing line, opening line, closing total, opening total)} for finished games, cached
+    in data/closing_lines.csv so each game is fetched once. A cache from before opening lines and
+    totals were saved is refetched."""
+    cols = ["id", "line", "open", "total", "open_total"]
     have = pd.read_csv(CLOSING, dtype={"id": str}) if CLOSING.exists() else pd.DataFrame(columns=cols)
-    if "open" not in have.columns:
+    if "open_total" not in have.columns:
         have = pd.DataFrame(columns=cols)
     todo = sorted(set(ids) - set(have["id"]))
     if todo:
-        with ThreadPoolExecutor(8) as pool:
+        with ThreadPoolExecutor(4) as pool:
             got = pd.DataFrame(pool.map(pregame_line, todo), columns=cols)
         have = pd.concat([have, got], ignore_index=True)
         have.to_csv(CLOSING, index=False)
-    return dict(zip(have["id"], zip(have["line"], have["open"])))
+    return dict(zip(have["id"], zip(have["line"], have["open"], have["total"], have["open_total"])))
 
 
 def season_backtest(season, hfa, today):
@@ -235,7 +248,8 @@ def cfbd(path, **params):
 
 
 def cfbd_season(season):
-    """(games, {id: (closing line, opening line)}, FBS team names) for a finished regular season.
+    """(games, {id: (closing line, opening line, closing total, opening total)}, FBS team names)
+    for a finished regular season.
     CFBD uses ESPN's team and game ids, so ESPN's FPI lines up by id."""
     raw = cfbd("/games", year=season, seasonType="regular")
     games = pd.DataFrame([dict(id=str(g["id"]), week=g["week"], start=g["startDate"], home=g["homeTeam"],
@@ -249,8 +263,12 @@ def cfbd_season(season):
         # prefer a book that also has the opening line
         pick = next((books[p] for p in BOOKS if p in books and books[p].get("spreadOpen") is not None),
                     next((books[p] for p in BOOKS if p in books), next(iter(books.values()), None)))
+        # totals can come from a different book: prefer one that has the opening total
+        tots = [b for b in g.get("lines", []) if b.get("overUnder") is not None]
+        tot = next((b for p in BOOKS for b in tots if b["provider"] == p and b.get("overUnderOpen") is not None),
+                   next((b for p in BOOKS for b in tots if b["provider"] == p), tots[0] if tots else {}))
         if pick:
-            lines[str(g["id"])] = (pick["spread"], pick.get("spreadOpen"))
+            lines[str(g["id"])] = (pick["spread"], pick.get("spreadOpen"), tot.get("overUnder"), tot.get("overUnderOpen"))
     return games, lines, fbs
 
 
@@ -261,17 +279,17 @@ def parse_events(events):
         c = e["competitions"][0]
         t = {x["homeAway"]: x for x in c["competitors"]}
         h, a = t["home"], t["away"]
-        line, open_line, total = parse_odds(c.get("odds") or [], h["team"].get("abbreviation"))
+        line, open_line, total, open_tot = parse_odds(c.get("odds") or [], h["team"].get("abbreviation"))
         rows.append(dict(
             id=e["id"], kickoff=e["date"], home=h["team"]["location"], away=a["team"]["location"],
             home_id=h["team"]["id"], away_id=a["team"]["id"],
             home_score=int(h.get("score") or 0), away_score=int(a.get("score") or 0),
             status=c["status"]["type"]["shortDetail"], state=c["status"]["type"]["state"],
-            neutral=c.get("neutralSite", False), line=line, open_line=open_line, total=total,
+            neutral=c.get("neutralSite", False), line=line, open_line=open_line, total=total, open_total=open_tot,
             period=c["status"].get("period", 0), clock=float(c["status"].get("clock") or 0)))
     return pd.DataFrame(rows, columns=["id", "kickoff", "home", "away", "home_id", "away_id", "home_score",
                                        "away_score", "status", "state", "neutral", "line", "open_line", "total",
-                                       "period", "clock"])
+                                       "open_total", "period", "clock"])
 
 
 def scoreboard(date_str):

@@ -327,6 +327,9 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
   .toolbar .chips { flex: 1 1 100%; }
   /* phones: four equal columns, count under the label, so it fits any width */
   .toolbar .chips { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .toolbar #filter { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .toolbar #market { grid-template-columns: 1fr 1fr; }
+  .toolbar #market button { flex-direction: row; height: 32px; }
   .toolbar .chips button { flex-direction: column; height: 50px; gap: 3px; padding: 0 2px; font-size: 13px; }
   .toolbar .chips .count { min-width: 22px; }
   .hide-sm { display: none; }
@@ -528,3 +531,30 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
 .pp-verdict { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
 .pp-verdict .badge { align-self: flex-start; }
 .pp-more { margin: 14px auto 0; display: block; }
+
+/* Spread / Total switch on the Games toolbar and Track record */
+.toolbar #market button { padding: 0 14px; }
+.rec-market { display: flex; justify-content: flex-end; margin: 4px 0 -8px; }
+@media (max-width: 640px) { .rec-market { margin-bottom: 4px; } .rec-market .chips { width: 100%; } }
+
+/* Over/under pick: an arrow where the team logo goes */
+.ou-icon { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 8px;
+  background: var(--on); color: var(--chalk); font-size: 14px; }
+.pickbox-move { color: var(--muted); }
+
+/* Margin of error after a hit rate */
+.moe { font: 600 .55em/1 "Barlow", sans-serif; color: var(--muted); letter-spacing: 0; text-transform: none; white-space: nowrap; }
+table.data .moe { font-size: 11px; font-weight: 500; }
+
+/* Forward-test verdict: the estimate from line movement, with its range against break-even */
+.verdict { margin-bottom: 12px; border-top: 3px solid var(--yellow); }
+.verdict h4 { margin: 0 0 4px; font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.verdict .big { font: 800 40px/1.05 var(--display); font-variant-numeric: tabular-nums; }
+.verdict p { margin: 8px 0 0; font-size: 14px; max-width: 760px; }
+.verdict p.note { font-size: 13px; }
+.vbar { position: relative; height: 10px; margin: 10px 0 22px; max-width: 520px; background: var(--bar); border-radius: 999px; }
+.vbar i { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 999px; }
+.vbar b { position: absolute; top: -3px; width: 4px; height: 16px; margin-left: -2px; background: var(--accent); border-radius: 2px; }
+.vbar em { position: absolute; top: -4px; width: 3px; height: 18px; margin-left: -1.5px; background: var(--yellow); border-radius: 2px; }
+.vbar span { position: absolute; top: 15px; transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
+.vbar span.be { color: var(--text); font-weight: 700; }

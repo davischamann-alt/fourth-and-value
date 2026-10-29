@@ -1,5 +1,26 @@
 [
  {
+  "date": "2026-10-29",
+  "type": "model",
+  "title": "Over/unders: a totals pick for every game",
+  "summary": "A new Spread / Total switch on the Games tab shows the model's over/under pick for every game, from two new totals projections: Market-anchored (the default) starts from the betting total and adjusts it slightly toward what the teams' scoring says, and Adjusted points adds each offense's points against the other's defense. Game details get an Over/under card, and you can track total picks in My picks.",
+  "why": "Totals are part of every game, and the only way to know whether the model can pick them is to record its picks before kickoff, the same way spreads are recorded.",
+  "effect": "Spread picks don't change. In the 2023-2026 backtest, totals came out about break-even: 52.1% at the opening total for Adjusted points (2,272 picks), and 51-52% at the closing total. They're shown as untested, not as a proven edge. The model doesn't know the weather, which matters more for totals.",
+  "forward_test": "Over/under picks are logged in a separate file, data/live/total_picks.csv, from October 29, 2026. The spread pick log is untouched. This week's games are logged at their current total, not their opening one."
+ },
+ {
+  "date": "2026-10-29",
+  "type": "feature",
+  "title": "Track record leads with line movement, and shows margins of error",
+  "summary": "The forward test now leads with an expected hit rate estimated from how far lines moved toward the picks, with its margin of error, a bar showing where it sits against the 52.4% break-even, and a plain verdict. A win-loss record needs hundreds of picks to mean much (after 50 its margin of error is about ±14 points), while line moves say more much sooner: in the 2023-2026 backtest, each point the line moved toward a pick was worth about 3 points of hit rate. Every hit rate on the tab now shows its ± margin of error, and a Spreads / Totals switch covers both."
+ },
+ {
+  "date": "2026-10-29",
+  "type": "feature",
+  "title": "At open: edges still at the opening number",
+  "summary": "The model tested best against opening lines, so a new At open filter shows edges of 1.5+ where the line hasn't moved more than half a point since it opened. Pregame pick boxes say how far the line has moved toward or away from the pick. When next week's lines post (usually Sunday), a notice at the top of the Games tab says how many edges are still at the opening number and links straight to them."
+ },
+ {
   "date": "2026-10-28",
   "type": "feature",
   "title": "Player props: projections for this week's players",

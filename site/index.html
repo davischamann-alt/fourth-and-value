@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=30">
+  <link rel="stylesheet" href="style.css?v=31">
 </head>
 <body>
   <header class="top">
@@ -32,6 +32,7 @@
     <!-- Games -->
     <section id="tab-games" class="tab">
       <div id="model-notice"></div>
+      <div id="open-notice"></div>
       <div class="weekbar">
         <button class="icon-btn" id="week-prev" aria-label="Previous week">‹</button>
         <div class="week-label"><strong id="week-name">Loading…</strong><span id="week-dates"></span></div>
@@ -44,6 +45,7 @@
             <button data-filter="all" class="on"><span class="lbl">All</span><span class="count" data-count="all"></span></button>
             <button data-filter="edge"><span class="lbl">Edges<span class="hide-sm">&nbsp;1.5+</span></span><span class="count" data-count="edge"></span></button>
             <button data-filter="strong" title="Edges of 3-5 points"><span class="lbl">Go for it</span><span class="count" data-count="strong"></span></button>
+            <button data-filter="open" title="Edges of 1.5+ still within half a point of the opening number, where the model tested best"><span class="lbl">At open</span><span class="count" data-count="open"></span></button>
             <button data-filter="live"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Live</span><span class="count" data-count="live"></span></button>
             <button data-filter="close" title="Live games within 4 points of the spread: a field goal could flip who covers"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Close</span><span class="count" data-count="close"></span></button>
           </div>
@@ -53,6 +55,10 @@
           </label>
         </div>
         <div class="toolbar-row toolbar-sub">
+          <div class="chips" id="market" role="group" aria-label="Bet type">
+            <button data-v="spread" type="button" title="Picks against the point spread">Spread</button>
+            <button data-v="total" type="button" title="Over/under picks against the total">Total</button>
+          </div>
           <label class="inline-select" title="★ the default: it stays closest to the betting line and rarely shows big edges. Blend averages FPI and adjusted points."><span>Projection</span>
             <select id="source">
               <option value="anchored">★ Market-anchored</option>
@@ -79,6 +85,13 @@
           <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3–5 points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury or a quarterback change.</li>
           <li><b>Cover chance</b> is the model's chance the pick covers. During a game it updates with the score and clock. The yellow tick on the bar marks 52.4%, the break-even point at standard -110 odds.</li>
           <li>The <b>Track</b> button saves a pick to <b>My picks</b>, where it's graded automatically when the game ends.</li>
+          <li><b>Spread / Total</b> switches every card between the model's pick against the spread and its over/under pick against
+            the total. Totals use two projections: <b>Market-anchored</b> (the default) starts from the betting total and adjusts it a
+            little toward what the teams' scoring says; <b>Adjusted points</b> adds each offense's points against the other's defense.</li>
+          <li><b>At open</b> shows edges of 1.5+ where the line hasn't moved more than half a point from where it opened. In testing,
+            the model did best at the opening number; once the market moves toward a pick, most of the value is gone. Pick boxes
+            say how far the line has moved toward or away from the pick. Next week's lines usually post on Sunday, and a notice
+            appears when they do.</li>
           <li><b>Close</b> shows live games within 4 points of the spread, where a field goal could flip who covers. They're sorted tightest first and tagged on every card.</li>
           <li><b>Tap a game</b> for the full breakdown: what every projection says, how the line has moved, the matchup, weather, and how the game played out.</li>
         </ul>
@@ -274,6 +287,12 @@
 
     <!-- Track record -->
     <section id="tab-record" class="tab" hidden>
+      <div class="rec-market">
+        <div class="chips" id="rec-market" role="group" aria-label="Bet type">
+          <button data-v="spread" class="on">Spreads</button>
+          <button data-v="total">Totals <span class="hide-sm">(over/under)</span></button>
+        </div>
+      </div>
       <h2 class="section-head">Live results <span>picks recorded before kickoff</span></h2>
       <p class="note" id="live-intro"></p>
       <div class="controls">
@@ -281,22 +300,34 @@
           <span>Projection</span>
           <div class="chips" id="live-source">
             <button data-v="anchored" class="on"><span class="hide-sm">Market-anchored</span><span class="show-sm">Anchored</span></button>
-            <button data-v="fpi"><span class="hide-sm">ESPN FPI</span><span class="show-sm">FPI</span></button>
-            <button data-v="blend">Blend</button>
+            <button data-v="fpi" data-spread-only><span class="hide-sm">ESPN FPI</span><span class="show-sm">FPI</span></button>
+            <button data-v="blend" data-spread-only>Blend</button>
             <button data-v="points"><span class="hide-sm">Adjusted points</span><span class="show-sm">Points</span></button>
           </div>
         </div>
         <div class="field wide">
           <span>Edge</span>
           <div class="chips" id="live-tier">
-            <button data-v="all">Every game</button>
+            <button data-v="all" class="on">Every game</button>
             <button data-v="lean">1.5+ pts</button>
-            <button data-v="strong" class="on">3+ pts</button>
+            <button data-v="strong">3+ pts</button>
           </div>
         </div>
       </div>
+      <div id="live-verdict"></div>
       <div class="stats" id="live-stats"></div>
-      <h3>Recent Market-anchored picks (edge 1.5+)</h3>
+      <details class="explain">
+        <summary>Why line movement is the scoreboard</summary>
+        <p>A win-loss record needs hundreds of picks before it means much: after 50 picks, a 50% picker and a 55% picker look the
+          same, and the margin of error is about ±14 points. Line movement settles much faster. Sportsbooks move a line when sharp
+          bettors bet it, so if lines keep moving toward the model's picks after they're logged, the model is seeing something
+          real. This is called closing line value, and professional bettors track it more closely than wins and losses.</p>
+        <p>How much the moves matter depends on their size. In the 2023-2026 backtest, picks made at the opening line won about
+          3 points more often (2.5 for totals) for every point the line later moved their way. So the estimate is 50% plus that
+          much for the average move. To beat the 52.4% break-even, the line needs to move about +0.8 points toward the picks on
+          average (+1 for totals).</p>
+      </details>
+      <h3 id="live-recent-head">Recent Market-anchored picks (edge 1.5+)</h3>
       <div class="table-wrap scroll"><table id="live-table" class="data"></table></div>
 
       <h2 class="section-head">Model changes <span>every adjustment to how picks are made, dated</span></h2>
@@ -323,14 +354,16 @@
         </div>
       </div>
       <div class="table-wrap"><table id="record-table" class="data"></table></div>
-      <h3>By season (opening line, every game)</h3>
+      <h3 id="season-head">By season (opening line, every game)</h3>
       <div class="table-wrap"><table id="season-table" class="data"></table></div>
       <details class="explain" open>
         <summary>How this was tested</summary>
         <p>Every FBS game from week 3 on was predicted using only information available before that week, then graded
           against the line. At standard -110 odds you need <b>52.4%</b> to break even. <b>Line moved our way</b> is how often the
           line moved toward the pick between the open and kickoff, which is the standard sign of a real edge. Market-anchored
-          learns its weights from earlier seasons only, so its first season isn't graded. This is analysis, not betting advice.</p>
+          learns its weights from earlier seasons only, so its first season isn't graded. The <b>±</b> after a hit rate is its 95%
+          margin of error. Totals are graded the same way against the opening and closing over/under. This is analysis, not
+          betting advice.</p>
       </details>
     </section>
   </main>
@@ -355,10 +388,10 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=30"></script>
-  <script src="game.js?v=30"></script>
-  <script src="updates.js?v=30"></script>
-  <script src="props.js?v=30"></script>
-  <script src="ratings.js?v=30"></script>
+  <script src="app.js?v=31"></script>
+  <script src="game.js?v=31"></script>
+  <script src="updates.js?v=31"></script>
+  <script src="props.js?v=31"></script>
+  <script src="ratings.js?v=31"></script>
 </body>
 </html>

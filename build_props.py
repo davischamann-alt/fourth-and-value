@@ -18,9 +18,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 
 import sources
 from build_site import clean
@@ -37,10 +34,6 @@ MARKETS = {  # stat key: (label, games that count toward the average, minimum pe
 }
 # which defensive stat adjusts each market (what the opponent allows per game)
 DEFENSE = {"pass_yds": "pass_yds", "pass_td": "pass_td", "rush_yds": "rush_yds", "rec_yds": "pass_yds", "rec": "rec"}
-# ESPN drops connections when hit too hard: retry with backoff, a few requests at a time
-HTTP = requests.Session()
-HTTP.mount("https://", HTTPAdapter(max_retries=Retry(total=5, connect=5, read=5, backoff_factor=1.5,
-                                                     status_forcelist=(429, 500, 502, 503, 504))))
 # how much of a defense's difference from average to use, by market (0 = ignore the defense); half
 # strength helped rushing yards slightly in testing, while adjusting yards through the air hurt
 SHRINK = {"pass_yds": 0.0, "pass_td": 0.5, "rush_yds": 0.5, "rec_yds": 0.0, "rec": 0.5}
@@ -59,7 +52,7 @@ def box_rows(gid):
     f = BOX / f"{gid}.json"
     if f.exists():
         return json.loads(f.read_text())
-    r = HTTP.get(sources.SUMMARY, params={"event": gid}, timeout=30)
+    r = sources.HTTP.get(sources.SUMMARY, params={"event": gid}, timeout=30)
     r.raise_for_status()
     rows = {}
     for team in r.json().get("boxscore", {}).get("players", []):
