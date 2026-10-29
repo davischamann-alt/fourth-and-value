@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Fourth &amp; Value alerts</title>
+  <subtitle>New edges when lines open, and line moves through 3 or 7</subtitle>
+  <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
+  <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
+  <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
+  <updated>2026-10-29T23:46:16Z</updated>
+</feed>

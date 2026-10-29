@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T23:15Z",
+ "updated": "2026-10-29T23:46Z",
  "since": "2026-10-22T02:29Z",
  "games": 121,
  "summary": [
@@ -152,6 +152,81 @@
    "clv_n": 22,
    "moved_n": 14,
    "clv_beat_rate": 0.7143
+  },
+  {
+   "source": "Efficiency",
+   "key": "efficiency",
+   "tier": "all",
+   "label": "Every game",
+   "picks": 0,
+   "pending": 0,
+   "at_logged": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "at_close": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "avg_clv": null,
+   "clv_sd": null,
+   "clv_n": 0,
+   "moved_n": 0,
+   "clv_beat_rate": null
+  },
+  {
+   "source": "Efficiency",
+   "key": "efficiency",
+   "tier": "lean",
+   "label": "Edge 1.5+",
+   "picks": 0,
+   "pending": 0,
+   "at_logged": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "at_close": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "avg_clv": null,
+   "clv_sd": null,
+   "clv_n": 0,
+   "moved_n": 0,
+   "clv_beat_rate": null
+  },
+  {
+   "source": "Efficiency",
+   "key": "efficiency",
+   "tier": "strong",
+   "label": "Edge 3+",
+   "picks": 0,
+   "pending": 0,
+   "at_logged": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "at_close": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "avg_clv": null,
+   "clv_sd": null,
+   "clv_n": 0,
+   "moved_n": 0,
+   "clv_beat_rate": null
   },
   {
    "source": "Blend",
