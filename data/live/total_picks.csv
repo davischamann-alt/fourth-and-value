@@ -1,12 +1,12 @@
 logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_logged,open_total,edge,side,tier,close_total,final_total,result_logged,result_close,clv
-2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,points,82.81,77.5,69.5,5.31,over,strong,77.5,,,,
-2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,anchored,74.09,77.5,69.5,3.41,under,strong,77.5,,,,
-2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,points,56.9,52.5,52.5,4.4,over,strong,52.5,,,,
-2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,anchored,53.71,52.5,52.5,1.21,over,small,52.5,,,,
+2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,points,82.81,77.5,69.5,5.31,over,strong,77.5,89,W,W,0.0
+2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,anchored,74.09,77.5,69.5,3.41,under,strong,77.5,89,L,L,-0.0
+2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,points,56.9,52.5,52.5,4.4,over,strong,52.5,45,L,L,0.0
+2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,anchored,53.71,52.5,52.5,1.21,over,small,52.5,45,L,L,0.0
 2026-10-29T23:15Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,points,45.79,47.5,45.5,1.71,under,lean,47.5,,,,
 2026-10-29T23:15Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,anchored,49.1,47.5,45.5,1.6,over,lean,47.5,,,,
-2026-10-29T23:15Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,points,49.69,48.5,49.5,1.19,over,small,47.5,,,,
-2026-10-29T23:15Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,anchored,50.17,48.5,49.5,1.67,over,lean,47.5,,,,
+2026-10-29T23:15Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,points,49.69,48.5,49.5,1.19,over,small,48.5,,,,
+2026-10-29T23:15Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,anchored,50.17,48.5,49.5,1.67,over,lean,48.5,,,,
 2026-10-29T23:15Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,points,44.06,46.5,45.5,2.44,under,lean,46.5,,,,
 2026-10-29T23:15Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,anchored,48.23,46.5,45.5,1.73,over,lean,46.5,,,,
 2026-10-29T23:15Z,401859185,2026,2,9,2026-10-31T16:00Z,Navy,Notre Dame,True,points,56.78,56.5,53.5,0.28,over,small,56.5,,,,
@@ -65,8 +65,8 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-10-29T23:15Z,401871095,2026,2,9,2026-10-31T19:30Z,UL Monroe,Southern Miss,False,anchored,56.0,55.5,52.5,0.5,over,small,55.5,,,,
 2026-10-29T23:15Z,401856848,2026,2,9,2026-10-31T19:45Z,Cincinnati,Utah,False,points,59.79,56.5,56.5,3.29,over,strong,56.5,,,,
 2026-10-29T23:15Z,401856848,2026,2,9,2026-10-31T19:45Z,Cincinnati,Utah,False,anchored,56.86,56.5,56.5,0.36,over,small,56.5,,,,
-2026-10-29T23:15Z,401858284,2026,2,9,2026-10-31T19:45Z,Wake Forest,Virginia,False,points,44.84,49.5,49.5,4.66,under,strong,49.5,,,,
-2026-10-29T23:15Z,401858284,2026,2,9,2026-10-31T19:45Z,Wake Forest,Virginia,False,anchored,50.46,49.5,49.5,0.96,over,small,49.5,,,,
+2026-10-29T23:15Z,401858284,2026,2,9,2026-10-31T19:45Z,Wake Forest,Virginia,False,points,44.84,49.5,49.5,4.66,under,strong,48.5,,,,
+2026-10-29T23:15Z,401858284,2026,2,9,2026-10-31T19:45Z,Wake Forest,Virginia,False,anchored,50.46,49.5,49.5,0.96,over,small,48.5,,,,
 2026-10-29T23:15Z,401864529,2026,2,9,2026-10-31T20:00Z,San José State,New Mexico,False,points,45.62,42.5,42.5,3.12,over,strong,42.5,,,,
 2026-10-29T23:15Z,401864529,2026,2,9,2026-10-31T20:00Z,San José State,New Mexico,False,anchored,45.48,42.5,42.5,2.98,over,lean,42.5,,,,
 2026-10-29T23:15Z,401858508,2026,2,9,2026-10-31T20:15Z,UCLA,Nevada,False,points,47.29,44.5,48.5,2.79,over,lean,43.5,,,,
