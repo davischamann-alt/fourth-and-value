@@ -17,7 +17,7 @@ from model import (HFA, add_anchored, add_efficiency, add_total_anchored, fit_an
                    score_backtest, score_totals)
 
 OUT = Path(__file__).parent / "site" / "data"
-PAST = [2023, 2024, 2025]  # seasons with reliable FPI history (see README)
+FIRST_SEASON = 2023  # the first season with reliable FPI history (see README); every finished season since counts
 SOURCE_NAMES = {"Adjusted points": "points", "ESPN FPI": "fpi", "Efficiency": "efficiency", "Blend": "blend",
                 "Market-anchored": "anchored"}
 
@@ -53,7 +53,7 @@ def main():
     write("ratings.json", {"updated": now.isoformat(), "season": season, "fitted_hfa": fitted_hfa,
                            "fpi_error": fpi_err, "teams": ratings.to_dict("records")})
 
-    seasons = [y for y in PAST if y < season] if sources.cfbd_key() else []
+    seasons = list(range(FIRST_SEASON, season)) if sources.cfbd_key() else []
     old = OUT / "track_record.json"
     if not seasons and old.exists() and len(json.loads(old.read_text())["seasons"]) > 1:
         # Without a key only this season can be tested, so keep the fuller multi-season record

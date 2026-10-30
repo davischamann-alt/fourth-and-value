@@ -25,6 +25,8 @@ def project(home, away, r, neutral=False, hfa=HFA):
         return None
     avg = (r["ppg"].mean() + r["papg"].mean()) / 2
     h, a = r.loc[home], r.loc[away]
+    if pd.isna(h["ppg"]) or pd.isna(a["ppg"]):  # no games yet: FPI only (see sources.season_ratings)
+        return None
     bump = 0 if neutral else hfa / 2
     return (h["ppg"] + a["papg"] - avg + bump, a["ppg"] + h["papg"] - avg - bump)
 

@@ -24,6 +24,7 @@ function gameFromSummary(s) {
     status: c.status.type.shortDetail, period: c.status.period || 0, clock: parseFloat(c.status.clock || 0),
     neutral: !!c.neutralSite, tv: (c.broadcasts || []).map((b) => b.media?.shortName).filter(Boolean).join(", "),
     line: null, openLine: null, total: null, openTotal: null,
+    note: s.header.gameNote || c.notes?.[0]?.headline || "", postseason: s.header.season?.type === 3,
   };
   const saved = store.get("line." + g.id, null);
   if (saved) Object.assign(g, { line: saved.line, openLine: saved.open, total: saved.total, openTotal: saved.openTotal ?? null });
@@ -41,7 +42,7 @@ function allSources(g) {
     return {
       src, margin: m, edge: Math.abs(edge), side: home ? "home" : "away", team: home ? g.home : g.away,
       pickLine: home ? g.line : -g.line, prob: home ? homeProb : 1 - homeProb,
-      tier: tierOf(edge),
+      tier: gameTier(g, edge),
     };
   });
 }
@@ -64,6 +65,7 @@ function headerCard(g, s) {
   return `<div class="card gd-head">
     <div class="game-top"><span class="${g.state === "in" ? "status live" : "status"}">${esc(status)}</span>
       <span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
+    ${g.note ? `<div class="game-note">${esc(g.note)}</div>` : ""}
     ${team(g.away)}<div class="gd-at">at</div>${team(g.home)}
     <div class="lines">
       <div><span class="k">Line</span><span class="v">${esc(lineTxt(g, g.line))}</span>
@@ -243,7 +245,7 @@ function totalCard(g, log) {
     const over = edge >= 0, p = over ? 1 - normCdf(-edge / s) : normCdf(-edge / s);
     return `<tr class="${k === state.totalSource ? "gd-chosen" : ""}"><td class="l">${esc(SOURCE_LABEL[k])}${k === state.totalSource ? " ★" : ""}</td>
       <td>${proj[k].toFixed(1)}</td><td class="l"><b>${over ? "Over" : "Under"} ${g.total}</b></td>
-      <td><span class="badge ${tierOf(edge)}">${TIER_TXT[tierOf(edge)]} · ${Math.abs(edge).toFixed(1)}</span></td><td>${pct(p)}</td></tr>`;
+      <td><span class="badge ${gameTier(g, edge)}">${TIER_TXT[gameTier(g, edge)]} · ${Math.abs(edge).toFixed(1)}</span></td><td>${pct(p)}</td></tr>`;
   }).join("");
   const logged = T ? `<p>Forward test: recorded <b>${esc(new Date(T.at).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</b>
       at <b>${T.total}</b>${T.close != null ? `, ${g.state === "pre" ? "latest" : "closed at"} ${T.close}` : ""}:
@@ -260,7 +262,14 @@ function totalCard(g, log) {
       <tr><th>Projection</th><th>Total</th><th class="l">Pick</th><th>Edge</th><th>Chance</th></tr>${rows}
     </table></div>
     ${logged}
-    <p class="note">Totals don't account for weather. Wind and rain cut scoring, so check the conditions card before betting an over.</p>
+    <p class="note">${(() => {
+      const w = weatherOf(g);
+      if (!w) return "The projections don't account for weather; see the conditions card.";
+      if (w.dome) return "Indoors, so weather doesn't matter.";
+      return `Forecast at kickoff: wind ${w.wind} mph (gusts to ${w.gust}), ${w.temp}°F, ${w.rain}% chance of rain. ` + (w.windy
+        ? "In 2023-2026, totals in games with 12+ mph of wind fell about 1.8 points between the open and kickoff, and overs went 48% against the opening total, so over picks here say Check the news."
+        : "Not windy enough to matter in testing; rain and cold showed no reliable effect.");
+    })()}</p>
   </div>`;
 }
 
@@ -285,6 +294,15 @@ function forwardCard(g, log) {
     </table></div></div>`;
 }
 
+/** Quarterback watch from box scores, then the standing warning about injuries. */
+function injuryCard(g) {
+  const flags = g.state === "post" ? [] : [g.away, g.home].map((t) => state.qb?.[t.id]).filter(Boolean);
+  const qb = flags.length ? `<div class="gd-qb">${flags.map((f) => `<p><b>${f.kind === "change" ? "QB change" : "Starter back"}:</b> ${esc(f.note)}</p>`).join("")}
+      ${flags.some((f) => f.kind === "change") ? `<p class="note">In 2026, the model's picks went 39% in games right after a quarterback change
+        (55% in the rest), so this game's edges are labeled Check the news.</p>` : ""}</div>` : "";
+  return injuryNote.replace("<h3>Not included: injuries</h3>", `<h3>Quarterbacks and injuries</h3>${qb}`);
+}
+
 const injuryNote = `<div class="card gd-warn"><h3>Not included: injuries</h3>
   <p>ESPN doesn't publish injury reports for college football, so the model doesn't know about them. Check team news before
   betting, especially at quarterback, which is the model's biggest blind spot.</p></div>`;
@@ -297,7 +315,7 @@ async function renderGameDetail(id) {
     // Score, clock and status come from the summary just fetched (the freshest copy); lines and
     // the rest come from the board when the game is on it
     const fresh = gameFromSummary(s), board = state.games.find((x) => x.id === id);
-    const g = board ? { ...board, state: fresh.state, status: fresh.status, period: fresh.period, clock: fresh.clock,
+    const g = board ? { ...board, note: board.note || fresh.note, state: fresh.state, status: fresh.status, period: fresh.period, clock: fresh.clock,
       home: { ...board.home, score: fresh.home.score, winner: fresh.home.winner },
       away: { ...board.away, score: fresh.away.score, winner: fresh.away.winner } } : fresh;
     if (g.line == null) {
@@ -308,7 +326,7 @@ async function renderGameDetail(id) {
       }
     }
     document.title = `${g.away.abbr} @ ${g.home.abbr} · Fourth & Value`;
-    box.innerHTML = headerCard(g, s) + `<div class="gd-grid">${pickCard(g)}${totalCard(g, log[id])}${lineCard(g, log[id])}${matchupCard(g, s)}${opinionCard(g, s)}${conditionsCard(g, s)}${forwardCard(g, log[id])}${flowCard(g, s)}${injuryNote}</div>`;
+    box.innerHTML = headerCard(g, s) + `<div class="gd-grid">${pickCard(g)}${totalCard(g, log[id])}${lineCard(g, log[id])}${matchupCard(g, s)}${opinionCard(g, s)}${conditionsCard(g, s)}${forwardCard(g, log[id])}${flowCard(g, s)}${injuryCard(g)}</div>`;
     // Live, or within 15 minutes of kickoff: every 30 seconds, like the board. Earlier: every
     // 5 minutes, for line moves. Finished: no more updates.
     clearTimeout(gameTimer);

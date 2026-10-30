@@ -31,6 +31,7 @@ LIVE = sources.DATA / "live"
 STATE = LIVE / "alerts.json"
 SITE = sources.DATA.parent / "site"
 FEED, SITE_JSON = SITE / "alerts.xml", SITE / "data" / "alerts.json"
+QB = SITE / "data" / "qb.json"   # QB changes, written by build_props.py just before this runs
 LEAN, STRONG, CHECK = 1.5, 3.0, 5.0
 KEY_NUMBERS = (3, 7)
 KEEP = 200          # alerts kept in the history (the feed shows the newest 50)
@@ -59,20 +60,53 @@ def upcoming(df, now):
     return df[pd.to_datetime(df.kickoff, utc=True) > now]
 
 
-def new_pick_alerts(picks, totals, now):
-    """{key: alert} for every Market-anchored lean-or-better pick on a game that hasn't started."""
+def qb_changes():
+    """{team name: QB change note} from qb.json, or {} if it isn't there."""
+    try:
+        teams = json.loads(QB.read_text())["teams"].values()
+    except (OSError, ValueError, KeyError):
+        return {}
+    return {t["team"]: t["note"] for t in teams if t["kind"] == "change"}
+
+
+def bowl_games(picks, now):
+    """Ids of upcoming bowls outside the playoff (labeled Check the news, as on the site), from the
+    names ESPN gives postseason games. Only looked up when there are postseason picks."""
+    post = upcoming(picks[picks.seasontype == 3], now)
+    if post.empty:
+        return set()
+    games, _ = sources.week_scoreboard(int(post.season.iloc[0]), 3, 1)  # ESPN's "Bowls" week lists every postseason game
+    return set(games[~games.note.fillna("").str.contains("playoff|cfp", case=False)].id)
+
+
+def new_pick_alerts(picks, totals, now, qb=None, bowls=()):
+    """{key: alert} for every Market-anchored lean-or-better pick on a game that hasn't started. A
+    game with a just-changed quarterback, or a bowl outside the playoff, is labeled Check the news,
+    as on the site."""
+    qb = qb or {}
     out = {}
+
+    def label(p):
+        note = qb.get(p.home) or qb.get(p.away)
+        if note:
+            return "Check the news", f" QB change: {note}"
+        if p.id in bowls:
+            return "Check the news", " Bowl game: opt-outs and coaching changes aren't in the model, so check who's playing."
+        return tier_label(p.edge), ""
+
     for p in upcoming(picks[(picks.source == "anchored") & (picks.edge >= LEAN)], now).itertuples():
         team, line = (p.home, p.line_logged) if p.side == "home" else (p.away, -p.line_logged)
+        tier, note = label(p)
         out[f"pick:{p.id}"] = dict(
-            kind="pick", game_id=p.id, title=f"{tier_label(p.edge)}: {team} {fmt_line(line)}",
+            kind="pick", game_id=p.id, title=f"{tier}: {team} {fmt_line(line)}",
             text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Market-anchored takes {team} {fmt_line(line)}, "
-                 f"a {p.edge:.1f}-point edge, logged when the line first appeared.")
+                 f"a {p.edge:.1f}-point edge, logged when the line first appeared.{note}")
     for p in upcoming(totals[(totals.source == "anchored") & (totals.edge >= LEAN)], now).itertuples():
+        tier, note = label(p)
         out[f"total:{p.id}"] = dict(
-            kind="total", game_id=p.id, title=f"{tier_label(p.edge)}: {p.side.title()} {p.total_logged:g}",
+            kind="total", game_id=p.id, title=f"{tier}: {p.side.title()} {p.total_logged:g}",
             text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Market-anchored takes the {p.side} {p.total_logged:g} "
-                 f"(projects {p.proj:.1f}), a {p.edge:.1f}-point edge, logged when the total first appeared.")
+                 f"(projects {p.proj:.1f}), a {p.edge:.1f}-point edge, logged when the total first appeared.{note}")
     return out
 
 
@@ -168,7 +202,7 @@ def main():
     if totals is None:
         totals = pd.DataFrame(columns=["source", "edge", "kickoff", "id", "side", "total_logged", "proj", "home", "away"])
 
-    found = new_pick_alerts(picks, totals, now) | key_number_alerts(lines, picks, now)
+    found = new_pick_alerts(picks, totals, now, qb_changes(), bowl_games(picks, now)) | key_number_alerts(lines, picks, now)
     first = not STATE.exists()
     state = json.loads(STATE.read_text()) if not first else {"sent": [], "items": []}
     sent = set(state["sent"])

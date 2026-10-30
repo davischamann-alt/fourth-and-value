@@ -9,7 +9,7 @@ on:
     - cron: "17 */2 * * *"   # every two hours, at 17 minutes past (GitHub is busiest on the hour)
   push:
     branches: [main]
-    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "sources.py", "model.py", ".github/workflows/site.yml"]
+    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "sources.py", "model.py", ".github/workflows/site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -45,7 +45,21 @@ jobs:
           restore-keys: cfbd-v2-
       # Recorded first, so a problem in the steps after it can't lose a pick
       - name: Record lines and picks
+        env:
+          # for the Efficiency ratings behind the Efficiency and Blend picks
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
         run: python record.py
+      # ESPN box scores for player props and the QB watch: finished games never change, so keep
+      # them between runs
+      - uses: actions/cache@v6
+        with:
+          path: data/box
+          key: espn-box-${{ github.run_id }}
+          restore-keys: espn-box-
+      - name: Build player props and QB watch
+        # a hiccup at ESPN shouldn't stop the rest of the site from publishing; the last props stay up
+        continue-on-error: true
+        run: python build_props.py
       # New edges and key-number line moves: always to the site's feed; to phones and Discord
       # when those are set up (see "Alerts" in the README). A failed send shouldn't stop the run.
       - name: Send alerts
@@ -65,7 +79,7 @@ jobs:
           git add site/data/alerts.json site/alerts.xml 2>/dev/null || true
           git commit -q -m "Record lines and picks $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3; do
-            git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0
+            git pull -q --rebase --autostash origin main && git push -q origin HEAD:main && exit 0
             sleep 10
           done
           exit 1
@@ -74,16 +88,12 @@ jobs:
           # Optional: add a CFBD_API_KEY repository secret to include past seasons in the track record
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
         run: python build_site.py
-      # ESPN box scores for player props: finished games never change, so keep them between runs
-      - uses: actions/cache@v6
-        with:
-          path: data/box
-          key: espn-box-${{ github.run_id }}
-          restore-keys: espn-box-
-      - name: Build player props
-        # a hiccup at ESPN shouldn't stop the rest of the site from publishing; the last props stay up
+      - name: Kickoff weather
+        # stadium locations from CollegeFootballData, forecasts from Open-Meteo; optional
         continue-on-error: true
-        run: python build_props.py
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: python weather.py
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

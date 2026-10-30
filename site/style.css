@@ -580,3 +580,11 @@ table.data .moe { font-size: 11px; font-weight: 500; }
   background: var(--pass-bg); color: var(--pass); }
 .al-kind.al-pick, .al-kind.al-total { background: var(--strong-bg); color: var(--strong); }
 .al-kind.al-key { background: var(--lean-bg); color: var(--lean); }
+
+/* QB watch: a likely quarterback change, from box scores */
+.qb-tag { padding: 2px 7px; border-radius: 5px; font: 800 12px/1.3 var(--display); letter-spacing: .05em; text-transform: uppercase;
+  color: var(--lean); box-shadow: inset 0 0 0 1.5px var(--lean); white-space: nowrap; }
+.gd-qb p { margin: 0 0 8px; }
+
+/* Bowl, playoff and conference championship names */
+.game-note { margin: -2px 0 6px; font: 700 13px/1.25 var(--display); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }

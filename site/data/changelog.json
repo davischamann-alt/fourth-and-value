@@ -2,6 +2,21 @@
  {
   "date": "2026-10-29",
   "type": "model",
+  "title": "Check the news for quarterback changes, bowl games and windy overs",
+  "summary": "Three situations the ratings can't see now turn a Lean or Go for it into Check the news, with the reason in the pick box. A QB change tag marks games where a team's usual starter didn't lead its last game in pass attempts (from ESPN box scores). Bowl games outside the College Football Playoff are labeled the same way. On totals, an over pick with 12+ mph of wind in the kickoff forecast is too, and a Wind tag shows the forecast. Game pages get a Quarterbacks and injuries card and the forecast on the over/under card.",
+  "why": "In 2026, the model's picks went 39% at the opening line in games right after a quarterback change (57 games), against 55% in the rest. In 2023-2025 bowls outside the playoff, FPI went 42% and Blend 47% (109 games), while playoff games went 60-68%. In windy games, totals fell about 1.8 points between the open and kickoff and overs went 48% against the opening total. In each case the market knows something the ratings don't.",
+  "effect": "Labels only. Projections, edges and cover chances don't change, and the Go for it filter and counts leave these games out. The quarterback and bowl samples are small.",
+  "forward_test": "The pick log is unchanged: picks are still logged with their edge size, so the forward test can show whether these games really do worse."
+ },
+ {
+  "date": "2026-10-29",
+  "type": "feature",
+  "title": "Ready for bowl season and the offseason",
+  "summary": "Bowl and playoff results now count toward the ratings and the QB watch, game cards show the bowl, playoff or conference championship name, and alerts label non-playoff bowls Check the news. A replay of the 2025 postseason through the whole pick log (46 games) caught a bug that would have logged every playoff game twice; that's fixed. After the national championship, the Games tab says the season is over instead of showing an empty week, and on July 1 the site switches to the new season, rating every team by ESPN's preseason FPI until games are played."
+ },
+ {
+  "date": "2026-10-29",
+  "type": "model",
   "title": "Efficiency (EPA per play) added, and Blend now uses it",
   "summary": "A fifth projection, Efficiency, rates every offense and defense by expected points added (EPA) per play, adjusted for opponents and with garbage time left out, from CollegeFootballData. Blend now averages FPI and Efficiency instead of FPI and adjusted points. The Ratings tab shows each team's offensive and defensive EPA. Market-anchored, the default, is unchanged.",
   "why": "Points are a noisy measure of how good a team is: a pick-six or a garbage-time touchdown counts the same as a long drive. EPA per play measures every snap.",

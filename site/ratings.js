@@ -16,9 +16,11 @@ function renderRatingsExample() {
   const [home, away] = r, h = hfa();
   const f = home.fpi - away.fpi + h;
   const p = (home.ppg + away.papg) - (away.ppg + home.papg) + h;
-  $("#rt-example").innerHTML = `<b>Example with today's numbers:</b> if #2 ${esc(away.team)} played at #1 ${esc(home.team)},
-    FPI says <b>${esc(say(home, away, f))}</b> (${home.fpi.toFixed(1)} − ${away.fpi.toFixed(1)} + ${h}), and adjusted points says
-    <b>${esc(say(home, away, p))}</b> ((${home.ppg.toFixed(1)} + ${away.papg.toFixed(1)}) − (${away.ppg.toFixed(1)} + ${home.papg.toFixed(1)}) + ${h}).`;
+  const fpiTxt = `FPI says <b>${esc(say(home, away, f))}</b> (${home.fpi.toFixed(1)} − ${away.fpi.toFixed(1)} + ${h})`;
+  // before week 1 there are no points ratings yet, only ESPN's preseason FPI
+  $("#rt-example").innerHTML = `<b>Example with today's numbers:</b> if #2 ${esc(away.team)} played at #1 ${esc(home.team)}, ` + (home.ppg == null || away.ppg == null
+    ? `${fpiTxt}. Adjusted points needs games played first.`
+    : `${fpiTxt}, and adjusted points says <b>${esc(say(home, away, p))}</b> ((${home.ppg.toFixed(1)} + ${away.papg.toFixed(1)}) − (${away.ppg.toFixed(1)} + ${home.papg.toFixed(1)}) + ${h}).`);
 }
 
 function renderCompare() {

@@ -73,9 +73,10 @@ def season_of(d):
     return d.year if d.month >= 7 else d.year - 1
 
 
-def season_games(season):
+def season_games(season, postseason=False):
     """This season's completed games, fetched week by week: ESPN's date-range queries currently
-    fail, but week + season year works. August (Week 0) games get week 0."""
+    fail, but week + season year works. August (Week 0) games get week 0. postseason: also the
+    bowls and the College Football Playoff, as week 17 (for ratings, not the backtest)."""
     rows, seen = [], set()
 
     def done(ev):
@@ -99,6 +100,8 @@ def season_games(season):
         add(evs, w)
         if w > 1 and not any(done(e) for e in evs):
             break
+    if postseason:
+        add(espn_events(dates=season, seasontype=3, week=1), 17)  # ESPN's "Bowls" week holds every postseason game
     return pd.DataFrame(rows, columns=["id", "week", "start", "home", "away", "home_id", "away_id",
                                        "home_pts", "away_pts", "neutral"])
 
@@ -107,21 +110,38 @@ def team_names(games):
     return dict(zip(games.home_id, games.home)) | dict(zip(games.away_id, games.away))
 
 
+def espn_team_names():
+    """{ESPN team id: location name} for every college team ESPN lists."""
+    r = requests.get(ESPN.rsplit("/", 1)[0] + "/teams", params={"groups": 80, "limit": 1000}, timeout=20)
+    r.raise_for_status()
+    return {t["team"]["id"]: t["team"]["location"] for t in r.json()["sports"][0]["leagues"][0]["teams"]}
+
+
 def season_ratings(season):
-    """Opponent-adjusted points scored/allowed per game from this season's completed games,
-    plus ESPN FPI. Returns (ratings, fitted home-field edge, FPI error or None)."""
-    games = season_games(season)
-    if games.empty:
-        return pd.DataFrame(columns=["team", "ppg", "papg", "games", "fpi", "id"]), None, None
-    names = team_names(games)
+    """Opponent-adjusted points scored/allowed per game from this season's completed games
+    (postseason included), plus ESPN FPI and Efficiency. Teams that haven't played yet, like
+    everyone before week 1, get FPI alone (ESPN's preseason FPI), so week 1 still has projections.
+    Returns (ratings, fitted home-field edge, FPI error or None)."""
+    games = season_games(season, postseason=True)
     try:
         fpi, fpi_err = espn_fpi(season), None
     except Exception as ex:
         fpi, fpi_err = {}, str(ex)
+    if games.empty and not fpi:
+        return pd.DataFrame(columns=["team", "ppg", "papg", "games", "fpi", "id"]), None, fpi_err
+    names = team_names(games)
+    if any(i not in names for i in fpi):
+        names = espn_team_names() | names
     fbs = {names[i] for i in fpi if i in names} or None  # FPI covers exactly the FBS teams
-    fit = list(games[["home", "away", "home_pts", "away_pts", "neutral"]].itertuples(index=False, name=None))
-    df, fitted_hfa = fit_ratings(pool_fcs(fit, fbs))
-    df = df[df["team"] != "FCS"]
+    if games.empty:
+        df, fitted_hfa = pd.DataFrame(columns=["team", "ppg", "papg", "games"]), None
+    else:
+        fit = list(games[["home", "away", "home_pts", "away_pts", "neutral"]].itertuples(index=False, name=None))
+        df, fitted_hfa = fit_ratings(pool_fcs(fit, fbs))
+        df = df[df["team"] != "FCS"]
+    unplayed = [names[i] for i in fpi if i in names and names[i] not in set(df["team"])]
+    if unplayed:
+        df = pd.concat([df, pd.DataFrame({"team": unplayed, "games": 0})], ignore_index=True)
     df["fpi"] = df["team"].map({names[i]: v for i, v in fpi.items() if i in names})
     df["id"] = df["team"].map({n: i for i, n in names.items()})
     df = df.round(2)
@@ -328,10 +348,11 @@ def parse_events(events):
             home_score=int(h.get("score") or 0), away_score=int(a.get("score") or 0),
             status=c["status"]["type"]["shortDetail"], state=c["status"]["type"]["state"],
             neutral=c.get("neutralSite", False), line=line, open_line=open_line, total=total, open_total=open_tot,
+            note=(c.get("notes") or [{}])[0].get("headline"),
             period=c["status"].get("period", 0), clock=float(c["status"].get("clock") or 0)))
     return pd.DataFrame(rows, columns=["id", "kickoff", "home", "away", "home_id", "away_id", "home_score",
                                        "away_score", "status", "state", "neutral", "line", "open_line", "total",
-                                       "open_total", "period", "clock"])
+                                       "open_total", "note", "period", "clock"])
 
 
 def scoreboard(date_str):

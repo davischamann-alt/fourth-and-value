@@ -55,7 +55,8 @@ def weeks_to_check():
     if key in info["calendar"] and info["calendar"].index(key) + 1 < len(info["calendar"]):
         st, wk = info["calendar"][info["calendar"].index(key) + 1]
         nxt, ninfo = sources.week_scoreboard(info["season"], st, wk)
-        out.append((ninfo, nxt))
+        # ESPN's "Bowls" week also lists every playoff game, and so does its "CFP" week: keep each once
+        out.append((ninfo, nxt[~nxt.id.isin(games.id)]))
     return out
 
 

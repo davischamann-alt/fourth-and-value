@@ -18,6 +18,21 @@ const TIER_LABEL = { check: "Check the news", strong: "Go for it", lean: "Lean",
 /** Edge size to label. 5+ points isn't "more value": in the cleaned 2023-2026 backtest it did no
  *  better than 3-5, and a gap that big usually means the model is missing news the market has. */
 const tierOf = (edge) => { const e = Math.abs(edge); return e >= CHECK ? "check" : e >= STRONG ? "strong" : e >= LEAN ? "lean" : "pass"; };
+/** A team's quarterback situation just changed (data/qb.json, from box scores), or null. */
+const qbChange = (g) => (g.state === "post" ? null  // flags describe the latest games, not past ones
+  : [g.home, g.away].map((t) => state.qb?.[t.id]).find((f) => f?.kind === "change") || null);
+/** Edge label for a game: a just-changed quarterback turns any Lean or Go for it into Check the
+ *  news. In 2026, the model's picks went 39% at the opening line in those games (56 picks) and
+ *  55% in the rest: the market knows about the new starter, and the season-long ratings don't. */
+/** A bowl outside the College Football Playoff. In 2023-2025 those went badly for every projection
+ *  (FPI 42% at the opening line, 95 picks; Blend 47%): opt-outs, transfers and coaching changes
+ *  aren't in the ratings. Playoff games did fine, so they keep their normal labels. */
+const isBowl = (g) => !!g.postseason && !/playoff|cfp/i.test(g.note || "");
+const BOWL_NOTE = "Bowl game: opt-outs, transfers and coaching changes aren't in the model, and in 2023-2025 bowls outside the playoff its picks went 42-47% at the opening line. Check who's playing.";
+const gameTier = (g, edge) => { const t = tierOf(edge); return t !== "pass" && (qbChange(g) || isBowl(g)) ? "check" : t; };
+/** Kickoff forecast (data/weather.json), or null. windy: 12+ mph over the first three hours. */
+const weatherOf = (g) => (g.state === "pre" ? state.weather?.[g.id] || null : null);
+const windNote = (w) => `Wind about ${w.wind} mph at kickoff (gusts to ${w.gust}). In 2023-2026, totals in games this windy fell about 1.8 points between the open and kickoff`;
 
 const store = {
   get(key, fallback) {
@@ -49,6 +64,8 @@ const state = {
   settings: store.get("settings", { hfa: null, sigma: null, theme: "auto" }),
   timer: null,
   changelog: [],        // changelog.json: dated model changes
+  qb: null,             // qb.json: {team id: QB change flag}
+  weather: null,        // weather.json: {game id: kickoff forecast}
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -147,7 +164,7 @@ function evaluate(g, market = state.market) {
   const edge = Math.abs(margin + line);
   return {
     margin, line, edge,
-    tier: tierOf(edge),
+    tier: gameTier(g, edge),
     side: homePick ? "home" : "away",
     team: homePick ? g.home : g.away,
     pickLine: homePick ? line : -line,
@@ -171,8 +188,11 @@ function evaluateTotal(g) {
     else { const f = Math.min(left / 3600, 1); live = 1 - normCdf((line - cur - proj * f) / (s * Math.sqrt(f))); }
   }
   const edge = Math.abs(proj - line);
+  // an over in a windy game is betting against a drop the market usually makes by kickoff
+  const windy = over && weatherOf(g)?.windy;
+  const tier = windy && tierOf(edge) !== "pass" ? "check" : gameTier(g, edge);
   return {
-    total: true, margin: proj, line, edge, tier: tierOf(edge), side: over ? "over" : "under", team: null, pickLine: line,
+    total: true, margin: proj, line, edge, tier, side: over ? "over" : "under", team: null, pickLine: line,
     pre: over ? overProb : 1 - overProb, live: live == null ? null : over ? live : 1 - live,
   };
 }
@@ -231,6 +251,7 @@ function parseEvent(e) {
     state: c.status.type.state, status: c.status.type.shortDetail,
     period: c.status.period || 0, clock: parseFloat(c.status.clock || 0),
     neutral: !!c.neutralSite, tv: c.broadcasts?.[0]?.names?.join(", ") || "",
+    note: c.notes?.[0]?.headline || "", postseason: e.season?.type === 3,  // bowl or playoff name; conference title games too
     line: null, openLine: null, total: null, openTotal: null,
   };
   const o = c.odds?.[0];
@@ -291,6 +312,9 @@ async function loadWeek(index) {
 
 // ---------- Games tab ----------
 
+/** After the national championship: ESPN's calendar has run out, and there are no games to show. */
+const offseason = () => { const last = state.calendar.at(-1); return !!last && Date.now() > Date.parse(last.end); };
+
 function renderWeekbar() {
   const w = state.calendar[state.weekIndex];
   $("#week-name").textContent = w ? w.label : "This week";
@@ -327,6 +351,13 @@ function renderGames() {
   $("#games-summary").textContent = state.games.length ? `${state.market === "total" ? "Over/under" : "Cover"} chances use a ${sigma()}-point std dev` : "";
 
   const box = $("#games");
+  if (!state.games.length && offseason()) {
+    box.innerHTML = `<div class="card offseason"><h3>That's the ${state.season} season</h3>
+      <p>The last game has been played. The ratings, the pick log and the <a href="#record">track record</a> stay up, and the
+        forward test starts again when ${state.season + 1} lines are posted in August. Turn on <b>alerts</b> (🔔 at the top) to hear when the
+        first edges show up.</p></div>`;
+    return;
+  }
   if (!rows.length) {
     box.innerHTML = `<div class="card nopick">${!state.games.length ? "No games this week." : state.filter === "close" ? `No live games within ${CLOSE} points of the spread right now.`
       : state.filter === "open" ? "No edges of 1.5+ are still at their opening number. Lines for next week usually post on Sunday." : "No games match these filters."}</div>`;
@@ -404,7 +435,10 @@ function pickBox(g, ev, { tierTxt } = {}) {
   const icon = ev.total
     ? `<span class="ou-icon" aria-hidden="true">${ev.side === "over" ? "▲" : "▼"}</span>`
     : `<img src="${esc(ev.team.logo)}" alt="" loading="lazy">`;
-  const note = st.text || moveNote(g, ev);
+  const qb = g.state === "pre" && qbChange(g), wx = ev.total && weatherOf(g);
+  const windTxt = wx?.windy ? `${windNote(wx)}${ev.side === "over" ? ", so this over is fighting the market." : ": the market usually moves it toward the under."}` : "";
+  const bowl = g.state === "pre" && isBowl(g) && ev.tier === "check";
+  const note = st.text || (qb ? `QB change: ${qb.note}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
   return `<div class="pickbox pb-${st.state}">
     <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
     <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>
@@ -449,7 +483,9 @@ function card(g, ev, isTracked) {
   return `<article class="card game${ev.tier === "strong" ? " strong" : ""}" data-game="${esc(g.id)}" tabindex="0"
     aria-label="${esc(`${g.away.name} at ${g.home.name}: open game details`)}">
     <div class="game-top"><span class="${statusCls}">${esc(time)}</span>${isClose(g)
-      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}<span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
+      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}${g.state === "pre" && qbChange(g) ? `<span class="qb-tag" title="${esc(qbChange(g).note)}">QB change</span>` : ""}${weatherOf(g)?.windy
+      ? `<span class="qb-tag wind-tag" title="${esc(windNote(weatherOf(g)))}.">Wind ${weatherOf(g).wind} mph</span>` : ""}<span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
+    ${g.note ? `<div class="game-note">${esc(g.note)}</div>` : ""}
     ${teamRow(g.away, g, ev.side === "away")}${teamRow(g.home, g, ev.side === "home")}
     <div class="lines">
       <div><span class="k">Line</span><span class="v">${homeLine}</span>${moved}</div>
@@ -602,7 +638,8 @@ function renderRatings() {
   const list = state.ratings?.list || [];
   const q = $("#rating-search").value.trim().toLowerCase();
   const fpiRank = new Map([...list].filter((t) => t.fpi != null).sort((a, b) => b.fpi - a.fpi).map((t, i) => [t.team, i + 1]));
-  const rows = list.filter((t) => !q || t.team.toLowerCase().includes(q)).map((t) => ({ ...t, net: t.ppg - t.papg, rank: fpiRank.get(t.team) }));
+  const rows = list.filter((t) => !q || t.team.toLowerCase().includes(q))
+    .map((t) => ({ ...t, net: t.ppg == null ? null : t.ppg - t.papg, rank: fpiRank.get(t.team) }));
   const k = ratingSort.key, d = ratingSort.dir;
   rows.sort((a, b) => (typeof a[k] === "string" ? a[k].localeCompare(b[k]) : ((a[k] ?? -1e9) - (b[k] ?? -1e9))) * d);
   const cols = [["rank", "#", "Rank by FPI"], ["team", "Team", "Team name"],
@@ -616,8 +653,8 @@ function renderRatings() {
   const epa = (x) => (x == null ? "—" : (x > 0 ? "+" : "") + x.toFixed(2));
   $("#ratings-table").innerHTML = `<tr>${cols.map(([c, l, tip]) => `<th data-sort="${c}" title="${esc(tip)}" class="${c === "team" ? "l" : ""}">${l}${k === c ? (d > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>` +
     rows.map((t) => `<tr><td>${t.rank ?? ""}</td><td class="l"><img src="${LOGO(t.id)}" alt="" loading="lazy">${esc(t.team)}</td>
-      <td>${t.fpi?.toFixed(1) ?? "—"}</td><td>${t.ppg.toFixed(1)}</td><td>${t.papg.toFixed(1)}</td>
-      <td class="${t.net > 0 ? "good" : "bad"}">${(t.net > 0 ? "+" : "") + t.net.toFixed(1)}</td>
+      <td>${t.fpi?.toFixed(1) ?? "—"}</td><td>${t.ppg?.toFixed(1) ?? "—"}</td><td>${t.papg?.toFixed(1) ?? "—"}</td>
+      <td class="${t.net == null ? "" : t.net > 0 ? "good" : "bad"}">${t.net == null ? "—" : (t.net > 0 ? "+" : "") + t.net.toFixed(1)}</td>
       <td>${epa(t.off_eff)}</td><td>${epa(t.def_eff)}</td><td>${t.games}</td></tr>`).join("");
   $("#ratings-summary").textContent = state.ratings
     ? `${list.length} FBS teams · updated ${new Date(state.ratings.updated).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}`
@@ -795,6 +832,10 @@ function renderSourceSelect() {
     : SPREAD_SOURCES.map((k) => [k, (k === "anchored" ? "★ " : "") + SOURCE_LABEL[k]]);
   const sel = $("#source");
   sel.innerHTML = opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+  // a remembered choice that isn't offered (any more) falls back to the default
+  for (const [key, ok] of [["source", SPREAD_SOURCES], ["totalSource", ["anchored", "points"]]]) {
+    if (!ok.includes(state[key])) { state[key] = "anchored"; store.set(key, "anchored"); }
+  }
   sel.value = state.market === "total" ? state.totalSource : state.source;
   $$("#market button").forEach((b) => b.classList.toggle("on", b.dataset.v === state.market));
 }
@@ -967,10 +1008,13 @@ function bind() {
 async function init() {
   applyTheme();
   bind();
-  const [ratings, model, record, live, changelog] = await Promise.all(
-    ["ratings", "model", "track_record", "live", "changelog"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
+  const [ratings, model, record, live, changelog, qb, weather] = await Promise.all(
+    ["ratings", "model", "track_record", "live", "changelog", "qb", "weather"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
+  state.qb = qb?.teams || null;
+  state.weather = weather?.games || null;
   if (ratings) {
-    const avg = ratings.teams.reduce((s, t) => s + t.ppg + t.papg, 0) / (2 * ratings.teams.length || 1);  // model.project's avg
+    const played = ratings.teams.filter((t) => t.ppg != null);
+    const avg = played.reduce((s, t) => s + t.ppg + t.papg, 0) / (2 * played.length || 1);  // model.project's avg
     state.ratings = { ...ratings, avg, list: ratings.teams, byId: Object.fromEntries(ratings.teams.map((t) => [String(t.id), t])) };
   }
   state.model = model;

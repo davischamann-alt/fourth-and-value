@@ -14,3 +14,7 @@ data/box/
 .env
 .env.*
 !.env.example
+
+# built by the GitHub job on every run (python build_props.py / python weather.py)
+site/data/qb.json
+site/data/weather.json

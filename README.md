@@ -62,6 +62,7 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
 
 - **Games:** one week at a time (use ‹ › to change weeks), grouped by day. Each game card shows the line and where it opened, the model's pick, an edge badge labeled like a fourth-down call (**Go for it** at 3–5 points, **Lean** at 1.5–3, **Punt** under 1.5, meaning no bet, and **Check the news** at 5+, where the gap is more likely missing information than extra value), and the cover chance, which updates live during games. Filter to go-for-it edges, live games, or **close** games (live and within 4 points of the spread, sorted tightest first), sort by biggest edge, or search for a team.
   - **Spread / Total:** switches every card between the pick against the spread and the **over/under** pick against the total (see [What the testing found](#what-the-testing-found) for how totals tested).
+  - **Check the news, automatically:** a Lean or Go for it turns into **Check the news** when the model is likely missing something: a team just changed quarterbacks (a **QB change** tag on the card), it's a bowl game outside the College Football Playoff, or it's an over pick with 12+ mph of wind in the forecast (a **Wind** tag). The pick box says why. See [What the testing found](#what-the-testing-found).
   - **At open:** edges of 1.5+ where the line is still within half a point of its opening number, where the model tested best. Each pregame pick box also says how far the line has moved toward or away from the pick since it opened.
   - **Opening lines notice:** once next week's lines are posted (usually Sunday), a notice at the top says how many edges are still at the opening number, with a link straight to them.
 - **Game details:** tap any game card for the full breakdown. Each game has its own link (like `#game/401858274`) that you can share.
@@ -73,7 +74,8 @@ Open **[davischamann-alt.github.io/fourth-and-value](https://davischamann-alt.gi
   - **Conditions:** venue, field surface, and the weather forecast when ESPN has one.
   - **Forward test:** when the pick was recorded, at what line, and how it graded.
   - **Live and finished games:** ESPN's play-by-play win chance and each team's leaders, updating every 30 seconds while the game is on.
-  - **Not included:** injuries, because ESPN doesn't publish them for college football. Check quarterback news yourself.
+  - **Quarterbacks and injuries:** any recent quarterback change for either team, from box scores (who led each game in pass attempts). ESPN doesn't publish injury reports for college football, so other injuries aren't included; check team news yourself.
+  - **Over/under weather:** the forecast at kickoff (wind, gusts, temperature, chance of rain) for outdoor games this week and next.
 - **Props:** projections for this week's players in five stats: passing yards, passing TDs, rushing yards, receiving yards and receptions. Enter the line and odds from your sportsbook, and the page shows the over/under chance, how often the player cleared that line in his last five games, and a lean when the chance beats break-even by 3+ points. Each projection is the player's per-game average this season (from ESPN box scores), nudged by half of how much the opponent's defense allows for rushing yards, passing TDs and receptions. In a week-by-week check on 2026, that matched or slightly beat a plain season average; weighting recent games more did worse. **They're untested against real prop lines**, because free historical prop lines don't exist, and books know about injuries and depth charts that the model doesn't. `build_props.py` builds them as part of the GitHub job, and box scores are cached in `data/box/`.
 - **Ratings:** every FBS team's FPI, adjusted offense and defense, and offensive and defensive EPA per play (efficiency), sortable and searchable, with a **How to read the ratings** guide (what each column means and how the projections use it) and a **Compare two teams** tool: pick any matchup, home or neutral, and optionally enter the betting line to see each projection's pick and edge.
 - **My picks:** tap **☆ Track pick** on a game before kickoff, and it's graded automatically when the game ends.
@@ -311,6 +313,16 @@ Totals are shown because they're part of every game and the forward test now rec
 
 The new Blend picked a little better than the old one in most of these columns, at the same accuracy, so Efficiency replaced adjusted points in it. It isn't better every season (2025 dipped), and it doesn't beat the closing line, so treat it as a small improvement, not a breakthrough. Also tested and **not** used: starting each season from last season's efficiency (it made the picks worse), and adding efficiency to Market-anchored (no change). In 2022, a season none of this was tuned on, Efficiency alone was only 51.7% at the opening line on 3+ edges.
 
+**Situations the model can't see** (added October 29, 2026). Each one is now labeled **Check the news** instead of Lean or Go for it:
+
+| Situation | What happened | Games |
+| --- | --- | --- |
+| **A team just changed quarterbacks** (someone other than the usual starter led its last game in pass attempts) | 2026, at the opening line: FPI picks 39.3%, Blend 44.6%, Market-anchored 35.7%. In every other game: 55.3%, 56.6% and 54.7%. | 57 games (2026 only; box scores before that aren't saved) |
+| **A bowl outside the College Football Playoff** | 2023–2025, at the opening line: FPI 42.1%, Efficiency and Blend 47.4%. Playoff games went 60–68%, so they keep their normal labels. | 109 bowls, 25 playoff games |
+| **An over with 12+ mph of wind at kickoff** | 2023–2026: totals in those games fell about 1.8 points from the open to kickoff (0.35 in calm games), and overs went 47.7% against the opening total. The closing total prices the wind; the opening total doesn't fully. Rain and cold showed no reliable effect. | 176 windy games |
+
+The quarterback and bowl samples are small, but they point the way you'd expect: the market knows about the new starter or the opt-outs, and the ratings don't.
+
 **What this means:**
 
 - **The Vegas closing line is more accurate than any of these projections.** Betting near kickoff shows no edge.
@@ -393,6 +405,7 @@ Any change to how picks are made is logged here and on the website (a notice on 
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
+| October 29, 2026 | **Check the news for QB changes, bowls and windy overs:** Lean and Go for it picks in those games are labeled Check the news instead | The model went 39% after quarterback changes in 2026 and 42–47% in non-playoff bowls in 2023–2025, and opening totals don't fully price wind. | Labels only: projections, edges and the forward-test log are unchanged. |
 | October 29, 2026 | **Efficiency added:** a fifth projection from opponent-adjusted EPA per play, and **Blend** now averages FPI and Efficiency instead of FPI and adjusted points | Points are a noisy measure of how good a team is. EPA per play, with garbage time left out, measures every play. | In 2024–2026, the new Blend picked a little better than the old one (every game at the opening line: 54.4% vs 53.3%; at the closing line: 52.2% vs 50.1%) with the same accuracy. Market-anchored and the default are unchanged. Blend picks logged before this date used adjusted points. |
 | October 29, 2026 | **Totals added:** over/under projections (Market-anchored total and Adjusted points total), backtested and recorded in the forward test | Totals are part of every game, and the forward test can only judge them if they're recorded before kickoff. | No change to spread picks. Totals tested at about break-even (52% at the opening total), so they're presented as untested, not as an edge. |
 | October 25, 2026 | **Backtest correction:** opening lines that moved 7+ points before kickoff (look-ahead lines, 63 of 2,323 games) are excluded | They made the biggest edges look like big winners, but nobody could have bet them with that season's information. | Opening-line results drop to about 53–54% on 3+ point edges (FPI: 55.7% → 53.8%). Closing-line results barely change. |
@@ -432,6 +445,10 @@ Each run sends at most one notification, listing everything new. Alerts always g
 
 The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours, whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
 
+Each run also builds the QB watch and player props (`build_props.py`), sends alerts (`alerts.py`) and fetches kickoff forecasts (`weather.py`).
+
+**Bowls, the playoff and the offseason.** Bowl and playoff results count toward the ratings, the forward test logs postseason games like any others, and conference championships are regular-season week 15. After the national championship, the Games tab says the season is over. On July 1 the site switches to the new season: until games are played, every team is rated by ESPN's FPI alone, the season that just ended joins the backtest automatically, and Market-anchored is retrained with it.
+
 Because the job commits to `main` every two hours, your copy falls behind quickly. Run `git pull` before you change anything, or your push will be rejected.
 
 **One-time setup** (repo owner only):
@@ -454,7 +471,8 @@ fourth-and-value/
 ├── build_site.py             # builds the website's data files
 ├── record.py                 # forward test: records lines and picks, grades them
 ├── alerts.py                 # alerts: new edges and key-number line moves, to the feed, ntfy and Discord
-├── build_props.py            # player prop projections for the Props tab (ESPN box scores)
+├── weather.py                # kickoff forecasts for this week's games (Open-Meteo), for wind flags on totals
+├── build_props.py            # player prop projections for the Props tab, and the QB watch (ESPN box scores)
 ├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), alerts.js (Alerts panel), alerts.xml (feed), data/ (changelog.json is the change log)
 ├── .github/ISSUE_TEMPLATE/   # GitHub issue forms behind the site's suggestion form
 ├── .github/workflows/site.yml # nightly job that refreshes and publishes the website
@@ -495,7 +513,7 @@ fourth-and-value/
 
 ## Limitations
 
-- **Scores and ratings only.** The model doesn't know about injuries, weather, suspensions or motivation.
+- **Scores and ratings only.** The model doesn't know about injuries, suspensions or motivation. It flags likely quarterback changes (from box scores), bowl games and windy totals as **Check the news**, but it can't see who's actually playing.
 - **Unofficial data.** ESPN's feeds aren't official and could change or go down without notice.
 - **Lines differ by sportsbook.** Lines come from one book per game (DraftKings when available), so yours may differ.
 - **Small samples mislead.** A few weeks of results can look great or terrible by luck alone. Judge by hundreds of picks and by line movement.

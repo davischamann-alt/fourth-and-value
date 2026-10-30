@@ -25,6 +25,8 @@ from build_site import clean
 ROOT = Path(__file__).parent
 BOX = ROOT / "data" / "box"          # one small file per finished game (git-ignored, cached by the job)
 OUT = ROOT / "site" / "data" / "props.json"
+QB_OUT = ROOT / "site" / "data" / "qb.json"   # QB watch: likely quarterback changes, for game cards
+QB_RECENT = 3       # flag a new starter for this many games; after that the ratings have caught up
 MARKETS = {  # stat key: (label, games that count toward the average, minimum per-game volume, spread floor)
     "pass_yds": ("Passing yards", lambda g: g.pass_att >= 10, ("pass_att", 15), 45.0),
     "pass_td": ("Passing TDs", lambda g: g.pass_att >= 10, ("pass_att", 15), None),   # Poisson on the page
@@ -127,6 +129,44 @@ def project(hist, market, factor):
     return proj, sd, len(vals), [float(v) for v in vals[-5:]]
 
 
+def qb_watch(logs):
+    """{team id: flag} for teams whose quarterback situation just changed, from who led each game in
+    pass attempts. ESPN doesn't publish college injury reports, so this is the next best signal:
+    the ratings are built mostly from the usual starter's games, and a new starter can be much
+    better or worse. Two kinds:
+      change: someone other than the season's usual starter led the team's last game (for up to
+              QB_RECENT games in a row, after which the ratings reflect the new starter)
+      back:   the usual starter led the last game after someone else led the one before it"""
+    qb = logs[logs.pass_att >= 5].sort_values(["start", "pass_att"])
+    lead = qb.groupby(["team_id", "game_id"]).tail(1).sort_values("start")
+    out = {}
+    for tid, g in lead.groupby("team_id"):
+        if len(g) < 3:
+            continue
+        counts = g.groupby("pid").size()
+        starter = counts[counts == counts.max()].index
+        starter = g[g.pid.isin(starter)].pid.iloc[-1]  # a tie goes to whoever led more recently
+        name = lambda pid: g[g.pid == pid].name.iloc[-1]
+        last, prev = g.iloc[-1], g.iloc[-2]
+        streak = int((g.pid.iloc[::-1] != last.pid).cumsum().eq(0).sum())
+        common = dict(team=last.team, qb=last["name"], att=int(last.pass_att), week=int(last.week),
+                      starter=name(starter), starter_games=int(counts[starter]), games=len(g))
+        if last.pid != starter and streak <= QB_RECENT:
+            out[str(tid)] = dict(kind="change", streak=streak, **common,
+                                 note=f"{last['name']} led {last.team}'s passing in the last "
+                                      f"{'game' if streak == 1 else f'{streak} games'}; "
+                                      f"{name(starter)} led it in {counts[starter]} of {len(g)} games. The ratings mostly "
+                                      f"reflect {name(starter)}'s games.")
+        elif last.pid == starter and prev.pid != starter:
+            missed = int((g.pid.iloc[-2::-1] != starter).cumprod().sum())
+            others = g.pid.iloc[-1 - missed:-1].unique()
+            who = name(others[0]) if len(others) == 1 else "backups"
+            out[str(tid)] = dict(kind="back", streak=missed, **common,
+                                 note=f"{last['name']} is back as {last.team}'s leading passer after "
+                                      f"{who} led the {'previous game' if missed == 1 else f'previous {missed} games'}.")
+    return out
+
+
 def evaluate(logs, factors_by_week):
     """Walk-forward check: project each player's game from earlier weeks only, and compare the
     typical miss with a plain season average."""
@@ -155,7 +195,7 @@ def evaluate(logs, factors_by_week):
 def main():
     now = dt.datetime.now(dt.timezone.utc)
     season = sources.season_of(now.date())
-    games = sources.season_games(season)
+    games = sources.season_games(season, postseason=True)  # bowl and playoff box scores count too
     logs = game_logs(games)
     fbs = {i for i, _ in sources.espn_fpi(season).items()}
     factors = defense_factors(logs, fbs)
@@ -191,6 +231,10 @@ def main():
         "markets": {k: v[0] for k, v in MARKETS.items()}, "players": players, "accuracy": accuracy,
     }), separators=(",", ":")))
     print(f"wrote site/data/props.json: {len(players)} players in {len(slate)} games")
+    qb = qb_watch(logs)
+    QB_OUT.write_text(json.dumps({"updated": now.isoformat(), "teams": qb}, indent=1))
+    print(f"wrote site/data/qb.json: {sum(f['kind'] == 'change' for f in qb.values())} QB changes, "
+          f"{sum(f['kind'] == 'back' for f in qb.values())} starters back")
     for m, a in accuracy.items():
         print(f"  {a['label']}: typical miss {a['mae_model']:.1f} vs season average {a['mae_season_avg']:.1f} ({a['n']} player-games)")
 
