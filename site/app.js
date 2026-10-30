@@ -325,9 +325,11 @@ function renderWeekbar() {
 
 function renderGames() {
   const q = state.search.trim().toLowerCase();
-  let rows = state.games.map((g) => ({ g, ev: evaluate(g) }));
+  // the search narrows the counts on the filter buttons too, so a count never promises games the list hides
+  const found = state.games.filter((g) => !q || `${g.home.name} ${g.away.name} ${g.home.abbr} ${g.away.abbr}`.toLowerCase().includes(q));
+  const all = found.map((g) => evaluate(g));
+  let rows = found.map((g, i) => ({ g, ev: all[i] }));
   rows = rows.filter(({ g, ev }) => {
-    if (q && !`${g.home.name} ${g.away.name} ${g.home.abbr} ${g.away.abbr}`.toLowerCase().includes(q)) return false;
     if (state.filter === "edge") return ev.edge >= LEAN;
     if (state.filter === "strong") return ev.tier === "strong";
     if (state.filter === "open") return atOpen(g, ev);
@@ -339,11 +341,10 @@ function renderGames() {
   else if (state.sort === "edge") rows.sort((a, b) => (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
   else rows.sort((a, b) => a.g.date.localeCompare(b.g.date) || (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
 
-  const all = state.games.map((g) => evaluate(g));
   const counts = {
-    all: state.games.length, edge: all.filter((e) => e.edge >= LEAN).length,
-    strong: all.filter((e) => e.tier === "strong").length, open: state.games.filter((g, i) => atOpen(g, all[i])).length,
-    live: state.games.filter((g) => g.state === "in").length, close: state.games.filter(isClose).length,
+    all: found.length, edge: all.filter((e) => e.edge >= LEAN).length,
+    strong: all.filter((e) => e.tier === "strong").length, open: found.filter((g, i) => atOpen(g, all[i])).length,
+    live: found.filter((g) => g.state === "in").length, close: found.filter(isClose).length,
   };
   $$("[data-count]").forEach((el) => (el.textContent = state.games.length ? counts[el.dataset.count] : ""));
   $('#filter [data-filter="live"]').classList.toggle("is-live", counts.live > 0);
@@ -360,6 +361,7 @@ function renderGames() {
   }
   if (!rows.length) {
     box.innerHTML = `<div class="card nopick">${!state.games.length ? "No games this week." : state.filter === "close" ? `No live games within ${CLOSE} points of the spread right now.`
+      : q ? noMatch(q, found.length)
       : state.filter === "open" ? "No edges of 1.5+ are still at their opening number. Lines for next week usually post on Sunday." : "No games match these filters."}</div>`;
     return;
   }
@@ -372,6 +374,16 @@ function renderGames() {
     html += card(g, ev, tracked.has(trackKey(g)));
   }
   box.innerHTML = byDay ? html + "</div>" : `<div class="grid">${html}</div>`;
+}
+
+/** Empty list with a search: say whether the search or the filter is hiding the games. */
+function noMatch(q, n) {
+  if (!n) return `No games this week match "${esc(q)}". <button class="link" type="button" data-clear-search>Clear the search</button>`;
+  const label = $(`#filter [data-filter="${state.filter}"]`)?.querySelector(".lbl").textContent.replace(/\s+/g, " ").trim();
+  const on = ["live", "close"].includes(state.filter) ? "" : ` on the ${state.market === "total" ? "total" : "spread"}`;
+  return `${n} game${n === 1 ? " matches" : "s match"} "${esc(q)}", but ${n === 1 ? "it isn't" : "none are"} <b>${esc(label)}</b>${on}.
+    <button class="link" type="button" data-show-all>Show ${n === 1 ? "it" : "them"}</button> ·
+    <button class="link" type="button" data-clear-search>Clear the search</button>`;
 }
 
 function teamRow(t, g, picked) {
@@ -932,6 +944,12 @@ function bind() {
   sort.addEventListener("change", () => { state.sort = sort.value; store.set("sort", state.sort); renderGames(); });
   $("#search").addEventListener("input", (e) => { state.search = e.target.value; renderGames(); });
   $$("#filter button").forEach((b) => b.addEventListener("click", () => { setFilter(b.dataset.filter); renderGames(); }));
+  $("#games").addEventListener("click", (e) => {  // the buttons in the "no games match" message
+    if (e.target.closest("[data-show-all]")) setFilter("all");
+    else if (e.target.closest("[data-clear-search]")) { state.search = $("#search").value = ""; }
+    else return;
+    renderGames();
+  });
 
   document.addEventListener("click", (e) => {
     const t = e.target.closest("[data-track],[data-unpick],[data-delbet],th[data-sort]");
