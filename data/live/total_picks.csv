@@ -1,8 +1,8 @@
 logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_logged,open_total,edge,side,tier,close_total,final_total,result_logged,result_close,clv
-2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,points,82.81,77.5,69.5,5.31,over,strong,77.5,89,W,W,0.0
-2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,anchored,74.09,77.5,69.5,3.41,under,strong,77.5,89,L,L,-0.0
-2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,points,56.9,52.5,52.5,4.4,over,strong,52.5,45,L,L,0.0
-2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,anchored,53.71,52.5,52.5,1.21,over,small,52.5,45,L,L,0.0
+2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,points,82.81,77.5,69.5,5.31,over,strong,77.5,89.0,W,W,0.0
+2026-10-29T23:15Z,401862812,2026,2,9,2026-10-29T23:30Z,North Texas,Florida Atlantic,False,anchored,74.09,77.5,69.5,3.41,under,strong,77.5,89.0,L,L,-0.0
+2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,points,56.9,52.5,52.5,4.4,over,strong,52.5,45.0,L,L,0.0
+2026-10-29T23:15Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,anchored,53.71,52.5,52.5,1.21,over,small,52.5,45.0,L,L,0.0
 2026-10-29T23:15Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,points,45.79,47.5,45.5,1.71,under,lean,47.5,,,,
 2026-10-29T23:15Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,anchored,49.1,47.5,45.5,1.6,over,lean,47.5,,,,
 2026-10-29T23:15Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,points,49.69,48.5,49.5,1.19,over,small,48.5,,,,
@@ -31,8 +31,8 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-10-29T23:15Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,anchored,48.16,45.5,47.5,2.66,over,lean,45.5,,,,
 2026-10-29T23:15Z,401856735,2026,2,9,2026-10-31T16:45Z,Ole Miss,Auburn,False,points,53.95,57.5,53.5,3.55,under,strong,57.5,,,,
 2026-10-29T23:15Z,401856735,2026,2,9,2026-10-31T16:45Z,Ole Miss,Auburn,False,anchored,57.06,57.5,53.5,0.44,under,small,57.5,,,,
-2026-10-29T23:15Z,401871096,2026,2,9,2026-10-31T17:00Z,Old Dominion,Marshall,False,points,39.58,44.5,46.5,4.92,under,strong,44.5,,,,
-2026-10-29T23:15Z,401871096,2026,2,9,2026-10-31T17:00Z,Old Dominion,Marshall,False,anchored,46.38,44.5,46.5,1.88,over,lean,44.5,,,,
+2026-10-29T23:15Z,401871096,2026,2,9,2026-10-31T17:00Z,Old Dominion,Marshall,False,points,39.58,44.5,46.5,4.92,under,strong,45.5,,,,
+2026-10-29T23:15Z,401871096,2026,2,9,2026-10-31T17:00Z,Old Dominion,Marshall,False,anchored,46.38,44.5,46.5,1.88,over,lean,45.5,,,,
 2026-10-29T23:15Z,401856846,2026,2,9,2026-10-31T18:00Z,Colorado,Kansas State,False,points,49.82,46.5,48.5,3.32,over,strong,46.5,,,,
 2026-10-29T23:15Z,401856846,2026,2,9,2026-10-31T18:00Z,Colorado,Kansas State,False,anchored,48.74,46.5,48.5,2.24,over,lean,46.5,,,,
 2026-10-29T23:15Z,401869944,2026,2,9,2026-10-31T18:00Z,Georgia State,Coastal Carolina,False,points,58.03,55.5,57.5,2.53,over,lean,55.5,,,,
@@ -83,8 +83,8 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-10-29T23:15Z,401858280,2026,2,9,2026-10-31T23:00Z,Florida State,Clemson,False,anchored,50.57,49.5,51.5,1.07,over,small,50.5,,,,
 2026-10-29T23:15Z,401860909,2026,2,9,2026-10-31T23:00Z,San Diego State,Washington State,False,points,50.94,48.5,48.5,2.44,over,lean,48.5,,,,
 2026-10-29T23:15Z,401860909,2026,2,9,2026-10-31T23:00Z,San Diego State,Washington State,False,anchored,50.29,48.5,48.5,1.79,over,lean,48.5,,,,
-2026-10-29T23:15Z,401858282,2026,2,9,2026-10-31T23:30Z,North Carolina,Miami,False,points,59.21,52.5,50.5,6.71,over,strong,52.5,,,,
-2026-10-29T23:15Z,401858282,2026,2,9,2026-10-31T23:30Z,North Carolina,Miami,False,anchored,53.92,52.5,50.5,1.42,over,small,52.5,,,,
+2026-10-29T23:15Z,401858282,2026,2,9,2026-10-31T23:30Z,North Carolina,Miami,False,points,59.21,52.5,50.5,6.71,over,strong,53.5,,,,
+2026-10-29T23:15Z,401858282,2026,2,9,2026-10-31T23:30Z,North Carolina,Miami,False,anchored,53.92,52.5,50.5,1.42,over,small,53.5,,,,
 2026-10-29T23:15Z,401858509,2026,2,9,2026-10-31T23:30Z,USC,Ohio State,False,points,59.83,51.5,55.5,8.33,over,strong,51.5,,,,
 2026-10-29T23:15Z,401858509,2026,2,9,2026-10-31T23:30Z,USC,Ohio State,False,anchored,53.25,51.5,55.5,1.75,over,lean,51.5,,,,
 2026-10-29T23:15Z,401856737,2026,2,9,2026-10-31T23:30Z,Texas,Mississippi State,False,points,53.57,50.5,52.5,3.07,over,strong,50.5,,,,
