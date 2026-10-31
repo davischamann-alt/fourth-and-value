@@ -231,10 +231,10 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-22T02:29Z,401856843,2026,2,9,2026-10-31T19:30Z,BYU,Arizona State,False,fpi,21.16,-17.5,-17.5,3.66,home,strong,-16.5,,,,
 2026-10-22T02:29Z,401856843,2026,2,9,2026-10-31T19:30Z,BYU,Arizona State,False,blend,19.48,-17.5,-17.5,1.98,home,lean,-16.5,,,,
 2026-10-22T02:29Z,401856843,2026,2,9,2026-10-31T19:30Z,BYU,Arizona State,False,anchored,20.31,-17.5,-17.5,2.81,home,lean,-16.5,,,,
-2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,points,7.44,-10.5,-12.5,3.06,away,strong,-12.5,,,,
-2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,fpi,12.38,-10.5,-12.5,1.88,home,lean,-12.5,,,,
-2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,blend,9.91,-10.5,-12.5,0.59,away,small,-12.5,,,,
-2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,anchored,11.73,-10.5,-12.5,1.23,home,small,-12.5,,,,
+2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,points,7.44,-10.5,-12.5,3.06,away,strong,-11.5,,,,
+2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,fpi,12.38,-10.5,-12.5,1.88,home,lean,-11.5,,,,
+2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,blend,9.91,-10.5,-12.5,0.59,away,small,-11.5,,,,
+2026-10-22T02:29Z,401856734,2026,2,9,2026-10-31T19:30Z,Georgia,Florida,True,anchored,11.73,-10.5,-12.5,1.23,home,small,-11.5,,,,
 2026-10-22T02:29Z,401858501,2026,2,9,2026-10-31T19:30Z,Indiana,Minnesota,False,points,20.19,-22.5,-22.5,2.31,away,lean,-20.5,,,,
 2026-10-22T02:29Z,401858501,2026,2,9,2026-10-31T19:30Z,Indiana,Minnesota,False,fpi,28.08,-22.5,-22.5,5.58,home,strong,-20.5,,,,
 2026-10-22T02:29Z,401858501,2026,2,9,2026-10-31T19:30Z,Indiana,Minnesota,False,blend,24.14,-22.5,-22.5,1.63,home,lean,-20.5,,,,
@@ -287,26 +287,26 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-25T07:39Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,fpi,18.41,-17.5,-17.5,0.91,home,small,-17.5,-3.0,L,L,0.0
 2026-10-25T07:39Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,blend,22.18,-17.5,-17.5,4.68,home,strong,-17.5,-3.0,L,L,0.0
 2026-10-25T07:39Z,401869963,2026,2,9,2026-10-29T23:30Z,James Madison,Troy,False,anchored,19.94,-17.5,-17.5,2.44,home,lean,-17.5,-3.0,L,L,0.0
-2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,points,-11.85,13.5,13.5,1.65,home,lean,8.5,-7,W,W,5.0
-2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,fpi,-17.38,13.5,13.5,3.88,away,strong,8.5,-7,L,L,-5.0
-2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,blend,-14.62,13.5,13.5,1.12,away,small,8.5,-7,L,L,-5.0
-2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,anchored,-15.91,13.5,13.5,2.41,away,lean,8.5,-7,L,L,-5.0
-2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,points,5.83,-2.5,-1.5,3.33,home,strong,1.5,-32,L,L,-4.0
-2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,fpi,-1.8,-2.5,-1.5,4.3,away,strong,1.5,-32,W,W,4.0
-2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,blend,2.02,-2.5,-1.5,0.48,away,small,1.5,-32,W,W,4.0
-2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,anchored,1.26,-2.5,-1.5,1.24,away,small,1.5,-32,W,W,4.0
-2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,points,-2.3,10.0,9.5,7.7,home,strong,7.0,,,,
-2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,fpi,-7.26,10.0,9.5,2.74,home,lean,7.0,,,,
-2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,blend,-4.78,10.0,9.5,5.22,home,strong,7.0,,,,
-2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,anchored,-8.88,10.0,9.5,1.12,home,small,7.0,,,,
+2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,points,-11.85,13.5,13.5,1.65,home,lean,8.5,-7.0,W,W,5.0
+2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,fpi,-17.38,13.5,13.5,3.88,away,strong,8.5,-7.0,L,L,-5.0
+2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,blend,-14.62,13.5,13.5,1.12,away,small,8.5,-7.0,L,L,-5.0
+2026-10-25T07:39Z,401862813,2026,2,9,2026-10-30T23:00Z,Charlotte,Tulane,False,anchored,-15.91,13.5,13.5,2.41,away,lean,8.5,-7.0,L,L,-5.0
+2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,points,5.83,-2.5,-1.5,3.33,home,strong,1.5,-32.0,L,L,-4.0
+2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,fpi,-1.8,-2.5,-1.5,4.3,away,strong,1.5,-32.0,W,W,4.0
+2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,blend,2.02,-2.5,-1.5,0.48,away,small,1.5,-32.0,W,W,4.0
+2026-10-25T07:39Z,401856844,2026,2,9,2026-10-30T23:30Z,UCF,Baylor,False,anchored,1.26,-2.5,-1.5,1.24,away,small,1.5,-32.0,W,W,4.0
+2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,points,-2.3,10.0,9.5,7.7,home,strong,7.0,21,W,W,3.0
+2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,fpi,-7.26,10.0,9.5,2.74,home,lean,7.0,21,W,W,3.0
+2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,blend,-4.78,10.0,9.5,5.22,home,strong,7.0,21,W,W,3.0
+2026-10-25T07:39Z,401866451,2026,2,9,2026-10-31T02:30Z,Sacramento State,Kent State,False,anchored,-8.88,10.0,9.5,1.12,home,small,7.0,21,W,W,3.0
 2026-10-25T07:39Z,401858278,2026,2,9,2026-10-31T16:00Z,Syracuse,SMU,False,points,0.39,9.5,12.5,9.89,home,strong,9.5,,,,
 2026-10-25T07:39Z,401858278,2026,2,9,2026-10-31T16:00Z,Syracuse,SMU,False,fpi,-5.87,9.5,12.5,3.63,home,strong,9.5,,,,
 2026-10-25T07:39Z,401858278,2026,2,9,2026-10-31T16:00Z,Syracuse,SMU,False,blend,-2.74,9.5,12.5,6.76,home,strong,9.5,,,,
 2026-10-25T07:39Z,401858278,2026,2,9,2026-10-31T16:00Z,Syracuse,SMU,False,anchored,-7.75,9.5,12.5,1.75,home,lean,9.5,,,,
-2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,points,-4.9,14.0,14.0,9.1,home,strong,15.5,,,,
-2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,fpi,-11.08,14.0,14.0,2.92,home,lean,15.5,,,,
-2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,blend,-7.99,14.0,14.0,6.01,home,strong,15.5,,,,
-2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,anchored,-12.93,14.0,14.0,1.07,home,small,15.5,,,,
+2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,points,-4.9,14.0,14.0,9.1,home,strong,16.5,,,,
+2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,fpi,-11.08,14.0,14.0,2.92,home,lean,16.5,,,,
+2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,blend,-7.99,14.0,14.0,6.01,home,strong,16.5,,,,
+2026-10-25T07:39Z,401858507,2026,2,9,2026-10-31T16:30Z,Rutgers,Michigan,False,anchored,-12.93,14.0,14.0,1.07,home,small,16.5,,,,
 2026-10-25T07:39Z,401858284,2026,2,9,2026-10-31T19:45Z,Wake Forest,Virginia,False,points,13.73,-13.5,-13.5,0.23,home,small,-12.5,,,,
 2026-10-25T07:39Z,401858284,2026,2,9,2026-10-31T19:45Z,Wake Forest,Virginia,False,fpi,12.65,-13.5,-13.5,0.85,away,small,-12.5,,,,
 2026-10-25T07:39Z,401858284,2026,2,9,2026-10-31T19:45Z,Wake Forest,Virginia,False,blend,13.19,-13.5,-13.5,0.31,away,small,-12.5,,,,
@@ -343,10 +343,10 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-25T17:41Z,401862816,2026,2,9,2026-10-31T16:00Z,South Florida,UAB,False,fpi,14.59,-9.5,-9.5,5.09,home,strong,-7.5,,,,
 2026-10-25T17:41Z,401862816,2026,2,9,2026-10-31T16:00Z,South Florida,UAB,False,blend,12.74,-9.5,-9.5,3.24,home,strong,-7.5,,,,
 2026-10-25T17:41Z,401862816,2026,2,9,2026-10-31T16:00Z,South Florida,UAB,False,anchored,11.3,-9.5,-9.5,1.8,home,lean,-7.5,,,,
-2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,points,18.21,-15.5,-15.5,2.71,home,lean,-13.5,,,,
-2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,fpi,17.76,-15.5,-15.5,2.26,home,lean,-13.5,,,,
-2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,blend,17.98,-15.5,-15.5,2.48,home,lean,-13.5,,,,
-2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,anchored,17.21,-15.5,-15.5,1.71,home,lean,-13.5,,,,
+2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,points,18.21,-15.5,-15.5,2.71,home,lean,-14.0,,,,
+2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,fpi,17.76,-15.5,-15.5,2.26,home,lean,-14.0,,,,
+2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,blend,17.98,-15.5,-15.5,2.48,home,lean,-14.0,,,,
+2026-10-25T17:41Z,401866452,2026,2,9,2026-10-31T16:00Z,Western Michigan,Bowling Green,False,anchored,17.21,-15.5,-15.5,1.71,home,lean,-14.0,,,,
 2026-10-25T17:41Z,401871096,2026,2,9,2026-10-31T17:00Z,Old Dominion,Marshall,False,points,5.43,3.0,2.5,8.43,home,strong,3.0,,,,
 2026-10-25T17:41Z,401871096,2026,2,9,2026-10-31T17:00Z,Old Dominion,Marshall,False,fpi,2.62,3.0,2.5,5.62,home,strong,3.0,,,,
 2026-10-25T17:41Z,401871096,2026,2,9,2026-10-31T17:00Z,Old Dominion,Marshall,False,blend,4.03,3.0,2.5,7.02,home,strong,3.0,,,,
@@ -359,10 +359,10 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-25T17:41Z,401869944,2026,2,9,2026-10-31T18:00Z,Georgia State,Coastal Carolina,False,fpi,7.67,-6.5,-6.5,1.17,home,small,-4.0,,,,
 2026-10-25T17:41Z,401869944,2026,2,9,2026-10-31T18:00Z,Georgia State,Coastal Carolina,False,blend,9.31,-6.5,-6.5,2.81,home,lean,-4.0,,,,
 2026-10-25T17:41Z,401869944,2026,2,9,2026-10-31T18:00Z,Georgia State,Coastal Carolina,False,anchored,7.66,-6.5,-6.5,1.16,home,small,-4.0,,,,
-2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,points,-0.46,-3.0,-4.0,3.46,away,strong,-1.5,,,,
-2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,fpi,3.03,-3.0,-4.0,0.03,home,small,-1.5,,,,
-2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,blend,1.28,-3.0,-4.0,1.72,away,lean,-1.5,,,,
-2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,anchored,2.8,-3.0,-4.0,0.2,away,small,-1.5,,,,
+2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,points,-0.46,-3.0,-4.0,3.46,away,strong,1.5,,,,
+2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,fpi,3.03,-3.0,-4.0,0.03,home,small,1.5,,,,
+2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,blend,1.28,-3.0,-4.0,1.72,away,lean,1.5,,,,
+2026-10-25T17:41Z,401861966,2026,2,9,2026-10-31T19:00Z,Air Force,UConn,False,anchored,2.8,-3.0,-4.0,0.2,away,small,1.5,,,,
 2026-10-25T17:41Z,401862815,2026,2,9,2026-10-31T19:00Z,East Carolina,Temple,False,points,5.8,-4.5,-4.5,1.3,home,small,-4.5,,,,
 2026-10-25T17:41Z,401862815,2026,2,9,2026-10-31T19:00Z,East Carolina,Temple,False,fpi,7.92,-4.5,-4.5,3.42,home,strong,-4.5,,,,
 2026-10-25T17:41Z,401862815,2026,2,9,2026-10-31T19:00Z,East Carolina,Temple,False,blend,6.86,-4.5,-4.5,2.36,home,lean,-4.5,,,,
@@ -371,10 +371,10 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-25T17:41Z,401871097,2026,2,9,2026-10-31T19:00Z,South Alabama,Louisiana Tech,False,fpi,-3.44,4.5,3.5,1.06,home,small,6.0,,,,
 2026-10-25T17:41Z,401871097,2026,2,9,2026-10-31T19:00Z,South Alabama,Louisiana Tech,False,blend,-4.93,4.5,3.5,0.43,away,small,6.0,,,,
 2026-10-25T17:41Z,401871097,2026,2,9,2026-10-31T19:00Z,South Alabama,Louisiana Tech,False,anchored,-4.75,4.5,3.5,0.25,away,small,6.0,,,,
-2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,points,23.43,-21.0,-21.0,2.43,home,lean,-22.5,,,,
-2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,fpi,26.63,-21.0,-21.0,5.63,home,strong,-22.5,,,,
-2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,blend,25.03,-21.0,-21.0,4.03,home,strong,-22.5,,,,
-2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,anchored,23.71,-21.0,-21.0,2.71,home,lean,-22.5,,,,
+2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,points,23.43,-21.0,-21.0,2.43,home,lean,-23.5,,,,
+2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,fpi,26.63,-21.0,-21.0,5.63,home,strong,-23.5,,,,
+2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,blend,25.03,-21.0,-21.0,4.03,home,strong,-23.5,,,,
+2026-10-25T17:41Z,401858283,2026,2,9,2026-10-31T19:15Z,Louisville,Stanford,False,anchored,23.71,-21.0,-21.0,2.71,home,lean,-23.5,,,,
 2026-10-25T17:41Z,401856845,2026,2,9,2026-10-31T19:30Z,TCU,Kansas,False,points,6.03,-4.5,-4.5,1.53,home,lean,-6.5,,,,
 2026-10-25T17:41Z,401856845,2026,2,9,2026-10-31T19:30Z,TCU,Kansas,False,fpi,5.94,-4.5,-4.5,1.44,home,small,-6.5,,,,
 2026-10-25T17:41Z,401856845,2026,2,9,2026-10-31T19:30Z,TCU,Kansas,False,blend,5.99,-4.5,-4.5,1.49,home,small,-6.5,,,,
@@ -403,10 +403,10 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-25T17:41Z,401858506,2026,2,9,2026-10-31T20:15Z,Penn State,Purdue,False,fpi,12.69,-8.5,-8.5,4.19,home,strong,-10.0,,,,
 2026-10-25T17:41Z,401858506,2026,2,9,2026-10-31T20:15Z,Penn State,Purdue,False,blend,11.33,-8.5,-8.5,2.83,home,lean,-10.0,,,,
 2026-10-25T17:41Z,401858506,2026,2,9,2026-10-31T20:15Z,Penn State,Purdue,False,anchored,10.06,-8.5,-8.5,1.56,home,lean,-10.0,,,,
-2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,points,3.71,-3.5,-3.5,0.21,home,small,-5.5,,,,
-2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,fpi,5.55,-3.5,-3.5,2.05,home,lean,-5.5,,,,
-2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,blend,4.63,-3.5,-3.5,1.13,home,small,-5.5,,,,
-2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,anchored,4.18,-3.5,-3.5,0.68,home,small,-5.5,,,,
+2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,points,3.71,-3.5,-3.5,0.21,home,small,-6.0,,,,
+2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,fpi,5.55,-3.5,-3.5,2.05,home,lean,-6.0,,,,
+2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,blend,4.63,-3.5,-3.5,1.13,home,small,-6.0,,,,
+2026-10-25T17:41Z,401869846,2026,2,9,2026-10-31T22:30Z,Georgia Southern,App State,False,anchored,4.18,-3.5,-3.5,0.68,home,small,-6.0,,,,
 2026-10-25T17:41Z,401856847,2026,2,9,2026-10-31T23:00Z,Iowa State,Oklahoma State,False,points,-9.08,10.0,9.5,0.92,home,small,9.5,,,,
 2026-10-25T17:41Z,401856847,2026,2,9,2026-10-31T23:00Z,Iowa State,Oklahoma State,False,fpi,-6.67,10.0,9.5,3.33,home,strong,9.5,,,,
 2026-10-25T17:41Z,401856847,2026,2,9,2026-10-31T23:00Z,Iowa State,Oklahoma State,False,blend,-7.88,10.0,9.5,2.12,home,lean,9.5,,,,
@@ -415,10 +415,10 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-25T17:41Z,401860909,2026,2,9,2026-10-31T23:00Z,San Diego State,Washington State,False,fpi,2.36,-2.5,-2.5,0.14,away,small,-2.5,,,,
 2026-10-25T17:41Z,401860909,2026,2,9,2026-10-31T23:00Z,San Diego State,Washington State,False,blend,2.72,-2.5,-2.5,0.22,home,small,-2.5,,,,
 2026-10-25T17:41Z,401860909,2026,2,9,2026-10-31T23:00Z,San Diego State,Washington State,False,anchored,2.7,-2.5,-2.5,0.2,home,small,-2.5,,,,
-2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,points,19.01,-7.0,-7.0,12.01,home,strong,-8.5,,,,
-2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,fpi,14.11,-7.0,-7.0,7.11,home,strong,-8.5,,,,
-2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,blend,16.56,-7.0,-7.0,9.56,home,strong,-8.5,,,,
-2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,anchored,10.3,-7.0,-7.0,3.3,home,strong,-8.5,,,,
+2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,points,19.01,-7.0,-7.0,12.01,home,strong,-7.5,,,,
+2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,fpi,14.11,-7.0,-7.0,7.11,home,strong,-7.5,,,,
+2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,blend,16.56,-7.0,-7.0,9.56,home,strong,-7.5,,,,
+2026-10-25T17:41Z,401858281,2026,2,9,2026-10-31T23:30Z,Pittsburgh,Georgia Tech,False,anchored,10.3,-7.0,-7.0,3.3,home,strong,-7.5,,,,
 2026-10-25T17:41Z,401862814,2026,2,9,2026-11-01T00:00Z,Memphis,Army,False,points,1.58,-6.5,-6.0,4.92,away,strong,-6.0,,,,
 2026-10-25T17:41Z,401862814,2026,2,9,2026-11-01T00:00Z,Memphis,Army,False,fpi,5.2,-6.5,-6.0,1.3,away,small,-6.0,,,,
 2026-10-25T17:41Z,401862814,2026,2,9,2026-11-01T00:00Z,Memphis,Army,False,blend,3.39,-6.5,-6.0,3.11,away,strong,-6.0,,,,
