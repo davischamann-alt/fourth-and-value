@@ -101,8 +101,8 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-10-29T23:15Z,401860908,2026,2,9,2026-11-01T02:00Z,Boise State,Texas State,False,anchored,62.25,63.5,65.5,1.25,under,small,63.5,91.0,L,L,-0.0
 2026-10-29T23:15Z,401864530,2026,2,9,2026-11-01T02:30Z,UNLV,Northern Illinois,False,points,49.66,54.5,52.5,4.84,under,strong,55.5,55.0,L,W,-1.0
 2026-10-29T23:15Z,401864530,2026,2,9,2026-11-01T02:30Z,UNLV,Northern Illinois,False,anchored,54.5,54.5,52.5,0.0,over,small,55.5,55.0,W,L,1.0
-2026-10-29T23:15Z,401860924,2026,2,9,2026-11-01T03:00Z,Fresno State,Oregon State,False,points,56.81,58.5,56.5,1.69,under,lean,57.5,,,,
-2026-10-29T23:15Z,401860924,2026,2,9,2026-11-01T03:00Z,Fresno State,Oregon State,False,anchored,58.03,58.5,56.5,0.47,under,small,57.5,,,,
+2026-10-29T23:15Z,401860924,2026,2,9,2026-11-01T03:00Z,Fresno State,Oregon State,False,points,56.81,58.5,56.5,1.69,under,lean,57.5,60,L,L,1.0
+2026-10-29T23:15Z,401860924,2026,2,9,2026-11-01T03:00Z,Fresno State,Oregon State,False,anchored,58.03,58.5,56.5,0.47,under,small,57.5,60,L,L,1.0
 2026-10-29T23:15Z,401858288,2026,2,10,2026-11-07T00:00Z,SMU,Virginia Tech,False,points,59.2,57.5,57.5,1.7,over,lean,56.5,,,,
 2026-10-29T23:15Z,401858288,2026,2,10,2026-11-07T00:00Z,SMU,Virginia Tech,False,anchored,57.53,57.5,57.5,0.03,over,small,56.5,,,,
 2026-10-29T23:15Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,points,45.08,42.5,42.5,2.58,over,lean,42.5,,,,
