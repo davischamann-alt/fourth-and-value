@@ -5,7 +5,21 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-01T20:34:49Z</updated>
+  <updated>2026-11-01T23:22:02Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-01:key:401858514:2026-11-01T23:21Z</id>
+    <title>Line onto 7: Oregon @ Ohio State</title>
+    <updated>2026-11-01T23:22:02Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858514"/>
+    <summary>The line moved from Ohio State -7.5 to Ohio State -7, onto 7, away from the model's pick (Ohio State). Sat Nov 7, 12:00 AM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-01:key:401864535:2026-11-01T23:21Z</id>
+    <title>Line onto 7: Wyoming @ UNLV</title>
+    <updated>2026-11-01T23:22:02Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401864535"/>
+    <summary>The line moved from UNLV -7.5 to UNLV -7, onto 7, away from the model's pick (UNLV). Sat Nov 7, 10:30 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-01:pick:401869936</id>
     <title>Lean: Arkansas State -14.5</title>
