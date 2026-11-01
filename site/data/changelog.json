@@ -1,5 +1,14 @@
 [
  {
+  "date": "2026-11-01",
+  "type": "model",
+  "title": "Market-anchored totals now follow the ratings instead of leaning over",
+  "summary": "The Market-anchored total now moves the betting total a fifth of the way toward the Adjusted points total: total + 0.2 x (ratings total - total). The ratings have to disagree with the market by 7.5 points for a Lean and 15 for a Go for it, so it flags about 7 games a week instead of 15, and it always picks the same side as Adjusted points.",
+  "why": "The old formula was fit to the average final score, which a few shootouts pull up, so it learned that low totals go over and barely used the ratings. 96% of its 1.5+ edges were overs, and in 2026 they went 56-55. Week 9 went under and it went 19-33. When the ratings disagreed with the opening total by 5+ points, siding with them won in every season from 2022 to 2026 (53.7%, and 56.2% at 7+), on overs and unders alike.",
+  "effect": "In 2024-2026, 1.5+ edges at the opening total went 56.2% (131-102) instead of 53.8%, with 64% overs instead of 96%. At the closing total it's 52.5%, so getting the opening number matters. The 0.2 was chosen after looking at these seasons, so treat the backtest as a little flattering. Spreads don't change.",
+  "forward_test": "Totals picks already logged (week 9 and the week 10 games logged so far) keep the old formula; new totals are logged with the new one, and the logged_at time shows which."
+ },
+ {
   "date": "2026-10-29",
   "type": "model",
   "title": "Check the news for quarterback changes, bowl games and windy overs",

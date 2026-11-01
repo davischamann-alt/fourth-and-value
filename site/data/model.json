@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T23:40:30.463433+00:00",
+ "updated": "2026-11-01T23:18:48.362063+00:00",
  "hfa": 3.0,
  "anchor": {
   "weights": {
@@ -9,9 +9,9 @@
    "points": 0.1155
   },
   "total_weights": {
-   "const": 10.6959,
-   "total": 0.722,
-   "points": 0.0898
+   "const": 0.0,
+   "total": 0.8,
+   "points": 0.2
   },
   "eff_scale": 67.54,
   "seasons": [

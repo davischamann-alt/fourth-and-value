@@ -296,32 +296,32 @@ def add_efficiency(res, first_train_season=2023, hfa=HFA):
 # ---------- Totals (over/under) ----------
 # Same approach as spreads: the market's total is the starting point, and adjusted points (each
 # offense against the other's defense) shifts it. FPI doesn't project scoring, so it isn't used.
+#
+# The shift is a fixed share of the gap, not a regression. Least squares on the final total (used
+# until November 1, 2026) chased the average score, which a few shootouts pull up, so it learned
+# "low totals go over" and gave the ratings a weight of only 0.09: 96% of its 1.5+ edges were overs.
+# Over/unders are graded on which side of the number the game lands, and there the ratings carry
+# the signal: siding with adjusted points when it disagreed with the opening total by 5+ points won
+# in every season 2022-2026 (53.7%; 56.2% at 7+). 0.2 puts a 7.5-point disagreement at the Lean
+# threshold. It was picked after looking at those seasons, so the backtest flatters it a little.
 TOTAL_FEATURES = ["const", "total", "points"]
+TOTAL_RATINGS_SHARE = 0.2
 
 
-def fit_total_anchor(res):
-    """Weights for the market-anchored total: final total regressed on the opening total and the
-    adjusted-points total, by least squares on backtest rows."""
-    d = res.dropna(subset=["open_total", "points_total"])
-    X = np.column_stack([np.ones(len(d)), d["open_total"], d["points_total"]])
-    return dict(zip(TOTAL_FEATURES, np.linalg.lstsq(X, d["final_total"], rcond=None)[0].round(4)))
+def fit_total_anchor(res=None):
+    """Weights for the market-anchored total, in the const/total/points form the site and the
+    forward test read: total + 0.2 x (adjusted points total - total). Fixed, so res isn't used."""
+    return dict(zip(TOTAL_FEATURES, (0.0, 1 - TOTAL_RATINGS_SHARE, TOTAL_RATINGS_SHARE)))
 
 
 def anchored_total(w, total, pts_total):
     return w["const"] + w["total"] * total + w["points"] * pts_total
 
 
-def add_total_anchored(res, first_train_season=2023):
-    """Adds an "anchored_total" column, each season predicted with weights fit on earlier seasons."""
+def add_total_anchored(res):
+    """Adds an "anchored_total" column, starting from the opening total like the spread backtest."""
     res = res.copy()
-    res["anchored_total"] = np.nan
-    for s in sorted(res["season"].unique()):
-        train = res[(res["season"] < s) & (res["season"] >= first_train_season)]
-        if train["open_total"].notna().sum() < 200:
-            continue
-        w, m = fit_total_anchor(train), res["season"] == s
-        res.loc[m, "anchored_total"] = anchored_total(w, res.loc[m, "open_total"].fillna(res.loc[m, "total"]),
-                                                      res.loc[m, "points_total"])
+    res["anchored_total"] = anchored_total(fit_total_anchor(), res["open_total"].fillna(res["total"]), res["points_total"])
     return res
 
 

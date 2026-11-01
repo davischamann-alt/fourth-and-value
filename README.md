@@ -297,7 +297,7 @@ These results are from 2023–2026 (through week 8 of 2026), about 2,300 games, 
 | --- | --- |
 | **Closing total** | 51–52% for both totals projections: no edge. |
 | **Opening total, every game** | Adjusted points 52.1% (2,272 picks), Market-anchored 51.8%: right around break-even. |
-| **Opening total, edge 3+ points** | Adjusted points 50.9%. Market-anchored 54.0%, but on only 50 picks. |
+| **Opening total, big disagreements** | When adjusted points and the opening total were 5+ points apart, siding with the ratings won in every season 2022–2026: 53.7% (820 picks), and 56.2% at 7+ points (436 picks). Overs and unders both won. Market-anchored's 1.5+ edges (a 7.5-point disagreement) went 54.5% (363 picks). |
 | **Total movement** | Totals moved toward the Adjusted points picks 55–61% of the time, but by only about +0.4 points on average, which isn't enough to profit. |
 
 Totals are shown because they're part of every game and the forward test now records them, not because they've proven to make money. The model doesn't know the weather, which moves totals more than spreads.
@@ -374,10 +374,10 @@ There's no home-field advantage (HFA) at neutral sites. Market-anchored starts f
 
 ```
 Adjusted points:  (home.ppg + away.papg) + (away.ppg + home.papg) - 2 x league average
-Market-anchored:  const + w_total x (betting total) + w_pts x (adjusted points total)
+Market-anchored:  betting total + 0.2 x (adjusted points total - betting total)
 ```
 
-Learned from 2023–2025, Market-anchored comes out to about 10.7 + 0.72 × total + 0.09 × adjusted points. It pulls very high and very low totals a little toward average, and the over/under chance uses a 16-point std dev (16.5 for Adjusted points).
+Market-anchored moves the total a fifth of the way toward adjusted points, so the ratings have to disagree with the market by 7.5 points for a Lean and 15 for a Go for it. It always picks the same side as Adjusted points; it only says the edge is smaller. The 0.2 is fixed, not learned by regression (see the November 1, 2026 row under Model changes for why). The over/under chance uses a 16-point std dev (16.5 for Adjusted points).
 
 **Pregame cover chance.** The final margin is treated as a bell curve around the projection, with spread equal to the **Margin std dev** setting (sigma):
 
@@ -405,6 +405,7 @@ Any change to how picks are made is logged here and on the website (a notice on 
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
+| November 1, 2026 | **Market-anchored totals now follow the ratings:** total + 0.2 × (adjusted points total − total), replacing a regression on the final total | The regression chased the average score, which a few shootouts pull up, so it learned "low totals go over" and gave the ratings a weight of only 0.09. 96% of its 1.5+ edges were overs, and in 2026 they went 56-55. Over/unders are graded on which side of the number the game lands, and there the ratings carry the signal. | In 2024–2026, 1.5+ edges at the opening total went 56.2% (131-102) instead of 53.8%, on about 7 games a week instead of 15, with 64% overs instead of 96%. Graded at the closing total it's 52.5%, so the opening number matters. The 0.2 was chosen after looking at these seasons, so the backtest flatters it a little. Totals picks logged before this date used the old formula. |
 | October 29, 2026 | **Check the news for QB changes, bowls and windy overs:** Lean and Go for it picks in those games are labeled Check the news instead | The model went 39% after quarterback changes in 2026 and 42–47% in non-playoff bowls in 2023–2025, and opening totals don't fully price wind. | Labels only: projections, edges and the forward-test log are unchanged. |
 | October 29, 2026 | **Efficiency added:** a fifth projection from opponent-adjusted EPA per play, and **Blend** now averages FPI and Efficiency instead of FPI and adjusted points | Points are a noisy measure of how good a team is. EPA per play, with garbage time left out, measures every play. | In 2024–2026, the new Blend picked a little better than the old one (every game at the opening line: 54.4% vs 53.3%; at the closing line: 52.2% vs 50.1%) with the same accuracy. Market-anchored and the default are unchanged. Blend picks logged before this date used adjusted points. |
 | October 29, 2026 | **Totals added:** over/under projections (Market-anchored total and Adjusted points total), backtested and recorded in the forward test | Totals are part of every game, and the forward test can only judge them if they're recorded before kickoff. | No change to spread picks. Totals tested at about break-even (52% at the opening total), so they're presented as untested, not as an edge. |
