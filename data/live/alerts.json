@@ -41,12 +41,14 @@
   "total:401856845",
   "total:401856846",
   "total:401856849",
+  "total:401856855",
   "total:401858501",
   "total:401858502",
   "total:401858505",
   "total:401858507",
   "total:401858508",
   "total:401858509",
+  "total:401858510",
   "total:401858511",
   "total:401858512",
   "total:401858513",
@@ -55,17 +57,69 @@
   "total:401862813",
   "total:401862815",
   "total:401862816",
+  "total:401862817",
+  "total:401862818",
   "total:401864529",
   "total:401864531",
+  "total:401864533",
   "total:401866451",
   "total:401866452",
   "total:401866453",
   "total:401866454",
   "total:401866455",
   "total:401866456",
+  "total:401866457",
   "total:401871096"
  ],
  "items": [
+  {
+   "key": "total:401866457",
+   "at": "2026-11-01T06:17:55Z",
+   "kind": "total",
+   "game_id": "401866457",
+   "title": "Lean: Over 51.5",
+   "text": "Toledo @ Sacramento State, Wed Nov 4, 7:00 PM ET. Market-anchored takes the over 51.5 (projects 53.2), a 1.7-point edge, logged when the total first appeared."
+  },
+  {
+   "key": "total:401862817",
+   "at": "2026-11-01T06:17:55Z",
+   "kind": "total",
+   "game_id": "401862817",
+   "title": "Lean: Under 71.5",
+   "text": "UTSA @ Florida Atlantic, Thu Nov 5, 7:30 PM ET. Market-anchored takes the under 71.5 (projects 68.7), a 2.8-point edge, logged when the total first appeared."
+  },
+  {
+   "key": "total:401862818",
+   "at": "2026-11-01T06:17:55Z",
+   "kind": "total",
+   "game_id": "401862818",
+   "title": "Check the news: Over 45.5",
+   "text": "South Florida @ East Carolina, Fri Nov 6, 7:30 PM ET. Market-anchored takes the over 45.5 (projects 47.3), a 1.8-point edge, logged when the total first appeared. QB change: Luke Kromenhoek led South Florida's passing in the last game; Michael Van Buren Jr. led it in 7 of 8 games. The ratings mostly reflect Michael Van Buren Jr.'s games."
+  },
+  {
+   "key": "total:401858510",
+   "at": "2026-11-01T06:17:55Z",
+   "kind": "total",
+   "game_id": "401858510",
+   "title": "Lean: Over 48.5",
+   "text": "Nebraska @ Illinois, Fri Nov 6, 8:00 PM ET. Market-anchored takes the over 48.5 (projects 50.2), a 1.7-point edge, logged when the total first appeared."
+  },
+  {
+   "key": "total:401864533",
+   "at": "2026-11-01T06:17:55Z",
+   "kind": "total",
+   "game_id": "401864533",
+   "title": "Check the news: Over 43.5",
+   "text": "New Mexico @ Nevada, Fri Nov 6, 9:00 PM ET. Market-anchored takes the over 43.5 (projects 46.3), a 2.8-point edge, logged when the total first appeared. QB change: AJ Bianco led Nevada's passing in the last game; Carter Jones led it in 4 of 8 games. The ratings mostly reflect Carter Jones's games."
+  },
+  {
+   "key": "total:401856855",
+   "at": "2026-11-01T06:17:55Z",
+   "kind": "total",
+   "game_id": "401856855",
+   "title": "Lean: Over 44.5",
+   "text": "TCU @ Arizona, Fri Nov 6, 10:15 PM ET. Market-anchored takes the over 44.5 (projects 46.2), a 1.8-point edge, logged when the total first appeared."
+  },
   {
    "key": "pick:401866455",
    "at": "2026-10-31T23:26:41Z",
