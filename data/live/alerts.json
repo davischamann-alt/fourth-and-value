@@ -1,5 +1,6 @@
 {
  "sent": [
+  "key:401856742:2026-11-02T09:36Z",
   "key:401856842:2026-10-25T07:39Z",
   "key:401856842:2026-10-26T15:15Z",
   "key:401856842:2026-10-27T01:31Z",
@@ -91,6 +92,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401856742:2026-11-02T09:36Z",
+   "at": "2026-11-02T09:37:59Z",
+   "kind": "key",
+   "game_id": "401856742",
+   "title": "Line onto 3: Vanderbilt @ Mississippi State",
+   "text": "The line moved from Mississippi State -2.5 to Mississippi State -3, onto 3, toward the model's pick (Mississippi State). Sat Nov 7, 4:15 PM ET."
+  },
   {
    "key": "key:401858514:2026-11-01T23:21Z",
    "at": "2026-11-01T23:22:02Z",

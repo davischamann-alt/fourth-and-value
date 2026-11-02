@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-02T01:34:53Z",
+ "updated": "2026-11-02T09:37:59Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401856742:2026-11-02T09:36Z",
+   "at": "2026-11-02T09:37:59Z",
+   "kind": "key",
+   "game_id": "401856742",
+   "title": "Line onto 3: Vanderbilt @ Mississippi State",
+   "text": "The line moved from Mississippi State -2.5 to Mississippi State -3, onto 3, toward the model's pick (Mississippi State). Sat Nov 7, 4:15 PM ET."
+  },
   {
    "key": "key:401858514:2026-11-01T23:21Z",
    "at": "2026-11-01T23:22:02Z",
@@ -235,14 +243,6 @@
    "game_id": "401866455",
    "title": "Lean: Over 48.5",
    "text": "Ball State @ Massachusetts, Wed Nov 4, 7:00 PM ET. Market-anchored takes the over 48.5 (projects 50.3), a 1.8-point edge, logged when the total first appeared."
-  },
-  {
-   "key": "total:401866456",
-   "at": "2026-10-31T23:26:41Z",
-   "kind": "total",
-   "game_id": "401866456",
-   "title": "Check the news: Over 46.5",
-   "text": "Central Michigan @ Eastern Michigan, Wed Nov 4, 7:30 PM ET. Market-anchored takes the over 46.5 (projects 48.1), a 1.6-point edge, logged when the total first appeared. QB change: Brogan McCaughey led Eastern Michigan's passing in the last game; Noah Kim led it in 8 of 9 games. The ratings mostly reflect Noah Kim's games."
   }
  ]
 }
