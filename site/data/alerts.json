@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-04T00:40:14Z",
+ "updated": "2026-11-04T09:25:56Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401866455:2026-11-04T09:25Z",
+   "at": "2026-11-04T09:25:56Z",
+   "kind": "key",
+   "game_id": "401866455",
+   "title": "Line off 3: Ball State @ Massachusetts",
+   "text": "The line moved from Massachusetts -3 to Massachusetts -3.5, off 3, toward the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET."
+  },
   {
    "key": "key:401858514:2026-11-03T19:33Z",
    "at": "2026-11-03T19:34:04Z",
@@ -235,14 +243,6 @@
    "game_id": "401856855",
    "title": "Lean: Over 44.5",
    "text": "TCU @ Arizona, Fri Nov 6, 10:15 PM ET. Market-anchored takes the over 44.5 (projects 46.2), a 1.8-point edge, logged when the total first appeared."
-  },
-  {
-   "key": "pick:401866455",
-   "at": "2026-10-31T23:26:41Z",
-   "kind": "pick",
-   "game_id": "401866455",
-   "title": "Lean: Massachusetts -4.5",
-   "text": "Ball State @ Massachusetts, Wed Nov 4, 7:00 PM ET. Market-anchored takes Massachusetts -4.5, a 1.7-point edge, logged when the line first appeared."
   }
  ]
 }
