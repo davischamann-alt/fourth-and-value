@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-04T09:25:56Z",
+ "updated": "2026-11-04T18:03:46Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401866455:2026-11-04T18:02Z",
+   "at": "2026-11-04T18:03:46Z",
+   "kind": "key",
+   "game_id": "401866455",
+   "title": "Line through 3: Ball State @ Massachusetts",
+   "text": "The line moved from Massachusetts -3.5 to Massachusetts -2.5, through 3, away from the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET."
+  },
   {
    "key": "key:401866455:2026-11-04T09:25Z",
    "at": "2026-11-04T09:25:56Z",
@@ -235,14 +243,6 @@
    "game_id": "401864533",
    "title": "Check the news: Over 43.5",
    "text": "New Mexico @ Nevada, Fri Nov 6, 9:00 PM ET. Market-anchored takes the over 43.5 (projects 46.3), a 2.8-point edge, logged when the total first appeared. QB change: AJ Bianco led Nevada's passing in the last game; Carter Jones led it in 4 of 8 games. The ratings mostly reflect Carter Jones's games."
-  },
-  {
-   "key": "total:401856855",
-   "at": "2026-11-01T06:17:55Z",
-   "kind": "total",
-   "game_id": "401856855",
-   "title": "Lean: Over 44.5",
-   "text": "TCU @ Arizona, Fri Nov 6, 10:15 PM ET. Market-anchored takes the over 44.5 (projects 46.2), a 1.8-point edge, logged when the total first appeared."
   }
  ]
 }

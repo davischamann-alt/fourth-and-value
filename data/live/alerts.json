@@ -17,6 +17,7 @@
   "key:401864535:2026-11-02T20:23Z",
   "key:401866455:2026-11-02T20:23Z",
   "key:401866455:2026-11-04T09:25Z",
+  "key:401866455:2026-11-04T18:02Z",
   "key:401871095:2026-10-26T15:15Z",
   "key:401871096:2026-10-26T15:15Z",
   "key:401871096:2026-10-29T05:55Z",
@@ -96,6 +97,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401866455:2026-11-04T18:02Z",
+   "at": "2026-11-04T18:03:46Z",
+   "kind": "key",
+   "game_id": "401866455",
+   "title": "Line through 3: Ball State @ Massachusetts",
+   "text": "The line moved from Massachusetts -3.5 to Massachusetts -2.5, through 3, away from the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET."
+  },
   {
    "key": "key:401866455:2026-11-04T09:25Z",
    "at": "2026-11-04T09:25:56Z",
