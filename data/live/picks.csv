@@ -471,10 +471,10 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-10-29T05:55Z,401858288,2026,2,10,2026-11-07T00:00Z,SMU,Virginia Tech,False,fpi,8.9,-7.5,-7.5,1.4,home,small,-6.5,,,,
 2026-10-29T05:55Z,401858288,2026,2,10,2026-11-07T00:00Z,SMU,Virginia Tech,False,blend,5.9,-7.5,-7.5,1.6,away,lean,-6.5,,,,
 2026-10-29T05:55Z,401858288,2026,2,10,2026-11-07T00:00Z,SMU,Virginia Tech,False,anchored,7.72,-7.5,-7.5,0.22,home,small,-6.5,,,,
-2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,points,-12.34,6.5,6.5,5.84,away,strong,4.5,,,,
-2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,fpi,-7.99,6.5,6.5,1.49,away,small,4.5,,,,
-2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,blend,-10.16,6.5,6.5,3.66,away,strong,4.5,,,,
-2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,anchored,-7.85,6.5,6.5,1.35,away,small,4.5,,,,
+2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,points,-12.34,6.5,6.5,5.84,away,strong,5.5,,,,
+2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,fpi,-7.99,6.5,6.5,1.49,away,small,5.5,,,,
+2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,blend,-10.16,6.5,6.5,3.66,away,strong,5.5,,,,
+2026-10-29T05:55Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,anchored,-7.85,6.5,6.5,1.35,away,small,5.5,,,,
 2026-10-29T05:55Z,401858511,2026,2,10,2026-11-07T05:00Z,Michigan,Michigan State,False,points,5.45,-14.0,-18.5,8.55,away,strong,-13.5,,,,
 2026-10-29T05:55Z,401858511,2026,2,10,2026-11-07T05:00Z,Michigan,Michigan State,False,fpi,12.89,-14.0,-18.5,1.11,away,small,-13.5,,,,
 2026-10-29T05:55Z,401858511,2026,2,10,2026-11-07T05:00Z,Michigan,Michigan State,False,blend,9.17,-14.0,-18.5,4.83,away,strong,-13.5,,,,
@@ -508,16 +508,16 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-01T06:17Z,401866457,2026,2,10,2026-11-05T00:00Z,Sacramento State,Toledo,False,efficiency,-17.87,27.5,26.5,9.63,home,strong,25.5,-3.0,W,W,2.0
 2026-11-01T06:17Z,401866457,2026,2,10,2026-11-05T00:00Z,Sacramento State,Toledo,False,blend,-21.29,27.5,26.5,6.21,home,strong,25.5,-3.0,W,W,2.0
 2026-11-01T06:17Z,401866457,2026,2,10,2026-11-05T00:00Z,Sacramento State,Toledo,False,anchored,-27.26,27.5,26.5,0.24,home,small,25.5,-3.0,W,W,2.0
-2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,points,-2.59,6.5,6.5,3.91,home,strong,7.0,,,,
-2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,fpi,-7.7,6.5,6.5,1.2,away,small,7.0,,,,
-2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,efficiency,0.43,6.5,6.5,6.93,home,strong,7.0,,,,
-2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,blend,-3.63,6.5,6.5,2.87,home,lean,7.0,,,,
-2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,anchored,-6.66,6.5,6.5,0.16,away,small,7.0,,,,
-2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,points,-16.43,14.0,15.5,2.43,away,lean,14.0,,,,
-2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,fpi,-13.73,14.0,15.5,0.27,home,small,14.0,,,,
-2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,efficiency,-11.72,14.0,15.5,2.28,home,lean,14.0,,,,
-2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,blend,-12.73,14.0,15.5,1.27,home,small,14.0,,,,
-2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,anchored,-15.03,14.0,15.5,1.03,away,small,14.0,,,,
+2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,points,-2.59,6.5,6.5,3.91,home,strong,7.0,31,W,W,-0.5
+2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,fpi,-7.7,6.5,6.5,1.2,away,small,7.0,31,L,L,0.5
+2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,efficiency,0.43,6.5,6.5,6.93,home,strong,7.0,31,W,W,-0.5
+2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,blend,-3.63,6.5,6.5,2.87,home,lean,7.0,31,W,W,-0.5
+2026-11-01T06:17Z,401862817,2026,2,10,2026-11-06T00:30Z,Florida Atlantic,UTSA,False,anchored,-6.66,6.5,6.5,0.16,away,small,7.0,31,L,L,0.5
+2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,points,-16.43,14.0,15.5,2.43,away,lean,14.0,-31,W,W,-0.0
+2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,fpi,-13.73,14.0,15.5,0.27,home,small,14.0,-31,L,L,0.0
+2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,efficiency,-11.72,14.0,15.5,2.28,home,lean,14.0,-31,L,L,0.0
+2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,blend,-12.73,14.0,15.5,1.27,home,small,14.0,-31,L,L,0.0
+2026-11-01T06:17Z,401869964,2026,2,10,2026-11-06T01:00Z,Southern Miss,James Madison,False,anchored,-15.03,14.0,15.5,1.03,away,small,14.0,-31,W,W,-0.0
 2026-11-01T06:17Z,401862818,2026,2,10,2026-11-07T00:30Z,East Carolina,South Florida,False,points,-2.68,1.5,1.5,1.18,away,small,-2.5,,,,
 2026-11-01T06:17Z,401862818,2026,2,10,2026-11-07T00:30Z,East Carolina,South Florida,False,fpi,1.14,1.5,1.5,2.64,home,lean,-2.5,,,,
 2026-11-01T06:17Z,401862818,2026,2,10,2026-11-07T00:30Z,East Carolina,South Florida,False,efficiency,3.88,1.5,1.5,5.38,home,strong,-2.5,,,,
@@ -578,11 +578,11 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-01T20:34Z,401856738,2026,2,10,2026-11-07T17:45Z,Auburn,Arkansas,False,efficiency,16.58,-10.5,-12.5,6.08,home,strong,-10.0,,,,
 2026-11-01T20:34Z,401856738,2026,2,10,2026-11-07T17:45Z,Auburn,Arkansas,False,blend,14.29,-10.5,-12.5,3.79,home,strong,-10.0,,,,
 2026-11-01T20:34Z,401856738,2026,2,10,2026-11-07T17:45Z,Auburn,Arkansas,False,anchored,11.65,-10.5,-12.5,1.15,home,small,-10.0,,,,
-2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,points,-3.77,6.0,6.5,2.23,home,lean,6.0,,,,
-2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,fpi,-2.83,6.0,6.5,3.17,home,strong,6.0,,,,
-2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,efficiency,-3.75,6.0,6.5,2.25,home,lean,6.0,,,,
-2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,blend,-3.29,6.0,6.5,2.71,home,lean,6.0,,,,
-2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,anchored,-5.41,6.0,6.5,0.59,home,small,6.0,,,,
+2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,points,-3.77,6.0,6.5,2.23,home,lean,6.5,,,,
+2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,fpi,-2.83,6.0,6.5,3.17,home,strong,6.5,,,,
+2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,efficiency,-3.75,6.0,6.5,2.25,home,lean,6.5,,,,
+2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,blend,-3.29,6.0,6.5,2.71,home,lean,6.5,,,,
+2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,anchored,-5.41,6.0,6.5,0.59,home,small,6.5,,,,
 2026-11-01T20:34Z,401869945,2026,2,10,2026-11-07T18:00Z,Coastal Carolina,Old Dominion,False,points,12.7,-7.5,-7.0,5.2,home,strong,-6.5,,,,
 2026-11-01T20:34Z,401869945,2026,2,10,2026-11-07T18:00Z,Coastal Carolina,Old Dominion,False,fpi,9.19,-7.5,-7.0,1.69,home,lean,-6.5,,,,
 2026-11-01T20:34Z,401869945,2026,2,10,2026-11-07T18:00Z,Coastal Carolina,Old Dominion,False,efficiency,9.08,-7.5,-7.0,1.58,home,lean,-6.5,,,,
@@ -668,11 +668,11 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-01T20:34Z,401856742,2026,2,10,2026-11-07T21:15Z,Mississippi State,Vanderbilt,False,efficiency,11.37,-2.5,-3.0,8.87,home,strong,-3.0,,,,
 2026-11-01T20:34Z,401856742,2026,2,10,2026-11-07T21:15Z,Mississippi State,Vanderbilt,False,blend,10.92,-2.5,-3.0,8.42,home,strong,-3.0,,,,
 2026-11-01T20:34Z,401856742,2026,2,10,2026-11-07T21:15Z,Mississippi State,Vanderbilt,False,anchored,5.74,-2.5,-3.0,3.24,home,strong,-3.0,,,,
-2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,points,15.86,-16.5,-16.5,0.64,away,small,-17.5,,,,
-2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,fpi,15.83,-16.5,-16.5,0.67,away,small,-17.5,,,,
-2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,efficiency,18.2,-16.5,-16.5,1.7,home,lean,-17.5,,,,
-2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,blend,17.01,-16.5,-16.5,0.51,home,small,-17.5,,,,
-2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,anchored,17.27,-16.5,-16.5,0.77,home,small,-17.5,,,,
+2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,points,15.86,-16.5,-16.5,0.64,away,small,-18.5,,,,
+2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,fpi,15.83,-16.5,-16.5,0.67,away,small,-18.5,,,,
+2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,efficiency,18.2,-16.5,-16.5,1.7,home,lean,-18.5,,,,
+2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,blend,17.01,-16.5,-16.5,0.51,home,small,-18.5,,,,
+2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,anchored,17.27,-16.5,-16.5,0.77,home,small,-18.5,,,,
 2026-11-01T20:34Z,401869968,2026,2,10,2026-11-07T22:00Z,Louisiana,South Alabama,False,points,9.26,-7.5,-5.5,1.76,home,lean,-7.5,,,,
 2026-11-01T20:34Z,401869968,2026,2,10,2026-11-07T22:00Z,Louisiana,South Alabama,False,fpi,10.08,-7.5,-5.5,2.58,home,lean,-7.5,,,,
 2026-11-01T20:34Z,401869968,2026,2,10,2026-11-07T22:00Z,Louisiana,South Alabama,False,efficiency,14.62,-7.5,-5.5,7.12,home,strong,-7.5,,,,
@@ -703,11 +703,11 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-01T20:34Z,401870795,2026,2,10,2026-11-08T01:00Z,New Mexico State,Liberty,False,efficiency,-16.99,16.5,12.5,0.49,away,small,16.5,,,,
 2026-11-01T20:34Z,401870795,2026,2,10,2026-11-08T01:00Z,New Mexico State,Liberty,False,blend,-17.31,16.5,12.5,0.81,away,small,16.5,,,,
 2026-11-01T20:34Z,401870795,2026,2,10,2026-11-08T01:00Z,New Mexico State,Liberty,False,anchored,-17.52,16.5,12.5,1.02,away,small,16.5,,,,
-2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,points,11.08,-16.5,-17.5,5.42,away,strong,-17.5,,,,
-2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,fpi,18.21,-16.5,-17.5,1.71,home,lean,-17.5,,,,
-2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,efficiency,12.93,-16.5,-17.5,3.57,away,strong,-17.5,,,,
-2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,blend,15.57,-16.5,-17.5,0.93,away,small,-17.5,,,,
-2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,anchored,17.21,-16.5,-17.5,0.71,home,small,-17.5,,,,
+2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,points,11.08,-16.5,-17.5,5.42,away,strong,-16.5,,,,
+2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,fpi,18.21,-16.5,-17.5,1.71,home,lean,-16.5,,,,
+2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,efficiency,12.93,-16.5,-17.5,3.57,away,strong,-16.5,,,,
+2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,blend,15.57,-16.5,-17.5,0.93,away,small,-16.5,,,,
+2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,anchored,17.21,-16.5,-17.5,0.71,home,small,-16.5,,,,
 2026-11-01T20:34Z,401860913,2026,2,10,2026-11-08T02:30Z,Utah State,Fresno State,False,points,-7.56,2.5,2.5,5.06,away,strong,2.5,,,,
 2026-11-01T20:34Z,401860913,2026,2,10,2026-11-08T02:30Z,Utah State,Fresno State,False,fpi,-3.7,2.5,2.5,1.2,away,small,2.5,,,,
 2026-11-01T20:34Z,401860913,2026,2,10,2026-11-08T02:30Z,Utah State,Fresno State,False,efficiency,-0.17,2.5,2.5,2.33,home,lean,2.5,,,,
