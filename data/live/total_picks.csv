@@ -105,16 +105,16 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-10-29T23:15Z,401860924,2026,2,9,2026-11-01T03:00Z,Fresno State,Oregon State,False,anchored,58.03,58.5,56.5,0.47,under,small,57.5,60.0,L,L,1.0
 2026-10-29T23:15Z,401858288,2026,2,10,2026-11-07T00:00Z,SMU,Virginia Tech,False,points,59.2,57.5,57.5,1.7,over,lean,56.5,79.0,W,W,-1.0
 2026-10-29T23:15Z,401858288,2026,2,10,2026-11-07T00:00Z,SMU,Virginia Tech,False,anchored,57.53,57.5,57.5,0.03,over,small,56.5,79.0,W,W,-1.0
-2026-10-29T23:15Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,points,45.08,42.5,42.5,2.58,over,lean,37.5,,,,
-2026-10-29T23:15Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,anchored,45.43,42.5,42.5,2.93,over,lean,37.5,,,,
+2026-10-29T23:15Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,points,45.08,42.5,42.5,2.58,over,lean,37.5,54,W,W,-5.0
+2026-10-29T23:15Z,401858512,2026,2,10,2026-11-07T05:00Z,Minnesota,UCLA,False,anchored,45.43,42.5,42.5,2.93,over,lean,37.5,54,W,W,-5.0
 2026-10-29T23:15Z,401858513,2026,2,10,2026-11-07T05:00Z,Northwestern,Iowa,False,points,44.72,42.5,42.5,2.22,over,lean,42.5,,,,
 2026-10-29T23:15Z,401858513,2026,2,10,2026-11-07T05:00Z,Northwestern,Iowa,False,anchored,45.4,42.5,42.5,2.9,over,lean,42.5,,,,
 2026-10-29T23:15Z,401858511,2026,2,10,2026-11-07T05:00Z,Michigan,Michigan State,False,points,37.99,39.5,50.5,1.51,under,lean,39.5,,,,
 2026-10-29T23:15Z,401858511,2026,2,10,2026-11-07T05:00Z,Michigan,Michigan State,False,anchored,42.63,39.5,50.5,3.13,over,strong,39.5,,,,
-2026-10-29T23:15Z,401856849,2026,2,10,2026-11-07T17:00Z,Utah,BYU,False,points,51.57,48.5,51.5,3.07,over,strong,49.5,,,,
-2026-10-29T23:15Z,401856849,2026,2,10,2026-11-07T17:00Z,Utah,BYU,False,anchored,50.34,48.5,51.5,1.84,over,lean,49.5,,,,
-2026-10-29T23:15Z,401856743,2026,2,10,2026-11-07T17:00Z,Missouri,Texas,False,points,45.56,49.5,49.5,3.94,under,strong,43.5,,,,
-2026-10-29T23:15Z,401856743,2026,2,10,2026-11-07T17:00Z,Missouri,Texas,False,anchored,50.53,49.5,49.5,1.03,over,small,43.5,,,,
+2026-10-29T23:15Z,401856849,2026,2,10,2026-11-07T17:00Z,Utah,BYU,False,points,51.57,48.5,51.5,3.07,over,strong,49.5,48,L,L,1.0
+2026-10-29T23:15Z,401856849,2026,2,10,2026-11-07T17:00Z,Utah,BYU,False,anchored,50.34,48.5,51.5,1.84,over,lean,49.5,48,L,L,1.0
+2026-10-29T23:15Z,401856743,2026,2,10,2026-11-07T17:00Z,Missouri,Texas,False,points,45.56,49.5,49.5,3.94,under,strong,43.5,54,L,L,6.0
+2026-10-29T23:15Z,401856743,2026,2,10,2026-11-07T17:00Z,Missouri,Texas,False,anchored,50.53,49.5,49.5,1.03,over,small,43.5,54,W,W,-6.0
 2026-10-29T23:15Z,401858514,2026,2,10,2026-11-07T20:30Z,Ohio State,Oregon,False,points,52.96,45.5,52.5,7.46,over,strong,44.5,,,,
 2026-10-29T23:15Z,401858514,2026,2,10,2026-11-07T20:30Z,Ohio State,Oregon,False,anchored,48.3,45.5,52.5,2.8,over,lean,44.5,,,,
 2026-10-29T23:15Z,401856740,2026,2,10,2026-11-07T20:30Z,LSU,Alabama,False,points,59.98,52.5,54.5,7.48,over,strong,53.5,,,,
@@ -151,26 +151,26 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-01T06:17Z,401864533,2026,2,10,2026-11-07T02:00Z,Nevada,New Mexico,False,anchored,46.3,43.5,43.5,2.8,over,lean,38.5,34.0,L,L,-5.0
 2026-11-01T06:17Z,401856855,2026,2,10,2026-11-07T03:15Z,Arizona,TCU,False,points,38.12,44.5,44.5,6.38,under,strong,46.5,57.0,L,L,-2.0
 2026-11-01T06:17Z,401856855,2026,2,10,2026-11-07T03:15Z,Arizona,TCU,False,anchored,46.25,44.5,44.5,1.75,over,lean,46.5,57.0,W,W,2.0
-2026-11-01T20:34Z,401856853,2026,2,10,2026-11-07T17:00Z,Baylor,Iowa State,False,points,49.42,51.5,50.5,2.08,under,lean,50.5,,,,
-2026-11-01T20:34Z,401856853,2026,2,10,2026-11-07T17:00Z,Baylor,Iowa State,False,anchored,52.32,51.5,50.5,0.82,over,small,50.5,,,,
-2026-11-01T20:34Z,401858285,2026,2,10,2026-11-07T17:00Z,Syracuse,Clemson,False,points,47.5,49.5,49.5,2.0,under,lean,49.5,,,,
-2026-11-01T20:34Z,401858285,2026,2,10,2026-11-07T17:00Z,Syracuse,Clemson,False,anchored,50.7,49.5,49.5,1.2,over,small,49.5,,,,
-2026-11-01T20:34Z,401858289,2026,2,10,2026-11-07T17:00Z,Boston College,Florida State,False,points,50.7,51.5,51.5,0.8,under,small,53.5,,,,
-2026-11-01T20:34Z,401858289,2026,2,10,2026-11-07T17:00Z,Boston College,Florida State,False,anchored,52.43,51.5,51.5,0.93,over,small,53.5,,,,
-2026-11-01T20:34Z,401858292,2026,2,10,2026-11-07T17:00Z,UConn,North Carolina,False,points,55.19,52.5,51.5,2.69,over,lean,55.5,,,,
-2026-11-01T20:34Z,401858292,2026,2,10,2026-11-07T17:00Z,UConn,North Carolina,False,anchored,53.56,52.5,51.5,1.06,over,small,55.5,,,,
-2026-11-01T20:34Z,401862822,2026,2,10,2026-11-07T17:00Z,Tulane,Tulsa,False,points,44.47,48.5,48.5,4.03,under,strong,50.5,,,,
-2026-11-01T20:34Z,401862822,2026,2,10,2026-11-07T17:00Z,Tulane,Tulsa,False,anchored,49.71,48.5,48.5,1.21,over,small,50.5,,,,
-2026-11-01T20:34Z,401858286,2026,2,10,2026-11-07T17:30Z,NC State,Duke,False,points,52.21,50.5,49.5,1.71,over,lean,52.5,,,,
-2026-11-01T20:34Z,401858286,2026,2,10,2026-11-07T17:30Z,NC State,Duke,False,anchored,51.85,50.5,49.5,1.35,over,small,52.5,,,,
-2026-11-01T20:34Z,401858515,2026,2,10,2026-11-07T17:30Z,Purdue,Maryland,False,points,63.63,57.5,57.5,6.13,over,strong,56.5,,,,
-2026-11-01T20:34Z,401858515,2026,2,10,2026-11-07T17:30Z,Purdue,Maryland,False,anchored,57.93,57.5,57.5,0.43,over,small,56.5,,,,
-2026-11-01T20:34Z,401856738,2026,2,10,2026-11-07T17:45Z,Auburn,Arkansas,False,points,46.26,50.5,50.5,4.24,under,strong,54.5,,,,
-2026-11-01T20:34Z,401856738,2026,2,10,2026-11-07T17:45Z,Auburn,Arkansas,False,anchored,51.31,50.5,50.5,0.81,over,small,54.5,,,,
-2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,points,63.9,60.5,60.5,3.4,over,strong,63.5,,,,
-2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,anchored,60.12,60.5,60.5,0.38,under,small,63.5,,,,
-2026-11-01T20:34Z,401869945,2026,2,10,2026-11-07T18:00Z,Coastal Carolina,Old Dominion,False,points,43.05,45.5,45.5,2.45,under,lean,44.5,,,,
-2026-11-01T20:34Z,401869945,2026,2,10,2026-11-07T18:00Z,Coastal Carolina,Old Dominion,False,anchored,47.41,45.5,45.5,1.91,over,lean,44.5,,,,
+2026-11-01T20:34Z,401856853,2026,2,10,2026-11-07T17:00Z,Baylor,Iowa State,False,points,49.42,51.5,50.5,2.08,under,lean,50.5,73,L,L,1.0
+2026-11-01T20:34Z,401856853,2026,2,10,2026-11-07T17:00Z,Baylor,Iowa State,False,anchored,52.32,51.5,50.5,0.82,over,small,50.5,73,W,W,-1.0
+2026-11-01T20:34Z,401858285,2026,2,10,2026-11-07T17:00Z,Syracuse,Clemson,False,points,47.5,49.5,49.5,2.0,under,lean,49.5,31,W,W,-0.0
+2026-11-01T20:34Z,401858285,2026,2,10,2026-11-07T17:00Z,Syracuse,Clemson,False,anchored,50.7,49.5,49.5,1.2,over,small,49.5,31,L,L,0.0
+2026-11-01T20:34Z,401858289,2026,2,10,2026-11-07T17:00Z,Boston College,Florida State,False,points,50.7,51.5,51.5,0.8,under,small,53.5,55,L,L,-2.0
+2026-11-01T20:34Z,401858289,2026,2,10,2026-11-07T17:00Z,Boston College,Florida State,False,anchored,52.43,51.5,51.5,0.93,over,small,53.5,55,W,W,2.0
+2026-11-01T20:34Z,401858292,2026,2,10,2026-11-07T17:00Z,UConn,North Carolina,False,points,55.19,52.5,51.5,2.69,over,lean,55.5,59,W,W,3.0
+2026-11-01T20:34Z,401858292,2026,2,10,2026-11-07T17:00Z,UConn,North Carolina,False,anchored,53.56,52.5,51.5,1.06,over,small,55.5,59,W,W,3.0
+2026-11-01T20:34Z,401862822,2026,2,10,2026-11-07T17:00Z,Tulane,Tulsa,False,points,44.47,48.5,48.5,4.03,under,strong,50.5,70,L,L,-2.0
+2026-11-01T20:34Z,401862822,2026,2,10,2026-11-07T17:00Z,Tulane,Tulsa,False,anchored,49.71,48.5,48.5,1.21,over,small,50.5,70,W,W,2.0
+2026-11-01T20:34Z,401858286,2026,2,10,2026-11-07T17:30Z,NC State,Duke,False,points,52.21,50.5,49.5,1.71,over,lean,52.5,44,L,L,2.0
+2026-11-01T20:34Z,401858286,2026,2,10,2026-11-07T17:30Z,NC State,Duke,False,anchored,51.85,50.5,49.5,1.35,over,small,52.5,44,L,L,2.0
+2026-11-01T20:34Z,401858515,2026,2,10,2026-11-07T17:30Z,Purdue,Maryland,False,points,63.63,57.5,57.5,6.13,over,strong,56.5,63,W,W,-1.0
+2026-11-01T20:34Z,401858515,2026,2,10,2026-11-07T17:30Z,Purdue,Maryland,False,anchored,57.93,57.5,57.5,0.43,over,small,56.5,63,W,W,-1.0
+2026-11-01T20:34Z,401856738,2026,2,10,2026-11-07T17:45Z,Auburn,Arkansas,False,points,46.26,50.5,50.5,4.24,under,strong,54.5,49,W,W,-4.0
+2026-11-01T20:34Z,401856738,2026,2,10,2026-11-07T17:45Z,Auburn,Arkansas,False,anchored,51.31,50.5,50.5,0.81,over,small,54.5,49,L,L,4.0
+2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,points,63.9,60.5,60.5,3.4,over,strong,63.5,94,W,W,3.0
+2026-11-01T20:34Z,401856854,2026,2,10,2026-11-07T18:00Z,Kansas State,Oklahoma State,False,anchored,60.12,60.5,60.5,0.38,under,small,63.5,94,L,L,-3.0
+2026-11-01T20:34Z,401869945,2026,2,10,2026-11-07T18:00Z,Coastal Carolina,Old Dominion,False,points,43.05,45.5,45.5,2.45,under,lean,44.5,29,W,W,1.0
+2026-11-01T20:34Z,401869945,2026,2,10,2026-11-07T18:00Z,Coastal Carolina,Old Dominion,False,anchored,47.41,45.5,45.5,1.91,over,lean,44.5,29,L,L,-1.0
 2026-11-01T20:34Z,401869927,2026,2,10,2026-11-07T19:30Z,App State,Georgia State,False,points,56.1,57.5,57.5,1.4,under,small,53.5,,,,
 2026-11-01T20:34Z,401869927,2026,2,10,2026-11-07T19:30Z,App State,Georgia State,False,anchored,57.25,57.5,57.5,0.25,under,small,53.5,,,,
 2026-11-01T20:34Z,401856744,2026,2,10,2026-11-07T20:00Z,South Carolina,Texas A&M,False,points,53.82,51.5,51.5,2.32,over,lean,52.5,,,,
@@ -205,28 +205,28 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-01T20:34Z,401856742,2026,2,10,2026-11-07T21:15Z,Mississippi State,Vanderbilt,False,anchored,49.8,47.5,48.5,2.3,over,lean,48.5,,,,
 2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,points,52.07,46.5,46.5,5.57,over,strong,45.5,,,,
 2026-11-01T20:34Z,401858517,2026,2,10,2026-11-07T21:15Z,Wisconsin,Rutgers,False,anchored,48.95,46.5,46.5,2.45,over,lean,45.5,,,,
-2026-11-01T20:34Z,401869968,2026,2,10,2026-11-07T22:00Z,Louisiana,South Alabama,False,points,60.95,57.5,57.5,3.45,over,strong,56.5,,,,
-2026-11-01T20:34Z,401869968,2026,2,10,2026-11-07T22:00Z,Louisiana,South Alabama,False,anchored,57.68,57.5,57.5,0.18,over,small,56.5,,,,
-2026-11-01T20:34Z,401860911,2026,2,10,2026-11-07T23:00Z,Colorado State,Boise State,False,points,78.77,68.5,68.5,10.27,over,strong,68.5,,,,
-2026-11-01T20:34Z,401860911,2026,2,10,2026-11-07T23:00Z,Colorado State,Boise State,False,anchored,67.23,68.5,68.5,1.27,under,small,68.5,,,,
+2026-11-01T20:34Z,401869968,2026,2,10,2026-11-07T22:00Z,Louisiana,South Alabama,False,points,60.95,57.5,57.5,3.45,over,strong,57.5,,,,
+2026-11-01T20:34Z,401869968,2026,2,10,2026-11-07T22:00Z,Louisiana,South Alabama,False,anchored,57.68,57.5,57.5,0.18,over,small,57.5,,,,
+2026-11-01T20:34Z,401860911,2026,2,10,2026-11-07T23:00Z,Colorado State,Boise State,False,points,78.77,68.5,68.5,10.27,over,strong,69.5,,,,
+2026-11-01T20:34Z,401860911,2026,2,10,2026-11-07T23:00Z,Colorado State,Boise State,False,anchored,67.23,68.5,68.5,1.27,under,small,69.5,,,,
 2026-11-01T20:34Z,401871075,2026,2,10,2026-11-08T00:00Z,Jacksonville State,Sam Houston,False,points,42.95,47.5,47.5,4.55,under,strong,45.5,,,,
 2026-11-01T20:34Z,401871075,2026,2,10,2026-11-08T00:00Z,Jacksonville State,Sam Houston,False,anchored,48.85,47.5,47.5,1.35,over,small,45.5,,,,
-2026-11-01T20:34Z,401856852,2026,2,10,2026-11-08T00:30Z,Arizona State,Colorado,False,points,55.16,49.5,49.5,5.66,over,strong,48.5,,,,
-2026-11-01T20:34Z,401856852,2026,2,10,2026-11-08T00:30Z,Arizona State,Colorado,False,anchored,51.39,49.5,49.5,1.89,over,lean,48.5,,,,
+2026-11-01T20:34Z,401856852,2026,2,10,2026-11-08T00:30Z,Arizona State,Colorado,False,points,55.16,49.5,49.5,5.66,over,strong,47.5,,,,
+2026-11-01T20:34Z,401856852,2026,2,10,2026-11-08T00:30Z,Arizona State,Colorado,False,anchored,51.39,49.5,49.5,1.89,over,lean,47.5,,,,
 2026-11-01T20:34Z,401858287,2026,2,10,2026-11-08T00:30Z,Georgia Tech,Louisville,False,points,65.14,59.5,59.5,5.64,over,strong,62.5,,,,
 2026-11-01T20:34Z,401858287,2026,2,10,2026-11-08T00:30Z,Georgia Tech,Louisville,False,anchored,59.5,59.5,59.5,0.0,over,small,62.5,,,,
 2026-11-01T20:34Z,401870795,2026,2,10,2026-11-08T01:00Z,New Mexico State,Liberty,False,points,46.08,47.5,47.5,1.42,under,small,46.5,,,,
 2026-11-01T20:34Z,401870795,2026,2,10,2026-11-08T01:00Z,New Mexico State,Liberty,False,anchored,49.13,47.5,47.5,1.63,over,lean,46.5,,,,
-2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,points,66.71,63.5,63.5,3.21,over,strong,65.5,,,,
-2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,anchored,62.53,63.5,63.5,0.97,under,small,65.5,,,,
+2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,points,66.71,63.5,63.5,3.21,over,strong,66.5,,,,
+2026-11-01T20:34Z,401856856,2026,2,10,2026-11-08T02:30Z,Texas Tech,West Virginia,False,anchored,62.53,63.5,63.5,0.97,under,small,66.5,,,,
 2026-11-01T20:34Z,401860913,2026,2,10,2026-11-08T02:30Z,Utah State,Fresno State,False,points,35.45,41.5,41.5,6.05,under,strong,43.5,,,,
 2026-11-01T20:34Z,401860913,2026,2,10,2026-11-08T02:30Z,Utah State,Fresno State,False,anchored,43.84,41.5,41.5,2.34,over,lean,43.5,,,,
 2026-11-01T20:34Z,401864532,2026,2,10,2026-11-08T02:30Z,UTEP,Hawai'i,False,points,49.33,49.5,49.5,0.17,under,small,48.5,,,,
 2026-11-01T20:34Z,401864532,2026,2,10,2026-11-08T02:30Z,UTEP,Hawai'i,False,anchored,50.87,49.5,49.5,1.37,over,small,48.5,,,,
 2026-11-01T20:34Z,401860912,2026,2,10,2026-11-08T03:30Z,Oregon State,Texas State,False,points,70.95,67.5,66.5,3.45,over,strong,71.5,,,,
 2026-11-01T20:34Z,401860912,2026,2,10,2026-11-08T03:30Z,Oregon State,Texas State,False,anchored,65.8,67.5,66.5,1.7,under,lean,71.5,,,,
-2026-11-01T20:34Z,401864535,2026,2,10,2026-11-08T03:30Z,UNLV,Wyoming,False,points,37.48,46.5,45.5,9.02,under,strong,48.5,,,,
-2026-11-01T20:34Z,401864535,2026,2,10,2026-11-08T03:30Z,UNLV,Wyoming,False,anchored,47.63,46.5,45.5,1.13,over,small,48.5,,,,
+2026-11-01T20:34Z,401864535,2026,2,10,2026-11-08T03:30Z,UNLV,Wyoming,False,points,37.48,46.5,45.5,9.02,under,strong,49.5,,,,
+2026-11-01T20:34Z,401864535,2026,2,10,2026-11-08T03:30Z,UNLV,Wyoming,False,anchored,47.63,46.5,45.5,1.13,over,small,49.5,,,,
 2026-11-04T23:45Z,401858526,2026,2,11,2026-11-14T02:00Z,UCLA,Illinois,False,points,48.64,47.5,47.5,1.14,over,small,47.5,,,,
 2026-11-04T23:45Z,401858526,2026,2,11,2026-11-14T02:00Z,UCLA,Illinois,False,anchored,47.73,47.5,47.5,0.23,over,small,47.5,,,,
 2026-11-04T23:45Z,401856883,2026,2,11,2026-11-14T05:00Z,Georgia,Missouri,False,points,52.22,46.5,46.5,5.72,over,strong,46.5,,,,
