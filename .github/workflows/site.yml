@@ -1,7 +1,8 @@
 # Every two hours: records lines and the model's picks before kickoff (the forward test) and
 # commits them, so git history proves when each pick was made; then rebuilds the website's data
 # (ratings, model settings, track record) and publishes the site to GitHub Pages. Also runs when
-# site code changes on main, and on demand from the Actions tab ("Run workflow").
+# site code or data/qb_status.csv (quarterbacks on the availability reports) changes on main, and
+# on demand from the Actions tab ("Run workflow").
 name: Update and publish site
 
 on:
@@ -9,7 +10,7 @@ on:
     - cron: "17 */2 * * *"   # every two hours, at 17 minutes past (GitHub is busiest on the hour)
   push:
     branches: [main]
-    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "sources.py", "model.py", ".github/workflows/site.yml"]
+    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "sources.py", "model.py", "data/qb_status.csv", ".github/workflows/site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -56,7 +57,7 @@ jobs:
           path: data/box
           key: espn-box-${{ github.run_id }}
           restore-keys: espn-box-
-      - name: Build player props and QB watch
+      - name: Build player props, QB watch and QB availability
         # a hiccup at ESPN shouldn't stop the rest of the site from publishing; the last props stay up
         continue-on-error: true
         run: python build_props.py

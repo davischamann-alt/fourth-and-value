@@ -1,5 +1,14 @@
 [
  {
+  "date": "2026-11-06",
+  "type": "model",
+  "title": "Starting quarterbacks listed out on the official reports now mean Check the news",
+  "summary": "When a team's usual starting quarterback is listed out or doubtful on an official availability report, picks on that team are labeled Check the news, the game card gets a QB tag, the game page shows the listing, and an alert goes out. The reports come from the Power 4 conferences for conference games and are entered by hand, because they're published through an app with no public data feed. Game pages also link to each conference's reports.",
+  "why": "Box scores from 2023-2026 show that a team whose starting quarterback sat after playing the week before covered 43% at the opening line (317 games), and Market-anchored's picks on such a team went 16-20. By the second game the market and the ratings have caught up (51%), and missing running backs or receivers showed no effect at all, so they aren't flagged.",
+  "effect": "Labels only. Projections and edges don't change, and picks against the team keep their label: they went 29-18. Only Power 4 conference games are covered (39% of these cases in 2023-2025), and some of the 317 were benchings rather than injuries. The ±1.6-point range on the effect only just excludes zero.",
+  "forward_test": "The pick log is unchanged. Each listing is logged with the time it was first seen, so the forward test can check these games before any points adjustment is considered."
+ },
+ {
   "date": "2026-11-01",
   "type": "model",
   "title": "Market-anchored totals now follow the ratings instead of leaning over",

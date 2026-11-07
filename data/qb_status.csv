@@ -1,0 +1,5 @@
+# Quarterbacks listed on the official availability reports, entered by hand (see "QB availability" in the README).
+# One row per report: date (YYYY-MM-DD, the report's date), team (as the site spells it), player, status, source (link, optional).
+# status: out, doubtful, questionable, or available (clears an earlier row). A row applies to the team's next game within 8 days.
+# Only a usual starter listed out or doubtful changes a pick's label; the rest are shown on the game page.
+date,team,player,status,source

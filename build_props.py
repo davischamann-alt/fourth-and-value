@@ -12,6 +12,7 @@ Visitors enter the line from their sportsbook and the page turns the projection 
 chance. The projections are not tested against real prop lines (free historical prop lines don't
 exist); evaluate() measures how close they come to what players actually did."""
 import datetime as dt
+import io
 import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -27,6 +28,11 @@ BOX = ROOT / "data" / "box"          # one small file per finished game (git-ign
 OUT = ROOT / "site" / "data" / "props.json"
 QB_OUT = ROOT / "site" / "data" / "qb.json"   # QB watch: likely quarterback changes, for game cards
 QB_RECENT = 3       # flag a new starter for this many games; after that the ratings have caught up
+# Quarterbacks listed on the official availability reports (Power 4 conference games), entered by hand:
+# the reports come through an app with no public feed. See "QB availability" in the README.
+QB_STATUS = ROOT / "data" / "qb_status.csv"
+QB_STATUS_LOG = ROOT / "data" / "live" / "qb_status_log.csv"   # when each status was first seen, for the forward test
+QB_STATUSES = ("out", "doubtful", "questionable", "available")  # available clears an earlier listing
 MARKETS = {  # stat key: (label, games that count toward the average, minimum per-game volume, spread floor)
     "pass_yds": ("Passing yards", lambda g: g.pass_att >= 10, ("pass_att", 15), 45.0),
     "pass_td": ("Passing TDs", lambda g: g.pass_att >= 10, ("pass_att", 15), None),   # Poisson on the page
@@ -129,6 +135,78 @@ def project(hist, market, factor):
     return proj, sd, len(vals), [float(v) for v in vals[-5:]]
 
 
+def lead_passers(logs):
+    """The player who led each team's games in pass attempts, oldest first."""
+    qb = logs[logs.pass_att >= 5].sort_values(["start", "pass_att"])
+    return qb.groupby(["team_id", "game_id"]).tail(1).sort_values("start")
+
+
+def usual_starter(g):
+    """pid of whoever led the most of a team's games in passing (a tie goes to the more recent)."""
+    counts = g.groupby("pid").size()
+    return g[g.pid.isin(counts[counts == counts.max()].index)].pid.iloc[-1]
+
+
+def norm_name(name):
+    words = "".join(c for c in str(name).lower() if c.isalnum() or c.isspace()).split()
+    return " ".join(w for w in words if w not in ("jr", "sr", "ii", "iii", "iv"))
+
+
+def qb_listed(upcoming, logs, now):
+    """{team id: [listing, ...]} for quarterbacks in data/qb_status.csv whose team plays an upcoming
+    game. A row applies to the team's first game kicking off within 8 days after its date, and the
+    last row for a player and game wins. starter: whether the listed player is the team's usual starter
+    (None when the team has too few games to say)."""
+    if not QB_STATUS.exists():
+        return {}
+    text = "".join(line for line in QB_STATUS.read_text().splitlines(keepends=True) if not line.lstrip().startswith("#"))
+    rows = pd.read_csv(io.StringIO(text), dtype=str).fillna("")
+    lead = lead_passers(logs)
+    out = {}
+    for r in rows.itertuples():
+        status = r.status.strip().lower()
+        try:
+            day = pd.Timestamp(r.date.strip(), tz="UTC")
+        except ValueError:
+            print(f"qb_status.csv: skipped a row with a bad date: {r.date!r}")
+            continue
+        if status not in QB_STATUSES:
+            print(f"qb_status.csv: skipped {r.player} ({r.team}): status must be one of {', '.join(QB_STATUSES)}")
+            continue
+        team = r.team.strip().lower()
+        kick = pd.to_datetime(upcoming.kickoff, utc=True)
+        games = upcoming[((upcoming.home.str.lower() == team) | (upcoming.away.str.lower() == team))
+                         & (kick >= day) & (kick < day + pd.Timedelta(days=8))]
+        if games.empty:
+            if day > pd.Timestamp(now) - pd.Timedelta(days=8):
+                print(f"qb_status.csv: no upcoming game for {r.team!r} after {r.date} (check the spelling against the site)")
+            continue
+        g = games.sort_values("kickoff").iloc[0]
+        tid = g.home_id if g.home.lower() == team else g.away_id
+        passers = lead[lead.team_id == tid]
+        starter = None if len(passers) < 2 else norm_name(passers[passers.pid == usual_starter(passers)].name.iloc[-1]) == norm_name(r.player)
+        mine = out.setdefault(tid, {})
+        if status == "available":
+            mine.pop(norm_name(r.player), None)
+        else:
+            mine[norm_name(r.player)] = dict(team=g.home if tid == g.home_id else g.away, player=r.player.strip(), status=status,
+                            game_id=g.id, kickoff=g.kickoff, date=r.date.strip(), source=r.source.strip(), starter=starter)
+    return {tid: list(players.values()) for tid, players in out.items() if players}
+
+
+def log_qb_listed(listed, now):
+    """Appends each listing the first time it's seen, so the forward test can check these games later."""
+    cols = ["seen_at", "game_id", "kickoff", "team", "player", "status", "starter", "report_date"]
+    log = pd.read_csv(QB_STATUS_LOG, dtype=str) if QB_STATUS_LOG.exists() else pd.DataFrame(columns=cols)
+    seen = set(zip(log.game_id, log.team, log.player, log.status))
+    new = [dict(seen_at=now.strftime("%Y-%m-%dT%H:%MZ"), game_id=f["game_id"], kickoff=f["kickoff"], team=f["team"],
+                player=f["player"], status=f["status"], starter=f["starter"], report_date=f["date"])
+           for team in listed.values() for f in team if (f["game_id"], f["team"], f["player"], f["status"]) not in seen]
+    if new:
+        pd.concat([log, pd.DataFrame(new, columns=cols)], ignore_index=True).to_csv(QB_STATUS_LOG, index=False)
+    return len(new)
+
+
 def qb_watch(logs):
     """{team id: flag} for teams whose quarterback situation just changed, from who led each game in
     pass attempts. ESPN doesn't publish college injury reports, so this is the next best signal:
@@ -137,15 +215,13 @@ def qb_watch(logs):
       change: someone other than the season's usual starter led the team's last game (for up to
               QB_RECENT games in a row, after which the ratings reflect the new starter)
       back:   the usual starter led the last game after someone else led the one before it"""
-    qb = logs[logs.pass_att >= 5].sort_values(["start", "pass_att"])
-    lead = qb.groupby(["team_id", "game_id"]).tail(1).sort_values("start")
+    lead = lead_passers(logs)
     out = {}
     for tid, g in lead.groupby("team_id"):
         if len(g) < 3:
             continue
         counts = g.groupby("pid").size()
-        starter = counts[counts == counts.max()].index
-        starter = g[g.pid.isin(starter)].pid.iloc[-1]  # a tie goes to whoever led more recently
+        starter = usual_starter(g)
         name = lambda pid: g[g.pid == pid].name.iloc[-1]
         last, prev = g.iloc[-1], g.iloc[-2]
         streak = int((g.pid.iloc[::-1] != last.pid).cumsum().eq(0).sum())
@@ -232,9 +308,11 @@ def main():
     }), separators=(",", ":")))
     print(f"wrote site/data/props.json: {len(players)} players in {len(slate)} games")
     qb = qb_watch(logs)
-    QB_OUT.write_text(json.dumps({"updated": now.isoformat(), "teams": qb}, indent=1))
+    listed = qb_listed(upcoming, logs, now)
+    QB_OUT.write_text(json.dumps(clean({"updated": now.isoformat(), "teams": qb, "listed": listed}), indent=1))
     print(f"wrote site/data/qb.json: {sum(f['kind'] == 'change' for f in qb.values())} QB changes, "
-          f"{sum(f['kind'] == 'back' for f in qb.values())} starters back")
+          f"{sum(f['kind'] == 'back' for f in qb.values())} starters back, {sum(map(len, listed.values()))} QBs listed on availability reports "
+          f"({log_qb_listed(listed, now)} new)")
     for m, a in accuracy.items():
         print(f"  {a['label']}: typical miss {a['mae_model']:.1f} vs season average {a['mae_season_avg']:.1f} ({a['n']} player-games)")
 

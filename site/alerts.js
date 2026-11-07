@@ -2,7 +2,7 @@
 // Alerts panel: how to subscribe (feed, ntfy phone notifications, Discord) and the latest alerts.
 // data/alerts.json is written by alerts.py in the GitHub job every two hours.
 
-const ALERT_ICON = { pick: "Spread", total: "Total", key: "Line move" };
+const ALERT_ICON = { pick: "Spread", total: "Total", key: "Line move", qb: "QB" };
 
 function alertAgo(iso) {
   const m = Math.round((Date.now() - Date.parse(iso)) / 60e3);

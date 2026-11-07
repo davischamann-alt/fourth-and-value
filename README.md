@@ -323,6 +323,16 @@ The new Blend picked a little better than the old one in most of these columns, 
 
 The quarterback and bowl samples are small, but they point the way you'd expect: the market knows about the new starter or the opt-outs, and the ratings don't.
 
+**Missing players** (added November 6, 2026). ESPN box scores for 2023–2026 (about 2,250 backtest games) show who sat out: each team's usual starting quarterback, lead running back and top two receivers, from its earlier games. Results are points relative to the line, from the affected team's side:
+
+| Situation | Games | Line move, open to close | Result vs the opening line | Covered at the opening line |
+| --- | --- | --- | --- | --- |
+| **Starting QB out, after playing the week before** | 317 | −0.85 | −1.6 (±1.6) | **43%** |
+| Starting QB out again (missed the week before too) | 354 | −0.17 | +0.8 | 51% |
+| Lead running back or receivers (15%+ of the team's yards) out | 342 | −0.14 | −0.2 | 50% |
+
+Only a quarterback sitting out unexpectedly mattered, and only an availability report can say so before kickoff: by the second game the market and the ratings have adjusted. Market-anchored's picks on such a team went 16-20, and picks against it went 29-18, so only picks *on* that team are relabeled ([QB availability](#qb-availability)). Running backs and receivers showed nothing, so they aren't used. Some of these were benchings, not injuries; box scores can't tell the difference.
+
 **What this means:**
 
 - **The Vegas closing line is more accurate than any of these projections.** Betting near kickoff shows no edge.
@@ -405,6 +415,7 @@ Any change to how picks are made is logged here and on the website (a notice on 
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
+| November 6, 2026 | **Starting QB listed out or doubtful:** a spread pick on a team whose usual starter is listed out or doubtful on an official availability report is labeled Check the news | In 2023–2026, a team whose starting quarterback sat after playing the week before covered 43% at the opening line (317 games), and Market-anchored's picks on such a team went 16-20. The opening line doesn't know yet, and only the reports can say before kickoff. | Labels only, and only for picks on that team; picks against it went 29-18 and keep their label. Statuses are entered by hand for Power 4 conference games, which covered 39% of these cases in 2023–2025. The pick log is unchanged; statuses are logged in data/live/qb_status_log.csv. |
 | November 1, 2026 | **Market-anchored totals now follow the ratings:** total + 0.2 × (adjusted points total − total), replacing a regression on the final total | The regression chased the average score, which a few shootouts pull up, so it learned "low totals go over" and gave the ratings a weight of only 0.09. 96% of its 1.5+ edges were overs, and in 2026 they went 56-55. Over/unders are graded on which side of the number the game lands, and there the ratings carry the signal. | In 2024–2026, 1.5+ edges at the opening total went 56.2% (131-102) instead of 53.8%, on about 7 games a week instead of 15, with 64% overs instead of 96%. Graded at the closing total it's 52.5%, so the opening number matters. The 0.2 was chosen after looking at these seasons, so the backtest flatters it a little. Totals picks logged before this date used the old formula. |
 | October 29, 2026 | **Check the news for QB changes, bowls and windy overs:** Lean and Go for it picks in those games are labeled Check the news instead | The model went 39% after quarterback changes in 2026 and 42–47% in non-playoff bowls in 2023–2025, and opening totals don't fully price wind. | Labels only: projections, edges and the forward-test log are unchanged. |
 | October 29, 2026 | **Efficiency added:** a fifth projection from opponent-adjusted EPA per play, and **Blend** now averages FPI and Efficiency instead of FPI and adjusted points | Points are a noisy measure of how good a team is. EPA per play, with garbage time left out, measures every play. | In 2024–2026, the new Blend picked a little better than the old one (every game at the opening line: 54.4% vs 53.3%; at the closing line: 52.2% vs 50.1%) with the same accuracy. Market-anchored and the default are unchanged. Blend picks logged before this date used adjusted points. |
@@ -429,6 +440,7 @@ The newest `model` entry shows as a notice on the Games tab for two weeks.
 
 - **New edges:** a spread or over/under pick with an edge of 1.5+, logged when the line first appears. The model tested best at the opening number, so these are worth seeing early.
 - **Key numbers:** on a game with such a spread pick, the line moving through, onto or off 3 or 7, the most common winning margins.
+- **Quarterback listed out:** a team's usual starter listed out or doubtful on an availability report ([QB availability](#qb-availability)), when there's such a spread pick on that team. The pick becomes Check the news.
 
 Each run sends at most one notification, listing everything new. Alerts always go to the site's feed and the Alerts panel (🔔). Phone notifications and Discord are optional, and only the repo owner can turn them on:
 
@@ -439,6 +451,24 @@ Each run sends at most one notification, listing everything new. Alerts always g
 | **Discord** | In your Discord server: **Server Settings → Integrations → Webhooks → New Webhook**, pick the channel, and copy its URL. Save it as a secret: `gh secret set DISCORD_WEBHOOK_URL -R davischamann-alt/fourth-and-value` and paste the URL when asked. |
 
 `data/live/alerts.json` remembers what's been sent, so nothing is sent twice. The first run only records what's already on the board, rather than sending it all at once.
+
+---
+
+## QB availability
+
+The Power 4 conferences (ACC, Big 12, Big Ten, SEC) publish official availability reports for conference games, starting about three days before kickoff with a final one about two hours before. They're shown through a third-party app with no public data feed (access has been requested), so quarterbacks are entered by hand in `data/qb_status.csv`:
+
+```
+date,team,player,status,source
+2026-11-05,Team Name,Player Name,doubtful,https://link-to-the-report
+```
+
+- **date:** the report's date. A row applies to the team's next game within 8 days.
+- **team:** as the site spells it (the job prints a warning in its log when a name doesn't match a game).
+- **status:** `out`, `doubtful`, `questionable`, or `available` to clear an earlier row for that player. The last row for a player and game wins.
+- **source:** a link to the report (optional; shown on the game page).
+
+Saving the file on `main` (on GitHub, or with a push) runs the job right away. A usual starter (whoever led the most of the team's games in passing) listed **out** or **doubtful** turns picks on that team into **Check the news** and sends an alert; picks against it keep their label, since they did fine in testing. Questionable quarterbacks and backups are shown on the game page only. Every listing is logged with the time it was first seen in `data/live/qb_status_log.csv`, so the forward test can check these games later. This only covers the cases the backtest found mattered ([Missing players](#what-the-testing-found)); a points adjustment can come once the log has enough games.
 
 ---
 
@@ -473,7 +503,7 @@ fourth-and-value/
 ├── record.py                 # forward test: records lines and picks, grades them
 ├── alerts.py                 # alerts: new edges and key-number line moves, to the feed, ntfy and Discord
 ├── weather.py                # kickoff forecasts for this week's games (Open-Meteo), for wind flags on totals
-├── build_props.py            # player prop projections for the Props tab, and the QB watch (ESPN box scores)
+├── build_props.py            # player prop projections for the Props tab, the QB watch (ESPN box scores) and QB availability
 ├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), alerts.js (Alerts panel), alerts.xml (feed), data/ (changelog.json is the change log)
 ├── .github/ISSUE_TEMPLATE/   # GitHub issue forms behind the site's suggestion form
 ├── .github/workflows/site.yml # nightly job that refreshes and publishes the website
@@ -484,7 +514,8 @@ fourth-and-value/
     ├── lines.csv             # pregame lines the dashboard has saved
     ├── closing_lines.csv     # this season's opening and closing lines and totals (backtest)
     ├── anchor_weights.json   # Market-anchored weights for spreads and totals (saved by the backtest)
-    ├── live/                 # forward test: line_history.csv, picks.csv, total_picks.csv, and alerts.json (what's been sent); written by the GitHub job
+    ├── qb_status.csv         # quarterbacks listed on the official availability reports (you edit it; see QB availability)
+    ├── live/                 # forward test: line_history.csv, picks.csv, total_picks.csv, qb_status_log.csv, and alerts.json (what's been sent); written by the GitHub job
     ├── history.csv           # your logged picks (created when you log; kept private)
     ├── bets.csv              # your bets (created when you save; kept private)
     └── cfbd/                 # past seasons' data (downloaded; kept private)
@@ -514,7 +545,7 @@ fourth-and-value/
 
 ## Limitations
 
-- **Scores and ratings only.** The model doesn't know about injuries, suspensions or motivation. It flags likely quarterback changes (from box scores), bowl games and windy totals as **Check the news**, but it can't see who's actually playing.
+- **Scores and ratings only.** The model doesn't know about injuries, suspensions or motivation. It flags likely quarterback changes (from box scores), starting quarterbacks listed out on the official reports (entered by hand, Power 4 conference games only), bowl games and windy totals as **Check the news**, but otherwise it can't see who's actually playing.
 - **Unofficial data.** ESPN's feeds aren't official and could change or go down without notice.
 - **Lines differ by sportsbook.** Lines come from one book per game (DraftKings when available), so yours may differ.
 - **Small samples mislead.** A few weeks of results can look great or terrible by luck alone. Judge by hundreds of picks and by line movement.

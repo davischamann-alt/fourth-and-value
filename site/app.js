@@ -29,7 +29,15 @@ const qbChange = (g) => (g.state === "post" ? null  // flags describe the latest
  *  aren't in the ratings. Playoff games did fine, so they keep their normal labels. */
 const isBowl = (g) => !!g.postseason && !/playoff|cfp/i.test(g.note || "");
 const BOWL_NOTE = "Bowl game: opt-outs, transfers and coaching changes aren't in the model, and in 2023-2025 bowls outside the playoff its picks went 42-47% at the opening line. Check who's playing.";
-const gameTier = (g, edge) => { const t = tierOf(edge); return t !== "pass" && (qbChange(g) || isBowl(g)) ? "check" : t; };
+/** Quarterbacks on the official availability reports for this game (data/qb.json "listed", entered by
+ *  hand from the Power 4 conferences' reports), for one team: [{player, status, starter, ...}]. */
+const qbListed = (g, t) => (g.state === "pre" && t ? (state.qbListed?.[t.id] || []).filter((f) => f.game_id === g.id) : []);
+/** The team's usual starter listed Out or Doubtful, or null. In 2023-2026, a team whose starting QB sat
+ *  unexpectedly covered 43% at the opening line (317 games), and the model's picks on it went 16-20. */
+const qbOut = (g, t) => qbListed(g, t).find((f) => f.starter !== false && (f.status === "out" || f.status === "doubtful")) || null;
+const QB_OUT_NOTE = (f) => `${f.player} (${f.team}'s usual starter) is listed ${f.status} on the ${f.date} availability report. In 2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.`;
+/** team: the picked team, for spread picks; picks against a team with its starter out did fine, so only picks on it change. */
+const gameTier = (g, edge, team) => { const t = tierOf(edge); return t !== "pass" && (qbChange(g) || isBowl(g) || qbOut(g, team)) ? "check" : t; };
 /** Kickoff forecast (data/weather.json), or null. windy: 12+ mph over the first three hours. */
 const weatherOf = (g) => (g.state === "pre" ? state.weather?.[g.id] || null : null);
 const windNote = (w) => `Wind about ${w.wind} mph at kickoff (gusts to ${w.gust}). In 2023-2026, totals in games this windy fell about 1.8 points between the open and kickoff`;
@@ -65,6 +73,7 @@ const state = {
   timer: null,
   changelog: [],        // changelog.json: dated model changes
   qb: null,             // qb.json: {team id: QB change flag}
+  qbListed: null,       // qb.json: {team id: [QBs on the availability reports]}
   weather: null,        // weather.json: {game id: kickoff forecast}
 };
 
@@ -164,7 +173,7 @@ function evaluate(g, market = state.market) {
   const edge = Math.abs(margin + line);
   return {
     margin, line, edge,
-    tier: gameTier(g, edge),
+    tier: gameTier(g, edge, homePick ? g.home : g.away),
     side: homePick ? "home" : "away",
     team: homePick ? g.home : g.away,
     pickLine: homePick ? line : -line,
@@ -450,7 +459,8 @@ function pickBox(g, ev, { tierTxt } = {}) {
   const qb = g.state === "pre" && qbChange(g), wx = ev.total && weatherOf(g);
   const windTxt = wx?.windy ? `${windNote(wx)}${ev.side === "over" ? ", so this over is fighting the market." : ": the market usually moves it toward the under."}` : "";
   const bowl = g.state === "pre" && isBowl(g) && ev.tier === "check";
-  const note = st.text || (qb ? `QB change: ${qb.note}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
+  const out = !ev.total && ev.tier === "check" && qbOut(g, ev.team);
+  const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out)}` : qb ? `QB change: ${qb.note}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
   return `<div class="pickbox pb-${st.state}">
     <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
     <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>
@@ -495,7 +505,8 @@ function card(g, ev, isTracked) {
   return `<article class="card game${ev.tier === "strong" ? " strong" : ""}" data-game="${esc(g.id)}" tabindex="0"
     aria-label="${esc(`${g.away.name} at ${g.home.name}: open game details`)}">
     <div class="game-top"><span class="${statusCls}">${esc(time)}</span>${isClose(g)
-      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}${g.state === "pre" && qbChange(g) ? `<span class="qb-tag" title="${esc(qbChange(g).note)}">QB change</span>` : ""}${weatherOf(g)?.windy
+      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}${g.state === "pre" && qbChange(g) ? `<span class="qb-tag" title="${esc(qbChange(g).note)}">QB change</span>` : ""}${[g.away, g.home].flatMap((t) => qbListed(g, t).filter((f) => f.starter !== false)
+      .map((f) => `<span class="qb-tag" title="${esc(`${f.player} is listed ${f.status} on the ${f.date} availability report`)}">${esc(t.abbr)} QB ${esc(f.status)}</span>`)).join("")}${weatherOf(g)?.windy
       ? `<span class="qb-tag wind-tag" title="${esc(windNote(weatherOf(g)))}.">Wind ${weatherOf(g).wind} mph</span>` : ""}<span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
     ${g.note ? `<div class="game-note">${esc(g.note)}</div>` : ""}
     ${teamRow(g.away, g, ev.side === "away")}${teamRow(g.home, g, ev.side === "home")}
@@ -1029,6 +1040,7 @@ async function init() {
   const [ratings, model, record, live, changelog, qb, weather] = await Promise.all(
     ["ratings", "model", "track_record", "live", "changelog", "qb", "weather"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
   state.qb = qb?.teams || null;
+  state.qbListed = qb?.listed || null;
   state.weather = weather?.games || null;
   if (ratings) {
     const played = ratings.teams.filter((t) => t.ppg != null);

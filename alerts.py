@@ -7,6 +7,8 @@ What counts as an alert (Market-anchored, the site's default projection):
   - a new spread or over/under pick with an edge of 1.5+, logged when the line first appears
   - a line moving through, onto or off 3 or 7, the most common winning margins, on a game with such
     a spread pick
+  - a quarterback listed out or doubtful on an availability report (data/qb_status.csv), when he's the
+    usual starter of a team with such a spread pick: the pick becomes Check the news
 
 Where alerts go:
   - always: the site's feed (site/alerts.xml, for any RSS reader) and site/data/alerts.json (the
@@ -69,6 +71,17 @@ def qb_changes():
     return {t["team"]: t["note"] for t in teams if t["kind"] == "change"}
 
 
+def qb_out():
+    """{(game id, team name): listing} for usual starters listed out or doubtful on an availability
+    report (entered in data/qb_status.csv; build_props.py matches them to games), as on the site."""
+    try:
+        listed = json.loads(QB.read_text()).get("listed", {}).values()
+    except (OSError, ValueError):
+        return {}
+    return {(f["game_id"], f["team"]): f for team in listed for f in team
+            if f.get("starter") is not False and f["status"] in ("out", "doubtful")}
+
+
 def bowl_games(picks, now):
     """Ids of upcoming bowls outside the playoff (labeled Check the news, as on the site), from the
     names ESPN gives postseason games. Only looked up when there are postseason picks."""
@@ -79,14 +92,17 @@ def bowl_games(picks, now):
     return set(games[~games.note.fillna("").str.contains("playoff|cfp", case=False)].id)
 
 
-def new_pick_alerts(picks, totals, now, qb=None, bowls=()):
+def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
     """{key: alert} for every Market-anchored lean-or-better pick on a game that hasn't started. A
     game with a just-changed quarterback, or a bowl outside the playoff, is labeled Check the news,
-    as on the site."""
-    qb = qb or {}
+    as on the site, and so is a spread pick on a team whose starter is listed out or doubtful. When
+    that listing comes after the pick, it gets an alert of its own."""
+    qb, qb_listed = qb or {}, qb_listed or {}
     out = {}
 
-    def label(p):
+    def label(p, team=None):
+        if listed := qb_listed.get((p.id, team)):
+            return "Check the news", f" {listed['player']}, {team}'s usual starter, is listed {listed['status']} on the {listed['date']} availability report."
         note = qb.get(p.home) or qb.get(p.away)
         if note:
             return "Check the news", f" QB change: {note}"
@@ -96,11 +112,17 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=()):
 
     for p in upcoming(picks[(picks.source == "anchored") & (picks.edge >= LEAN)], now).itertuples():
         team, line = (p.home, p.line_logged) if p.side == "home" else (p.away, -p.line_logged)
-        tier, note = label(p)
+        tier, note = label(p, team)
         out[f"pick:{p.id}"] = dict(
             kind="pick", game_id=p.id, title=f"{tier}: {team} {fmt_line(line)}",
             text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Market-anchored takes {team} {fmt_line(line)}, "
                  f"a {p.edge:.1f}-point edge, logged when the line first appeared.{note}")
+        if listed := qb_listed.get((p.id, team)):  # keyed by status, so a downgrade from doubtful to out alerts again
+            out[f"qb:{p.id}:{team}:{listed['status']}"] = dict(
+                kind="qb", game_id=p.id, title=f"Check the news: {team} QB {listed['status']}",
+                text=f"{listed['player']}, {team}'s usual starter, is listed {listed['status']} for {p.away} @ {p.home} "
+                     f"({kickoff(p.kickoff)}). Market-anchored's pick on {team} {fmt_line(line)} is now Check the news: in "
+                     f"2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.")
     for p in upcoming(totals[(totals.source == "anchored") & (totals.edge >= LEAN)], now).itertuples():
         tier, note = label(p)
         out[f"total:{p.id}"] = dict(
@@ -202,7 +224,8 @@ def main():
     if totals is None:
         totals = pd.DataFrame(columns=["source", "edge", "kickoff", "id", "side", "total_logged", "proj", "home", "away"])
 
-    found = new_pick_alerts(picks, totals, now, qb_changes(), bowl_games(picks, now)) | key_number_alerts(lines, picks, now)
+    found = (new_pick_alerts(picks, totals, now, qb_changes(), bowl_games(picks, now), qb_out())
+             | key_number_alerts(lines, picks, now))
     first = not STATE.exists()
     state = json.loads(STATE.read_text()) if not first else {"sent": [], "items": []}
     sent = set(state["sent"])

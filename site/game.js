@@ -42,7 +42,7 @@ function allSources(g) {
     return {
       src, margin: m, edge: Math.abs(edge), side: home ? "home" : "away", team: home ? g.home : g.away,
       pickLine: home ? g.line : -g.line, prob: home ? homeProb : 1 - homeProb,
-      tier: gameTier(g, edge),
+      tier: gameTier(g, edge, home ? g.home : g.away),
     };
   });
 }
@@ -294,18 +294,30 @@ function forwardCard(g, log) {
     </table></div></div>`;
 }
 
-/** Quarterback watch from box scores, then the standing warning about injuries. */
+/** Official availability reports. They come through an app with no public feed, so quarterbacks are entered by hand. */
+const REPORTS = [["ACC", "https://theacc.com/sports/2025/8/28/availability-reporting-football.aspx"], ["Big 12", "https://big12sports.com/sports/2025/8/21/availability-reporting.aspx"],
+  ["Big Ten", "https://bigten.org/"], ["SEC", "https://www.secsports.com/fbreports"]];
+const STATUS_TXT = { out: "Out", doubtful: "Doubtful", questionable: "Questionable" };
+
+/** Quarterbacks on the availability reports and the QB watch from box scores, then the standing warning about injuries. */
 function injuryCard(g) {
+  const listed = [g.away, g.home].flatMap((t) => qbListed(g, t));
+  const reports = listed.length ? `<div class="gd-qb">${listed.map((f) => `<p><b>${esc(STATUS_TXT[f.status])}:</b> ${esc(f.player)}, ${esc(f.team)}
+      (${f.starter === false ? "not the usual starter" : f.starter ? "usual starter" : "starter unknown"}), on the ${esc(f.date)} report${f.source
+        ? ` · <a href="${esc(f.source)}" target="_blank" rel="noopener">source</a>` : ""}.</p>`).join("")}
+      ${listed.some((f) => f.starter !== false && f.status !== "questionable") ? `<p class="note">In 2023-2026, teams whose starting quarterback sat
+        unexpectedly covered 43% at the opening line (317 games), so picks on that team are labeled Check the news. Picks against it did fine.</p>` : ""}</div>` : "";
   const flags = g.state === "post" ? [] : [g.away, g.home].map((t) => state.qb?.[t.id]).filter(Boolean);
   const qb = flags.length ? `<div class="gd-qb">${flags.map((f) => `<p><b>${f.kind === "change" ? "QB change" : "Starter back"}:</b> ${esc(f.note)}</p>`).join("")}
       ${flags.some((f) => f.kind === "change") ? `<p class="note">In 2026, the model's picks went 39% in games right after a quarterback change
         (55% in the rest), so this game's edges are labeled Check the news.</p>` : ""}</div>` : "";
-  return injuryNote.replace("<h3>Not included: injuries</h3>", `<h3>Quarterbacks and injuries</h3>${qb}`);
+  return injuryNote.replace("<h3>Not included: injuries</h3>", `<h3>Quarterbacks and injuries</h3>${reports}${qb}`);
 }
 
 const injuryNote = `<div class="card gd-warn"><h3>Not included: injuries</h3>
-  <p>ESPN doesn't publish injury reports for college football, so the model doesn't know about them. Check team news before
-  betting, especially at quarterback, which is the model's biggest blind spot.</p></div>`;
+  <p>The model doesn't know about injuries. Starting quarterbacks listed out or doubtful on the official reports for Power 4
+  conference games are added by hand; everything else isn't. Check team news before betting, especially at quarterback, the
+  model's biggest blind spot. Official reports: ${REPORTS.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ")}.</p></div>`;
 
 async function renderGameDetail(id) {
   const box = $("#game-detail");
