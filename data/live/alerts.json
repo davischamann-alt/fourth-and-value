@@ -18,6 +18,7 @@
   "key:401866455:2026-11-02T20:23Z",
   "key:401866455:2026-11-04T09:25Z",
   "key:401866455:2026-11-04T18:02Z",
+  "key:401869951:2026-11-07T16:29Z",
   "key:401871095:2026-10-26T15:15Z",
   "key:401871096:2026-10-26T15:15Z",
   "key:401871096:2026-10-29T05:55Z",
@@ -99,6 +100,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401869951:2026-11-07T16:29Z",
+   "at": "2026-11-07T16:30:37Z",
+   "kind": "key",
+   "game_id": "401869951",
+   "title": "Line onto 7: Marshall @ Georgia Southern",
+   "text": "The line moved from Georgia Southern -8.5 to Georgia Southern -7, onto 7, away from the model's pick (Georgia Southern). Sat Nov 7, 3:30 PM ET."
+  },
   {
    "key": "pick:401858522",
    "at": "2026-11-04T23:46:13Z",

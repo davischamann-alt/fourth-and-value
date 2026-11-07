@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-07T08:54:10Z",
+ "updated": "2026-11-07T16:30:37Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401869951:2026-11-07T16:29Z",
+   "at": "2026-11-07T16:30:37Z",
+   "kind": "key",
+   "game_id": "401869951",
+   "title": "Line onto 7: Marshall @ Georgia Southern",
+   "text": "The line moved from Georgia Southern -8.5 to Georgia Southern -7, onto 7, away from the model's pick (Georgia Southern). Sat Nov 7, 3:30 PM ET."
+  },
   {
    "key": "pick:401858522",
    "at": "2026-11-04T23:46:13Z",
@@ -235,14 +243,6 @@
    "game_id": "401862817",
    "title": "Lean: Under 71.5",
    "text": "UTSA @ Florida Atlantic, Thu Nov 5, 7:30 PM ET. Market-anchored takes the under 71.5 (projects 68.7), a 2.8-point edge, logged when the total first appeared."
-  },
-  {
-   "key": "total:401862818",
-   "at": "2026-11-01T06:17:55Z",
-   "kind": "total",
-   "game_id": "401862818",
-   "title": "Check the news: Over 45.5",
-   "text": "South Florida @ East Carolina, Fri Nov 6, 7:30 PM ET. Market-anchored takes the over 45.5 (projects 47.3), a 1.8-point edge, logged when the total first appeared. QB change: Luke Kromenhoek led South Florida's passing in the last game; Michael Van Buren Jr. led it in 7 of 8 games. The ratings mostly reflect Michael Van Buren Jr.'s games."
   }
  ]
 }
