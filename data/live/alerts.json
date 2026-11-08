@@ -14,6 +14,7 @@
   "key:401858514:2026-11-01T23:21Z",
   "key:401858514:2026-11-03T19:33Z",
   "key:401858523:2026-11-08T09:06Z",
+  "key:401858524:2026-11-08T16:43Z",
   "key:401864535:2026-11-01T23:21Z",
   "key:401864535:2026-11-02T20:23Z",
   "key:401866455:2026-11-02T20:23Z",
@@ -27,6 +28,8 @@
   "pick:401856842",
   "pick:401856843",
   "pick:401856851",
+  "pick:401856857",
+  "pick:401856886",
   "pick:401856889",
   "pick:401858278",
   "pick:401858279",
@@ -34,6 +37,7 @@
   "pick:401858283",
   "pick:401858294",
   "pick:401858296",
+  "pick:401858299",
   "pick:401858501",
   "pick:401858504",
   "pick:401858506",
@@ -43,12 +47,15 @@
   "pick:401858523",
   "pick:401858524",
   "pick:401859185",
+  "pick:401861967",
   "pick:401862813",
   "pick:401862816",
   "pick:401862821",
+  "pick:401862826",
   "pick:401864529",
   "pick:401864531",
   "pick:401864535",
+  "pick:401864539",
   "pick:401866452",
   "pick:401866455",
   "pick:401866462",
@@ -56,6 +63,7 @@
   "pick:401869951",
   "pick:401869969",
   "pick:401871059",
+  "pick:401871061",
   "pick:401871095",
   "pick:401871096",
   "total:401856736",
@@ -107,6 +115,70 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401856857",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401856857",
+   "title": "Check the news: UCF -2.5",
+   "text": "Arizona State @ UCF, Sat Nov 14, 12:00 AM ET. Market-anchored takes UCF -2.5, a 1.5-point edge, logged when the line first appeared. QB change: Alonza Barnett III led UCF's passing in the last game; Keyone Jenkins led it in 6 of 9 games. The ratings mostly reflect Keyone Jenkins's games."
+  },
+  {
+   "key": "pick:401856886",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401856886",
+   "title": "Check the news: Mississippi State +3.5",
+   "text": "Auburn @ Mississippi State, Sat Nov 14, 12:00 PM ET. Market-anchored takes Mississippi State +3.5, a 1.6-point edge, logged when the line first appeared. QB change: AJ Swann led Mississippi State's passing in the last 2 games; Kamario Taylor led it in 5 of 9 games. The ratings mostly reflect Kamario Taylor's games."
+  },
+  {
+   "key": "pick:401861967",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401861967",
+   "title": "Check the news: James Madison -3",
+   "text": "James Madison @ UConn, Sat Nov 14, 12:00 PM ET. Market-anchored takes James Madison -3, a 1.9-point edge, logged when the line first appeared. QB change: JC Evans led James Madison's passing in the last game; Camden Coleman led it in 9 of 10 games. The ratings mostly reflect Camden Coleman's games."
+  },
+  {
+   "key": "pick:401862826",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401862826",
+   "title": "Lean: Tulsa -5.5",
+   "text": "Florida Atlantic @ Tulsa, Sat Nov 14, 3:30 PM ET. Market-anchored takes Tulsa -5.5, a 1.6-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401871061",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401871061",
+   "title": "Lean: Liberty -20.5",
+   "text": "Middle Tennessee @ Liberty, Sat Nov 14, 3:30 PM ET. Market-anchored takes Liberty -20.5, a 2.3-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401858299",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401858299",
+   "title": "Lean: Virginia Tech -16.5",
+   "text": "Stanford @ Virginia Tech, Sat Nov 14, 12:00 AM ET. Market-anchored takes Virginia Tech -16.5, a 1.5-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401864539",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401864539",
+   "title": "Lean: New Mexico -13.5",
+   "text": "UNLV @ New Mexico, Sat Nov 14, 7:30 PM ET. Market-anchored takes New Mexico -13.5, a 1.6-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "key:401858524:2026-11-08T16:43Z",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "key",
+   "game_id": "401858524",
+   "title": "Line off 7: Minnesota @ Penn State",
+   "text": "The line moved from Penn State -7 to Penn State -7.5, off 7, toward the model's pick (Penn State). Sat Nov 14, 7:00 PM ET."
+  },
   {
    "key": "pick:401869969",
    "at": "2026-11-08T09:06:42Z",

@@ -1,9 +1,73 @@
 {
- "updated": "2026-11-08T09:06:42Z",
+ "updated": "2026-11-08T16:43:48Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401856857",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401856857",
+   "title": "Check the news: UCF -2.5",
+   "text": "Arizona State @ UCF, Sat Nov 14, 12:00 AM ET. Market-anchored takes UCF -2.5, a 1.5-point edge, logged when the line first appeared. QB change: Alonza Barnett III led UCF's passing in the last game; Keyone Jenkins led it in 6 of 9 games. The ratings mostly reflect Keyone Jenkins's games."
+  },
+  {
+   "key": "pick:401856886",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401856886",
+   "title": "Check the news: Mississippi State +3.5",
+   "text": "Auburn @ Mississippi State, Sat Nov 14, 12:00 PM ET. Market-anchored takes Mississippi State +3.5, a 1.6-point edge, logged when the line first appeared. QB change: AJ Swann led Mississippi State's passing in the last 2 games; Kamario Taylor led it in 5 of 9 games. The ratings mostly reflect Kamario Taylor's games."
+  },
+  {
+   "key": "pick:401861967",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401861967",
+   "title": "Check the news: James Madison -3",
+   "text": "James Madison @ UConn, Sat Nov 14, 12:00 PM ET. Market-anchored takes James Madison -3, a 1.9-point edge, logged when the line first appeared. QB change: JC Evans led James Madison's passing in the last game; Camden Coleman led it in 9 of 10 games. The ratings mostly reflect Camden Coleman's games."
+  },
+  {
+   "key": "pick:401862826",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401862826",
+   "title": "Lean: Tulsa -5.5",
+   "text": "Florida Atlantic @ Tulsa, Sat Nov 14, 3:30 PM ET. Market-anchored takes Tulsa -5.5, a 1.6-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401871061",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401871061",
+   "title": "Lean: Liberty -20.5",
+   "text": "Middle Tennessee @ Liberty, Sat Nov 14, 3:30 PM ET. Market-anchored takes Liberty -20.5, a 2.3-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401858299",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401858299",
+   "title": "Lean: Virginia Tech -16.5",
+   "text": "Stanford @ Virginia Tech, Sat Nov 14, 12:00 AM ET. Market-anchored takes Virginia Tech -16.5, a 1.5-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401864539",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "pick",
+   "game_id": "401864539",
+   "title": "Lean: New Mexico -13.5",
+   "text": "UNLV @ New Mexico, Sat Nov 14, 7:30 PM ET. Market-anchored takes New Mexico -13.5, a 1.6-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "key:401858524:2026-11-08T16:43Z",
+   "at": "2026-11-08T16:43:48Z",
+   "kind": "key",
+   "game_id": "401858524",
+   "title": "Line off 7: Minnesota @ Penn State",
+   "text": "The line moved from Penn State -7 to Penn State -7.5, off 7, toward the model's pick (Penn State). Sat Nov 14, 7:00 PM ET."
+  },
   {
    "key": "pick:401869969",
    "at": "2026-11-08T09:06:42Z",
@@ -179,70 +243,6 @@
    "game_id": "401862821",
    "title": "Check the news: North Texas -16.5",
    "text": "Rice @ North Texas, Sat Nov 7, 4:00 PM ET. Market-anchored takes North Texas -16.5, a 1.9-point edge, logged when the line first appeared. QB change: Gael Ochoa led Rice's passing in the last game; Jacurri Brown led it in 7 of 8 games. The ratings mostly reflect Jacurri Brown's games."
-  },
-  {
-   "key": "pick:401856742",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "pick",
-   "game_id": "401856742",
-   "title": "Check the news: Mississippi State -2.5",
-   "text": "Vanderbilt @ Mississippi State, Sat Nov 7, 4:15 PM ET. Market-anchored takes Mississippi State -2.5, a 3.2-point edge, logged when the line first appeared. QB change: AJ Swann led Mississippi State's passing in the last game; Kamario Taylor led it in 5 of 8 games. The ratings mostly reflect Kamario Taylor's games."
-  },
-  {
-   "key": "pick:401864535",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "pick",
-   "game_id": "401864535",
-   "title": "Lean: UNLV -7.5",
-   "text": "Wyoming @ UNLV, Sat Nov 7, 10:30 PM ET. Market-anchored takes UNLV -7.5, a 1.7-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "total:401869945",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "total",
-   "game_id": "401869945",
-   "title": "Check the news: Over 45.5",
-   "text": "Old Dominion @ Coastal Carolina, Sat Nov 7, 1:00 PM ET. Market-anchored takes the over 45.5 (projects 47.4), a 1.9-point edge, logged when the total first appeared. QB change: Jaxon Potter led Old Dominion's passing in the last 2 games; Quinn Henicle led it in 5 of 9 games. The ratings mostly reflect Quinn Henicle's games."
-  },
-  {
-   "key": "total:401858516",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "total",
-   "game_id": "401858516",
-   "title": "Check the news: Over 43.5",
-   "text": "Penn State @ Washington, Sat Nov 7, 3:30 PM ET. Market-anchored takes the over 43.5 (projects 46.4), a 2.9-point edge, logged when the total first appeared. QB change: Elijah Brown led Washington's passing in the last 3 games; Demond Williams Jr. led it in 5 of 8 games. The ratings mostly reflect Demond Williams Jr.'s games."
-  },
-  {
-   "key": "total:401862819",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "total",
-   "game_id": "401862819",
-   "title": "Check the news: Over 49.5",
-   "text": "Charlotte @ UAB, Sat Nov 7, 3:30 PM ET. Market-anchored takes the over 49.5 (projects 51.2), a 1.7-point edge, logged when the total first appeared. QB change: Conner Harrell led Charlotte's passing in the last 3 games; Cole Gonzales led it in 5 of 8 games. The ratings mostly reflect Cole Gonzales's games."
-  },
-  {
-   "key": "total:401856850",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "total",
-   "game_id": "401856850",
-   "title": "Check the news: Over 48.5",
-   "text": "UCF @ Kansas, Sat Nov 7, 3:45 PM ET. Market-anchored takes the over 48.5 (projects 50.7), a 2.2-point edge, logged when the total first appeared. QB change: Cole Ballard led Kansas's passing in the last game; Isaiah Marshall led it in 7 of 8 games. The ratings mostly reflect Isaiah Marshall's games."
-  },
-  {
-   "key": "total:401871098",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "total",
-   "game_id": "401871098",
-   "title": "Check the news: Over 45.5",
-   "text": "Louisiana Tech @ Troy, Sat Nov 7, 4:00 PM ET. Market-anchored takes the over 45.5 (projects 48.0), a 2.5-point edge, logged when the total first appeared. QB change: Tucker Kilcrease led Troy's passing in the last game; Goose Crowder led it in 7 of 8 games. The ratings mostly reflect Goose Crowder's games."
-  },
-  {
-   "key": "total:401856742",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "total",
-   "game_id": "401856742",
-   "title": "Check the news: Over 47.5",
-   "text": "Vanderbilt @ Mississippi State, Sat Nov 7, 4:15 PM ET. Market-anchored takes the over 47.5 (projects 49.8), a 2.3-point edge, logged when the total first appeared. QB change: AJ Swann led Mississippi State's passing in the last game; Kamario Taylor led it in 5 of 8 games. The ratings mostly reflect Kamario Taylor's games."
   }
  ]
 }
