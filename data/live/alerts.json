@@ -13,6 +13,7 @@
   "key:401858514:2026-10-28T22:40Z",
   "key:401858514:2026-11-01T23:21Z",
   "key:401858514:2026-11-03T19:33Z",
+  "key:401858523:2026-11-08T09:06Z",
   "key:401864535:2026-11-01T23:21Z",
   "key:401864535:2026-11-02T20:23Z",
   "key:401866455:2026-11-02T20:23Z",
@@ -26,10 +27,13 @@
   "pick:401856842",
   "pick:401856843",
   "pick:401856851",
+  "pick:401856889",
   "pick:401858278",
   "pick:401858279",
   "pick:401858281",
   "pick:401858283",
+  "pick:401858294",
+  "pick:401858296",
   "pick:401858501",
   "pick:401858504",
   "pick:401858506",
@@ -37,6 +41,7 @@
   "pick:401858514",
   "pick:401858522",
   "pick:401858523",
+  "pick:401858524",
   "pick:401859185",
   "pick:401862813",
   "pick:401862816",
@@ -49,6 +54,7 @@
   "pick:401866462",
   "pick:401869936",
   "pick:401869951",
+  "pick:401869969",
   "pick:401871059",
   "pick:401871095",
   "pick:401871096",
@@ -101,6 +107,54 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401869969",
+   "at": "2026-11-08T09:06:42Z",
+   "kind": "pick",
+   "game_id": "401869969",
+   "title": "Lean: Louisiana -11.5",
+   "text": "Louisiana @ UL Monroe, Thu Nov 12, 9:00 PM ET. Market-anchored takes Louisiana -11.5, a 2.6-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401858296",
+   "at": "2026-11-08T09:06:42Z",
+   "kind": "pick",
+   "game_id": "401858296",
+   "title": "Lean: Miami -15.5",
+   "text": "Duke @ Miami, Sat Nov 14, 12:00 PM ET. Market-anchored takes Miami -15.5, a 1.5-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401856889",
+   "at": "2026-11-08T09:06:42Z",
+   "kind": "pick",
+   "game_id": "401856889",
+   "title": "Lean: Alabama -19.5",
+   "text": "Alabama @ Vanderbilt, Sat Nov 14, 12:45 PM ET. Market-anchored takes Alabama -19.5, a 1.9-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401858294",
+   "at": "2026-11-08T09:06:42Z",
+   "kind": "pick",
+   "game_id": "401858294",
+   "title": "Lean: Notre Dame -31.5",
+   "text": "Boston College @ Notre Dame, Sat Nov 14, 3:30 PM ET. Market-anchored takes Notre Dame -31.5, a 2.2-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "pick:401858524",
+   "at": "2026-11-08T09:06:42Z",
+   "kind": "pick",
+   "game_id": "401858524",
+   "title": "Lean: Penn State -7",
+   "text": "Minnesota @ Penn State, Sat Nov 14, 7:00 PM ET. Market-anchored takes Penn State -7, a 1.8-point edge, logged when the line first appeared."
+  },
+  {
+   "key": "key:401858523:2026-11-08T09:06Z",
+   "at": "2026-11-08T09:06:42Z",
+   "kind": "key",
+   "game_id": "401858523",
+   "title": "Line through 7: Michigan @ Oregon",
+   "text": "The line moved from Oregon -5.5 to Oregon -9.5, through 7, toward the model's pick (Oregon). Sat Nov 14, 3:30 PM ET."
+  },
   {
    "key": "pick:401866462",
    "at": "2026-11-08T01:29:39Z",

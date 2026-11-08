@@ -5,7 +5,49 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-08T01:29:39Z</updated>
+  <updated>2026-11-08T09:06:42Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-08:pick:401869969</id>
+    <title>Lean: Louisiana -11.5</title>
+    <updated>2026-11-08T09:06:42Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869969"/>
+    <summary>Louisiana @ UL Monroe, Thu Nov 12, 9:00 PM ET. Market-anchored takes Louisiana -11.5, a 2.6-point edge, logged when the line first appeared.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-08:pick:401858296</id>
+    <title>Lean: Miami -15.5</title>
+    <updated>2026-11-08T09:06:42Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858296"/>
+    <summary>Duke @ Miami, Sat Nov 14, 12:00 PM ET. Market-anchored takes Miami -15.5, a 1.5-point edge, logged when the line first appeared.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-08:pick:401856889</id>
+    <title>Lean: Alabama -19.5</title>
+    <updated>2026-11-08T09:06:42Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856889"/>
+    <summary>Alabama @ Vanderbilt, Sat Nov 14, 12:45 PM ET. Market-anchored takes Alabama -19.5, a 1.9-point edge, logged when the line first appeared.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-08:pick:401858294</id>
+    <title>Lean: Notre Dame -31.5</title>
+    <updated>2026-11-08T09:06:42Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858294"/>
+    <summary>Boston College @ Notre Dame, Sat Nov 14, 3:30 PM ET. Market-anchored takes Notre Dame -31.5, a 2.2-point edge, logged when the line first appeared.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-08:pick:401858524</id>
+    <title>Lean: Penn State -7</title>
+    <updated>2026-11-08T09:06:42Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858524"/>
+    <summary>Minnesota @ Penn State, Sat Nov 14, 7:00 PM ET. Market-anchored takes Penn State -7, a 1.8-point edge, logged when the line first appeared.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-08:key:401858523:2026-11-08T09:06Z</id>
+    <title>Line through 7: Michigan @ Oregon</title>
+    <updated>2026-11-08T09:06:42Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858523"/>
+    <summary>The line moved from Oregon -5.5 to Oregon -9.5, through 7, toward the model's pick (Oregon). Sat Nov 14, 3:30 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-08:pick:401866462</id>
     <title>Check the news: Central Michigan -15.5</title>
