@@ -1,9 +1,33 @@
 {
- "updated": "2026-11-08T16:43:48Z",
+ "updated": "2026-11-08T22:14:29Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401856857:2026-11-08T22:13Z",
+   "at": "2026-11-08T22:14:29Z",
+   "kind": "key",
+   "game_id": "401856857",
+   "title": "Line onto 3: Arizona State @ UCF",
+   "text": "The line moved from UCF -2.5 to UCF -3, onto 3, toward the model's pick (UCF). Sat Nov 14, 12:00 AM ET."
+  },
+  {
+   "key": "key:401856886:2026-11-08T22:13Z",
+   "at": "2026-11-08T22:14:29Z",
+   "kind": "key",
+   "game_id": "401856886",
+   "title": "Line onto 3: Auburn @ Mississippi State",
+   "text": "The line moved from Mississippi State +3.5 to Mississippi State +3, onto 3, toward the model's pick (Mississippi State). Sat Nov 14, 12:00 PM ET."
+  },
+  {
+   "key": "key:401861967:2026-11-08T22:13Z",
+   "at": "2026-11-08T22:14:29Z",
+   "kind": "key",
+   "game_id": "401861967",
+   "title": "Line off 3: James Madison @ UConn",
+   "text": "The line moved from UConn +3 to UConn +3.5, off 3, toward the model's pick (James Madison). Sat Nov 14, 12:00 PM ET."
+  },
   {
    "key": "pick:401856857",
    "at": "2026-11-08T16:43:48Z",
@@ -219,30 +243,6 @@
    "game_id": "401869936",
    "title": "Lean: Arkansas State -14.5",
    "text": "UL Monroe @ Arkansas State, Sat Nov 7, 3:00 PM ET. Market-anchored takes Arkansas State -14.5, a 2.5-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401856851",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "pick",
-   "game_id": "401856851",
-   "title": "Lean: Houston -10.5",
-   "text": "Cincinnati @ Houston, Sat Nov 7, 3:30 PM ET. Market-anchored takes Houston -10.5, a 1.6-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401869951",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "pick",
-   "game_id": "401869951",
-   "title": "Lean: Georgia Southern -9.5",
-   "text": "Marshall @ Georgia Southern, Sat Nov 7, 3:30 PM ET. Market-anchored takes Georgia Southern -9.5, a 1.9-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401862821",
-   "at": "2026-11-01T20:34:49Z",
-   "kind": "pick",
-   "game_id": "401862821",
-   "title": "Check the news: North Texas -16.5",
-   "text": "Rice @ North Texas, Sat Nov 7, 4:00 PM ET. Market-anchored takes North Texas -16.5, a 1.9-point edge, logged when the line first appeared. QB change: Gael Ochoa led Rice's passing in the last game; Jacurri Brown led it in 7 of 8 games. The ratings mostly reflect Jacurri Brown's games."
   }
  ]
 }
