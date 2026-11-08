@@ -46,6 +46,7 @@
   "pick:401864535",
   "pick:401866452",
   "pick:401866455",
+  "pick:401866462",
   "pick:401869936",
   "pick:401869951",
   "pick:401871059",
@@ -100,6 +101,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401866462",
+   "at": "2026-11-08T01:29:39Z",
+   "kind": "pick",
+   "game_id": "401866462",
+   "title": "Check the news: Central Michigan -15.5",
+   "text": "Sacramento State @ Central Michigan, Wed Nov 11, 7:30 PM ET. Market-anchored takes Central Michigan -15.5, a 1.6-point edge, logged when the line first appeared. QB change: Jadyn Glasser led Central Michigan's passing in the last 2 games; Angel Flores led it in 5 of 9 games. The ratings mostly reflect Angel Flores's games."
+  },
   {
    "key": "key:401869951:2026-11-07T16:29Z",
    "at": "2026-11-07T16:30:37Z",

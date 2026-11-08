@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-07T21:57:52Z",
+ "updated": "2026-11-08T01:29:39Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401866462",
+   "at": "2026-11-08T01:29:39Z",
+   "kind": "pick",
+   "game_id": "401866462",
+   "title": "Check the news: Central Michigan -15.5",
+   "text": "Sacramento State @ Central Michigan, Wed Nov 11, 7:30 PM ET. Market-anchored takes Central Michigan -15.5, a 1.6-point edge, logged when the line first appeared. QB change: Jadyn Glasser led Central Michigan's passing in the last 2 games; Angel Flores led it in 5 of 9 games. The ratings mostly reflect Angel Flores's games."
+  },
   {
    "key": "key:401869951:2026-11-07T16:29Z",
    "at": "2026-11-07T16:30:37Z",
@@ -235,14 +243,6 @@
    "game_id": "401866457",
    "title": "Lean: Over 51.5",
    "text": "Toledo @ Sacramento State, Wed Nov 4, 7:00 PM ET. Market-anchored takes the over 51.5 (projects 53.2), a 1.7-point edge, logged when the total first appeared."
-  },
-  {
-   "key": "total:401862817",
-   "at": "2026-11-01T06:17:55Z",
-   "kind": "total",
-   "game_id": "401862817",
-   "title": "Lean: Under 71.5",
-   "text": "UTSA @ Florida Atlantic, Thu Nov 5, 7:30 PM ET. Market-anchored takes the under 71.5 (projects 68.7), a 2.8-point edge, logged when the total first appeared."
   }
  ]
 }
