@@ -5,7 +5,21 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-08T22:14:29Z</updated>
+  <updated>2026-11-09T20:50:11Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-09:key:401856857:2026-11-09T20:48Z</id>
+    <title>Line off 3: Arizona State @ UCF</title>
+    <updated>2026-11-09T20:50:11Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856857"/>
+    <summary>The line moved from UCF -3 to UCF -3.5, off 3, toward the model's pick (UCF). Sat Nov 14, 12:00 AM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-09:key:401856886:2026-11-09T20:48Z</id>
+    <title>Line off 3: Auburn @ Mississippi State</title>
+    <updated>2026-11-09T20:50:11Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856886"/>
+    <summary>The line moved from Mississippi State +3 to Mississippi State +2.5, off 3, toward the model's pick (Mississippi State). Sat Nov 14, 12:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-08:key:401856857:2026-11-08T22:13Z</id>
     <title>Line onto 3: Arizona State @ UCF</title>
@@ -341,19 +355,5 @@
     <updated>2026-11-01T06:17:55Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862817"/>
     <summary>UTSA @ Florida Atlantic, Thu Nov 5, 7:30 PM ET. Market-anchored takes the under 71.5 (projects 68.7), a 2.8-point edge, logged when the total first appeared.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:total:401862818</id>
-    <title>Check the news: Over 45.5</title>
-    <updated>2026-11-01T06:17:55Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862818"/>
-    <summary>South Florida @ East Carolina, Fri Nov 6, 7:30 PM ET. Market-anchored takes the over 45.5 (projects 47.3), a 1.8-point edge, logged when the total first appeared. QB change: Luke Kromenhoek led South Florida's passing in the last game; Michael Van Buren Jr. led it in 7 of 8 games. The ratings mostly reflect Michael Van Buren Jr.'s games.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:total:401858510</id>
-    <title>Lean: Over 48.5</title>
-    <updated>2026-11-01T06:17:55Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858510"/>
-    <summary>Nebraska @ Illinois, Fri Nov 6, 8:00 PM ET. Market-anchored takes the over 48.5 (projects 50.2), a 1.7-point edge, logged when the total first appeared.</summary>
   </entry>
 </feed>

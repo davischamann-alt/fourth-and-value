@@ -5,7 +5,9 @@
   "key:401856842:2026-10-26T15:15Z",
   "key:401856842:2026-10-27T01:31Z",
   "key:401856857:2026-11-08T22:13Z",
+  "key:401856857:2026-11-09T20:48Z",
   "key:401856886:2026-11-08T22:13Z",
+  "key:401856886:2026-11-09T20:48Z",
   "key:401858279:2026-10-26T00:27Z",
   "key:401858279:2026-10-26T15:15Z",
   "key:401858281:2026-10-25T20:56Z",
@@ -118,6 +120,22 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401856857:2026-11-09T20:48Z",
+   "at": "2026-11-09T20:50:11Z",
+   "kind": "key",
+   "game_id": "401856857",
+   "title": "Line off 3: Arizona State @ UCF",
+   "text": "The line moved from UCF -3 to UCF -3.5, off 3, toward the model's pick (UCF). Sat Nov 14, 12:00 AM ET."
+  },
+  {
+   "key": "key:401856886:2026-11-09T20:48Z",
+   "at": "2026-11-09T20:50:11Z",
+   "kind": "key",
+   "game_id": "401856886",
+   "title": "Line off 3: Auburn @ Mississippi State",
+   "text": "The line moved from Mississippi State +3 to Mississippi State +2.5, off 3, toward the model's pick (Mississippi State). Sat Nov 14, 12:00 PM ET."
+  },
   {
    "key": "key:401856857:2026-11-08T22:13Z",
    "at": "2026-11-08T22:14:29Z",
