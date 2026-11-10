@@ -22,9 +22,10 @@ const tierOf = (edge) => { const e = Math.abs(edge); return e >= CHECK ? "check"
 /** A team's quarterback situation just changed (data/qb.json, from box scores), or null. */
 const qbChange = (g) => (g.state === "post" ? null  // flags describe the latest games, not past ones
   : [g.home, g.away].map((t) => state.qb?.[t.id]).find((f) => f?.kind === "change") || null);
-/** Edge label for a game: a just-changed quarterback turns any Lean or Go for it into Check the
- *  news. In 2026, the model's picks went 39% at the opening line in those games (56 picks) and
- *  55% in the rest: the market knows about the new starter, and the season-long ratings don't. */
+/** A QB change is shown as a tag and a note but no longer changes a pick's label (it did from
+ *  October 29 to November 10, 2026, on a 57-game sample from 2026). Over 2023-2026 box scores,
+ *  Blend's 1.5+ edges in those games went 54% at the opening line against 57% in the rest, and
+ *  53% against 53% at the close. */
 /** A bowl outside the College Football Playoff. In 2023-2025 those went badly for every projection
  *  (FPI 42% at the opening line, 95 picks; Blend 47%): opt-outs, transfers and coaching changes
  *  aren't in the ratings. Playoff games did fine, so they keep their normal labels. */
@@ -38,7 +39,7 @@ const qbListed = (g, t) => (g.state === "pre" && t ? (state.qbListed?.[t.id] || 
 const qbOut = (g, t) => qbListed(g, t).find((f) => f.starter !== false && (f.status === "out" || f.status === "doubtful")) || null;
 const QB_OUT_NOTE = (f) => `${f.player} (${f.team}'s usual starter) is listed ${f.status} on the ${f.date} availability report. In 2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.`;
 /** team: the picked team, for spread picks; picks against a team with its starter out did fine, so only picks on it change. */
-const gameTier = (g, edge, team) => { const t = tierOf(edge); return t !== "pass" && (qbChange(g) || isBowl(g) || qbOut(g, team)) ? "check" : t; };
+const gameTier = (g, edge, team) => { const t = tierOf(edge); return t !== "pass" && (isBowl(g) || qbOut(g, team)) ? "check" : t; };
 /** Kickoff forecast (data/weather.json), or null. windy: 12+ mph over the first three hours. */
 const weatherOf = (g) => (g.state === "pre" ? state.weather?.[g.id] || null : null);
 const windNote = (w) => `Wind about ${w.wind} mph at kickoff (gusts to ${w.gust}). In 2023-2026, totals in games this windy fell about 1.8 points between the open and kickoff`;
@@ -120,6 +121,10 @@ const sigma = (market = state.market) => market === "total"
   ? state.model?.sigma_total?.[state.totalSource] || 16
   : state.settings.sigma || state.model?.sigma?.[state.source] || 15.5;
 
+/** How much of a projection's gap to the line to believe when turning it into a cover chance
+ *  (model.fit_shrink, in data/model.json): gaps read at face value were far too confident. */
+const shrink = (market, src) => state.model?.shrink?.[market]?.[src] ?? 1;
+
 /** Projected home margin for one game from every source, or null where a source can't make one. */
 function projections(g) {
   const r = state.ratings?.byId || {};
@@ -175,13 +180,14 @@ function evaluate(g, market = state.market) {
   const line = g.line;
   if (margin == null || line == null) return { margin, reason: whyNoPick(g, margin, line) };
   const s = sigma("spread");
-  const homeProb = normCdf((margin + line) / s);
+  const believed = -line + shrink("spread", state.source) * (margin + line);  // the margin the cover chance uses
+  const homeProb = normCdf((believed + line) / s);
   const homePick = homeProb >= 0.5;
   const left = secsLeft(g), cur = g.home.score - g.away.score, x = cur + line;
   let live;
   if (g.state === "pre") live = null;
   else if (left <= 0) live = x > 0 ? 1 : x < 0 ? 0 : 0.5;
-  else { const f = Math.min(left / 3600, 1); live = normCdf((x + margin * f) / (s * Math.sqrt(f))); }
+  else { const f = Math.min(left / 3600, 1); live = normCdf((x + believed * f) / (s * Math.sqrt(f))); }
   const edge = Math.abs(margin + line);
   return {
     margin, line, edge,
@@ -198,7 +204,8 @@ function evaluateTotal(g) {
   const proj = totalProjections(g)[state.totalSource], line = g.total;
   if (proj == null || line == null) return { total: true, margin: proj, reason: whyNoPick(g, proj, line, "total") };
   const s = sigma("total");
-  const overProb = 1 - normCdf((line - proj) / s);
+  const believed = line + shrink("total", state.totalSource) * (proj - line);
+  const overProb = 1 - normCdf((line - believed) / s);
   const over = overProb >= 0.5;
   const left = secsLeft(g), cur = g.home.score + g.away.score;
   let live = null;
@@ -206,7 +213,7 @@ function evaluateTotal(g) {
     // points already scored, plus the projection for the time left; an over that's already past the line has won
     if (cur > line) live = 1;
     else if (left <= 0) live = cur < line ? 0 : 0.5;
-    else { const f = Math.min(left / 3600, 1); live = 1 - normCdf((line - cur - proj * f) / (s * Math.sqrt(f))); }
+    else { const f = Math.min(left / 3600, 1); live = 1 - normCdf((line - cur - believed * f) / (s * Math.sqrt(f))); }
   }
   const edge = Math.abs(proj - line);
   // an over in a windy game is betting against a drop the market usually makes by kickoff
@@ -370,7 +377,7 @@ function renderGames() {
   $$("[data-count]").forEach((el) => (el.textContent = state.games.length ? counts[el.dataset.count] : ""));
   $('#filter [data-filter="live"]').classList.toggle("is-live", counts.live > 0);
   $('#filter [data-filter="close"]').classList.toggle("is-live", counts.close > 0);
-  $("#games-summary").textContent = state.games.length ? `${state.market === "total" ? "Over/under" : "Cover"} chances use a ${sigma()}-point std dev` : "";
+  $("#games-summary").textContent = state.games.length ? `${state.market === "total" ? "Over/under" : "Cover"} chances are scaled to how often picks have won` : "";
 
   const box = $("#games");
   if (!state.games.length && offseason()) {
@@ -468,11 +475,11 @@ function pickBox(g, ev, { tierTxt } = {}) {
   const icon = ev.total
     ? `<span class="ou-icon" aria-hidden="true">${ev.side === "over" ? "▲" : "▼"}</span>`
     : `<img src="${esc(ev.team.logo)}" alt="" loading="lazy">`;
-  const qb = g.state === "pre" && qbChange(g), wx = ev.total && weatherOf(g);
+  const wx = ev.total && weatherOf(g);
   const windTxt = wx?.windy ? `${windNote(wx)}${ev.side === "over" ? ", so this over is fighting the market." : ": the market usually moves it toward the under."}` : "";
   const bowl = g.state === "pre" && isBowl(g) && ev.tier === "check";
   const out = !ev.total && ev.tier === "check" && qbOut(g, ev.team);
-  const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out)}` : qb ? `QB change: ${qb.note}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
+  const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out)}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
   return `<div class="pickbox pb-${st.state}">
     <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
     <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>

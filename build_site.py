@@ -13,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 import sources
-from model import (HFA, add_anchored, add_efficiency, add_total_anchored, fit_anchor, fit_eff_scale, fit_total_anchor,
+from model import (HFA, add_anchored, add_efficiency, add_total_anchored, fit_anchor, fit_eff_scale, fit_shrink, fit_total_anchor,
                    score_backtest, score_totals)
 
 OUT = Path(__file__).parent / "site" / "data"
@@ -75,7 +75,14 @@ def main():
     sigma = {SOURCE_NAMES[n]: round(close.at[n, "rmse_vs_result"] * 2) / 2 for n in close.index if n in SOURCE_NAMES}
     tclose = score_totals(res, 0, "close")
     sigma_total = {SOURCE_NAMES[n]: round(tclose.at[n, "rmse_vs_result"] * 2) / 2 for n in tclose.index if n in SOURCE_NAMES}
-    write("model.json", {"updated": now.isoformat(), "hfa": HFA, "anchor": anchor, "sigma": sigma,
+    # how much of each projection's gap to the line to believe when showing a cover chance
+    both = lambda col, lines, final: (pd.concat([res[col] + sign * res[l] for l, sign in lines]),
+                                      pd.concat([res[final] + sign * res[l] for l, sign in lines]))
+    shrink = {"spread": {k: fit_shrink(*both(k, (("open_line", 1), ("line", 1)), "final_margin"), sigma[k]) for k in sigma},
+              "total": {SOURCE_NAMES[n]: fit_shrink(*both(c, (("open_total", -1), ("total", -1)), "final_total"), sigma_total[SOURCE_NAMES[n]])
+                        for n, c in (("Adjusted points", "points_total"), ("Market-anchored", "anchored_total"))
+                        if SOURCE_NAMES[n] in sigma_total}}
+    write("model.json", {"updated": now.isoformat(), "hfa": HFA, "anchor": anchor, "sigma": sigma, "shrink": shrink,
                          "sigma_total": sigma_total, "eff_scale": anchor and anchor.get("eff_scale"),
                          "sr_scale": anchor and anchor.get("sr_scale")})
 

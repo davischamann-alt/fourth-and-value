@@ -79,6 +79,29 @@ def live_cover_prob(cur_margin, proj_margin, home_line, secs_left, sigma=14.0):
     return 0.5 * (1 + math.erf(z / math.sqrt(2)))
 
 
+def fit_shrink(edges, results, sigma):
+    """How much of a projection's disagreement with the line to believe, 0 to 1. A projection that
+    says "home by 9" against a line of 3 is rarely right by the whole 6 points, so reading the gap
+    straight off as a cover chance overstates it (Blend gaps of 10+ points showed about 80% and won
+    47-59% in 2024-2026). This picks the share k that makes NormalCDF(k x gap / sigma) match how
+    often picks covered, by maximum likelihood. edges, results: the pick's gap to the line (signed)
+    and the result against that line with the same sign convention, pooled over the opening and
+    closing lines, since the number someone actually gets is somewhere between them."""
+    e, r = np.asarray(edges, float), np.asarray(results, float)
+    ok = ~np.isnan(e) & ~np.isnan(r) & (e != 0) & (r != 0)
+    if ok.sum() < 200:
+        return None
+    gap, won = np.abs(e[ok]), (np.sign(e[ok]) == np.sign(r[ok])).astype(float)
+    phi = np.vectorize(lambda z: 0.5 * (1 + math.erf(z / math.sqrt(2))))
+    best = (0.0, -np.inf)
+    for k in np.arange(0, 1.001, 0.01):
+        p = np.clip(phi(k * gap / sigma), 1e-9, 1 - 1e-9)
+        ll = float((won * np.log(p) + (1 - won) * np.log(1 - p)).sum())
+        if ll > best[1]:
+            best = (round(float(k), 2), ll)
+    return best[0]
+
+
 def pool_fcs(games, fbs=None):
     """Rename non-FBS teams to "FCS" so they share one rating. FCS opponents mostly have one or
     two games, too few to rate on their own (shrinking each one toward average credits FBS

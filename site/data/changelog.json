@@ -2,6 +2,15 @@
  {
   "date": "2026-11-10",
   "type": "model",
+  "title": "Cover chances now match how often picks really win, and QB changes no longer change labels",
+  "summary": "The chance shown for a pick used to read the model's whole disagreement with the line at face value. It now believes only the share of that gap that history supports (about a fifth for Blend), so most picks show 50-55%. Separately, a QB change tag no longer turns a pick into Check the news; it stays on the card for context. Picks on a team whose starting quarterback is listed out on an official report are still labeled Check the news.",
+  "why": "Blend gaps of 10+ points showed about an 80% chance to cover and won 47-59% in 2024-2026, and no range of edge sizes reliably beat another. The QB change label was based on 57 games from 2026, where picks went 39%. With box scores for 2023-2026, Blend's picks in those games went 54% at the opening line against 57% in the rest, and 53% against 53% at the closing line. The 2026 result was a small-sample fluke, and the flag covered almost a quarter of all games.",
+  "effect": "The percentages are smaller and honest: a 5-point Blend edge shows about 52.5%, right at the 52.4% break-even. Projections, edges and the labels by edge size don't change, so the labels say how much the model disagrees with the line, not how likely a pick is to win. More games show Lean or Go for it, because QB change games keep their label.",
+  "forward_test": "The pick log is unchanged; it records edges, not chances."
+ },
+ {
+  "date": "2026-11-10",
+  "type": "model",
   "title": "Blend is now the default projection, with a new Success rate rating",
   "summary": "Spread picks now default to Blend, which averages ESPN FPI, Efficiency and a new Success rate rating (the share of plays each offense wins, adjusted for opponents). Market-anchored is still on the list but no longer the default. Lines are now checked every 30 minutes on Sunday afternoons and evenings, when most of them open, and the Track record tab leads with closing-line results. If you never chose a projection, yours switched to Blend; choosing another one sticks.",
   "why": "Market-anchored was the weakest projection in testing: 51.1% on 1.5+ edges at the opening line in 2024-2026, and 47% this season, against 55.9% for the new Blend. Its formula leans on the line so heavily that its edges came from a built-in lean, not from the ratings. Its live record on 1.5+ edges was 17-30. Testing also showed that lines move about a point toward the model's picks, and most of that happens within hours of the open, before the site first saw them.",

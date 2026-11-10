@@ -38,7 +38,7 @@ function allSources(g) {
     const m = proj[src];
     if (m == null || g.line == null) return { src, margin: m };
     const s = state.settings.sigma || state.model?.sigma?.[src] || 15.5;
-    const edge = m + g.line, home = edge >= 0, homeProb = normCdf(edge / s);
+    const edge = m + g.line, home = edge >= 0, homeProb = normCdf(shrink("spread", src) * edge / s);
     return {
       src, margin: m, edge: Math.abs(edge), side: home ? "home" : "away", team: home ? g.home : g.away,
       pickLine: home ? g.line : -g.line, prob: home ? homeProb : 1 - homeProb,
@@ -242,7 +242,8 @@ function totalCard(g, log) {
   const res = { W: `<span class="badge win">Won</span>`, L: `<span class="badge loss">Lost</span>`, P: `<span class="badge pass">Push</span>` };
   const rows = ["anchored", "points"].filter((k) => proj[k] != null).map((k) => {
     const edge = proj[k] - g.total, s = state.model?.sigma_total?.[k] || 16;
-    const over = edge >= 0, p = over ? 1 - normCdf(-edge / s) : normCdf(-edge / s);
+    const believed = shrink("total", k) * edge;
+    const over = edge >= 0, p = over ? 1 - normCdf(-believed / s) : normCdf(-believed / s);
     return `<tr class="${k === state.totalSource ? "gd-chosen" : ""}"><td class="l">${esc(SOURCE_LABEL[k])}${k === state.totalSource ? " ★" : ""}</td>
       <td>${proj[k].toFixed(1)}</td><td class="l"><b>${over ? "Over" : "Under"} ${g.total}</b></td>
       <td><span class="badge ${gameTier(g, edge)}">${TIER_TXT[gameTier(g, edge)]} · ${Math.abs(edge).toFixed(1)}</span></td><td>${pct(p)}</td></tr>`;
@@ -309,8 +310,8 @@ function injuryCard(g) {
         unexpectedly covered 43% at the opening line (317 games), so picks on that team are labeled Check the news. Picks against it did fine.</p>` : ""}</div>` : "";
   const flags = g.state === "post" ? [] : [g.away, g.home].map((t) => state.qb?.[t.id]).filter(Boolean);
   const qb = flags.length ? `<div class="gd-qb">${flags.map((f) => `<p><b>${f.kind === "change" ? "QB change" : "Starter back"}:</b> ${esc(f.note)}</p>`).join("")}
-      ${flags.some((f) => f.kind === "change") ? `<p class="note">In 2026, the model's picks went 39% in games right after a quarterback change
-        (55% in the rest), so this game's edges are labeled Check the news.</p>` : ""}</div>` : "";
+      ${flags.some((f) => f.kind === "change") ? `<p class="note">For context only. Over 2023-2026, the model's picks did about as well in games
+        after a quarterback change (54% at the opening line) as in the rest (57%), so the labels don't change.</p>` : ""}</div>` : "";
   return injuryNote.replace("<h3>Not included: injuries</h3>", `<h3>Quarterbacks and injuries</h3>${reports}${qb}`);
 }
 

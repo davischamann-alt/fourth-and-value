@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-10T21:11:47.139148+00:00",
+ "updated": "2026-11-10T21:27:44.567999+00:00",
  "hfa": 3.0,
  "anchor": {
   "weights": {
@@ -28,6 +28,20 @@
   "success": 16.5,
   "blend": 16.0,
   "anchored": 15.0
+ },
+ "shrink": {
+  "spread": {
+   "points": 0.09,
+   "fpi": 0.14,
+   "efficiency": 0.12,
+   "success": 0.14,
+   "blend": 0.2,
+   "anchored": 0.14
+  },
+  "total": {
+   "points": 0.11,
+   "anchored": 0.2
+  }
  },
  "sigma_total": {
   "points": 16.5,

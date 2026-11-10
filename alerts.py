@@ -96,8 +96,8 @@ def bowl_games(picks, now):
 def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
     """{key: alert} for every lean-or-better pick by the default projections (Blend for spreads,
     Market-anchored for totals) on a game that hasn't started. A
-    game with a just-changed quarterback, or a bowl outside the playoff, is labeled Check the news,
-    as on the site, and so is a spread pick on a team whose starter is listed out or doubtful. When
+    bowl outside the playoff is labeled Check the news, as on the site (a just-changed quarterback
+    is noted but keeps its label), and so is a spread pick on a team whose starter is listed out or doubtful. When
     that listing comes after the pick, it gets an alert of its own."""
     qb, qb_listed = qb or {}, qb_listed or {}
     out = {}
@@ -106,8 +106,8 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
         if listed := qb_listed.get((p.id, team)):
             return "Check the news", f" {listed['player']}, {team}'s usual starter, is listed {listed['status']} on the {listed['date']} availability report."
         note = qb.get(p.home) or qb.get(p.away)
-        if note:
-            return "Check the news", f" QB change: {note}"
+        if note:  # context only: over 2023-2026 these games did about as well as the rest
+            return tier_label(p.edge), f" QB change: {note}"
         if p.id in bowls:
             return "Check the news", " Bowl game: opt-outs and coaching changes aren't in the model, so check who's playing."
         return tier_label(p.edge), ""

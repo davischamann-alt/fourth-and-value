@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=37">
+  <link rel="stylesheet" href="style.css?v=38">
   <link rel="alternate" type="application/atom+xml" title="Fourth &amp; Value alerts" href="alerts.xml">
 </head>
 <body>
@@ -90,8 +90,8 @@
         <ul>
           <li><b>Line</b> is the betting spread from ESPN. The small gray number is where it opened, so you can see how it moved.</li>
           <li><b>Model</b> is the predicted final margin. <b>Pick</b> is the side the model thinks covers the line.</li>
-          <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3–5 points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury or a quarterback change.</li>
-          <li><b>Cover chance</b> is the model's chance the pick covers. During a game it updates with the score and clock. The yellow tick on the bar marks 52.4%, the break-even point at standard -110 odds.</li>
+          <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3–5 points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury. The labels say how much the model disagrees with the line, not how likely the pick is to win: no range of edge sizes reliably beat another.</li>
+          <li><b>Cover chance</b> is the model's chance the pick covers, scaled to how often picks with that edge really covered in 2024–2026. Most are between 50% and 55%; that's how small the edge is. During a game it updates with the score and clock. The yellow tick on the bar marks 52.4%, the break-even point at standard -110 odds.</li>
           <li>The <b>Track</b> button saves a pick to <b>My picks</b>, where it's graded automatically when the game ends.</li>
           <li><b>Spread / Total</b> switches every card between the model's pick against the spread and its over/under pick against
             the total. Totals use two projections: <b>Market-anchored</b> (the default) starts from the betting total and adjusts it a
@@ -424,18 +424,18 @@
         <input id="set-hfa" type="number" step="0.5" min="0" max="6"></label>
       <label class="field"><span>Game-to-game spread (std dev, points)</span>
         <input id="set-sigma" type="number" step="0.5" min="8" max="22" placeholder="Auto">
-        <small>Leave blank to use the tested value for the chosen projection (about 15–16.5). Lower values make the cover chances more confident.</small></label>
+        <small>Leave blank to use the tested value for the chosen projection (about 15–16.5). Lower values make the cover chances a little more confident.</small></label>
       <label class="field"><span>Theme</span>
         <select id="set-theme"><option value="auto">Match my device</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
       <div class="row"><button class="primary" value="ok">Done</button></div>
     </form>
   </dialog>
 
-  <script src="app.js?v=37"></script>
-  <script src="game.js?v=37"></script>
-  <script src="updates.js?v=37"></script>
-  <script src="props.js?v=37"></script>
-  <script src="ratings.js?v=37"></script>
-  <script src="alerts.js?v=37"></script>
+  <script src="app.js?v=38"></script>
+  <script src="game.js?v=38"></script>
+  <script src="updates.js?v=38"></script>
+  <script src="props.js?v=38"></script>
+  <script src="ratings.js?v=38"></script>
+  <script src="alerts.js?v=38"></script>
 </body>
 </html>
