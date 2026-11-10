@@ -56,10 +56,10 @@ st.caption("Only go for it when the numbers say so.")
 day = st.sidebar.date_input("Date", dt.date.today())
 sigma = st.sidebar.slider("Margin std dev (pts)", 10.0, 20.0, 14.0, 0.5)
 hfa = st.sidebar.slider("Home-field advantage (pts)", 0.0, 5.0, HFA, 0.5)
-SOURCES = ["Blend (FPI + efficiency)", "Adjusted points", "ESPN FPI", "Efficiency", "Market-anchored"]
+SOURCES = ["Blend (FPI + efficiency + success rate)", "Adjusted points", "ESPN FPI", "Efficiency", "Success rate", "Market-anchored"]
 source = st.sidebar.radio("Projection source", SOURCES,
-                          help="Blend averages FPI and Efficiency (EPA per play) when both are available and falls back "
-                               "to whichever one is. Efficiency needs a CollegeFootballData key. Market-anchored starts from the opening line and shifts it by FPI and points, with "
+                          help="Blend averages FPI, Efficiency (EPA per play) and Success rate when they're available and falls back "
+                               "to whichever are. Efficiency and Success rate need a CollegeFootballData key. Market-anchored starts from the opening line and shifts it by FPI and points, with "
                                "weights learned in the season backtest.")
 if st.sidebar.button("Refresh now"):
     st.cache_data.clear()
@@ -96,25 +96,31 @@ def proj_margin(g, line):
     p = project(g.home, g.away, ratings, g.neutral, hfa)
     pts = None if p is None else p[0] - p[1]
     fpi = fpi_margin(g.home, g.away, ratings, g.neutral, hfa)
-    eff = None
-    scale = (anchor or {}).get("eff_scale")
-    if scale and "off_eff" in ratings.columns and g.home in ratings.index and g.away in ratings.index:
+    def matchup(scale, off, dfn):  # an opponent-adjusted per-play rating turned into points
+        if not scale or off not in ratings.columns or g.home not in ratings.index or g.away not in ratings.index:
+            return None
         h, a = ratings.loc[g.home], ratings.loc[g.away]
-        if pd.notna(h["off_eff"]) and pd.notna(a["off_eff"]):
-            eff = float(efficiency_margin((h["off_eff"] + a["def_eff"]) - (a["off_eff"] + h["def_eff"]), g.neutral, scale, hfa))
+        if pd.isna(h[off]) or pd.isna(a[off]):
+            return None
+        return float(efficiency_margin((h[off] + a[dfn]) - (a[off] + h[dfn]), g.neutral, scale, hfa))
+
+    eff = matchup((anchor or {}).get("eff_scale"), "off_eff", "def_eff")
+    sr = matchup((anchor or {}).get("sr_scale"), "off_sr", "def_sr")
     if source == "Adjusted points":
         return pts
     if source == "ESPN FPI":
         return fpi
     if source == "Efficiency":
         return eff
+    if source == "Success rate":
+        return sr
     if source == "Market-anchored":
         # start from the line being bet (current, or the saved pregame line once started)
         base = line
         if anchor is None or pts is None or fpi is None or pd.isna(base):
             return None
         return anchored_margin(anchor["weights"], base, fpi, pts)
-    both = [m for m in (fpi, eff) if m is not None]
+    both = [m for m in (fpi, eff, sr) if m is not None]
     return sum(both) / len(both) if both else None
 
 

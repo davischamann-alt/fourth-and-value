@@ -18,7 +18,7 @@ from model import (HFA, add_anchored, add_efficiency, add_total_anchored, fit_an
 
 OUT = Path(__file__).parent / "site" / "data"
 FIRST_SEASON = 2023  # the first season with reliable FPI history (see README); every finished season since counts
-SOURCE_NAMES = {"Adjusted points": "points", "ESPN FPI": "fpi", "Efficiency": "efficiency", "Blend": "blend",
+SOURCE_NAMES = {"Adjusted points": "points", "ESPN FPI": "fpi", "Efficiency": "efficiency", "Success rate": "success", "Blend": "blend",
                 "Market-anchored": "anchored"}
 
 
@@ -64,7 +64,8 @@ def main():
     res = add_total_anchored(add_anchored(add_efficiency(res)))
     done = res[res["season"].isin(seasons)]
     anchor = ({"weights": fit_anchor(done), "total_weights": fit_total_anchor(done),
-               "eff_scale": fit_eff_scale(done) if done["eff_diff"].notna().any() else None, "seasons": seasons}
+               "eff_scale": fit_eff_scale(done) if done["eff_diff"].notna().any() else None,
+               "sr_scale": fit_eff_scale(done, col="sr_diff") if done["sr_diff"].notna().any() else None, "seasons": seasons}
               if len(done) else json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else None)
     if len(done):  # keep the forward test and the Streamlit app on the same weights as the site
         sources.ANCHOR.write_text(json.dumps(clean({**anchor, "hfa": HFA})))
@@ -75,13 +76,16 @@ def main():
     tclose = score_totals(res, 0, "close")
     sigma_total = {SOURCE_NAMES[n]: round(tclose.at[n, "rmse_vs_result"] * 2) / 2 for n in tclose.index if n in SOURCE_NAMES}
     write("model.json", {"updated": now.isoformat(), "hfa": HFA, "anchor": anchor, "sigma": sigma,
-                         "sigma_total": sigma_total, "eff_scale": anchor and anchor.get("eff_scale")})
+                         "sigma_total": sigma_total, "eff_scale": anchor and anchor.get("eff_scale"),
+                         "sr_scale": anchor and anchor.get("sr_scale")})
 
     write("track_record.json", {
         "updated": now.isoformat(), "seasons": sorted(res["season"].unique().tolist()), "games": len(res),
         "tables": {f"{against}_{edge}": table(res, edge, against) for against in ("open", "close") for edge in (0, 2, 3)},
         "by_season": [{"season": int(s), "games": len(d), **{r["name"]: r["hit_rate"] for r in table(d, 0, "open")}}
                       for s, d in res.groupby("season")],
+        "by_season_close": [{"season": int(s), "games": len(d), **{r["name"]: r["hit_rate"] for r in table(d, 0, "close")}}
+                            for s, d in res.groupby("season")],
         # over/unders, graded the same way against the opening and closing totals
         "totals": {
             "games": int(res["total"].notna().sum()),
@@ -90,6 +94,9 @@ def main():
             "by_season": [{"season": int(s), "games": int(d["total"].notna().sum()),
                            **{r["name"]: r["hit_rate"] for r in table(d, 0, "open", score_totals)}}
                           for s, d in res.groupby("season")],
+            "by_season_close": [{"season": int(s), "games": int(d["total"].notna().sum()),
+                                 **{r["name"]: r["hit_rate"] for r in table(d, 0, "close", score_totals)}}
+                                for s, d in res.groupby("season")],
         },
     })
 

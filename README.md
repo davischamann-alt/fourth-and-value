@@ -244,8 +244,9 @@ Two sections:
 - **Adjusted points:** built from each team's points scored and allowed, adjusted for who they played.
 - **ESPN FPI:** built from ESPN's power ratings.
 - **Efficiency:** built from each team's EPA per play on offense and defense, adjusted for opponents. Needs a CollegeFootballData key.
-- **Blend:** the average of FPI and Efficiency (FPI and adjusted points before October 29, 2026). Without a CollegeFootballData key, it's FPI alone.
-- **Market-anchored:** starts from the current betting line and shifts it toward what FPI and the points ratings say. It stays closest to the betting line, so it shows the fewest and smallest edges, which is why it's the default. It only works once the season backtest has been run on past seasons, which saves the weights it uses (`data/anchor_weights.json`). Those saved weights are included in the download, so it works right away.
+- **Success rate:** built from the share of plays each offense wins (a play succeeds when it gains enough to stay on schedule), adjusted for opponents. It's steadier than EPA, which a few long plays can swing. Needs a CollegeFootballData key.
+- **Blend** (the website's default): the average of FPI, Efficiency and Success rate. It was FPI and adjusted points before October 29, 2026, and FPI and Efficiency until November 10, 2026. Without a CollegeFootballData key, it's FPI alone.
+- **Market-anchored:** starts from the current betting line and shifts it toward what FPI and the points ratings say. It stays closest to the betting line, so it shows the fewest and smallest edges. It was the website's default until November 10, 2026, when testing showed it was the weakest projection ([Model changes](#model-changes)). It only works once the season backtest has been run on past seasons, which saves the weights it uses (`data/anchor_weights.json`). Those saved weights are included in the download, so it works right away.
 
 ---
 
@@ -290,6 +291,19 @@ These results are from 2023–2026 (through week 8 of 2026), about 2,300 games, 
 | **Opening line, edge 3+ points** | ESPN FPI 53.7% (826 picks), Adjusted points 53.7%, Efficiency 54.9%, Blend 54.6%. Market-anchored 62.1%, but on only 29 picks. |
 | **Opening line, edge 5+ points** | No better than 3–5 point edges (ESPN FPI 52.6%). That's why the site labels them **Check the news** instead of Go for it. |
 | **Line movement** | After the open, lines moved toward the model's picks about 62–72% of the time. |
+
+**The opening-line results overstate what you can bet** (found November 10, 2026). Lines moved about 1 point toward Blend's picks after the opener, and that move is where the 55% comes from. But in the live log (weeks 9–11 of 2026), about 0.7 of that point had already happened by the time the line first showed up on ESPN, and almost none (+0.02) came after. In the 169 games in both the backtest and the live log, the same picks did 3–5 points worse graded at the first line the job saw than at the opener. The closing line is the number anyone can get, and there every projection is between 50% and 53%. In 62% of those picks the line was still at its opener when first seen, so the job now checks every 30 minutes on Sundays, when most lines post.
+
+**Choosing the default** (November 10, 2026). 2024–2026, about 1,750 games, each rating scaled using earlier seasons only:
+
+| Projection | Opening line, edge 1.5+ | By season | Closing line, edge 1.5+ |
+| --- | --- | --- | --- |
+| Market-anchored (the old default) | 51.1% (325 picks) | 59%, 51%, 47% | about 50% |
+| Blend, old (FPI + Efficiency) | 55.7% (1,256) | 57%, 55%, 55% | 51.6% |
+| **Blend, new (FPI + Efficiency + Success rate)** | **55.9%** (1,303) | 57%, 55%, 56% | **52.3%** |
+| Success rate alone | 54.1% | 55%, 54%, 54% | 52.2% |
+
+Market-anchored's formula is fit to the average margin, so the line gets most of the weight and its edges come mostly from a built-in lean, not from the ratings: the same flaw found in its totals version. Also tested the same way, and not used because they added nothing or hurt: Elo, last season's SP+, the talent composite, explosiveness, and rushing and passing EPA separately. Splitting picks by favorite or underdog, home or away, week of the season, spread size, or whether the ratings agree found nothing that held up across seasons. Blend's edges of 1.5+ cover about 70% of games, and bigger edges did no better than smaller ones, so treat the labels as a filter for "the model disagrees", not as a ranking.
 
 **Totals (over/unders)**, graded the same way, about 2,300 games:
 
@@ -351,7 +365,7 @@ The backtest replays past seasons, and some of its biases can't be fully ruled o
 Every two hours, the GitHub job runs `record.py`, which:
 
 1. **Records lines:** saves each game's line whenever it changes, with the time, to `data/live/line_history.csv`. This builds a record of how lines move through the week.
-2. **Logs picks:** the first time a game has a line, saves every projection's pick at that line to `data/live/picks.csv`. Those columns are never changed afterward. Since the job checks every two hours, picks are logged within about two hours of the opening line.
+2. **Logs picks:** the first time a game has a line, saves every projection's pick at that line to `data/live/picks.csv`. Those columns are never changed afterward. The job checks every two hours, and every 30 minutes on Sunday afternoons and evenings (Eastern), when most lines open. Even so, about half of lines have already moved from ESPN's listed opener by the time they first appear.
 3. **Logs over/unders:** the same for totals, the first time a game has a total, in `data/live/total_picks.csv` (started October 29, 2026).
 4. **Grades picks:** after kickoff, fills in the closing line, the result at the logged line, the result at the closing line and the CLV (how far the line moved toward the pick).
 5. **Commits** the files to the repository. Git history then shows exactly when each pick was recorded, which proves it was made before the game.
@@ -374,7 +388,8 @@ The log started on October 21, 2026, partway through week 8, so some of that wee
 Adjusted points:  (home.ppg + away.papg) - (away.ppg + home.papg) + HFA
 ESPN FPI:         home.fpi - away.fpi + HFA
 Efficiency:       67.5 x [(home.off_eff + away.def_eff) - (away.off_eff + home.def_eff)] + HFA
-Blend:            average of FPI and Efficiency
+Success rate:     163 x [(home.off_sr + away.def_sr) - (away.off_sr + home.def_sr)] + HFA
+Blend:            average of FPI, Efficiency and Success rate
 Market-anchored:  const + w_line x (-home line) + w_fpi x FPI margin + w_pts x points margin
 ```
 
@@ -415,6 +430,7 @@ Any change to how picks are made is logged here and on the website (a notice on 
 
 | Date | Change | Why | Effect |
 | --- | --- | --- | --- |
+| November 10, 2026 | **Blend is the default, with Success rate added:** a sixth projection from opponent-adjusted success rate; Blend now averages FPI, Efficiency and Success rate and replaces Market-anchored as the default for spreads. The job checks lines every 30 minutes on Sundays, and the Track record tab leads with closing-line results. | Market-anchored was the weakest projection: 51.1% on 1.5+ edges at the opening line in 2024–2026 (47% in 2026), against 55.9% for the new Blend, and about 50% against 52.3% at the closing line. The live record was 17-30 on its 1.5+ edges. Most of the opening-line edge also disappears within hours of the open, so the job needs to see lines sooner. | Blend flags many more games (about 70% have a 1.5+ edge) and bigger edges did no better than smaller ones. Expect about 52% at late lines and up to 55% at true openers; no free data tested (Elo, SP+, talent, explosiveness) improved on that. Totals still default to Market-anchored. Logged picks are unchanged: Blend picks logged before this date averaged two ratings, and each projection keeps its own row in the log. |
 | November 6, 2026 | **Starting QB listed out or doubtful:** a spread pick on a team whose usual starter is listed out or doubtful on an official availability report is labeled Check the news | In 2023–2026, a team whose starting quarterback sat after playing the week before covered 43% at the opening line (317 games), and Market-anchored's picks on such a team went 16-20. The opening line doesn't know yet, and only the reports can say before kickoff. | Labels only, and only for picks on that team; picks against it went 29-18 and keep their label. Statuses are entered by hand for Power 4 conference games, which covered 39% of these cases in 2023–2025. The pick log is unchanged; statuses are logged in data/live/qb_status_log.csv. |
 | November 1, 2026 | **Market-anchored totals now follow the ratings:** total + 0.2 × (adjusted points total − total), replacing a regression on the final total | The regression chased the average score, which a few shootouts pull up, so it learned "low totals go over" and gave the ratings a weight of only 0.09. 96% of its 1.5+ edges were overs, and in 2026 they went 56-55. Over/unders are graded on which side of the number the game lands, and there the ratings carry the signal. | In 2024–2026, 1.5+ edges at the opening total went 56.2% (131-102) instead of 53.8%, on about 7 games a week instead of 15, with 64% overs instead of 96%. Graded at the closing total it's 52.5%, so the opening number matters. The 0.2 was chosen after looking at these seasons, so the backtest flatters it a little. Totals picks logged before this date used the old formula. |
 | October 29, 2026 | **Check the news for QB changes, bowls and windy overs:** Lean and Go for it picks in those games are labeled Check the news instead | The model went 39% after quarterback changes in 2026 and 42–47% in non-playoff bowls in 2023–2025, and opening totals don't fully price wind. | Labels only: projections, edges and the forward-test log are unchanged. |
@@ -436,7 +452,7 @@ The newest `model` entry shows as a notice on the Games tab for two weeks.
 
 ## Alerts
 
-`alerts.py` runs in the GitHub job right after `record.py`, every two hours. It looks for two things, using Market-anchored, the default projection:
+`alerts.py` runs in the GitHub job right after `record.py`, every two hours (every 30 minutes on Sundays). It uses the default projections: Blend for spreads (Market-anchored until November 10, 2026) and Market-anchored for totals. It looks for:
 
 - **New edges:** a spread or over/under pick with an edge of 1.5+, logged when the line first appears. The model tested best at the opening number, so these are worth seeing early.
 - **Key numbers:** on a game with such a spread pick, the line moving through, onto or off 3 or 7, the most common winning margins.
@@ -474,7 +490,7 @@ Saving the file on `main` (on GitHub, or with a push) runs the job right away. A
 
 ## Publishing the website
 
-The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours, whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
+The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours (every 30 minutes on Sundays from noon to 11 p.m. Eastern, when next week's lines open), whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
 
 Each run also builds the QB watch and player props (`build_props.py`), sends alerts (`alerts.py`) and fetches kickoff forecasts (`weather.py`).
 

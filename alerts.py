@@ -3,7 +3,7 @@ Run by the GitHub job every two hours, right after record.py, or by hand:
 
     python alerts.py
 
-What counts as an alert (Market-anchored, the site's default projection):
+What counts as an alert (the site's default projections: Blend for spreads, Market-anchored for totals):
   - a new spread or over/under pick with an edge of 1.5+, logged when the line first appears
   - a line moving through, onto or off 3 or 7, the most common winning margins, on a game with such
     a spread pick
@@ -35,6 +35,7 @@ SITE = sources.DATA.parent / "site"
 FEED, SITE_JSON = SITE / "alerts.xml", SITE / "data" / "alerts.json"
 QB = SITE / "data" / "qb.json"   # QB changes, written by build_props.py just before this runs
 LEAN, STRONG, CHECK = 1.5, 3.0, 5.0
+SPREAD_SOURCE = "blend"   # the site's default spread projection (Market-anchored until November 10, 2026)
 KEY_NUMBERS = (3, 7)
 KEEP = 200          # alerts kept in the history (the feed shows the newest 50)
 ET = ZoneInfo("America/New_York")
@@ -93,7 +94,8 @@ def bowl_games(picks, now):
 
 
 def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
-    """{key: alert} for every Market-anchored lean-or-better pick on a game that hasn't started. A
+    """{key: alert} for every lean-or-better pick by the default projections (Blend for spreads,
+    Market-anchored for totals) on a game that hasn't started. A
     game with a just-changed quarterback, or a bowl outside the playoff, is labeled Check the news,
     as on the site, and so is a spread pick on a team whose starter is listed out or doubtful. When
     that listing comes after the pick, it gets an alert of its own."""
@@ -110,18 +112,18 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
             return "Check the news", " Bowl game: opt-outs and coaching changes aren't in the model, so check who's playing."
         return tier_label(p.edge), ""
 
-    for p in upcoming(picks[(picks.source == "anchored") & (picks.edge >= LEAN)], now).itertuples():
+    for p in upcoming(picks[(picks.source == SPREAD_SOURCE) & (picks.edge >= LEAN)], now).itertuples():
         team, line = (p.home, p.line_logged) if p.side == "home" else (p.away, -p.line_logged)
         tier, note = label(p, team)
         out[f"pick:{p.id}"] = dict(
             kind="pick", game_id=p.id, title=f"{tier}: {team} {fmt_line(line)}",
-            text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Market-anchored takes {team} {fmt_line(line)}, "
+            text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Blend takes {team} {fmt_line(line)}, "
                  f"a {p.edge:.1f}-point edge, logged when the line first appeared.{note}")
         if listed := qb_listed.get((p.id, team)):  # keyed by status, so a downgrade from doubtful to out alerts again
             out[f"qb:{p.id}:{team}:{listed['status']}"] = dict(
                 kind="qb", game_id=p.id, title=f"Check the news: {team} QB {listed['status']}",
                 text=f"{listed['player']}, {team}'s usual starter, is listed {listed['status']} for {p.away} @ {p.home} "
-                     f"({kickoff(p.kickoff)}). Market-anchored's pick on {team} {fmt_line(line)} is now Check the news: in "
+                     f"({kickoff(p.kickoff)}). Blend's pick on {team} {fmt_line(line)} is now Check the news: in "
                      f"2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.")
     for p in upcoming(totals[(totals.source == "anchored") & (totals.edge >= LEAN)], now).itertuples():
         tier, note = label(p)
@@ -148,7 +150,7 @@ def through(a, b, k):
 def key_number_alerts(lines, picks, now):
     """{key: alert} for line moves through 3 or 7 on upcoming games with a lean-or-better pick."""
     out = {}
-    chosen = upcoming(picks[(picks.source == "anchored") & (picks.edge >= LEAN)], now).set_index("id")
+    chosen = upcoming(picks[(picks.source == SPREAD_SOURCE) & (picks.edge >= LEAN)], now).set_index("id")
     for gid, h in lines[lines.id.isin(chosen.index)].groupby("id"):
         p = chosen.loc[gid]
         prev = None

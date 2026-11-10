@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=36">
+  <link rel="stylesheet" href="style.css?v=37">
   <link rel="alternate" type="application/atom+xml" title="Fourth &amp; Value alerts" href="alerts.xml">
 </head>
 <body>
@@ -65,12 +65,13 @@
             <button data-v="spread" type="button" title="Picks against the point spread">Spread</button>
             <button data-v="total" type="button" title="Over/under picks against the total">Total</button>
           </div>
-          <label class="inline-select" title="★ the default: it stays closest to the betting line and rarely shows big edges. Blend averages FPI and Efficiency."><span>Projection</span>
+          <label class="inline-select" title="★ the default: Blend averages ESPN FPI, Efficiency and Success rate. It tested best of the projections against both the opening and closing line."><span>Projection</span>
             <select id="source">
-              <option value="anchored">★ Market-anchored</option>
+              <option value="blend">★ Blend</option>
               <option value="fpi">ESPN FPI</option>
               <option value="efficiency">Efficiency</option>
-              <option value="blend">Blend</option>
+              <option value="success">Success rate</option>
+              <option value="anchored">Market-anchored</option>
               <option value="points">Adjusted points</option>
             </select>
           </label>
@@ -96,7 +97,8 @@
             the total. Totals use two projections: <b>Market-anchored</b> (the default) starts from the betting total and adjusts it a
             little toward what the teams' scoring says; <b>Adjusted points</b> adds each offense's points against the other's defense.</li>
           <li><b>At open</b> shows edges of 1.5+ where the line hasn't moved more than half a point from where it opened. In testing,
-            the model did best at the opening number; once the market moves toward a pick, most of the value is gone. Pick boxes
+            the model did best at the opening number, and lines often move within hours; once the market moves toward a pick, most
+            of the value is gone. Pick boxes
             say how far the line has moved toward or away from the pick. Next week's lines usually post on Sunday, and a notice
             appears when they do.</li>
           <li><b>Close</b> shows live games within 4 points of the spread, where a field goal could flip who covers. They're sorted tightest first and tagged on every card.</li>
@@ -227,8 +229,12 @@
             <li><b>Adjusted points projection:</b> (home offense + away defense) − (away offense + home defense) + <span data-hfa>3</span>.</li>
             <li><b>Efficiency projection:</b> the EPA per play each offense should get against the other's defense, turned into points
               (about 67 points of margin per 1.0 EPA per play of difference) + <span data-hfa>3</span>.</li>
-            <li><b>Blend:</b> the average of FPI and Efficiency.</li>
-            <li><b>Market-anchored</b> (the default): starts from the betting line and shifts it toward what FPI and adjusted points say.</li>
+            <li><b>Success rate projection:</b> the share of plays each offense should win against the other's defense (a play
+              "succeeds" when it gains enough to stay on schedule), turned into points + <span data-hfa>3</span>. It's steadier than
+              EPA, which a few long plays can swing.</li>
+            <li><b>Blend</b> (the default): the average of FPI, Efficiency and Success rate.</li>
+            <li><b>Market-anchored:</b> starts from the betting line and shifts it toward what FPI and adjusted points say. It was the
+              default until November 10, 2026; it tested worse than Blend.</li>
             <li>The difference between a projection and the betting line is the <b>edge</b>. That's what the Games tab labels Go for it (3–5 points), Lean or Punt, or Check the news when the gap is 5+ points.</li>
           </ul>
           <p class="rt-example" id="rt-example"></p>
@@ -312,10 +318,11 @@
         <div class="field wide">
           <span>Projection</span>
           <div class="chips" id="live-source">
-            <button data-v="anchored" class="on"><span class="hide-sm">Market-anchored</span><span class="show-sm">Anchored</span></button>
+            <button data-v="blend" class="on" data-spread-only>Blend</button>
             <button data-v="fpi" data-spread-only><span class="hide-sm">ESPN FPI</span><span class="show-sm">FPI</span></button>
             <button data-v="efficiency" data-spread-only><span class="hide-sm">Efficiency</span><span class="show-sm">EPA</span></button>
-            <button data-v="blend" data-spread-only>Blend</button>
+            <button data-v="success" data-spread-only><span class="hide-sm">Success rate</span><span class="show-sm">SR</span></button>
+            <button data-v="anchored"><span class="hide-sm">Market-anchored</span><span class="show-sm">Anchored</span></button>
             <button data-v="points"><span class="hide-sm">Adjusted points</span><span class="show-sm">Points</span></button>
           </div>
         </div>
@@ -341,7 +348,7 @@
           much for the average move. To beat the 52.4% break-even, the line needs to move about +0.8 points toward the picks on
           average (+1 for totals).</p>
       </details>
-      <h3 id="live-recent-head">Recent Market-anchored picks (edge 1.5+)</h3>
+      <h3 id="live-recent-head">Recent Blend picks (edge 1.5+)</h3>
       <div class="table-wrap scroll"><table id="live-table" class="data"></table></div>
 
       <h2 class="section-head">Model changes <span>every adjustment to how picks are made, dated</span></h2>
@@ -354,8 +361,8 @@
         <div class="field wide">
           <span>Picks made at the</span>
           <div class="chips" id="rec-against">
-            <button data-v="open" class="on">Opening line</button>
-            <button data-v="close">Closing line</button>
+            <button data-v="close" class="on">Closing line</button>
+            <button data-v="open">Opening line</button>
           </div>
         </div>
         <div class="field wide">
@@ -368,14 +375,21 @@
         </div>
       </div>
       <div class="table-wrap"><table id="record-table" class="data"></table></div>
-      <h3 id="season-head">By season (opening line, every game)</h3>
+      <h3 id="season-head">By season (closing line, every game)</h3>
       <div class="table-wrap"><table id="season-table" class="data"></table></div>
       <details class="explain" open>
         <summary>How this was tested</summary>
         <p>Every FBS game from week 3 on was predicted using only information available before that week, then graded
           against the line. At standard -110 odds you need <b>52.4%</b> to break even. <b>Line moved our way</b> is how often the
-          line moved toward the pick between the open and kickoff, which is the standard sign of a real edge. Market-anchored
-          learns its weights from earlier seasons only, so its first season isn't graded. The <b>±</b> after a hit rate is its 95%
+          line moved toward the pick between the open and kickoff. Market-anchored, Efficiency and Success rate learn their
+          scales from earlier seasons only, so their first season isn't graded.</p>
+        <p><b>Read the opening-line results with care.</b> They're the best numbers on this page, and the hardest to get. Lines move
+          about a point toward the model's picks after they open, and in the live log most of that move had already happened by
+          the time the line first showed up here, usually within hours on Sunday. The <b>closing line</b> is the number anyone can
+          bet, and there every projection sits between 50% and 53%. What you can really expect is somewhere between the two,
+          closer to the opening-line results the earlier you bet. <b>Live results</b> above are graded at the first line the site
+          saw, which is the fairest test.</p>
+        <p> The <b>±</b> after a hit rate is its 95%
           margin of error. Totals are graded the same way against the opening and closing over/under. This is analysis, not
           betting advice.</p>
       </details>
@@ -394,8 +408,9 @@
       <div class="al-head"><h3 id="alerts-title">Alerts</h3>
         <form method="dialog"><button class="notice-x" aria-label="Close">✕</button></form></div>
       <p class="note">Get told when the model finds an edge of 1.5+ as soon as a line opens, and when a line moves through 3 or 7
-        (the most common winning margins) on a game it has a pick for. The model tested best at the opening number, so early matters.
-        Checked every two hours.</p>
+        (the most common winning margins) on a game it has a pick for. The model tested best at the opening number, and lines move
+        within hours, so early matters. Checked every two hours, and every 30 minutes on Sunday afternoons and evenings (Eastern),
+        when most lines open.</p>
       <div id="alerts-ways"></div>
       <h4 class="al-sub">Latest alerts</h4>
       <div id="alerts-list"><p class="note">Loading…</p></div>
@@ -416,11 +431,11 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=36"></script>
-  <script src="game.js?v=36"></script>
-  <script src="updates.js?v=36"></script>
-  <script src="props.js?v=36"></script>
-  <script src="ratings.js?v=36"></script>
-  <script src="alerts.js?v=36"></script>
+  <script src="app.js?v=37"></script>
+  <script src="game.js?v=37"></script>
+  <script src="updates.js?v=37"></script>
+  <script src="props.js?v=37"></script>
+  <script src="ratings.js?v=37"></script>
+  <script src="alerts.js?v=37"></script>
 </body>
 </html>

@@ -1,5 +1,14 @@
 [
  {
+  "date": "2026-11-10",
+  "type": "model",
+  "title": "Blend is now the default projection, with a new Success rate rating",
+  "summary": "Spread picks now default to Blend, which averages ESPN FPI, Efficiency and a new Success rate rating (the share of plays each offense wins, adjusted for opponents). Market-anchored is still on the list but no longer the default. Lines are now checked every 30 minutes on Sunday afternoons and evenings, when most of them open, and the Track record tab leads with closing-line results. If you never chose a projection, yours switched to Blend; choosing another one sticks.",
+  "why": "Market-anchored was the weakest projection in testing: 51.1% on 1.5+ edges at the opening line in 2024-2026, and 47% this season, against 55.9% for the new Blend. Its formula leans on the line so heavily that its edges came from a built-in lean, not from the ratings. Its live record on 1.5+ edges was 17-30. Testing also showed that lines move about a point toward the model's picks, and most of that happens within hours of the open, before the site first saw them.",
+  "effect": "Blend disagrees with the line by 1.5+ points in about 70% of games, so expect many more labeled picks, and bigger edges did no better than smaller ones. Honest expectations: about 52% at lines you can get late in the week, up to 55% at true opening numbers. Elo, last season's SP+, talent ratings and explosiveness were tested too and didn't help. Totals still use Market-anchored.",
+  "forward_test": "Nothing already logged changes. Every projection keeps its own rows in the pick log; Blend picks logged before this date averaged two ratings instead of three. Alerts and the Recent picks table now follow Blend."
+ },
+ {
   "date": "2026-11-06",
   "type": "model",
   "title": "Starting quarterbacks listed out on the official reports now mean Check the news",

@@ -12,8 +12,9 @@ const BREAKEVEN = 0.524;               // hit rate needed at -110
 // in the 2023-2026 backtest (opening vs closing results); it turns line movement into an estimated
 // hit rate long before wins and losses can say anything.
 const CLV_PER_POINT = { spread: 0.03, total: 0.025 };
-const SOURCE_LABEL = { anchored: "Market-anchored", fpi: "ESPN FPI", efficiency: "Efficiency", blend: "Blend", points: "Adjusted points" };
-const SPREAD_SOURCES = ["anchored", "fpi", "efficiency", "blend", "points"];
+const SOURCE_LABEL = { blend: "Blend", fpi: "ESPN FPI", efficiency: "Efficiency", success: "Success rate", anchored: "Market-anchored", points: "Adjusted points" };
+// Blend is the default for spreads: in the 2024-2026 backtest it beat Market-anchored at both the opening and closing line
+const SPREAD_SOURCES = ["blend", "fpi", "efficiency", "success", "anchored", "points"];
 const TIER_LABEL = { check: "Check the news", strong: "Go for it", lean: "Lean", pass: "Punt" };  // fourth-down calls
 /** Edge size to label. 5+ points isn't "more value": in the cleaned 2023-2026 backtest it did no
  *  better than 3-5, and a gap that big usually means the model is missing news the market has. */
@@ -65,7 +66,7 @@ const state = {
   games: [],
   filter: "all",
   market: store.get("market", "spread"),  // "spread" or "total" (over/under)
-  source: store.get("source", "anchored"),
+  source: store.get("source", "blend"),
   totalSource: store.get("totalSource", "anchored"),  // totals: Market-anchored or Adjusted points
   sort: store.get("sort", "time"),
   search: "",
@@ -105,6 +106,13 @@ function erf(x) {
   const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
   return s * y;
 }
+// Market-anchored was the default until November 10, 2026. It was saved as a choice even for people
+// who never picked it, so move them to the new default once; picking it again afterward sticks.
+if (store.get("defaults", 0) < 2) {
+  if (state.source === "anchored") { state.source = "blend"; store.set("source", "blend"); }
+  store.set("defaults", 2);
+}
+
 const normCdf = (z) => 0.5 * (1 + erf(z / Math.SQRT2));
 
 const hfa = () => state.settings.hfa ?? state.model?.hfa ?? 3.0;  // model.HFA, normally from data/model.json
@@ -123,13 +131,17 @@ function projections(g) {
   const es = state.model?.eff_scale;
   const efficiency = es && h && a && h.off_eff != null && a.off_eff != null
     ? es * ((h.off_eff + a.def_eff) - (a.off_eff + h.def_eff)) + bump : null;
-  const both = [fpi, efficiency].filter((x) => x != null);  // Blend: FPI and Efficiency (adjusted points before Oct 30, 2026)
+  // success rate works the same way, with its own points-per-unit scale
+  const ss = state.model?.sr_scale;
+  const success = ss && h && a && h.off_sr != null && a.off_sr != null
+    ? ss * ((h.off_sr + a.def_sr) - (a.off_sr + h.def_sr)) + bump : null;
+  const both = [fpi, efficiency, success].filter((x) => x != null);  // Blend: FPI, Efficiency and Success rate (see model.projections)
   const blend = both.length ? both.reduce((s, x) => s + x, 0) / both.length : null;
   const w = state.model?.anchor?.weights;
   const base = g.line;  // start from the line being bet, as tested (see model.projections)
   const anchored = w && points != null && fpi != null && base != null
     ? w.const - w.line * base + w.fpi * fpi + w.points * points : null;
-  return { points, fpi, efficiency, blend, anchored };
+  return { points, fpi, efficiency, success, blend, anchored };
 }
 
 /** Projected total points from each totals source (same math as record.log_totals). */
@@ -686,7 +698,7 @@ function renderRatings() {
 
 // ---------- Track record ----------
 
-let recAgainst = "open", recEdge = "0", recMarket = "spread";
+let recAgainst = "close", recEdge = "0", recMarket = "spread";  // the closing line first: it's the number anyone can get
 
 /** 95% margin of error on a hit rate from n picks (using 50%, the widest case). */
 const moe = (n) => (n ? 1.96 * Math.sqrt(0.25 / n) : null);
@@ -710,7 +722,7 @@ function renderRecord() {
       `${open0?.name}, ${open0?.wins}-${open0?.losses}. ${open0?.hit_rate >= BREAKEVEN ? "Just above" : open0?.hit_rate >= 0.51 ? "Just below" : "Below"} break-even.`],
     [`Opening ${line}, 3+ pt edges`, withMoe(open3?.hit_rate, n(open3)), `${open3?.name}, ${open3?.wins}-${open3?.losses}. ${open3?.hit_rate >= BREAKEVEN
       ? "Barely above break-even; the edge is real but small." : "Below break-even: no reliable edge here yet."}`],
-    [`${tot ? "Total" : "Line"} moved toward the pick`, pct(moved?.clv_beat_rate), `${moved?.name}, 3+ pt edges. Lines moving your way is the best sign of a real edge.`],
+    [`${tot ? "Total" : "Line"} moved toward the pick`, pct(moved?.clv_beat_rate), `${moved?.name}, 3+ pt edges. Most of that move comes within hours of the open, often before the ${line} can be bet.`],
   ].map(([h, big, p]) => `<div class="card"><h4>${h}</h4><div class="big">${big}</div><p>${esc(p)}</p></div>`).join("");
 
   const t = r.tables[`${recAgainst}_${recEdge}`] || [];
@@ -721,17 +733,18 @@ function renderRecord() {
       : `<tr><td class="l">${esc(x.name)}</td><td>${x.picks ?? 0}</td><td>${x.wins ?? 0}-${x.losses ?? 0}</td>
         <td class="${x.hit_rate >= BREAKEVEN ? "good" : "bad"}">${withMoe(x.hit_rate, n(x))}</td><td>${x.rmse_vs_result?.toFixed(1)}</td>
         ${clv ? `<td>${pct(x.clv_beat_rate)}</td>` : ""}</tr>`).join("");
-  $("#season-head").textContent = `By season (opening ${line}, every game)`;
+  const seasons = (recAgainst === "close" && r.by_season_close) || r.by_season;
+  $("#season-head").textContent = `By season (${seasons === r.by_season ? "opening" : "closing"} ${line}, every game)`;
 
   const names = (r.tables.open_0 || []).map((x) => x.name).filter((n) => !/baseline/.test(n));
   $("#season-table").innerHTML = `<tr><th>Season</th><th>Games</th>${names.map((n) => `<th>${esc(n)}</th>`).join("")}</tr>` +
-    r.by_season.map((s) => `<tr><td class="l">${s.season}</td><td>${s.games}</td>${names.map((n) =>
+    seasons.map((s) => `<tr><td class="l">${s.season}</td><td>${s.games}</td>${names.map((n) =>
       `<td class="${s[n] == null ? "" : s[n] >= BREAKEVEN ? "good" : "bad"}">${s[n] == null ? "—" : pct(s[n], 1)}</td>`).join("")}</tr>`).join("");
 }
 
 // ---------- Live results (forward test) ----------
 
-let liveSource = "anchored", liveTier = "all";  // every game: the most finished picks
+let liveSource = "blend", liveTier = "all";  // every game: the most finished picks
 
 /** Link to the pick log's history on GitHub, which shows when each pick was committed. */
 function proofLink() {
@@ -784,11 +797,9 @@ function renderLive() {
   const tot = recMarket === "total", market = tot ? "total" : "spread";
   const L = tot ? state.live?.totals : state.live;
   $$("#live-source [data-spread-only]").forEach((b) => (b.hidden = tot));
-  if (tot && !["anchored", "points"].includes(liveSource)) {
-    liveSource = "anchored";
-    $$("#live-source button").forEach((x) => x.classList.toggle("on", x.dataset.v === liveSource));
-  }
-  $("#live-recent-head").textContent = `Recent Market-anchored ${tot ? "over/unders" : "picks"} (edge 1.5+)`;
+  if (tot && !["anchored", "points"].includes(liveSource)) liveSource = "anchored";
+  $$("#live-source button").forEach((x) => x.classList.toggle("on", x.dataset.v === liveSource));
+  $("#live-recent-head").textContent = tot ? "Recent Market-anchored over/unders (edge 1.5+)" : "Recent Blend picks (edge 1.5+)";
   if (!L || !L.games) {
     $("#live-intro").textContent = tot ? "No over/under picks recorded yet. They start appearing once totals are posted."
       : "No live picks recorded yet. They start appearing once lines are posted.";
@@ -802,6 +813,12 @@ function renderLive() {
     before anyone knew the results.${proof ? ` <a href="${proof}" target="_blank" rel="noopener">See when each pick was recorded</a>.` : ""}`;
   const s = L.summary.find((x) => x.key === liveSource && x.tier === liveTier);
   const rec = (r) => `${r.wins}-${r.losses}${r.pushes ? "-" + r.pushes : ""}`;
+  if (!s || !s.picks) {  // a projection added after the log started has nothing yet
+    $("#live-verdict").innerHTML = `<div class="card verdict"><h4>${esc(SOURCE_LABEL[liveSource] || "This projection")}</h4><div class="big">No picks yet</div>
+      <p>This projection's picks are logged starting with the next lines that open.</p></div>`;
+    $("#live-stats").innerHTML = "";
+    return;
+  }
   const n = s.at_logged.wins + s.at_logged.losses;
   const beat = s.moved_n ? Math.round(s.clv_beat_rate * s.moved_n) : 0;
   $("#live-verdict").innerHTML = liveVerdict(s, market);
@@ -852,12 +869,12 @@ function renderAll() { renderWeekbar(); renderGames(); renderPicks(); renderBets
 function renderSourceSelect() {
   const opts = state.market === "total"
     ? [["anchored", "★ Market-anchored"], ["points", "Adjusted points"]]
-    : SPREAD_SOURCES.map((k) => [k, (k === "anchored" ? "★ " : "") + SOURCE_LABEL[k]]);
+    : SPREAD_SOURCES.map((k) => [k, (k === "blend" ? "★ " : "") + SOURCE_LABEL[k]]);
   const sel = $("#source");
   sel.innerHTML = opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
   // a remembered choice that isn't offered (any more) falls back to the default
-  for (const [key, ok] of [["source", SPREAD_SOURCES], ["totalSource", ["anchored", "points"]]]) {
-    if (!ok.includes(state[key])) { state[key] = "anchored"; store.set(key, "anchored"); }
+  for (const [key, ok, dflt] of [["source", SPREAD_SOURCES, "blend"], ["totalSource", ["anchored", "points"], "anchored"]]) {
+    if (!ok.includes(state[key])) { state[key] = dflt; store.set(key, dflt); }
   }
   sel.value = state.market === "total" ? state.totalSource : state.source;
   $$("#market button").forEach((b) => b.classList.toggle("on", b.dataset.v === state.market));

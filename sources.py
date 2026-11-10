@@ -154,6 +154,15 @@ def season_ratings(season):
         er = fit_efficiency(*eff)
         df["off_eff"] = df["id"].map(lambda i: er[i][0] if i in er else None).astype(float).round(3)
         df["def_eff"] = df["id"].map(lambda i: er[i][1] if i in er else None).astype(float).round(3)
+    try:
+        sr = success_rows(season, current=True)
+    except Exception as ex:  # optional too
+        sr = None
+        print(f"No success rate ratings: {ex}")
+    if sr is not None:
+        er = fit_efficiency(*sr)
+        df["off_sr"] = df["id"].map(lambda i: er[i][0] if i in er else None).astype(float).round(4)
+        df["def_sr"] = df["id"].map(lambda i: er[i][1] if i in er else None).astype(float).round(4)
     return df, fitted_hfa, fpi_err
 
 
@@ -248,8 +257,9 @@ def season_backtest(season, hfa, today):
     else:
         games, lines, fbs = cfbd_season(season)
         fpi_by_week = fpi_before_weeks(season, games)[0]
-    eff = efficiency_rows(season, current=season == season_of(dt.date.fromisoformat(today)))
-    res = walk_forward(games, lines, fpi_by_week, fbs, hfa, eff=eff)
+    current = season == season_of(dt.date.fromisoformat(today))
+    res = walk_forward(games, lines, fpi_by_week, fbs, hfa, eff=efficiency_rows(season, current=current),
+                       sr=success_rows(season, current=current))
     return res.assign(season=season)
 
 
@@ -327,6 +337,27 @@ def efficiency_rows(season, current=False):
     rows = []
     for r in cfbd("/ppa/games", age, year=season, seasonType="regular", excludeGarbageTime="true"):
         g, off = info.get(str(r["gameId"])), (r.get("offense") or {}).get("overall")
+        if g is None or off is None or r["team"] not in ids or r["opponent"] not in ids:
+            continue
+        loc = 0.0 if g["neutralSite"] else 0.5 if r["team"] == g["homeTeam"] else -0.5
+        rows.append(dict(week=r["week"], team=ids[r["team"]], opp=ids[r["opponent"]], off=off, loc=loc))
+    return pd.DataFrame(rows, columns=["week", "team", "opp", "off", "loc"]), fbs
+
+
+def success_rows(season, current=False):
+    """(rows, FBS team ids) like efficiency_rows, with each team's success rate in each game: the
+    share of its plays that gained enough to stay on schedule (garbage time excluded). One more
+    CollegeFootballData call a day for the season being played."""
+    if not cfbd_key():
+        return None
+    age = 24 if current else None
+    games = cfbd("/games", age, year=season, seasonType="regular")
+    ids = {g[f"{s}Team"]: str(g[f"{s}Id"]) for g in games for s in ("home", "away")}
+    info = {str(g["id"]): g for g in games}
+    fbs = {str(g[f"{s}Id"]) for g in games for s in ("home", "away") if g.get(f"{s}Classification") == "fbs"}
+    rows = []
+    for r in cfbd("/stats/game/advanced", age, year=season, seasonType="regular", excludeGarbageTime="true"):
+        g, off = info.get(str(r["gameId"])), (r.get("offense") or {}).get("successRate")
         if g is None or off is None or r["team"] not in ids or r["opponent"] not in ids:
             continue
         loc = 0.0 if g["neutralSite"] else 0.5 if r["team"] == g["homeTeam"] else -0.5

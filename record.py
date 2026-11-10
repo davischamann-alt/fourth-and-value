@@ -29,8 +29,10 @@ LINES, PICKS, TOTALS = LIVE / "line_history.csv", LIVE / "picks.csv", LIVE / "to
 SITE_LIVE = sources.DATA.parent / "site" / "data" / "live.json"
 SITE_GAMES = sources.DATA.parent / "site" / "data" / "game_log.json"
 STRONG, LEAN = 3.0, 1.5
-SOURCES = {"anchored": "Market-anchored", "fpi": "ESPN FPI", "efficiency": "Efficiency", "blend": "Blend",
-           "points": "Adjusted points"}
+# Blend first: it's the site's default projection for spreads (Market-anchored was until November 10, 2026)
+SOURCES = {"blend": "Blend", "fpi": "ESPN FPI", "efficiency": "Efficiency", "success": "Success rate",
+           "anchored": "Market-anchored", "points": "Adjusted points"}
+DEFAULT = "blend"
 TOTAL_SOURCES = {"anchored": "Market-anchored", "points": "Adjusted points"}  # FPI doesn't project scoring
 LINE_COLS = ["seen_at", "id", "season", "week", "kickoff", "home", "away", "line", "open_line", "total"]
 # columns up to "tier" are written once when a pick is logged and never edited
@@ -77,7 +79,7 @@ def record_lines(weeks, now):
     return len(new)
 
 
-def log_picks(weeks, picks, ratings, weights, now, eff_scale=None):
+def log_picks(weeks, picks, ratings, weights, now, eff_scale=None, sr_scale=None):
     """Logs every source's pick for games seen with a line for the first time."""
     have = set(picks["id"])
     new = []
@@ -85,7 +87,7 @@ def log_picks(weeks, picks, ratings, weights, now, eff_scale=None):
         for g in games[(games.state == "pre") & games.line.notna()].itertuples():
             if g.id in have:
                 continue
-            proj = projections(g.home, g.away, ratings, g.neutral, HFA, g.line, weights, eff_scale)
+            proj = projections(g.home, g.away, ratings, g.neutral, HFA, g.line, weights, eff_scale, sr_scale)
             for src, m in proj.items():
                 if m is None:
                     continue
@@ -212,12 +214,12 @@ def summary_rows(picks, names):
 
 def summary(picks, totals, now):
     rows = summary_rows(picks, SOURCES)
-    anchored = picks[(picks.source == "anchored") & picks.tier.isin(["lean", "strong"])].sort_values("kickoff", ascending=False)
+    lead = picks[(picks.source == DEFAULT) & picks.tier.isin(["lean", "strong"])].sort_values("kickoff", ascending=False)
     recent = [dict(id=p.id, kickoff=p.kickoff, game=f"{p.away} @ {p.home}", side=p.side, team=p.home if p.side == "home" else p.away,
                    line=p.line_logged if p.side == "home" else -p.line_logged, edge=p.edge, tier=p.tier,
                    logged_at=p.logged_at, result=None if pd.isna(p.result_logged) else p.result_logged,
                    clv=None if pd.isna(p.clv) else float(p.clv))
-              for p in anchored.head(60).itertuples()]
+              for p in lead.head(60).itertuples()]
     t = totals[(totals.source == "anchored") & totals.tier.isin(["lean", "strong"])].sort_values("kickoff", ascending=False)
     recent_totals = [dict(id=p.id, kickoff=p.kickoff, game=f"{p.away} @ {p.home}", side=p.side, line=p.total_logged,
                           proj=p.proj, edge=p.edge, tier=p.tier, logged_at=p.logged_at,
@@ -267,7 +269,7 @@ def main():
     ratings, _, _ = sources.season_ratings(weeks[0][0]["season"])
     ratings = ratings.set_index("team")
     anchor = json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else {}
-    picks, n_new = log_picks(weeks, picks, ratings, anchor.get("weights"), now, anchor.get("eff_scale"))
+    picks, n_new = log_picks(weeks, picks, ratings, anchor.get("weights"), now, anchor.get("eff_scale"), anchor.get("sr_scale"))
     totals = load(TOTALS, TOTAL_COLS).astype({c: object for c in ("result_logged", "result_close")})
     totals, n_tot = log_totals(weeks, totals, ratings, anchor.get("total_weights"), now)
     scores = final_scores(weeks, picks, totals)

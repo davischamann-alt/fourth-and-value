@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T23:18:48.362063+00:00",
+ "updated": "2026-11-10T21:11:47.139148+00:00",
  "hfa": 3.0,
  "anchor": {
   "weights": {
@@ -14,6 +14,7 @@
    "points": 0.2
   },
   "eff_scale": 67.54,
+  "sr_scale": 163.38,
   "seasons": [
    2023,
    2024,
@@ -24,12 +25,14 @@
   "points": 16.5,
   "fpi": 15.5,
   "efficiency": 16.5,
-  "blend": 15.5,
+  "success": 16.5,
+  "blend": 16.0,
   "anchored": 15.0
  },
  "sigma_total": {
   "points": 16.5,
   "anchored": 16.0
  },
- "eff_scale": 67.54
+ "eff_scale": 67.54,
+ "sr_scale": 163.38
 }
