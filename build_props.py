@@ -281,7 +281,9 @@ def main():
     players, slate = [], []
     for g in upcoming.itertuples():
         slate.append({"id": g.id, "kickoff": g.kickoff, "home": g.home, "away": g.away, "home_id": g.home_id, "away_id": g.away_id,
-                      "line": g.line, "total": g.total})
+                      "line": g.line, "total": g.total,
+                      # ESPN lists a game whose time isn't set at midnight Eastern, with the status TBD
+                      "tbd": str(g.status).strip().upper() == "TBD"})
         for team_id, opp_id, opp, home in ((g.home_id, g.away_id, g.away, True), (g.away_id, g.home_id, g.home, False)):
             roster = logs[logs.team_id == team_id]
             # players who appeared in either of the team's last two games (skips the injured and the departed)

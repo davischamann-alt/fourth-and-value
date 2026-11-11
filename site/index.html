@@ -10,11 +10,25 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- "Add to Home Screen" opens the site full screen, like an app, with the football icon (manifest.json) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-title" content="4th &amp; Value">
+  <!-- Link previews in iMessage, Slack, Discord, X and so on: share.png is 1200x630. Previews need full addresses. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fourth &amp; Value">
+  <meta property="og:title" content="Fourth &amp; Value: college football spreads and totals">
+  <meta property="og:description" content="Model picks, cover chances and the best number on offer for every FBS game, with a track record logged before kickoff.">
+  <meta property="og:url" content="https://davischamann-alt.github.io/fourth-and-value/">
+  <meta property="og:image" content="https://davischamann-alt.github.io/fourth-and-value/share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fourth &amp; Value: college football spreads and totals, with a football on turf green">
+  <meta name="twitter:card" content="summary_large_image">
   <!-- ?v= numbers: bump them when style.css or the scripts change, so browsers don't mix old and new files -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=43">
+  <link rel="stylesheet" href="style.css?v=44">
   <link rel="alternate" type="application/atom+xml" title="Fourth &amp; Value alerts" href="alerts.xml">
 </head>
 <body>
@@ -266,7 +280,10 @@
       <div class="stats" id="pick-stats"></div>
       <div class="table-wrap"><table id="picks-table" class="data"></table></div>
       <p class="note">Picks are saved in this browser only. Track a pick from the Games tab before kickoff; it's graded
-        when the game ends. <button class="link" id="picks-clear">Clear all picks</button></p>
+        when the game ends. To move them to another phone or computer, download them here and import the file there.
+        <button class="link" id="picks-export">Download as CSV</button> ·
+        <label class="link">Import CSV<input type="file" id="picks-import" accept=".csv" hidden></label> ·
+        <button class="link" id="picks-clear">Clear all picks</button></p>
     </section>
 
     <!-- Bets -->
@@ -445,12 +462,12 @@
     </div>
   </dialog>
 
-  <script src="projections.js?v=43"></script>
-  <script src="app.js?v=43"></script>
-  <script src="game.js?v=43"></script>
-  <script src="updates.js?v=43"></script>
-  <script src="props.js?v=43"></script>
-  <script src="ratings.js?v=43"></script>
-  <script src="alerts.js?v=43"></script>
+  <script src="projections.js?v=44"></script>
+  <script src="app.js?v=44"></script>
+  <script src="game.js?v=44"></script>
+  <script src="updates.js?v=44"></script>
+  <script src="props.js?v=44"></script>
+  <script src="ratings.js?v=44"></script>
+  <script src="alerts.js?v=44"></script>
 </body>
 </html>

@@ -96,8 +96,26 @@ def fmt_line(x):
     return "PK" if x == 0 else f"{x:+g}"
 
 
-def kickoff(ts):
-    return pd.Timestamp(ts).tz_convert(ET).strftime("%a %b %-d, %-I:%M %p ET")
+def kickoff(ts, tbd=False):
+    """tbd: ESPN hasn't set the time; it lists the game at midnight Eastern, which isn't a kickoff."""
+    t = pd.Timestamp(ts).tz_convert(ET)
+    return t.strftime("%a %b %-d") + (", time TBD" if tbd else t.strftime(", %-I:%M %p ET"))
+
+
+def tbd_games():
+    """Ids of this week's and next week's games whose kickoff time ESPN hasn't set (status TBD), or an
+    empty set if ESPN can't be reached: those alerts just show midnight, as before."""
+    try:
+        games, info = sources.week_scoreboard()
+        weeks, key, cal = [games], (info["seasontype"], info["week"]), info["calendar"]
+        if key in cal and cal.index(key) + 1 < len(cal):
+            st, wk = cal[cal.index(key) + 1]
+            weeks.append(sources.week_scoreboard(info["season"], st, wk)[0])
+        g = pd.concat(weeks, ignore_index=True)
+        return set(g[g.status.astype(str).str.strip().str.upper() == "TBD"].id.astype(str))
+    except (requests.RequestException, KeyError, ValueError) as e:
+        print(f"Couldn't check for TBD kickoffs: {type(e).__name__}")
+        return set()
 
 
 def upcoming(df, now):
@@ -134,7 +152,7 @@ def bowl_games(picks, now):
     return set(games[~games.note.fillna("").str.contains("playoff|cfp", case=False)].id)
 
 
-def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
+def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None, tbd=()):
     """{key: alert} for every lean-or-better pick by the default projections (Blend for spreads,
     Market-anchored for totals) on a game that hasn't started. A
     bowl outside the playoff is labeled Check the news, as on the site (a just-changed quarterback
@@ -159,13 +177,13 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
         worth = worth_note(points_needed(p.edge, "spread", SPREAD_SOURCE), lambda x: f"{team} {fmt_line(line + x)}")
         out[f"pick:{p.id}"] = dict(
             kind="pick", game_id=p.id, title=f"{tier}: {team} {fmt_line(line)}",
-            text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Blend takes {team} {fmt_line(line)}, "
+            text=f"{p.away} @ {p.home}, {kickoff(p.kickoff, p.id in tbd)}. Blend takes {team} {fmt_line(line)}, "
                  f"a {p.edge:.1f}-point edge, logged when the line first appeared.{note}{worth}")
         if listed := qb_listed.get((p.id, team)):  # keyed by status, so a downgrade from doubtful to out alerts again
             out[f"qb:{p.id}:{team}:{listed['status']}"] = dict(
                 kind="qb", game_id=p.id, title=f"Check the news: {team} QB {listed['status']}",
                 text=f"{listed['player']}, {team}'s usual starter, is listed {listed['status']} for {p.away} @ {p.home} "
-                     f"({kickoff(p.kickoff)}). Blend's pick on {team} {fmt_line(line)} is now Check the news: in "
+                     f"({kickoff(p.kickoff, p.id in tbd)}). Blend's pick on {team} {fmt_line(line)} is now Check the news: in "
                      f"2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.")
     for p in upcoming(totals[(totals.source == "anchored") & (totals.edge >= LEAN)], now).itertuples():
         tier, note = label(p)
@@ -173,7 +191,7 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
         worth = worth_note(points_needed(p.edge, "total", "anchored"), lambda x: f"{p.side.title()} {p.total_logged + sign * x:g}")
         out[f"total:{p.id}"] = dict(
             kind="total", game_id=p.id, title=f"{tier}: {p.side.title()} {p.total_logged:g}",
-            text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Market-anchored takes the {p.side} {p.total_logged:g} "
+            text=f"{p.away} @ {p.home}, {kickoff(p.kickoff, p.id in tbd)}. Market-anchored takes the {p.side} {p.total_logged:g} "
                  f"(projects {p.proj:.1f}), a {p.edge:.1f}-point edge, logged when the total first appeared.{note}{worth}")
     return out
 
@@ -191,7 +209,7 @@ def through(a, b, k):
     return f"onto {abs(k)}" if b == k else f"off {abs(k)}" if a == k else f"through {abs(k)}"
 
 
-def key_number_alerts(lines, picks, now):
+def key_number_alerts(lines, picks, now, tbd=()):
     """{key: alert} for line moves through 3 or 7 on upcoming games with a lean-or-better pick."""
     out = {}
     chosen = upcoming(picks[(picks.source == SPREAD_SOURCE) & (picks.edge >= LEAN)], now).set_index("id")
@@ -208,7 +226,7 @@ def key_number_alerts(lines, picks, now):
                 out[f"key:{gid}:{r.seen_at}"] = dict(
                     kind="key", game_id=gid, title=f"Line {through(prev, r.line, k)}: {p.away} @ {p.home}",
                     text=f"The line moved from {show(prev)} to {show(r.line)}, {through(prev, r.line, k)}, "
-                         f"{'toward' if toward else 'away from'} the model's pick ({team}). {kickoff(p.kickoff)}.")
+                         f"{'toward' if toward else 'away from'} the model's pick ({team}). {kickoff(p.kickoff, gid in tbd)}.")
             prev = r.line
     return out
 
@@ -270,8 +288,9 @@ def main():
     if totals is None:
         totals = pd.DataFrame(columns=["source", "edge", "kickoff", "id", "side", "total_logged", "proj", "home", "away"])
 
-    found = (new_pick_alerts(picks, totals, now, qb_changes(), bowl_games(picks, now), qb_out())
-             | key_number_alerts(lines, picks, now))
+    tbd = tbd_games()
+    found = (new_pick_alerts(picks, totals, now, qb_changes(), bowl_games(picks, now), qb_out(), tbd)
+             | key_number_alerts(lines, picks, now, tbd))
     first = not STATE.exists()
     state = json.loads(STATE.read_text()) if not first else {"sent": [], "items": []}
     sent = set(state["sent"])

@@ -20,7 +20,7 @@ function gameFromSummary(s) {
     record: x.record?.find((r) => r.type === "total")?.summary || "", score: parseInt(x.score || 0, 10), winner: x.winner,
   });
   const g = {
-    id: String(c.id), date: c.date, home: team(t.home), away: team(t.away), state: c.status.type.state,
+    id: String(c.id), date: c.date, tbd: c.timeValid === false, home: team(t.home), away: team(t.away), state: c.status.type.state,
     status: c.status.type.shortDetail, period: c.status.period || 0, clock: parseFloat(c.status.clock || 0),
     neutral: !!c.neutralSite, tv: (c.broadcasts || []).map((b) => b.media?.shortName).filter(Boolean).join(", "),
     line: null, openLine: null, total: null, openTotal: null,
@@ -66,7 +66,7 @@ const lineTxt = (g, line) => (line == null ? "—" : `${g.home.abbr} ${fmtLine(l
 
 function headerCard(g, s) {
   const venue = s.gameInfo?.venue;
-  const when = new Date(g.date).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  const when = `${kickDay(g, { weekday: "short", month: "short", day: "numeric" })}, ${kickTime(g).replace("Time TBD", "time TBD")}`;
   const status = g.state === "pre" ? when : g.status;
   const ev = evaluate(g, "spread");  // the over/under has its own card below
   const hasPick = ev.margin != null && ev.line != null;
@@ -232,18 +232,32 @@ function opinionCard(g, s) {
 }
 
 function conditionsCard(g, s) {
-  const gi = s.gameInfo || {}, w = gi.weather, v = gi.venue;
+  const gi = s.gameInfo || {}, espn = gi.weather, v = gi.venue;
+  // Before kickoff: the site's own forecast (weather.json, the first three hours from Open-Meteo), the
+  // same numbers the over/under card uses, so the page never shows two forecasts. ESPN's after that.
+  const f = weatherOf(g);
   const items = [];
   if (v) items.push(["Venue", `${v.fullName}${v.grass === true ? " · grass" : v.grass === false ? " · artificial turf" : ""}`]);
   items.push(["Site", g.neutral ? "Neutral site: no home-field advantage" : `${g.home.name} at home`]);
-  if (w) {
-    items.push(["Temperature", w.temperature != null ? `${w.temperature}°F` : "—"]);
-    if (w.gust != null) items.push(["Wind gusts", `${w.gust} mph`]);
-    if (w.precipitation != null) items.push(["Rain chance", `${w.precipitation}%`]);
+  let gust = null, source = "";
+  if (f?.dome) items.push(["Weather", "Indoors"]);
+  else if (f) {
+    gust = f.gust;
+    items.push(["Temperature", `${f.temp}°F`], ["Wind", `${f.wind} mph, gusts to ${f.gust}`], ["Rain chance", `${f.rain}%`]);
+    source = "Forecast for the first three hours of the game, from Open-Meteo.";
+  } else if (espn) {
+    gust = espn.gust ?? null;
+    items.push(["Temperature", espn.temperature != null ? `${espn.temperature}°F` : "—"]);
+    if (espn.gust != null) items.push(["Wind gusts", `${espn.gust} mph`]);
+    if (espn.precipitation != null) items.push(["Rain chance", `${espn.precipitation}%`]);
+    source = "Weather from ESPN.";
   } else if (g.state === "pre") items.push(["Weather", "No forecast yet (or played indoors)"]);
   if (gi.attendance) items.push(["Attendance", gi.attendance.toLocaleString()]);
+  // before kickoff, wind follows the tested rule (12+ mph on average over the first three hours), as on the over/under card
+  const wind = f && !f.dome ? (f.windy ? " Windy enough to matter in testing: see the over/under card." : "")
+    : gust >= 20 ? " Strong wind tends to lower scoring and hurts passing teams most." : "";
   return `<div class="card"><h3>Conditions</h3><dl class="gd-dl">${items.map(([k, val]) => `<dt>${esc(k)}</dt><dd>${esc(val)}</dd>`).join("")}</dl>
-    ${w?.gust >= 20 ? `<p class="note">Strong wind tends to lower scoring and hurts passing teams most.</p>` : ""}</div>`;
+    ${source || wind ? `<p class="note">${esc(source + wind)}</p>` : ""}</div>`;
 }
 
 function flowCard(g, s) {

@@ -47,7 +47,9 @@ function defenseNote(p, market) {
 function propCard(p) {
   const market = propState.market, m = p.markets[market];
   const g = propState.data.games.find((x) => x.id === p.game_id);
-  const when = g ? new Date(g.kickoff).toLocaleString(undefined, { weekday: "short", hour: "numeric", minute: "2-digit" }) : "";
+  // a kickoff time ESPN hasn't set (tbd, from build_props.py) is midnight Eastern: show the day in Eastern time and "time TBD"
+  const when = !g ? "" : g.tbd ? `${new Date(g.kickoff).toLocaleDateString(undefined, { weekday: "short", timeZone: ET })}, time TBD`
+    : new Date(g.kickoff).toLocaleString(undefined, { weekday: "short", hour: "numeric", minute: "2-digit" });
   const saved = store.get(propKey(p, market), {}) || {};
   const v = propVerdict(p, market);
   const unit = market === "pass_td" ? "" : market === "rec" ? "" : " yds";
@@ -103,7 +105,7 @@ function renderPropsIntro() {
   $("#props-updated").textContent = `Updated ${new Date(d.updated).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })} · week ${d.week}`;
   const games = [...d.games].sort((x, y) => x.kickoff.localeCompare(y.kickoff));
   $("#props-game").innerHTML = `<option value="all">All games (${games.length})</option>` + games.map((g) =>
-    `<option value="${esc(g.id)}">${esc(new Date(g.kickoff).toLocaleDateString(undefined, { weekday: "short" }))} · ${esc(g.away)} @ ${esc(g.home)}</option>`).join("");
+    `<option value="${esc(g.id)}">${esc(new Date(g.kickoff).toLocaleDateString(undefined, g.tbd ? { weekday: "short", timeZone: ET } : { weekday: "short" }))} · ${esc(g.away)} @ ${esc(g.home)}</option>`).join("");
 }
 
 function bindProps() {

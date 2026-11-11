@@ -1,6 +1,12 @@
 [
  {
   "date": "2026-11-11",
+  "type": "feature",
+  "title": "Link previews, a phone app, TBD kickoffs and a way to move your picks",
+  "summary": "Links to the site now show a preview card in iMessage, Slack, Discord and X. Add it to your phone's home screen and it opens full screen like an app, with the football icon. Games whose kickoff time ESPN hasn't set say Time TBD instead of 12:00 AM, sit at the end of their day, and land on the right day in every time zone; alerts say time TBD too. A game page shows one weather forecast instead of two that disagreed: before kickoff, the Conditions card uses the same forecast as the over/under. And My picks can be downloaded as a CSV and imported on another phone or computer."
+ },
+ {
+  "date": "2026-11-11",
   "type": "model",
   "title": "Go for it now means the best price on offer beats break-even",
   "summary": "Between Punt (an edge under 1.5 points) and Check the news (5+), labels now come from the price. A pick is Go for it only when the best line and price across the sportsbooks gives it a chance at least a point above that price's break-even, and Lean otherwise, with the number to look for, like \"worth a bet at +2 or better at -110.\" Before kickoff, the chance bar shows the chance at that best number, and its yellow line what that price needs, so a Go for it bar is always past the line.",

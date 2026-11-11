@@ -266,7 +266,7 @@ function parseEvent(e) {
     winner: x.winner,
   });
   const g = {
-    id: e.id, date: e.date, home: team(t.home), away: team(t.away),
+    id: e.id, date: e.date, tbd: c.timeValid === false, home: team(t.home), away: team(t.away),
     state: c.status.type.state, status: c.status.type.shortDetail,
     period: c.status.period || 0, clock: parseFloat(c.status.clock || 0),
     neutral: !!c.neutralSite, tv: c.broadcasts?.[0]?.names?.join(", ") || "",
@@ -358,7 +358,7 @@ function renderGames() {
   });
   if (state.filter === "close") rows.sort((a, b) => Math.abs(spreadGap(a.g)) - Math.abs(spreadGap(b.g)));  // tightest first
   else if (state.sort === "edge") rows.sort((a, b) => (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
-  else rows.sort((a, b) => a.g.date.localeCompare(b.g.date) || (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
+  else rows.sort((a, b) => kickSort(a.g) - kickSort(b.g) || (b.ev.edge ?? -1) - (a.ev.edge ?? -1));
 
   const counts = {
     all: found.length, edge: all.filter((e) => e.edge >= LEAN).length,
@@ -390,7 +390,7 @@ function renderGames() {
     if (!byDay) return `<div class="grid">${list.map(({ g, ev }) => card(g, ev, tracked.has(trackKey(g)))).join("")}</div>`;
     let html = "", day = "";
     for (const { g, ev } of list) {
-      const d = new Date(g.date).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+      const d = kickDay(g, { weekday: "long", month: "short", day: "numeric" });
       if (d !== day) { html += (day ? "</div>" : "") + `<h2 class="day-head">${esc(d)}</h2><div class="grid">`; day = d; }
       html += card(g, ev, tracked.has(trackKey(g)));
     }
@@ -426,6 +426,14 @@ function teamRow(t, g, picked) {
     ${showScore ? `<span class="score">${t.score}</span>` : ""}
   </div>`;
 }
+
+/** Kickoffs. ESPN puts a game whose time isn't set yet at midnight Eastern (timeValid false, status TBD):
+ *  its day is read in Eastern time, so it's the right day anywhere, it sorts last on that day, and its
+ *  time says TBD instead of 12:00 AM. */
+const ET = "America/New_York";
+const kickDay = (g, opts) => new Date(g.date).toLocaleDateString(undefined, g.tbd ? { ...opts, timeZone: ET } : opts);
+const kickTime = (g) => (g.tbd ? "Time TBD" : new Date(g.date).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }));
+const kickSort = (g) => Date.parse(g.date) + (g.tbd ? 86399e3 : 0);
 
 const pts = (x) => { const v = Math.abs(x); return `${v % 1 ? v.toFixed(1) : v} point${v === 1 ? "" : "s"}`; };
 const lineWord = (l) => (l === 0 ? "a pick'em" : fmtLine(l).replace("-", "−"));
@@ -566,9 +574,7 @@ function pickBox(g, ev, { tierTxt } = {}) {
 }
 
 function card(g, ev, isTracked) {
-  const time = g.state === "pre"
-    ? new Date(g.date).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })
-    : g.status;
+  const time = g.state === "pre" ? kickTime(g) : g.status;
   const statusCls = g.state === "in" ? "status live" : "status";
   const moved = g.openLine != null && g.line != null && g.openLine !== g.line
     ? `<span class="open"> opened ${fmtLine(g.openLine)}</span>` : "";
@@ -740,6 +746,32 @@ function renderBets() {
 }
 
 function csvCell(v) { const s = String(v ?? ""); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }
+
+/** Saves rows (the first one the header) as a CSV file. */
+function downloadCSV(name, rows) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([rows.map((r) => r.map(csvCell).join(",")).join("\n")], { type: "text/csv" }));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+
+// My picks live in this browser's storage; a CSV moves them to another phone or computer
+const PICK_COLS = ["id", "game_id", "market", "date", "season", "week", "seasontype", "game", "pick", "side", "line", "edge",
+  "prob", "call", "source", "result", "finalMargin"];
+const PICK_NUMS = new Set(["season", "line", "edge", "prob", "finalMargin"]);
+
+/** Picks from a CSV made by Download as CSV, skipping any already tracked here (by game and market). */
+function importPicks(text) {
+  const [head = [], ...rows] = parseCSV(text);
+  const idx = head.map((h) => h.trim());
+  const have = new Set(store.get("picks", []).map((p) => p.id));
+  const added = rows.map((r) => Object.fromEntries(PICK_COLS.flatMap((c) => {
+    const v = (r[idx.indexOf(c)] ?? "").trim();
+    if (!v) return c === "result" || c === "finalMargin" ? [[c, null]] : [];
+    return [[c, PICK_NUMS.has(c) ? Number(v) : v]];
+  }))).filter((p) => p.id && p.game_id && p.date && p.pick && Number.isFinite(p.line) && Number.isFinite(p.edge) && !have.has(p.id));
+  store.set("picks", [...store.get("picks", []), ...added]);
+  return added.length;
+}
 
 function parseCSV(text) {
   const rows = []; let row = [], cell = "", q = false;
@@ -1158,6 +1190,13 @@ function bind() {
   $("#picks-clear").addEventListener("click", () => {
     if (confirm("Remove all tracked picks from this browser?")) { store.set("picks", []); renderAll(); }
   });
+  $("#picks-export").addEventListener("click", () =>
+    downloadCSV("picks.csv", [PICK_COLS, ...store.get("picks", []).map((p) => PICK_COLS.map((c) => p[c] ?? ""))]));
+  $("#picks-import").addEventListener("change", async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    importPicks(await f.text());
+    e.target.value = ""; gradeOldPicks(); renderAll();
+  });
 
   const form = $("#bet-form");
   const today = () => new Date().toLocaleDateString("en-CA");  // YYYY-MM-DD in local time
@@ -1169,12 +1208,8 @@ function bind() {
     form.reset(); form.date.value = today();
     renderBets();
   });
-  $("#bets-export").addEventListener("click", () => {
-    const rows = [BET_COLS, ...store.get("bets", []).map((b) => BET_COLS.map((c) => b[c] ?? ""))];
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([rows.map((r) => r.map(csvCell).join(",")).join("\n")], { type: "text/csv" }));
-    a.download = "bets.csv"; a.click(); URL.revokeObjectURL(a.href);
-  });
+  $("#bets-export").addEventListener("click", () =>
+    downloadCSV("bets.csv", [BET_COLS, ...store.get("bets", []).map((b) => BET_COLS.map((c) => b[c] ?? ""))]));
   $("#bets-import").addEventListener("change", async (e) => {
     const f = e.target.files[0]; if (!f) return;
     const [head, ...rows] = parseCSV(await f.text());
