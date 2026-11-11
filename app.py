@@ -5,8 +5,8 @@ import pandas as pd
 import streamlit as st
 
 import sources
-from model import (HFA, add_anchored, add_efficiency, anchored_margin, cover_prob, efficiency_margin, fit_anchor,
-                   fpi_margin, live_cover_prob, load_ratings, project, score_backtest)
+from model import (HFA, add_anchored, add_efficiency, cover_prob, fit_anchor, live_cover_prob, load_ratings,
+                   projections, score_backtest)
 from sources import ANCHOR, DATA, RATINGS, cfbd_key, season_of
 
 HISTORY, BETS = DATA / "history.csv", DATA / "bets.csv"
@@ -92,36 +92,16 @@ def sync_history(games):
     return h
 
 
-def proj_margin(g, line):
-    p = project(g.home, g.away, ratings, g.neutral, hfa)
-    pts = None if p is None else p[0] - p[1]
-    fpi = fpi_margin(g.home, g.away, ratings, g.neutral, hfa)
-    def matchup(scale, off, dfn):  # an opponent-adjusted per-play rating turned into points
-        if not scale or off not in ratings.columns or g.home not in ratings.index or g.away not in ratings.index:
-            return None
-        h, a = ratings.loc[g.home], ratings.loc[g.away]
-        if pd.isna(h[off]) or pd.isna(a[off]):
-            return None
-        return float(efficiency_margin((h[off] + a[dfn]) - (a[off] + h[dfn]), g.neutral, scale, hfa))
+SOURCE_KEYS = {"Adjusted points": "points", "ESPN FPI": "fpi", "Efficiency": "efficiency", "Success rate": "success",
+               "Market-anchored": "anchored"}
 
-    eff = matchup((anchor or {}).get("eff_scale"), "off_eff", "def_eff")
-    sr = matchup((anchor or {}).get("sr_scale"), "off_sr", "def_sr")
-    if source == "Adjusted points":
-        return pts
-    if source == "ESPN FPI":
-        return fpi
-    if source == "Efficiency":
-        return eff
-    if source == "Success rate":
-        return sr
-    if source == "Market-anchored":
-        # start from the line being bet (current, or the saved pregame line once started)
-        base = line
-        if anchor is None or pts is None or fpi is None or pd.isna(base):
-            return None
-        return anchored_margin(anchor["weights"], base, fpi, pts)
-    both = [m for m in (fpi, eff, sr) if m is not None]
-    return sum(both) / len(both) if both else None
+
+def proj_margin(g, line):
+    """The chosen source's projected home margin, from the same function the forward test uses.
+    Market-anchored starts from the line being bet (current, or the saved pregame line once started)."""
+    a = anchor or {}
+    p = projections(g.home, g.away, ratings, g.neutral, hfa, line, a.get("weights"), a.get("eff_scale"), a.get("sr_scale"))
+    return p[SOURCE_KEYS.get(source, "blend")]
 
 
 def secs_left(g):

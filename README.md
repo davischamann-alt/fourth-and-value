@@ -504,9 +504,13 @@ Saving the file on `main` (on GitHub, or with a push) runs the job right away. A
 
 ## Publishing the website
 
-The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours (every 30 minutes on Sundays from noon to 11 p.m. Eastern, when next week's lines open), whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
+The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours, whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
 
 Each run also builds the QB watch and player props (`build_props.py`), sends alerts (`alerts.py`) and fetches kickoff forecasts (`weather.py`).
+
+**Sundays.** Next week's lines open on Sunday afternoon and move within hours, so a second, lighter job (`.github/workflows/lines.yml`) runs every 30 minutes from noon to 11 p.m. Eastern. It only records lines and picks, checks the sportsbooks and sends alerts, then commits; it finishes in about a minute. It doesn't publish, so the website catches up at the next two-hourly run.
+
+**One set of formulas.** The projection math is written twice: in `model.py` for the forward test and the backtest, and in `site/projections.js` for the website (the desktop app calls `model.py`). Before every publish, `check_parity.py` projects a few hundred matchups both ways from the site's own data files and stops the publish if any number differs by more than 0.01 points. If you change a formula, change both files; run `python check_parity.py` to check (it needs Node).
 
 **Bowls, the playoff and the offseason.** Bowl and playoff results count toward the ratings, the forward test logs postseason games like any others, and conference championships are regular-season week 15. After the national championship, the Games tab says the season is over. On July 1 the site switches to the new season: until games are played, every team is rated by ESPN's FPI alone, the season that just ended joins the backtest automatically, and Market-anchored is retrained with it.
 
@@ -535,10 +539,12 @@ fourth-and-value/
 ├── alerts.py                 # alerts: new edges and key-number line moves, to the feed, ntfy and Discord
 ├── weather.py                # kickoff forecasts for this week's games (Open-Meteo), for wind flags on totals
 ├── odds.py                   # line shopping: the best spread and total across sportsbooks (The Odds API)
+├── check_parity.py           # checks that the site's projection math matches model.py (run before every publish)
 ├── build_props.py            # player prop projections for the Props tab, the QB watch (ESPN box scores) and QB availability
 ├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), alerts.js (Alerts panel), alerts.xml (feed), data/ (changelog.json is the change log)
 ├── .github/ISSUE_TEMPLATE/   # GitHub issue forms behind the site's suggestion form
-├── .github/workflows/site.yml # nightly job that refreshes and publishes the website
+├── .github/workflows/site.yml # the two-hourly job: records picks, rebuilds the site's data, checks the math, publishes
+├── .github/workflows/lines.yml # Sundays, every 30 minutes: records lines and picks and sends alerts, without rebuilding the site
 ├── requirements.txt          # Python libraries to install
 ├── .streamlit/secrets.toml   # your CollegeFootballData key (you create it; never uploaded)
 └── data/

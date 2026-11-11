@@ -7,14 +7,12 @@ name: Update and publish site
 
 on:
   schedule:
-    - cron: "17 */2 * * *"   # every two hours, at 17 minutes past (GitHub is busiest on the hour)
-    # Sundays from noon to 11 p.m. Eastern, every 30 minutes: next week's lines open then and move
-    # within hours, and a pick is only worth as much as the number it was logged at
-    - cron: "7,37 17-23 * * 0"
-    - cron: "7,37 0-3 * * 1"
+    # every two hours, at 17 minutes past (GitHub is busiest on the hour). On Sundays, lines.yml
+    # also records lines and picks every 30 minutes, without rebuilding or publishing the site.
+    - cron: "17 */2 * * *"
   push:
     branches: [main]
-    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "odds.py", "sources.py", "model.py", "data/qb_status.csv", ".github/workflows/site.yml"]
+    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "odds.py", "sources.py", "model.py", "check_parity.py", "data/qb_status.csv", ".github/workflows/site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -100,6 +98,11 @@ jobs:
           # Optional: add a CFBD_API_KEY repository secret to include past seasons in the track record
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
         run: python build_site.py
+      # The site's projection math (site/projections.js) must match model.py, or the site would show
+      # picks the forward test never logged. A mismatch stops the publish; the picks above are
+      # already committed.
+      - name: Check the site's math against the model
+        run: python check_parity.py
       - name: Kickoff weather
         # stadium locations from CollegeFootballData, forecasts from Open-Meteo; optional
         continue-on-error: true

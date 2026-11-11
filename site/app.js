@@ -126,39 +126,17 @@ const sigma = (market = state.market) => market === "total"
  *  (model.fit_shrink, in data/model.json): gaps read at face value were far too confident. */
 const shrink = (market, src) => state.model?.shrink?.[market]?.[src] ?? 1;
 
-/** Projected home margin for one game from every source, or null where a source can't make one. */
+/** Projected home margin for one game from every source, or null where a source can't make one.
+ *  The math is in projections.js, which check_parity.py compares with model.py. */
 function projections(g) {
   const r = state.ratings?.byId || {};
-  const h = r[g.home.id], a = r[g.away.id];
-  const bump = g.neutral ? 0 : hfa();
-  const points = h && a && h.ppg != null && a.ppg != null ? (h.ppg + a.papg) - (a.ppg + h.papg) + bump : null;
-  const fpi = h && a && h.fpi != null && a.fpi != null ? h.fpi - a.fpi + bump : null;
-  // EPA per play this matchup should produce, in points (model.efficiency_margin)
-  const es = state.model?.eff_scale;
-  const efficiency = es && h && a && h.off_eff != null && a.off_eff != null
-    ? es * ((h.off_eff + a.def_eff) - (a.off_eff + h.def_eff)) + bump : null;
-  // success rate works the same way, with its own points-per-unit scale
-  const ss = state.model?.sr_scale;
-  const success = ss && h && a && h.off_sr != null && a.off_sr != null
-    ? ss * ((h.off_sr + a.def_sr) - (a.off_sr + h.def_sr)) + bump : null;
-  const both = [fpi, efficiency, success].filter((x) => x != null);  // Blend: FPI, Efficiency and Success rate (see model.projections)
-  const blend = both.length ? both.reduce((s, x) => s + x, 0) / both.length : null;
-  const w = state.model?.anchor?.weights;
-  const base = g.line;  // start from the line being bet, as tested (see model.projections)
-  const anchored = w && points != null && fpi != null && base != null
-    ? w.const - w.line * base + w.fpi * fpi + w.points * points : null;
-  return { points, fpi, efficiency, success, blend, anchored };
+  return spreadProjections(r[g.home.id], r[g.away.id], { neutral: g.neutral, line: g.line, hfa: hfa(), model: state.model });
 }
 
 /** Projected total points from each totals source (same math as record.log_totals). */
 function totalProjections(g) {
   const r = state.ratings?.byId || {};
-  const h = r[g.home.id], a = r[g.away.id];
-  if (!h || !a || h.ppg == null || a.ppg == null) return { points: null, anchored: null };
-  const points = h.ppg + a.papg + a.ppg + h.papg - 2 * state.ratings.avg;
-  const w = state.model?.anchor?.total_weights;
-  const anchored = w && g.total != null ? w.const + w.total * g.total + w.points * points : null;
-  return { points, anchored };
+  return totalProjectionsFor(r[g.home.id], r[g.away.id], { total: g.total, avg: state.ratings?.avg, model: state.model });
 }
 
 /** How far a live game is from the spread: home margin + home line (0 = right on the number). */
@@ -1096,8 +1074,7 @@ async function init() {
   state.qbListed = qb?.listed || null;
   state.weather = weather?.games || null;
   if (ratings) {
-    const played = ratings.teams.filter((t) => t.ppg != null);
-    const avg = played.reduce((s, t) => s + t.ppg + t.papg, 0) / (2 * played.length || 1);  // model.project's avg
+    const avg = leagueAverage(ratings.teams);  // model.project's avg
     state.ratings = { ...ratings, avg, list: ratings.teams, byId: Object.fromEntries(ratings.teams.map((t) => [String(t.id), t])) };
   }
   state.model = model;
