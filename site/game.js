@@ -147,19 +147,24 @@ function lineCard(g, log) {
   }
   const o = g.state === "pre" ? state.odds?.[g.id] : null;
   const ago = state.oddsAt ? Math.max(1, Math.round((Date.now() - Date.parse(state.oddsAt)) / 6e4)) : null;
-  const shop = o ? `<h4 class="gd-h4">Line shopping</h4><table class="data gd-shop">
-      <tr><th class="l">Across ${o.books} sportsbook${o.books === 1 ? "" : "s"}</th><th>Middle</th><th>Best for ${esc(g.away.abbr)}</th><th>Best for ${esc(g.home.abbr)}</th></tr>
+  // one quote: the number, with its price on a small second line so the table fits a narrow card
+  const quote = (label, price) => `${esc(label)}<span class="gd-price">${price > 0 ? "+" : ""}${price}</span>`;
+  const shop = o ? `<h4 class="gd-h4">Line shopping</h4>
+    <div class="gd-shop-wrap"><table class="data gd-shop">
+      <tr><th class="l">${o.books} books</th><th>Middle</th><th colspan="2">Best on offer</th></tr>
       ${o.home_best == null ? "" : `<tr><td class="l">Spread</td><td>${esc(g.home.abbr)} ${fmtLine(o.spread_mid)}</td>
-        <td>${esc(g.away.abbr)} ${fmtLine(-o.away_best)} <span class="note">(${o.away_price > 0 ? "+" : ""}${o.away_price})</span></td>
-        <td>${esc(g.home.abbr)} ${fmtLine(o.home_best)} <span class="note">(${o.home_price > 0 ? "+" : ""}${o.home_price})</span></td></tr>`}
+        <td>${quote(`${g.away.abbr} ${fmtLine(-o.away_best)}`, o.away_price)}</td>
+        <td>${quote(`${g.home.abbr} ${fmtLine(o.home_best)}`, o.home_price)}</td></tr>`}
       ${o.over_best == null ? "" : `<tr><td class="l">Total</td><td>${o.total_mid}</td>
-        <td colspan="2">Over ${o.over_best} <span class="note">(${o.over_price > 0 ? "+" : ""}${o.over_price})</span> · Under ${o.under_best} <span class="note">(${o.under_price > 0 ? "+" : ""}${o.under_price})</span></td></tr>`}
-    </table>
-    <p class="note">The best number on offer for each side${ago == null ? "" : `, checked ${ago < 90 ? `${ago} min` : `${Math.round(ago / 60)} hr`} ago`}. Half a point is worth
-      about as much as the model's whole edge, so it pays to look. Quotes priced worse than -125 are left out. Data: The Odds API.</p>` : "";
-  return `<div class="card"><h3>Line movement</h3><p>${text}</p>${shop}
+        <td>${quote(`Over ${o.over_best}`, o.over_price)}</td><td>${quote(`Under ${o.under_best}`, o.under_price)}</td></tr>`}
+    </table></div>
+    <p class="note">The best number for each side across ${o.books} US sportsbook${o.books === 1 ? "" : "s"}, with its price${ago == null ? ""
+      : `, checked ${ago < 90 ? `${ago} min` : `${Math.round(ago / 60)} hr`} ago`}. Half a point is worth about as much as the model's
+      whole edge, so it pays to look. Quotes priced worse than -125 are left out. Data: The Odds API.</p>` : "";
+  return `<div class="card"><h3>Line movement</h3><p>${text}</p>
     ${pts.length > 1 ? lineChart(pts, { step: true, yFmt: (v) => `${g.home.abbr} ${fmtLine(Math.round(v * 2) / 2)}` }) : ""}
-    <p class="note">Recorded every two hours by the forward test. A falling number means the market moved toward ${esc(g.home.name)}.</p>
+    <p class="note">Recorded by the forward test every two hours, and every 30 minutes on Sunday afternoons. A falling number means the
+      market moved toward ${esc(g.home.name)}.</p>${shop}
   </div>`;
 }
 

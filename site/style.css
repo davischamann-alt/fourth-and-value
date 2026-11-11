@@ -400,6 +400,9 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
 .gd-grid table.data th, .gd-grid table.data td { padding: 7px 8px; }
 .gd-grid .badge { font-size: 12px; padding: 2px 7px; }
 .gd-grid > * { min-width: 0; }  /* let wide tables scroll inside their card instead of stretching it */
+.gd-shop-wrap { overflow-x: auto; }  /* a safety net: the table is built to fit, but never spill out of the card */
+.gd-shop td { vertical-align: top; line-height: 1.25; }
+.gd-price { display: block; font-size: 11px; color: var(--muted); }
 
 /* Model change notice (Games tab) and log (Track record) */
 .notice { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; padding: 10px 12px 10px 14px;
