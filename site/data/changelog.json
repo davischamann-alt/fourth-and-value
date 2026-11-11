@@ -1,6 +1,15 @@
 [
  {
   "date": "2026-11-11",
+  "type": "model",
+  "title": "Go for it now means the best price on offer beats break-even",
+  "summary": "Between Punt (an edge under 1.5 points) and Check the news (5+), labels now come from the price. A pick is Go for it only when the best line and price across the sportsbooks gives it a chance at least a point above that price's break-even, and Lean otherwise, with the number to look for, like \"worth a bet at +2 or better at -110.\" Before kickoff, the chance bar shows the chance at that best number, and its yellow line what that price needs, so a Go for it bar is always past the line.",
+  "why": "Since cover chances were scaled to how often picks really win, every Go for it pick (a 3-5 point edge) showed 52% or less, below the 52.4% break-even marked on its own bar: the label said bet while the number said don't. The model's edge is worth about half a point to a point of line, and in the backtest each point of line was worth about 3% of hit rate, so the price you get decides whether a pick is worth it.",
+  "effect": "Far fewer Go for it picks: this week 4 of 30 labeled spread picks instead of 15, and no total. Most of them get there through a better price or number at one book, which the site can't name, so check your own book against the number. Quotes more than 1.5 points from the middle of the books are now ignored as feed errors. Alerts call new picks New pick and give the number to look for, since they can't follow prices after they're sent.",
+  "forward_test": "Unchanged: the pick log records edges, not labels."
+ },
+ {
+  "date": "2026-11-11",
   "type": "design",
   "title": "Easier on phones: keeps your place, today's games first, lighter logos",
   "summary": "Going back from a game now returns you to the same spot in the list, and every tab keeps its own place; tap the tab you're on to jump to the top. Games still to play come first, and finished games fold into a Final section at the bottom, latest first. Team logos load at the size they're shown, which cuts a week's worth from about 5.5 MB to 0.4 MB, and the dark theme uses ESPN's dark-mode logos, so navy and black ones stay visible. Tables on game pages and the Track record's recent picks rearrange to fit a phone instead of hiding columns off the edge; tables that still need a swipe fade at the edge and keep the first column in view. The How to read a game card guide moved from the bottom of the list to a ? button next to the team search."

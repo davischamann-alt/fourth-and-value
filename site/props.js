@@ -8,7 +8,7 @@ const PROP_SHORT = { pass_yds: "Pass yds", pass_td: "Pass TDs", rush_yds: "Rush 
 const PROP_LEAN = 0.03;   // lean only when the chance beats break-even by 3+ points (untested, so stay modest)
 const propState = { data: null, market: store.get("propMarket", "pass_yds"), game: "all", q: "" };
 
-const breakEven = (odds) => (odds < 0 ? -odds / (-odds + 100) : 100 / (odds + 100));
+// breakEven(odds) comes from app.js, which loads first
 
 function poissonOver(lambda, line) {
   // P(X > line) for whole-number counts, e.g. passing TDs over 1.5 means 2 or more

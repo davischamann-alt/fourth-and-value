@@ -19,7 +19,9 @@ Where alerts go:
 data/live/alerts.json remembers what's been sent, so nothing is sent twice. The first run (with no
 such file) only records what already exists, instead of sending every pick on the board at once."""
 import datetime as dt
+import functools
 import json
+import math
 import os
 from xml.sax.saxutils import escape
 from zoneinfo import ZoneInfo
@@ -34,7 +36,12 @@ STATE = LIVE / "alerts.json"
 SITE = sources.DATA.parent / "site"
 FEED, SITE_JSON = SITE / "alerts.xml", SITE / "data" / "alerts.json"
 QB = SITE / "data" / "qb.json"   # QB changes, written by build_props.py just before this runs
+MODEL = SITE / "data" / "model.json"   # the site's cover-chance settings (std devs and shrink), from build_site.py
 LEAN, STRONG, CHECK = 1.5, 3.0, 5.0
+# Worth a bet, as on the site (valueOf in site/app.js): a chance at least a point above the -110 break-even,
+# where each point of better line adds CLV_PER_POINT of hit rate
+BREAKEVEN, CUSHION = 110 / 210, 0.01
+CLV_PER_POINT = {"spread": 0.03, "total": 0.025}
 SPREAD_SOURCE = "blend"   # the site's default spread projection (Market-anchored until November 10, 2026)
 KEY_NUMBERS = (3, 7)
 KEEP = 200          # alerts kept in the history (the feed shows the newest 50)
@@ -48,7 +55,41 @@ def site_url():
 
 
 def tier_label(edge):
-    return "Check the news" if edge >= CHECK else "Go for it" if edge >= STRONG else "Lean"
+    """The headline word. On the site, Go for it or Lean depends on the best price on offer at the moment,
+    which an alert sent once can't follow, so a new pick is a New pick, with the number to look for."""
+    return "Check the news" if edge >= CHECK else "New pick"
+
+
+@functools.cache
+def model_settings():
+    try:
+        return json.loads(MODEL.read_text())
+    except (OSError, ValueError):
+        return None
+
+
+def points_needed(edge, market, src):
+    """How many points better than the logged number a pick needs at -110 to be worth a bet, in half
+    points: the site's cover chance at that edge (evaluate in site/app.js), plus CLV_PER_POINT a point.
+    None without the site's settings."""
+    m = model_settings()
+    try:
+        s = (m["sigma_total"] if market == "total" else m["sigma"])[src]
+        p = 0.5 * (1 + math.erf(m["shrink"][market][src] * edge / s / math.sqrt(2)))
+    except (TypeError, KeyError):
+        return None
+    need = 0.0
+    while p + CLV_PER_POINT[market] * need < BREAKEVEN + CUSHION and need < 10:
+        need += 0.5
+    return need
+
+
+def worth_note(need, number):
+    """number(x): the pick at x points better than logged, as text."""
+    if need is None:
+        return ""
+    return (f" Worth a bet at {number(need)} or better at -110; the site shows the best number on offer."
+            if need else " Worth a bet at this number at -110.")
 
 
 def fmt_line(x):
@@ -115,10 +156,11 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
     for p in upcoming(picks[(picks.source == SPREAD_SOURCE) & (picks.edge >= LEAN)], now).itertuples():
         team, line = (p.home, p.line_logged) if p.side == "home" else (p.away, -p.line_logged)
         tier, note = label(p, team)
+        worth = worth_note(points_needed(p.edge, "spread", SPREAD_SOURCE), lambda x: f"{team} {fmt_line(line + x)}")
         out[f"pick:{p.id}"] = dict(
             kind="pick", game_id=p.id, title=f"{tier}: {team} {fmt_line(line)}",
             text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Blend takes {team} {fmt_line(line)}, "
-                 f"a {p.edge:.1f}-point edge, logged when the line first appeared.{note}")
+                 f"a {p.edge:.1f}-point edge, logged when the line first appeared.{note}{worth}")
         if listed := qb_listed.get((p.id, team)):  # keyed by status, so a downgrade from doubtful to out alerts again
             out[f"qb:{p.id}:{team}:{listed['status']}"] = dict(
                 kind="qb", game_id=p.id, title=f"Check the news: {team} QB {listed['status']}",
@@ -127,10 +169,12 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None):
                      f"2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.")
     for p in upcoming(totals[(totals.source == "anchored") & (totals.edge >= LEAN)], now).itertuples():
         tier, note = label(p)
+        sign = -1 if p.side == "over" else 1  # a lower total is better for an over
+        worth = worth_note(points_needed(p.edge, "total", "anchored"), lambda x: f"{p.side.title()} {p.total_logged + sign * x:g}")
         out[f"total:{p.id}"] = dict(
             kind="total", game_id=p.id, title=f"{tier}: {p.side.title()} {p.total_logged:g}",
             text=f"{p.away} @ {p.home}, {kickoff(p.kickoff)}. Market-anchored takes the {p.side} {p.total_logged:g} "
-                 f"(projects {p.proj:.1f}), a {p.edge:.1f}-point edge, logged when the total first appeared.{note}")
+                 f"(projects {p.proj:.1f}), a {p.edge:.1f}-point edge, logged when the total first appeared.{note}{worth}")
     return out
 
 

@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=42">
+  <link rel="stylesheet" href="style.css?v=43">
   <link rel="alternate" type="application/atom+xml" title="Fourth &amp; Value alerts" href="alerts.xml">
 </head>
 <body>
@@ -53,7 +53,7 @@
           <div class="chips" id="filter" role="group" aria-label="Show">
             <button data-filter="all" class="on"><span class="lbl">All</span><span class="count" data-count="all"></span></button>
             <button data-filter="edge"><span class="lbl">Edges<span class="hide-sm">&nbsp;1.5+</span></span><span class="count" data-count="edge"></span></button>
-            <button data-filter="strong" title="Edges of 3-5 points"><span class="lbl">Go for it</span><span class="count" data-count="strong"></span></button>
+            <button data-filter="strong" title="Picks where the best line and price on offer beat break-even by a point"><span class="lbl">Go for it</span><span class="count" data-count="strong"></span></button>
             <button data-filter="open" title="Edges of 1.5+ still within half a point of the opening number, where the model tested best"><span class="lbl">At open</span><span class="count" data-count="open"></span></button>
             <button data-filter="live"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Live</span><span class="count" data-count="live"></span></button>
             <button data-filter="close" title="Live games within 4 points of the spread: a field goal could flip who covers"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Close</span><span class="count" data-count="close"></span></button>
@@ -425,8 +425,9 @@
       <ul>
         <li><b>Line</b> is the betting spread from ESPN. The small gray number is where it opened, so you can see how it moved.</li>
         <li><b>Model</b> is the predicted final margin. <b>Pick</b> is the side the model thinks covers the line.</li>
-        <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3–5 points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury. The labels say how much the model disagrees with the line, not how likely the pick is to win: no range of edge sizes reliably beat another.</li>
-        <li><b>Cover chance</b> is the model's chance the pick covers, scaled to how often picks with that edge really covered in 2024–2026. Most are between 50% and 55%; that's how small the edge is. During a game it updates with the score and clock. The yellow tick on the bar marks 52.4%, the break-even point at standard -110 odds.</li>
+        <li><b>Edge</b> is how many points the model disagrees with the line by. Under 1.5 is <span class="badge pass">Punt</span>: no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury.</li>
+        <li><b>Go for it or Lean</b> comes from the price, for edges in between. The model's edge is small, worth about half a point to a point of line, so a pick is only worth a bet at a good enough number. <span class="badge strong">Go for it</span> means the best line and price across the sportsbooks gives the pick a chance at least a point above that price's break-even. <span class="badge lean">Lean</span> means none does yet, and the pick box says the number to look for, like "worth a bet at +2 or better at -110." Sportsbooks aren't named, so check your own book against that number.</li>
+        <li><b>Cover chance</b> is the model's chance the pick covers, scaled to how often picks with that edge really covered in 2024–2026; each point of better line adds about 3%. Before kickoff, the bar shows the chance at the best number on offer, and its yellow line the chance that price needs to be worth a bet: its break-even plus a point (53.4% at the usual -110, 51% at +100). A bar past the line is Go for it. Most chances are between 50% and 55%; that's how small the edge is. During a game it updates with the score and clock.</li>
         <li>The <b>Track</b> button saves a pick to <b>My picks</b>, where it's graded automatically when the game ends.</li>
         <li><b>Spread / Total</b> switches every card between the model's pick against the spread and its over/under pick against
           the total. Totals use two projections: <b>Market-anchored</b> (the default) starts from the betting total and adjusts it a
@@ -444,12 +445,12 @@
     </div>
   </dialog>
 
-  <script src="projections.js?v=42"></script>
-  <script src="app.js?v=42"></script>
-  <script src="game.js?v=42"></script>
-  <script src="updates.js?v=42"></script>
-  <script src="props.js?v=42"></script>
-  <script src="ratings.js?v=42"></script>
-  <script src="alerts.js?v=42"></script>
+  <script src="projections.js?v=43"></script>
+  <script src="app.js?v=43"></script>
+  <script src="game.js?v=43"></script>
+  <script src="updates.js?v=43"></script>
+  <script src="props.js?v=43"></script>
+  <script src="ratings.js?v=43"></script>
+  <script src="alerts.js?v=43"></script>
 </body>
 </html>

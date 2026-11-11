@@ -39,6 +39,11 @@ SITE = sources.DATA.parent / "site" / "data" / "odds.json"
 API = "https://api.the-odds-api.com/v4/sports/americanfootball_ncaaf/odds"
 ET = ZoneInfo("America/New_York")
 WORST_PRICE = -125      # a better number at a much worse price isn't a better bet: skip those quotes
+# A quote this many points from the middle of the others is a feed error or a stale line, not a price to
+# chase: in November 2026, three games each had one book showing the mirror image of the consensus (the
+# favorite as the underdog), 2 points off. The site labels picks Go for it from the best number, so those
+# quotes are left out.
+MAX_OFF = 1.5
 RESERVE = 20            # stop calling when the month's remaining credits fall to this
 HIST_COLS = ["seen_at", "id", "home", "away", "books", "spread_mid", "home_best", "away_best", "total_mid", "over_best", "under_best"]
 # names The Odds API spells differently from ESPN (both sides are normalized first)
@@ -85,6 +90,14 @@ def match(event, games):
     return (best[1], best[2]) if best[0] >= 0.8 else (None, False)
 
 
+def sane(quotes):
+    """(point, price) quotes within MAX_OFF points of their median."""
+    if not quotes:
+        return quotes
+    mid = statistics.median(p for p, _ in quotes)
+    return [q for q in quotes if abs(q[0] - mid) <= MAX_OFF]
+
+
 def best_numbers(event, flipped):
     """The best and middle numbers across books, all as ESPN's home spread / total. home_best is the
     highest home spread on offer (best for a home bettor), away_best the lowest (best for the away
@@ -102,14 +115,14 @@ def best_numbers(event, flipped):
                 elif m["key"] == "totals":
                     (overs if o["name"] == "Over" else unders).append((o["point"], o["price"]))
     ok = lambda price: price >= WORST_PRICE
-    home_q = [(p, price) for p, is_home, price in spreads if is_home and ok(price)]
-    away_q = [(p, price) for p, is_home, price in spreads if not is_home and ok(price)]
+    home_q = sane([(p, price) for p, is_home, price in spreads if is_home and ok(price)])
+    away_q = sane([(p, price) for p, is_home, price in spreads if not is_home and ok(price)])
     out = dict(books=len(event.get("bookmakers", [])))
     if home_q and away_q:
         hb, ab = max(home_q), min(away_q, key=lambda q: (q[0], -q[1]))
         out.update(spread_mid=statistics.median(p for p, _ in home_q), home_best=hb[0], home_price=hb[1],
                    away_best=ab[0], away_price=ab[1])
-    overs, unders = [q for q in overs if ok(q[1])], [q for q in unders if ok(q[1])]
+    overs, unders = sane([q for q in overs if ok(q[1])]), sane([q for q in unders if ok(q[1])])
     if overs and unders:
         ob, ub = min(overs, key=lambda q: (q[0], -q[1])), max(unders)
         out.update(total_mid=statistics.median(p for p, _ in overs), over_best=ob[0], over_price=ob[1],

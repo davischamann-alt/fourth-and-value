@@ -39,12 +39,23 @@ function allSources(g) {
     if (m == null || g.line == null) return { src, margin: m };
     const s = state.settings.sigma || state.model?.sigma?.[src] || 15.5;
     const edge = m + g.line, home = edge >= 0, homeProb = normCdf(shrink("spread", src) * edge / s);
-    return {
+    const r = withValue(g, {
       src, margin: m, edge: Math.abs(edge), side: home ? "home" : "away", team: home ? g.home : g.away,
-      pickLine: home ? g.line : -g.line, prob: home ? homeProb : 1 - homeProb,
+      line: g.line, pickLine: home ? g.line : -g.line, pre: home ? homeProb : 1 - homeProb,
       tier: gameTier(g, edge, home ? g.home : g.away),
-    };
+    });
+    r.prob = r.value ? r.value.best.p : r.pre;  // pregame, at the best number on offer, as on the cards
+    return r;
   });
+}
+
+/** Under a projections table: the numbers its chances were figured at, one per side, and what Go for it means. */
+function pricedAt(g, rows) {
+  if (g.state !== "pre") return "";
+  const used = [...new Map(rows.filter((r) => r.value?.best.shop).map((r) => [r.side, r.value.best])).values()];
+  return used.length
+    ? `Chances are at the best number on offer for each side: ${used.map((b) => `${b.label} (${fmtPrice(b.price)})`).join(", ")}. Go for it means that number beats its break-even by a point.`
+    : "Chances are at the line shown, at -110. Go for it means beating the 52.4% break-even by a point.";
 }
 
 const TIER_TXT = TIER_LABEL;
@@ -102,9 +113,9 @@ function pickCard(g) {
         <td class="sm-hide">${r.margin == null ? "—" : esc(marginTxt(g, r.margin))}</td>
         <td class="l">${r.edge == null ? "—" : `<b>${esc(r.team.abbr)} ${fmtLine(r.pickLine)}</b>`}</td>
         <td>${r.edge == null ? "—" : edgeBadge(r.tier, r.edge)}</td>
-        <td>${r.edge == null ? "—" : pct(r.prob)}</td></tr>`).join("")}
+        <td>${r.edge == null ? "—" : pct(r.prob, r.value ? 1 : 0)}</td></tr>`).join("")}
     </table></div>
-    <p class="note">★ is the projection chosen on the Games tab. Each uses its own tested std dev for the cover chance.
+    <p class="note">★ is the projection chosen on the Games tab. Each uses its own tested std dev for the cover chance. ${esc(pricedAt(g, usable))}
       ${g.state === "pre" ? "" : "These use today's ratings, which can include this game's own result. <b>Forward test</b> below shows the picks as they were recorded before kickoff."}</p>
   </div>`;
 }
@@ -259,14 +270,20 @@ function totalCard(g, log) {
   const proj = totalProjections(g), T = log?.totals;
   const split = proj.anchored != null && proj.points != null && (proj.anchored >= g.total) !== (proj.points >= g.total);
   const res = { W: `<span class="badge win">Won</span>`, L: `<span class="badge loss">Lost</span>`, P: `<span class="badge pass">Push</span>` };
-  const rows = ["anchored", "points"].filter((k) => proj[k] != null).map((k) => {
+  const picks = ["anchored", "points"].filter((k) => proj[k] != null).map((k) => {
     const edge = proj[k] - g.total, s = state.model?.sigma_total?.[k] || 16;
     const believed = shrink("total", k) * edge;
     const over = edge >= 0, p = over ? 1 - normCdf(-believed / s) : normCdf(-believed / s);
-    return `<tr class="${k === state.totalSource ? "gd-chosen" : ""}"><td class="l">${esc(SOURCE_LABEL[k])}${k === state.totalSource ? "&nbsp;★" : ""}<span class="sm-sub">Projects ${proj[k].toFixed(1)}</span></td>
-      <td class="sm-hide">${proj[k].toFixed(1)}</td><td class="l"><b>${over ? "Over" : "Under"} ${g.total}</b></td>
-      <td>${edgeBadge(gameTier(g, edge), Math.abs(edge))}</td><td>${pct(p)}</td></tr>`;
-  }).join("");
+    // the same calls as the cards: a windy over says Check the news, and Go for it needs a price that beats break-even
+    const windy = over && weatherOf(g)?.windy && tierOf(edge) !== "pass";
+    const r = withValue(g, { k, total: true, edge: Math.abs(edge), side: over ? "over" : "under", line: g.total, pickLine: g.total,
+      team: null, pre: p, tier: windy ? "check" : gameTier(g, edge) });
+    r.prob = r.value ? r.value.best.p : r.pre;
+    return r;
+  });
+  const rows = picks.map((r) => `<tr class="${r.k === state.totalSource ? "gd-chosen" : ""}"><td class="l">${esc(SOURCE_LABEL[r.k])}${r.k === state.totalSource ? "&nbsp;★" : ""}<span class="sm-sub">Projects ${proj[r.k].toFixed(1)}</span></td>
+      <td class="sm-hide">${proj[r.k].toFixed(1)}</td><td class="l"><b>${r.side === "over" ? "Over" : "Under"} ${g.total}</b></td>
+      <td>${edgeBadge(r.tier, r.edge)}</td><td>${pct(r.prob, r.value ? 1 : 0)}</td></tr>`).join("");
   const logged = T ? `<p>Forward test: recorded <b>${esc(new Date(T.at).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</b>
       at <b>${T.total}</b>${T.close != null ? `, ${g.state === "pre" ? "latest" : "closed at"} ${T.close}` : ""}:
       ${["anchored", "points"].filter((k) => T.picks[k]).map((k) => {
@@ -281,6 +298,7 @@ function totalCard(g, log) {
     <div class="table-wrap"><table class="data fit-sm">
       <tr><th>Projection</th><th class="sm-hide">Total</th><th class="l">Pick</th><th>Edge</th><th>Chance</th></tr>${rows}
     </table></div>
+    ${g.state === "pre" ? `<p class="note">${esc(pricedAt(g, picks))}</p>` : ""}
     ${logged}
     <p class="note">${(() => {
       const w = weatherOf(g);

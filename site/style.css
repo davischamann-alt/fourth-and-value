@@ -272,7 +272,7 @@ input:focus-visible, select:focus-visible, .chips button:focus-visible {
 /* Cover bar with the break-even point marked like the first-down line */
 .bar { position: relative; height: 8px; background: var(--bar); border-radius: 999px; margin: 5px 0 7px; }
 .bar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .4s; }
-.bar::after { content: ""; position: absolute; left: 52.4%; top: -3px; bottom: -3px; width: 3px; border-radius: 2px; background: var(--yellow);
+.bar::after { content: ""; position: absolute; left: var(--line, 52.4%); top: -3px;  /* pregame: what the price needs to be worth a bet */ bottom: -3px; width: 3px; border-radius: 2px; background: var(--yellow);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .15); }
 .bar.good i { background: var(--strong); }
 .bar.bad i { background: var(--loss); }

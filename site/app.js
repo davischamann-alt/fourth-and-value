@@ -18,6 +18,8 @@ const STRONG = 3, LEAN = 1.5;          // edge thresholds in points
 const CHECK = 5;                       // bigger gaps usually mean the market knows something (injury, QB change)
 const CLOSE = 4;                       // a live game this close to the spread could flip on a field goal
 const BREAKEVEN = 0.524;               // hit rate needed at -110
+const CUSHION = 0.01;                  // Go for it: the best number on offer beats its break-even by at least a point
+const ODDS_MAX_AGE = 12 * 3600e3;      // line-shopping quotes older than this don't decide labels
 // Hit rate gained per point the line moves toward a pick between the logged line and kickoff. Measured
 // in the 2023-2026 backtest (opening vs closing results); it turns line movement into an estimated
 // hit rate long before wins and losses can say anything.
@@ -26,8 +28,9 @@ const SOURCE_LABEL = { blend: "Blend", fpi: "ESPN FPI", efficiency: "Efficiency"
 // Blend is the default for spreads: in the 2024-2026 backtest it beat Market-anchored at both the opening and closing line
 const SPREAD_SOURCES = ["blend", "fpi", "efficiency", "success", "anchored", "points"];
 const TIER_LABEL = { check: "Check the news", strong: "Go for it", lean: "Lean", pass: "Punt" };  // fourth-down calls
-/** Edge size to label. 5+ points isn't "more value": in the cleaned 2023-2026 backtest it did no
- *  better than 3-5, and a gap that big usually means the model is missing news the market has. */
+/** Edge size to label, before prices: under 1.5 is Punt and 5+ is Check the news (in the cleaned
+ *  2023-2026 backtest it did no better than 3-5, and a gap that big usually means the model is missing
+ *  news the market has). Between them, withValue() decides Go for it or Lean from the best price on offer. */
 const tierOf = (edge) => { const e = Math.abs(edge); return e >= CHECK ? "check" : e >= STRONG ? "strong" : e >= LEAN ? "lean" : "pass"; };
 /** A team's quarterback situation just changed (data/qb.json, from box scores), or null. */
 const qbChange = (g) => (g.state === "post" ? null  // flags describe the latest games, not past ones
@@ -178,7 +181,7 @@ function evaluate(g, market = state.market) {
   else if (left <= 0) live = x > 0 ? 1 : x < 0 ? 0 : 0.5;
   else { const f = Math.min(left / 3600, 1); live = normCdf((x + believed * f) / (s * Math.sqrt(f))); }
   const edge = Math.abs(margin + line);
-  return {
+  return withValue(g, {
     margin, line, edge,
     tier: gameTier(g, edge, homePick ? g.home : g.away),
     side: homePick ? "home" : "away",
@@ -186,7 +189,7 @@ function evaluate(g, market = state.market) {
     pickLine: homePick ? line : -line,
     pre: homePick ? homeProb : 1 - homeProb,
     live: live == null ? null : homePick ? live : 1 - live,
-  };
+  });
 }
 
 function evaluateTotal(g) {
@@ -208,10 +211,10 @@ function evaluateTotal(g) {
   // an over in a windy game is betting against a drop the market usually makes by kickoff
   const windy = over && weatherOf(g)?.windy;
   const tier = windy && tierOf(edge) !== "pass" ? "check" : gameTier(g, edge);
-  return {
+  return withValue(g, {
     total: true, margin: proj, line, edge, tier, side: over ? "over" : "under", team: null, pickLine: line,
     pre: over ? overProb : 1 - overProb, live: live == null ? null : over ? live : 1 - live,
-  };
+  });
 }
 
 function whyNoPick(g, margin, line, market = "spread") {
@@ -471,6 +474,10 @@ const pickName = (ev) => (ev.total ? `${ev.side === "over" ? "Over" : "Under"} $
 function bestNumber(g, ev) {
   const o = g.state === "pre" && ev?.line != null ? state.odds?.[g.id] : null;
   if (!o) return null;
+  // a best quote far from the middle of the books is a feed error or a stale line (odds.MAX_OFF)
+  const raw = ev.total ? (ev.side === "over" ? o.over_best : o.under_best) : ev.side === "home" ? o.home_best : o.away_best;
+  const mid = ev.total ? o.total_mid : o.spread_mid;
+  if (raw != null && mid != null && Math.abs(raw - mid) > 1.5) return null;
   let line, price, better, label;
   if (ev.total) {
     [line, price] = ev.side === "over" ? [o.over_best, o.over_price] : [o.under_best, o.under_price];
@@ -489,6 +496,49 @@ function bestNumber(g, ev) {
 const shopNote = (b) => `Best number: ${b.label} (${b.price > 0 ? "+" : ""}${b.price}) across ${b.books} sportsbook${b.books === 1 ? "" : "s"}` +
   (b.better > 0 ? `, ${b.better} point${b.better === 1 ? "" : "s"} better than the line shown here.` : b.better < 0 ? `. The line shown here is better than any of them.` : `, the same as the line shown here.`);
 
+/** Break-even hit rate at American odds: -110 needs 52.4%, -120 needs 54.5%, +100 needs 50%. */
+const breakEven = (price) => (price < 0 ? -price / (100 - price) : 100 / (100 + price));
+const fmtPrice = (p) => (p > 0 ? "+" : "") + p;
+/** The pick at a number this many points better than the line shown: "BALL +2", "Over 50.5". */
+const numberLabel = (ev, x) => (ev.total ? `${ev.side === "over" ? "Over" : "Under"} ${ev.side === "over" ? ev.line - x : ev.line + x}`
+  : `${ev.team.abbr} ${fmtLine(ev.pickLine + x)}`);
+
+/** Whether a pregame pick is worth a bet: its chance at the best line and price on offer (line shopping)
+ *  against that price's break-even, or, without fresh quotes, at the line shown and the usual -110. Each
+ *  point better than the line shown adds CLV_PER_POINT of hit rate, the backtest's value of a point of
+ *  line. need: how many points better than the line shown it takes at -110, in half points. */
+function valueOf(g, ev) {
+  const k = CLV_PER_POINT[ev.total ? "total" : "spread"], at110 = breakEven(-110) + CUSHION;
+  let need = 0;
+  while (ev.pre + k * need < at110 && need < 10) need += 0.5;
+  const fresh = state.oddsAt && Date.now() - Date.parse(state.oddsAt) < ODDS_MAX_AGE;
+  const shop = fresh ? bestNumber(g, ev) : null;
+  const b = shop || { line: ev.total ? ev.line : ev.pickLine, price: -110, better: 0, label: numberLabel(ev, 0), books: 0 };
+  // bar: the chance that price needs to be worth a bet, the yellow line on the card's chance bar. Compared at
+  // the tenth of a percent the card shows, so Go for it is always a bar visibly past the line.
+  const p = Math.min(ev.pre + k * b.better, 0.99), be = breakEven(b.price), bar = be + CUSHION;
+  const clears = Math.round(1000 * p) > Math.round(1000 * bar);
+  return { need, target: numberLabel(ev, need), best: { ...b, p, be, bar, clears, shop: !!shop } };
+}
+
+/** Go for it or Lean, for picks between Punt and Check the news: Go for it when the best number on offer
+ *  beats its break-even by a point. Once a game starts there's no price left to judge it by: Lean. */
+function withValue(g, ev) {
+  if (g.state === "pre") ev.value = valueOf(g, ev);
+  if (ev.tier === "strong" || ev.tier === "lean") ev.tier = ev.value?.best.clears ? "strong" : "lean";
+  return ev;
+}
+
+/** The pick box's word on price: where the pick is worth a bet, or the number it needs. */
+function valueNote(ev) {
+  const v = ev.value, b = v.best, hit = ev.total ? "hit" : "cover";
+  if (b.clears) {
+    return b.shop ? `Best number: ${b.label} (${fmtPrice(b.price)}) across ${b.books} sportsbooks. About ${pct(b.p, 1)} to ${hit} there, past the ${pct(b.bar, 1)} that price needs (break-even plus a point).`
+      : `About ${pct(b.p, 1)} to ${hit} at the line shown, past the ${pct(b.bar, 1)} that -110 needs (break-even plus a point).`;
+  }
+  return `Worth a bet at ${v.target} or better at -110` + (b.shop ? `; the best of ${b.books} sportsbooks is ${b.label} (${fmtPrice(b.price)}), which needs ${pct(b.bar, 1)}.` : ".");
+}
+
 /** The "Model pick" box shared by game cards and the game detail view. */
 function pickBox(g, ev, { tierTxt } = {}) {
   const st = pickStatus(g, ev);
@@ -502,12 +552,15 @@ function pickBox(g, ev, { tierTxt } = {}) {
   const windTxt = wx?.windy ? `${windNote(wx)}${ev.side === "over" ? ", so this over is fighting the market." : ": the market usually moves it toward the under."}` : "";
   const bowl = g.state === "pre" && isBowl(g) && ev.tier === "check";
   const out = !ev.total && ev.tier === "check" && qbOut(g, ev.team);
-  const shop = st.state === "pre" && ev.tier !== "pass" ? bestNumber(g, ev) : null;
+  // Go for it and Lean say where the pick is worth a bet; Check the news just where the best number is
+  const priced = st.state === "pre" && (ev.tier === "strong" || ev.tier === "lean") && ev.value;
+  const shop = st.state === "pre" && ev.tier === "check" && ev.value?.best.shop ? ev.value.best : null;
   const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out)}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
   return `<div class="pickbox pb-${st.state}">
     <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
     <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>
     ${note ? `<div class="pickbox-note${st.text ? "" : " pickbox-move"}">${esc(note)}</div>` : ""}
+    ${priced ? `<div class="pickbox-note pickbox-shop${ev.value.best.clears ? " is-better" : ""}">${esc(valueNote(ev))}</div>` : ""}
     ${shop ? `<div class="pickbox-note pickbox-shop${shop.better > 0 ? " is-better" : ""}">${esc(shopNote(shop))}</div>` : ""}
   </div>`;
 }
@@ -530,14 +583,18 @@ function card(g, ev, isTracked) {
     const modelTxt = ev.total ? `${ev.margin.toFixed(1)} pts`
       : Math.abs(ev.margin) < 0.05 ? "Even" : `${esc(fav.abbr)} by ${Math.abs(ev.margin).toFixed(1)}`;
     const hits = ev.total ? "hits" : "covers";
-    const p = ev.live ?? ev.pre;
+    // pregame, the bar is the chance at the best number on offer, and its yellow line the chance that price
+    // needs to be worth a bet (break-even plus a point): Go for it is a bar past the line. One decimal, since
+    // a few tenths decide it.
+    const b = g.state === "pre" ? ev.value?.best : null;
+    const p = b ? b.p : ev.live ?? ev.pre;
     const done = g.state === "post";
     // finished games drop the bar (it only said 100% or 0%) and keep the pregame chance as context
     const prob = done
       ? `<div class="prob"><div class="row"><span>${ev.total ? "Chance" : "Cover chance"} before kickoff</span><b>${pct(ev.pre)}</b></div></div>`
       : `<div class="prob">
-          <div class="row"><span>${g.state === "pre" ? `Chance the pick ${hits}` : `Live chance the pick ${hits}`}</span><b>${pct(p)}</b></div>
-          <div class="bar"><i style="width:${(100 * p).toFixed(0)}%"></i></div>
+          <div class="row"><span>${g.state !== "pre" ? `Live chance the pick ${hits}` : b?.shop ? `Chance at ${esc(b.label)} (${fmtPrice(b.price)})` : `Chance the pick ${hits}`}</span><b>${pct(p, b ? 1 : 0)}</b></div>
+          <div class="bar"${b ? ` style="--line:${(100 * b.bar).toFixed(1)}%"` : ""}><i style="width:${(100 * p).toFixed(1)}%"></i></div>
           ${g.state === "in" ? `<div class="row"><span>Before kickoff</span><b>${pct(ev.pre)}</b></div>` : ""}
         </div>`;
     body = pickBox(g, ev, { tierTxt: TIER_LABEL }) + prob;
@@ -584,7 +641,7 @@ function toggleTrack(key) {
     id: key, game_id: id, market: ev.total ? "total" : "spread", date: g.date, season: state.season, week: w?.week,
     seasontype: w?.seasontype, game: `${g.away.name} @ ${g.home.name}`,
     pick: ev.total ? pickName(ev) : `${ev.team.name} ${fmtLine(ev.pickLine)}`,
-    side: ev.side, line: ev.line, edge: +ev.edge.toFixed(1), prob: +ev.pre.toFixed(3),
+    side: ev.side, line: ev.line, edge: +ev.edge.toFixed(1), prob: +ev.pre.toFixed(3), call: ev.tier,
     source: ev.total ? state.totalSource : state.source, result: null, finalMargin: null,
   });
   store.set("picks", picks);
@@ -630,7 +687,8 @@ function renderPicks() {
   const picks = store.get("picks", []).slice().sort((a, b) => b.date.localeCompare(a.date));
   const done = picks.filter((p) => p.result === "W" || p.result === "L");
   const wins = done.filter((p) => p.result === "W").length;
-  const strong = done.filter((p) => p.edge >= STRONG);
+  // the label when the pick was tracked; picks tracked before November 11, 2026 have none, and Go for it then meant a 3-5 point edge
+  const strong = done.filter((p) => (p.call ? p.call === "strong" : p.edge >= STRONG && p.edge < CHECK));
   const sw = strong.filter((p) => p.result === "W").length;
   $("#pick-stats").innerHTML = [
     ["Tracked picks", picks.length],
