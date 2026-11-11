@@ -145,7 +145,19 @@ function lineCard(g, log) {
       ? `Opened at ${esc(lineTxt(g, first))} and hasn't moved.`
       : `Opened at ${esc(lineTxt(g, first))}, now ${esc(lineTxt(g, last))}: moved ${Math.abs(moved)} point${Math.abs(moved) === 1 ? "" : "s"} toward <b>${esc((moved < 0 ? g.home : g.away).name)}</b>.`;
   }
-  return `<div class="card"><h3>Line movement</h3><p>${text}</p>
+  const o = g.state === "pre" ? state.odds?.[g.id] : null;
+  const ago = state.oddsAt ? Math.max(1, Math.round((Date.now() - Date.parse(state.oddsAt)) / 6e4)) : null;
+  const shop = o ? `<h4 class="gd-h4">Line shopping</h4><table class="data gd-shop">
+      <tr><th class="l">Across ${o.books} sportsbook${o.books === 1 ? "" : "s"}</th><th>Middle</th><th>Best for ${esc(g.away.abbr)}</th><th>Best for ${esc(g.home.abbr)}</th></tr>
+      ${o.home_best == null ? "" : `<tr><td class="l">Spread</td><td>${esc(g.home.abbr)} ${fmtLine(o.spread_mid)}</td>
+        <td>${esc(g.away.abbr)} ${fmtLine(-o.away_best)} <span class="note">(${o.away_price > 0 ? "+" : ""}${o.away_price})</span></td>
+        <td>${esc(g.home.abbr)} ${fmtLine(o.home_best)} <span class="note">(${o.home_price > 0 ? "+" : ""}${o.home_price})</span></td></tr>`}
+      ${o.over_best == null ? "" : `<tr><td class="l">Total</td><td>${o.total_mid}</td>
+        <td colspan="2">Over ${o.over_best} <span class="note">(${o.over_price > 0 ? "+" : ""}${o.over_price})</span> · Under ${o.under_best} <span class="note">(${o.under_price > 0 ? "+" : ""}${o.under_price})</span></td></tr>`}
+    </table>
+    <p class="note">The best number on offer for each side${ago == null ? "" : `, checked ${ago < 90 ? `${ago} min` : `${Math.round(ago / 60)} hr`} ago`}. Half a point is worth
+      about as much as the model's whole edge, so it pays to look. Quotes priced worse than -125 are left out. Data: The Odds API.</p>` : "";
+  return `<div class="card"><h3>Line movement</h3><p>${text}</p>${shop}
     ${pts.length > 1 ? lineChart(pts, { step: true, yFmt: (v) => `${g.home.abbr} ${fmtLine(Math.round(v * 2) / 2)}` }) : ""}
     <p class="note">Recorded every two hours by the forward test. A falling number means the market moved toward ${esc(g.home.name)}.</p>
   </div>`;

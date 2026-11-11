@@ -541,6 +541,8 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
 .ou-icon { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 8px;
   background: var(--on); color: var(--chalk); font-size: 14px; }
 .pickbox-move { color: var(--muted); }
+.pickbox-shop { color: var(--muted); }
+.pickbox-shop.is-better { color: var(--strong); }
 
 /* Margin of error after a hit rate */
 .moe { font: 600 .55em/1 "Barlow", sans-serif; color: var(--muted); letter-spacing: 0; text-transform: none; white-space: nowrap; }

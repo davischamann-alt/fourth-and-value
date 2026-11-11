@@ -14,7 +14,7 @@ on:
     - cron: "7,37 0-3 * * 1"
   push:
     branches: [main]
-    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "sources.py", "model.py", "data/qb_status.csv", ".github/workflows/site.yml"]
+    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "odds.py", "sources.py", "model.py", "data/qb_status.csv", ".github/workflows/site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -61,6 +61,13 @@ jobs:
           path: data/box
           key: espn-box-${{ github.run_id }}
           restore-keys: espn-box-
+      # Best available spread and total across sportsbooks (The Odds API, 500 free credits a month;
+      # odds.py rations its own calls). Before the commit step, which saves what it fetched.
+      - name: Line shopping
+        continue-on-error: true
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python odds.py
       - name: Build player props, QB watch and QB availability
         # a hiccup at ESPN shouldn't stop the rest of the site from publishing; the last props stay up
         continue-on-error: true

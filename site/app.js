@@ -76,6 +76,7 @@ const state = {
   changelog: [],        // changelog.json: dated model changes
   qb: null,             // qb.json: {team id: QB change flag}
   qbListed: null,       // qb.json: {team id: [QBs on the availability reports]}
+  odds: null,           // odds.json: {game id: best and middle numbers across sportsbooks}
   weather: null,        // weather.json: {game id: kickoff forecast}
 };
 
@@ -466,6 +467,30 @@ function totalStatus(g, ev) {
 
 const pickName = (ev) => (ev.total ? `${ev.side === "over" ? "Over" : "Under"} ${ev.line}` : `${ev.team.name} ${lineWord(ev.pickLine)}`);
 
+/** Line shopping (data/odds.json, from The Odds API): the best number on offer for a pick across US
+ *  sportsbooks, or null. better: how many points better it is than the line shown here (ESPN's).
+ *  Books aren't named. */
+function bestNumber(g, ev) {
+  const o = g.state === "pre" && ev?.line != null ? state.odds?.[g.id] : null;
+  if (!o) return null;
+  let line, price, better, label;
+  if (ev.total) {
+    [line, price] = ev.side === "over" ? [o.over_best, o.over_price] : [o.under_best, o.under_price];
+    if (line == null) return null;
+    better = ev.side === "over" ? ev.line - line : line - ev.line;
+    label = `${ev.side === "over" ? "Over" : "Under"} ${line}`;
+  } else {
+    const home = ev.side === "home";
+    [line, price] = home ? [o.home_best, o.home_price] : [o.away_best == null ? null : -o.away_best, o.away_price];
+    if (line == null) return null;
+    better = line - ev.pickLine;  // a bigger number on your own side is better
+    label = `${ev.team.abbr} ${fmtLine(line)}`;
+  }
+  return { line, price, better, label, books: o.books, mid: ev.total ? o.total_mid : o.spread_mid };
+}
+const shopNote = (b) => `Best number: ${b.label} (${b.price > 0 ? "+" : ""}${b.price}) across ${b.books} sportsbook${b.books === 1 ? "" : "s"}` +
+  (b.better > 0 ? `, ${b.better} point${b.better === 1 ? "" : "s"} better than the line shown here.` : b.better < 0 ? `. The line shown here is better than any of them.` : `, the same as the line shown here.`);
+
 /** The "Model pick" box shared by game cards and the game detail view. */
 function pickBox(g, ev, { tierTxt } = {}) {
   const st = pickStatus(g, ev);
@@ -479,11 +504,13 @@ function pickBox(g, ev, { tierTxt } = {}) {
   const windTxt = wx?.windy ? `${windNote(wx)}${ev.side === "over" ? ", so this over is fighting the market." : ": the market usually moves it toward the under."}` : "";
   const bowl = g.state === "pre" && isBowl(g) && ev.tier === "check";
   const out = !ev.total && ev.tier === "check" && qbOut(g, ev.team);
+  const shop = st.state === "pre" && ev.tier !== "pass" ? bestNumber(g, ev) : null;
   const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out)}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
   return `<div class="pickbox pb-${st.state}">
     <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
     <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>
     ${note ? `<div class="pickbox-note${st.text ? "" : " pickbox-move"}">${esc(note)}</div>` : ""}
+    ${shop ? `<div class="pickbox-note pickbox-shop${shop.better > 0 ? " is-better" : ""}">${esc(shopNote(shop))}</div>` : ""}
   </div>`;
 }
 
@@ -1061,8 +1088,10 @@ function bind() {
 async function init() {
   applyTheme();
   bind();
-  const [ratings, model, record, live, changelog, qb, weather] = await Promise.all(
-    ["ratings", "model", "track_record", "live", "changelog", "qb", "weather"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
+  const [ratings, model, record, live, changelog, qb, weather, odds] = await Promise.all(
+    ["ratings", "model", "track_record", "live", "changelog", "qb", "weather", "odds"].map((n) => getJSON(`data/${n}.json`).catch(() => null)));
+  state.odds = odds?.games || null;
+  state.oddsAt = odds?.updated || null;
   state.qb = qb?.teams || null;
   state.qbListed = qb?.listed || null;
   state.weather = weather?.games || null;

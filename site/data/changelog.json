@@ -1,6 +1,12 @@
 [
  {
   "date": "2026-11-10",
+  "type": "feature",
+  "title": "Line shopping: the best number across sportsbooks",
+  "summary": "Pick boxes now say when a better spread or total than the one shown is available at another US sportsbook, and each game page has a Line shopping table with the best number for each side, the middle number and how many books were quoted. The numbers come from The Odds API and are checked every 30 minutes on Sundays, when lines open, and every 8 hours otherwise. Sportsbooks aren't named, and quotes priced worse than -125 are left out. Half a point is worth about as much as the model's whole edge, so it pays to look. Each change is also saved with its time, building a record of lines that could really be bet."
+ },
+ {
+  "date": "2026-11-10",
   "type": "model",
   "title": "Cover chances now match how often picks really win, and QB changes no longer change labels",
   "summary": "The chance shown for a pick used to read the model's whole disagreement with the line at face value. It now believes only the share of that gap that history supports (about a fifth for Blend), so most picks show 50-55%. Separately, a QB change tag no longer turns a pick into Check the news; it stays on the card for context. Picks on a team whose starting quarterback is listed out on an official report are still labeled Check the news.",

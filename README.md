@@ -473,6 +473,17 @@ Each run sends at most one notification, listing everything new. Alerts always g
 
 ---
 
+## Line shopping
+
+`odds.py` runs in the GitHub job and asks [The Odds API](https://the-odds-api.com) for every US sportsbook's college football spreads and totals. For each upcoming game it keeps the **best number on offer for each side**, the middle (median) number, and how many books were quoted. On the site, a pick's box says when a better number than ESPN's is available, and each game page has a small Line shopping table. Half a point is worth about as much as the model's whole edge, so this matters more than any change to the ratings.
+
+- **Sportsbooks aren't named**, on the site or in the saved files, because it hasn't been confirmed that the free plan allows showing them. Quotes priced worse than -125 are left out: a better number at a much worse price isn't a better bet.
+- **Budget:** the free plan allows 500 credits a month and each call costs 2. `odds.py` rations itself: every 30 minutes on Sundays from noon to 11 p.m. Eastern, when lines open and move fastest, and every 8 hours otherwise, about 370 credits a month. It stops when 20 credits are left.
+- **History:** every time a game's numbers change, a row goes into `data/live/odds_history.csv` with the time. Unlike ESPN's single "opening line", that's a timestamped record of what could actually be bet, which is what a fair backtest needs.
+- **Setup** (repo owner, one time): get a free key at the-odds-api.com and save it as a secret: `gh secret set ODDS_API_KEY -R davischamann-alt/fourth-and-value`. Without the key this step does nothing and the rest of the site is unaffected.
+
+---
+
 ## QB availability
 
 The Power 4 conferences (ACC, Big 12, Big Ten, SEC) publish official availability reports for conference games, starting about three days before kickoff with a final one about two hours before. They're shown through a third-party app with no public data feed (access has been requested), so quarterbacks are entered by hand in `data/qb_status.csv`:
@@ -506,6 +517,7 @@ Because the job commits to `main` every two hours, your copy falls behind quickl
 1. On GitHub, open the repo's **Settings → Pages**, and under **Build and deployment → Source**, choose **GitHub Actions**.
 2. Optional, to keep the multi-season track record current and to get the Efficiency projection: in **Settings → Secrets and variables → Actions**, add a repository secret named `CFBD_API_KEY` containing your CollegeFootballData key. Without it, the job still refreshes the other ratings every day and leaves the track record as it was last built. With it, the job uses about 2 CollegeFootballData calls a day (the free plan allows 1,000 a month).
 3. Optional: phone or Discord alerts ([Alerts](#alerts)).
+4. Optional: line shopping ([Line shopping](#line-shopping)).
 
 To preview the website on your own computer, run `python build_site.py` once, then `python -m http.server 8600 --directory site`, and open **http://localhost:8600**.
 
@@ -522,6 +534,7 @@ fourth-and-value/
 ├── record.py                 # forward test: records lines and picks, grades them
 ├── alerts.py                 # alerts: new edges and key-number line moves, to the feed, ntfy and Discord
 ├── weather.py                # kickoff forecasts for this week's games (Open-Meteo), for wind flags on totals
+├── odds.py                   # line shopping: the best spread and total across sportsbooks (The Odds API)
 ├── build_props.py            # player prop projections for the Props tab, the QB watch (ESPN box scores) and QB availability
 ├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), alerts.js (Alerts panel), alerts.xml (feed), data/ (changelog.json is the change log)
 ├── .github/ISSUE_TEMPLATE/   # GitHub issue forms behind the site's suggestion form
@@ -534,7 +547,7 @@ fourth-and-value/
     ├── closing_lines.csv     # this season's opening and closing lines and totals (backtest)
     ├── anchor_weights.json   # Market-anchored weights for spreads and totals (saved by the backtest)
     ├── qb_status.csv         # quarterbacks listed on the official availability reports (you edit it; see QB availability)
-    ├── live/                 # forward test: line_history.csv, picks.csv, total_picks.csv, qb_status_log.csv, and alerts.json (what's been sent); written by the GitHub job
+    ├── live/                 # forward test: line_history.csv, picks.csv, total_picks.csv, qb_status_log.csv, best_lines.json and odds_history.csv (line shopping), and alerts.json (what's been sent); written by the GitHub job
     ├── history.csv           # your logged picks (created when you log; kept private)
     ├── bets.csv              # your bets (created when you save; kept private)
     └── cfbd/                 # past seasons' data (downloaded; kept private)
@@ -566,7 +579,7 @@ fourth-and-value/
 
 - **Scores and ratings only.** The model doesn't know about injuries, suspensions or motivation. It labels picks **Check the news** for starting quarterbacks listed out on the official reports (entered by hand, Power 4 conference games only), bowl games and windy totals, and tags likely quarterback changes (from box scores), but otherwise it can't see who's actually playing.
 - **Unofficial data.** ESPN's feeds aren't official and could change or go down without notice.
-- **Lines differ by sportsbook.** Lines come from one book per game (DraftKings when available), so yours may differ.
+- **Lines differ by sportsbook.** The line each pick is made and graded against comes from one book per game (DraftKings when available). Line shopping shows the best number elsewhere, but it's checked at most every 30 minutes, so confirm it at the book.
 - **Small samples mislead.** A few weeks of results can look great or terrible by luck alone. Judge by hundreds of picks and by line movement.
 - **No guarantees.** A high cover percentage is still not a sure thing.
 
