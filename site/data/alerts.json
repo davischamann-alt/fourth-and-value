@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-11T02:10:19Z",
+ "updated": "2026-11-11T06:56:23Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401856857:2026-11-11T06:55Z",
+   "at": "2026-11-11T06:56:23Z",
+   "kind": "key",
+   "game_id": "401856857",
+   "title": "Line onto 3: Arizona State @ UCF",
+   "text": "The line moved from UCF -3.5 to UCF -3, onto 3, away from the model's pick (UCF). Sat Nov 14, 12:00 AM ET."
+  },
   {
    "key": "key:401856857:2026-11-09T20:48Z",
    "at": "2026-11-09T20:50:11Z",
@@ -235,14 +243,6 @@
    "game_id": "401856742",
    "title": "Line onto 3: Vanderbilt @ Mississippi State",
    "text": "The line moved from Mississippi State -2.5 to Mississippi State -3, onto 3, toward the model's pick (Mississippi State). Sat Nov 7, 4:15 PM ET."
-  },
-  {
-   "key": "key:401858514:2026-11-01T23:21Z",
-   "at": "2026-11-01T23:22:02Z",
-   "kind": "key",
-   "game_id": "401858514",
-   "title": "Line onto 7: Oregon @ Ohio State",
-   "text": "The line moved from Ohio State -7.5 to Ohio State -7, onto 7, away from the model's pick (Ohio State). Sat Nov 7, 12:00 AM ET."
   }
  ]
 }

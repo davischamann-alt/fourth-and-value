@@ -253,14 +253,14 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-04T23:45Z,401858523,2026,2,11,2026-11-14T20:30Z,Oregon,Michigan,False,anchored,44.19,44.5,53.5,0.31,under,small,38.5,,,,
 2026-11-04T23:45Z,401860914,2026,2,11,2026-11-14T23:00Z,Boise State,Oregon State,False,points,66.37,62.5,62.5,3.87,over,strong,65.5,,,,
 2026-11-04T23:45Z,401860914,2026,2,11,2026-11-14T23:00Z,Boise State,Oregon State,False,anchored,63.27,62.5,62.5,0.77,over,small,65.5,,,,
-2026-11-08T01:28Z,401866458,2026,2,11,2026-11-11T00:00Z,Akron,Western Michigan,False,points,48.29,47.5,47.5,0.79,over,small,49.5,,,,
-2026-11-08T01:28Z,401866458,2026,2,11,2026-11-11T00:00Z,Akron,Western Michigan,False,anchored,47.66,47.5,47.5,0.16,over,small,49.5,,,,
-2026-11-08T01:28Z,401866459,2026,2,11,2026-11-11T00:00Z,Bowling Green,Kent State,False,points,42.17,44.5,44.5,2.33,under,lean,43.5,,,,
-2026-11-08T01:28Z,401866459,2026,2,11,2026-11-11T00:00Z,Bowling Green,Kent State,False,anchored,44.03,44.5,44.5,0.47,under,small,43.5,,,,
-2026-11-08T01:28Z,401866460,2026,2,11,2026-11-11T01:00Z,Miami (OH),Ohio,False,points,54.15,47.5,47.5,6.65,over,strong,47.5,,,,
-2026-11-08T01:28Z,401866460,2026,2,11,2026-11-11T01:00Z,Miami (OH),Ohio,False,anchored,48.83,47.5,47.5,1.33,over,small,47.5,,,,
-2026-11-08T01:28Z,401866461,2026,2,11,2026-11-12T00:30Z,Ball State,Buffalo,False,points,56.36,51.5,51.5,4.86,over,strong,51.5,,,,
-2026-11-08T01:28Z,401866461,2026,2,11,2026-11-12T00:30Z,Ball State,Buffalo,False,anchored,52.47,51.5,51.5,0.97,over,small,51.5,,,,
+2026-11-08T01:28Z,401866458,2026,2,11,2026-11-11T00:00Z,Akron,Western Michigan,False,points,48.29,47.5,47.5,0.79,over,small,49.5,56,W,W,2.0
+2026-11-08T01:28Z,401866458,2026,2,11,2026-11-11T00:00Z,Akron,Western Michigan,False,anchored,47.66,47.5,47.5,0.16,over,small,49.5,56,W,W,2.0
+2026-11-08T01:28Z,401866459,2026,2,11,2026-11-11T00:00Z,Bowling Green,Kent State,False,points,42.17,44.5,44.5,2.33,under,lean,43.5,61,L,L,1.0
+2026-11-08T01:28Z,401866459,2026,2,11,2026-11-11T00:00Z,Bowling Green,Kent State,False,anchored,44.03,44.5,44.5,0.47,under,small,43.5,61,L,L,1.0
+2026-11-08T01:28Z,401866460,2026,2,11,2026-11-11T01:00Z,Miami (OH),Ohio,False,points,54.15,47.5,47.5,6.65,over,strong,47.5,51,W,W,0.0
+2026-11-08T01:28Z,401866460,2026,2,11,2026-11-11T01:00Z,Miami (OH),Ohio,False,anchored,48.83,47.5,47.5,1.33,over,small,47.5,51,W,W,0.0
+2026-11-08T01:28Z,401866461,2026,2,11,2026-11-12T00:30Z,Ball State,Buffalo,False,points,56.36,51.5,51.5,4.86,over,strong,50.5,,,,
+2026-11-08T01:28Z,401866461,2026,2,11,2026-11-12T00:30Z,Ball State,Buffalo,False,anchored,52.47,51.5,51.5,0.97,over,small,50.5,,,,
 2026-11-08T01:28Z,401866462,2026,2,11,2026-11-12T00:30Z,Central Michigan,Sacramento State,False,points,41.34,44.5,44.5,3.16,under,strong,43.5,,,,
 2026-11-08T01:28Z,401866462,2026,2,11,2026-11-12T00:30Z,Central Michigan,Sacramento State,False,anchored,43.87,44.5,44.5,0.63,under,small,43.5,,,,
 2026-11-08T01:28Z,401866463,2026,2,11,2026-11-12T00:30Z,Toledo,Massachusetts,False,points,54.54,53.5,53.5,1.04,over,small,51.5,,,,
