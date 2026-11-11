@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=41">
+  <link rel="stylesheet" href="style.css?v=42">
   <link rel="alternate" type="application/atom+xml" title="Fourth &amp; Value alerts" href="alerts.xml">
 </head>
 <body>
@@ -58,10 +58,13 @@
             <button data-filter="live"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Live</span><span class="count" data-count="live"></span></button>
             <button data-filter="close" title="Live games within 4 points of the spread: a field goal could flip who covers"><span class="lbl"><span class="live-dot" aria-hidden="true"></span>Close</span><span class="count" data-count="close"></span></button>
           </div>
-          <label class="search">
-            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4"/></svg>
-            <input id="search" type="search" placeholder="Find a team" autocomplete="off" aria-label="Find a team">
-          </label>
+          <div class="find">
+            <label class="search">
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4"/></svg>
+              <input id="search" type="search" placeholder="Find a team" autocomplete="off" aria-label="Find a team">
+            </label>
+            <button class="icon-btn guide-btn" id="guide-btn" type="button" aria-label="How to read a game card" title="How to read a game card">?</button>
+          </div>
         </div>
         <div class="toolbar-row toolbar-sub">
           <div class="chips" id="market" role="group" aria-label="Bet type">
@@ -88,31 +91,11 @@
         </div>
       </div>
       <div id="games"></div>
-      <details class="explain">
-        <summary>How to read a game card</summary>
-        <ul>
-          <li><b>Line</b> is the betting spread from ESPN. The small gray number is where it opened, so you can see how it moved.</li>
-          <li><b>Model</b> is the predicted final margin. <b>Pick</b> is the side the model thinks covers the line.</li>
-          <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3–5 points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury. The labels say how much the model disagrees with the line, not how likely the pick is to win: no range of edge sizes reliably beat another.</li>
-          <li><b>Cover chance</b> is the model's chance the pick covers, scaled to how often picks with that edge really covered in 2024–2026. Most are between 50% and 55%; that's how small the edge is. During a game it updates with the score and clock. The yellow tick on the bar marks 52.4%, the break-even point at standard -110 odds.</li>
-          <li>The <b>Track</b> button saves a pick to <b>My picks</b>, where it's graded automatically when the game ends.</li>
-          <li><b>Spread / Total</b> switches every card between the model's pick against the spread and its over/under pick against
-            the total. Totals use two projections: <b>Market-anchored</b> (the default) starts from the betting total and adjusts it a
-            little toward what the teams' scoring says; <b>Adjusted points</b> adds each offense's points against the other's defense.</li>
-          <li><b>At open</b> shows edges of 1.5+ where the line hasn't moved more than half a point from where it opened. In testing,
-            the model did best at the opening number, and lines often move within hours; once the market moves toward a pick, most
-            of the value is gone. Pick boxes
-            say how far the line has moved toward or away from the pick. Next week's lines usually post on Sunday, and a notice
-            appears when they do.</li>
-          <li><b>Close</b> shows live games within 4 points of the spread, where a field goal could flip who covers. They're sorted tightest first and tagged on every card.</li>
-          <li><b>Tap a game</b> for the full breakdown: what every projection says, how the line has moved, the matchup, weather, and how the game played out.</li>
-        </ul>
-      </details>
     </section>
 
     <!-- Game detail (game.js), at #game/<id> -->
     <section id="tab-game" class="tab" hidden>
-      <button class="link gd-back" type="button" onclick="history.length > 1 ? history.back() : (location.hash = 'games')">‹ All games</button>
+      <button class="link gd-back" type="button" onclick="backToGames()">‹ All games</button>
       <div id="game-detail"></div>
     </section>
 
@@ -352,7 +335,7 @@
           average (+1 for totals).</p>
       </details>
       <h3 id="live-recent-head">Recent Blend picks (edge 1.5+)</h3>
-      <div class="table-wrap scroll"><table id="live-table" class="data"></table></div>
+      <div class="table-wrap scroll"><table id="live-table" class="data fit-sm"></table></div>
 
       <h2 class="section-head">Model changes <span>every adjustment to how picks are made, dated</span></h2>
       <div id="changelog"></div>
@@ -434,12 +417,39 @@
     </form>
   </dialog>
 
-  <script src="projections.js?v=41"></script>
-  <script src="app.js?v=41"></script>
-  <script src="game.js?v=41"></script>
-  <script src="updates.js?v=41"></script>
-  <script src="props.js?v=41"></script>
-  <script src="ratings.js?v=41"></script>
-  <script src="alerts.js?v=41"></script>
+  <!-- How to read a game card: opened from the ? next to the team search (Games tab) -->
+  <dialog id="guide" aria-labelledby="guide-title">
+    <div class="settings guide">
+      <div class="al-head"><h3 id="guide-title">How to read a game card</h3>
+        <form method="dialog"><button class="notice-x" aria-label="Close">✕</button></form></div>
+      <ul>
+        <li><b>Line</b> is the betting spread from ESPN. The small gray number is where it opened, so you can see how it moved.</li>
+        <li><b>Model</b> is the predicted final margin. <b>Pick</b> is the side the model thinks covers the line.</li>
+        <li><b>Edge</b> is how many points the model disagrees with the line by. It's labeled like a fourth-down call: <span class="badge strong">Go for it</span> is 3–5 points, <span class="badge lean">Lean</span> is 1.5–3, and <span class="badge pass">Punt</span> is less, meaning no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury. The labels say how much the model disagrees with the line, not how likely the pick is to win: no range of edge sizes reliably beat another.</li>
+        <li><b>Cover chance</b> is the model's chance the pick covers, scaled to how often picks with that edge really covered in 2024–2026. Most are between 50% and 55%; that's how small the edge is. During a game it updates with the score and clock. The yellow tick on the bar marks 52.4%, the break-even point at standard -110 odds.</li>
+        <li>The <b>Track</b> button saves a pick to <b>My picks</b>, where it's graded automatically when the game ends.</li>
+        <li><b>Spread / Total</b> switches every card between the model's pick against the spread and its over/under pick against
+          the total. Totals use two projections: <b>Market-anchored</b> (the default) starts from the betting total and adjusts it a
+          little toward what the teams' scoring says; <b>Adjusted points</b> adds each offense's points against the other's defense.</li>
+        <li><b>At open</b> shows edges of 1.5+ where the line hasn't moved more than half a point from where it opened. In testing,
+          the model did best at the opening number, and lines often move within hours; once the market moves toward a pick, most
+          of the value is gone. Pick boxes
+          say how far the line has moved toward or away from the pick. Next week's lines usually post on Sunday, and a notice
+          appears when they do.</li>
+        <li><b>Close</b> shows live games within 4 points of the spread, where a field goal could flip who covers. They're sorted tightest first and tagged on every card.</li>
+        <li><b>Final</b> games fold away at the bottom of the list, latest first. Tap the heading to show them; they stay open
+          until you close them.</li>
+        <li><b>Tap a game</b> for the full breakdown: what every projection says, how the line has moved, the matchup, weather, and how the game played out.</li>
+      </ul>
+    </div>
+  </dialog>
+
+  <script src="projections.js?v=42"></script>
+  <script src="app.js?v=42"></script>
+  <script src="game.js?v=42"></script>
+  <script src="updates.js?v=42"></script>
+  <script src="props.js?v=42"></script>
+  <script src="ratings.js?v=42"></script>
+  <script src="alerts.js?v=42"></script>
 </body>
 </html>

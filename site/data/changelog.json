@@ -1,5 +1,11 @@
 [
  {
+  "date": "2026-11-11",
+  "type": "design",
+  "title": "Easier on phones: keeps your place, today's games first, lighter logos",
+  "summary": "Going back from a game now returns you to the same spot in the list, and every tab keeps its own place; tap the tab you're on to jump to the top. Games still to play come first, and finished games fold into a Final section at the bottom, latest first. Team logos load at the size they're shown, which cuts a week's worth from about 5.5 MB to 0.4 MB, and the dark theme uses ESPN's dark-mode logos, so navy and black ones stay visible. Tables on game pages and the Track record's recent picks rearrange to fit a phone instead of hiding columns off the edge; tables that still need a swipe fade at the edge and keep the first column in view. The How to read a game card guide moved from the bottom of the list to a ? button next to the team search."
+ },
+ {
   "date": "2026-11-10",
   "type": "feature",
   "title": "Line shopping: the best number across sportsbooks",

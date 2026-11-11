@@ -194,7 +194,9 @@ input:focus-visible, select:focus-visible, .chips button:focus-visible {
 }
 .toolbar-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .toolbar .chips { flex: none; }
-.search { position: relative; flex: 1; min-width: 200px; display: flex; }
+.find { flex: 1; min-width: 200px; display: flex; gap: 8px; }  /* team search, and the ? that opens the card guide */
+.search { position: relative; flex: 1; min-width: 0; display: flex; }
+.guide-btn { font: 800 18px/1 var(--display); color: var(--accent); }
 .search svg { position: absolute; left: 12px; top: 50%; width: 16px; height: 16px; transform: translateY(-50%);
   fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; pointer-events: none; }
 .search input { width: 100%; padding-left: 36px; }
@@ -219,6 +221,18 @@ input:focus-visible, select:focus-visible, .chips button:focus-visible {
   display: flex; align-items: center; gap: 10px; }
 .day-head::after { content: ""; flex: 1; height: 2px; background: repeating-linear-gradient(90deg, var(--border) 0 10px, transparent 10px 16px); }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+/* Finished games: folded into one heading at the bottom of the list */
+.finals { margin-top: 26px; }
+.finals > summary { list-style: none; cursor: pointer; border-radius: 8px; }
+.finals > summary::-webkit-details-marker { display: none; }
+.finals > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.finals > summary .day-head { margin: 0 0 8px; }
+.finals > summary .day-head::before { content: "▸"; font-size: 14px; transition: transform .15s; }
+.finals[open] > summary .day-head::before { transform: rotate(90deg); }
+.finals-act { order: 2; font: 700 13px/1 var(--display); color: var(--accent); letter-spacing: .05em; }
+.finals-act::before { content: "Show"; }
+.finals[open] .finals-act::before { content: "Hide"; }
+.finals > summary:hover .day-head { color: var(--text); }
 .card {
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
   padding: 14px; box-shadow: var(--shadow);
@@ -286,6 +300,35 @@ table.data .bad { color: var(--loss); }
 table.data .empty { text-align: center; color: var(--muted); padding: 24px; }
 table.data select { padding: 4px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); }
 table.data button { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 16px; }
+/* Tables wider than the screen (markScrollers in app.js): the right edge fades while there's more to swipe
+   to, and the first column stays put so you know which row you're reading */
+.table-wrap.more, .gd-shop-wrap.more { -webkit-mask-image: linear-gradient(to left, transparent, #000 36px); mask-image: linear-gradient(to left, transparent, #000 36px); }
+.table-wrap.wide table.data td:first-child, .table-wrap.wide table.data th:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); }
+.table-wrap.wide table.data th:first-child { background: var(--surface-2); z-index: 2; }
+.table-wrap.wide table.data .gd-chosen td:first-child { background: var(--surface-2); }
+/* Ratings: the rank column is narrow and fixed, so the team name can stay in view beside it */
+#ratings-table td:first-child, #ratings-table th:first-child { width: 42px; min-width: 42px; max-width: 42px; }
+.table-wrap.wide #ratings-table td:nth-child(2), .table-wrap.wide #ratings-table th:nth-child(2) { position: sticky; left: 42px; z-index: 1; background: var(--surface); }
+.table-wrap.wide #ratings-table th:nth-child(2) { background: var(--surface-2); z-index: 2; }
+/* Tables marked fit-sm rearrange themselves to fit the card they're in (half a laptop screen, or a phone):
+   a column moves under the first one (sm-sub), and on a phone the edge badges show just the number, in the
+   label's colors, and long names wrap */
+.table-wrap { container-type: inline-size; }
+.sm-sub, .xs-sub { display: none; }
+@container (max-width: 520px) {
+  table.fit-sm .sm-hide { display: none; }
+  table.fit-sm .sm-sub { display: block; margin-top: 1px; font-size: 12px; font-weight: 400; color: var(--muted); }
+}
+@container (max-width: 400px) {
+  table.fit-sm .xs-hide { display: none; }
+  table.fit-sm .xs-sub { display: block; margin-top: 1px; font-size: 12px; font-weight: 400; color: var(--muted); }
+  table.fit-sm .tier-word { display: none; }
+  table.fit-sm .wrap-sm { white-space: normal; min-width: 6em; line-height: 1.3; }
+  table.fit-sm td:first-child { white-space: normal; }  /* "Market-anchored" breaks at its hyphen on the narrowest phones */
+  table.data.fit-sm th, table.data.fit-sm td { padding-left: 6px; padding-right: 6px; }
+  table.data.fit-sm th:first-child, table.data.fit-sm td:first-child { padding-left: 10px; }
+  table.data.fit-sm th:last-child, table.data.fit-sm td:last-child { padding-right: 10px; }
+}
 
 /* Stat tiles and headline cards: scoreboard numbers */
 .stats, .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; }
@@ -336,7 +379,7 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
   .show-sm { display: inline; }
   .controls .chips { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
   .controls .chips button { padding: 0 4px; font-size: 13px; }
-  .search { flex-basis: 100%; }
+  .find { flex-basis: 100%; }
   .toolbar-sub { gap: 10px; }
   .inline-select { flex: 1 1 100%; justify-content: space-between; }
   .inline-select > span { flex: none; width: 82px; }
@@ -396,6 +439,7 @@ dialog::backdrop { background: rgba(5, 20, 12, .45); }
   .gd-team img { width: 40px; height: 40px; }
   .gd-at { margin-left: 54px; }
 }
+.gd-vs td.gd-mid { white-space: normal; }  /* long stat names wrap in a narrow card instead of widening the table */
 .gd-grid table.data { font-size: 13px; }
 .gd-grid table.data th, .gd-grid table.data td { padding: 7px 8px; }
 .gd-grid .badge { font-size: 12px; padding: 2px 7px; }
@@ -566,7 +610,9 @@ table.data .moe { font-size: 11px; font-weight: 500; }
 
 /* Alerts button and panel */
 .top-btns { display: flex; gap: 8px; flex: none; }
-#alerts-dlg { width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 48px); }
+#alerts-dlg, #guide { width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 48px); }
+.guide ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted); }
+.guide li b { color: var(--text); }
 .al-head { display: flex; align-items: center; justify-content: space-between; }
 .al-head form { margin: 0; }
 .alerts > .note { margin: 0; }

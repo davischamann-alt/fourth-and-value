@@ -3,7 +3,17 @@
 // ---------- Settings and storage ----------
 
 const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/college-football";
-const LOGO = (id) => `https://a.espncdn.com/i/teamlogos/ncaa/500/${id}.png`;
+/** Team logos, resized by ESPN's image server: the originals are 500 pixels and about 40 KB each, and the
+ *  site shows them at 20-52 pixels (all of a week's games came to 5.5 MB; this is about 0.4 MB). On a
+ *  dark background it uses ESPN's dark-mode versions, where navy and black logos (Akron's) turn light. */
+const isDark = () => (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) === "dark";
+const LOGO = (id, px = 96) =>
+  `https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/${isDark() ? "500-dark" : "500"}/${encodeURIComponent(id)}.png&w=${px}&h=${px}`;
+/** After the theme changes: every logo on the page switches to the version for the new background. */
+function swapLogos() {
+  const v = isDark() ? "/ncaa/500-dark/" : "/ncaa/500/";
+  $$('img[src*="/teamlogos/ncaa/"]').forEach((img) => (img.src = img.src.replace(/\/ncaa\/500(-dark)?\//, v)));
+}
 const STRONG = 3, LEAN = 1.5;          // edge thresholds in points
 const CHECK = 5;                       // bigger gaps usually mean the market knows something (injury, QB change)
 const CLOSE = 4;                       // a live game this close to the spread could flip on a field goal
@@ -247,7 +257,6 @@ function parseEvent(e) {
     id: x.team.id,
     name: x.team.location || x.team.shortDisplayName,
     abbr: x.team.abbreviation,
-    logo: x.team.logo || LOGO(x.team.id),
     rank: x.curatedRank?.current && x.curatedRank.current < 26 ? x.curatedRank.current : null,
     record: x.records?.[0]?.summary || "",
     score: parseInt(x.score || 0, 10),
@@ -373,14 +382,25 @@ function renderGames() {
     return;
   }
   const tracked = new Set(store.get("picks", []).map((p) => p.id));
-  let html = "", day = "";
   const byDay = state.sort === "time";
-  for (const { g, ev } of rows) {
-    const d = new Date(g.date).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
-    if (byDay && d !== day) { html += (day ? "</div>" : "") + `<h2 class="day-head">${esc(d)}</h2><div class="grid">`; day = d; }
-    html += card(g, ev, tracked.has(trackKey(g)));
-  }
-  box.innerHTML = byDay ? html + "</div>" : `<div class="grid">${html}</div>`;
+  const cards = (list) => {
+    if (!byDay) return `<div class="grid">${list.map(({ g, ev }) => card(g, ev, tracked.has(trackKey(g)))).join("")}</div>`;
+    let html = "", day = "";
+    for (const { g, ev } of list) {
+      const d = new Date(g.date).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+      if (d !== day) { html += (day ? "</div>" : "") + `<h2 class="day-head">${esc(d)}</h2><div class="grid">`; day = d; }
+      html += card(g, ev, tracked.has(trackKey(g)));
+    }
+    return html + (day ? "</div>" : "");
+  };
+  // Games still to play (and live ones) come first; finished games fold away at the bottom, latest first,
+  // and stay open once you open them. With nothing left to play (a past week), they're simply shown.
+  const ahead = rows.filter(({ g }) => g.state !== "post"), done = rows.filter(({ g }) => g.state === "post");
+  if (byDay) done.reverse();
+  const open = !ahead.length || store.get("finalsOpen", false);
+  box.innerHTML = cards(ahead) + (done.length ? `<details class="finals"${open ? " open" : ""}${ahead.length ? "" : " data-auto"}>
+      <summary><h2 class="day-head">Final · ${done.length} game${done.length === 1 ? "" : "s"}<span class="finals-act" aria-hidden="true"></span></h2></summary>
+      ${cards(done)}</details>` : "");
 }
 
 /** Empty list with a search: say whether the search or the filter is hiding the games. */
@@ -397,7 +417,7 @@ function teamRow(t, g, picked) {
   const showScore = g.state !== "pre";
   const lost = g.state === "post" && t.winner === false;
   return `<div class="team${lost ? " lost" : ""}${picked ? " picked" : ""}">
-    <img src="${esc(t.logo)}" alt="" loading="lazy">
+    <img src="${LOGO(t.id)}" alt="" loading="lazy">
     <span class="name">${t.rank ? `<span class="rank">${t.rank}</span>` : ""}${esc(t.name)}<span class="rec">${esc(t.record)}</span></span>
     ${picked ? `<span class="pick-tag">Pick</span>` : ""}
     ${showScore ? `<span class="score">${t.score}</span>` : ""}
@@ -477,7 +497,7 @@ function pickBox(g, ev, { tierTxt } = {}) {
     : `<span class="pick-chip">${esc(st.chip)}</span>`;
   const icon = ev.total
     ? `<span class="ou-icon" aria-hidden="true">${ev.side === "over" ? "▲" : "▼"}</span>`
-    : `<img src="${esc(ev.team.logo)}" alt="" loading="lazy">`;
+    : `<img src="${LOGO(ev.team.id)}" alt="" loading="lazy">`;
   const wx = ev.total && weatherOf(g);
   const windTxt = wx?.windy ? `${windNote(wx)}${ev.side === "over" ? ", so this over is fighting the market." : ": the market usually moves it toward the under."}` : "";
   const bowl = g.state === "pre" && isBowl(g) && ev.tier === "check";
@@ -841,13 +861,17 @@ function renderLive() {
     ["Picks", s.picks, `${s.pending} still to play`],
   ].map(([k, v, sub]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="k">${esc(sub)}</div></div>`).join("");
   const res = { W: `<span class="badge win">Won</span>`, L: `<span class="badge loss">Lost</span>`, P: `<span class="badge pass">Push</span>` };
-  $("#live-table").innerHTML = `<tr><th>Kickoff</th><th class="l">Game</th><th class="l">Pick</th><th>Edge</th><th>${tot ? "Total" : "Line"} moved</th><th class="l">Result</th></tr>` +
-    (L.recent.length ? L.recent.map((p) => `<tr>
-      <td>${esc(new Date(p.kickoff).toLocaleDateString(undefined, { month: "short", day: "numeric" }))}</td>
-      <td class="l">${esc(p.game)}</td><td class="l"><b>${tot ? `${p.side === "over" ? "Over" : "Under"} ${p.line}` : `${esc(p.team)} ${fmtLine(p.line)}`}</b></td>
+  // phones: the game and date move under the pick, which wraps, so the edge, move and result fit without swiping
+  $("#live-table").innerHTML = `<tr><th class="sm-hide">Kickoff</th><th class="l sm-hide">Game</th><th class="l">Pick</th><th>Edge</th><th><span class="hide-sm">${tot ? "Total" : "Line"} moved</span><span class="show-sm">Moved</span></th><th class="l">Result</th></tr>` +
+    (L.recent.length ? L.recent.map((p) => {
+      const day = esc(new Date(p.kickoff).toLocaleDateString(undefined, { month: "short", day: "numeric" }));
+      return `<tr>
+      <td class="sm-hide">${day}</td>
+      <td class="l sm-hide">${esc(p.game)}</td><td class="l wrap-sm"><b>${tot ? `${p.side === "over" ? "Over" : "Under"} ${p.line}` : `${esc(p.team)} ${fmtLine(p.line)}`}</b><span class="sm-sub">${esc(p.game)} · ${day}</span></td>
       <td><span class="badge ${p.tier}">${p.edge.toFixed(1)}</span></td>
       <td class="${p.clv > 0 ? "good" : p.clv < 0 ? "bad" : ""}">${p.clv == null ? "—" : (p.clv > 0 ? "+" : "") + p.clv}</td>
-      <td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td></tr>`).join("")
+      <td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td></tr>`;
+    }).join("")
       : `<tr><td colspan="6" class="empty">No picks with an edge yet.</td></tr>`);
 }
 
@@ -934,12 +958,15 @@ function applyTheme() {
   const t = state.settings.theme;
   if (t === "auto") document.documentElement.removeAttribute("data-theme");
   else document.documentElement.setAttribute("data-theme", t);
+  swapLogos();
 }
 
 async function refresh(index = state.weekIndex) {
   try {
     await loadWeek(index);
+    const at = placeOf();  // a refresh while reading the list keeps the same game on screen
     renderAll();
+    if (at.card) goTo(at);
     checkNextWeek();
     $("#updated").textContent = `Scores updated ${new Date().toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}` +
       (state.ratings ? ` · ratings ${new Date(state.ratings.updated).toLocaleDateString(undefined, { month: "short", day: "numeric" })}` : "");
@@ -951,20 +978,77 @@ async function refresh(index = state.weekIndex) {
   state.timer = setTimeout(() => refresh(), state.games.some((g) => g.state === "in") ? 30e3 : 300e3);
 }
 
+// ---------- Keeping your place ----------
+
+let view = null, viewFrom = null;  // the view on screen ("games", "game", "props", ...) and the one before it
+const places = {};                 // each view's last place, from placeOf()
+const headerBottom = () => $(".top").getBoundingClientRect().bottom;
+
+/** Where the reader is: the scroll offset and, once they've scrolled into the games list, the game card at
+ *  the top of the screen. A list that changed in the meantime (new scores, finished games folding away)
+ *  can then still come back to the same game. */
+function placeOf() {
+  const at = { y: scrollY };
+  if (!$("#tab-games").hidden && $("#games").getBoundingClientRect().top < headerBottom()) {
+    const c = $$("#games article[data-game]").find((x) => x.getBoundingClientRect().bottom > headerBottom() + 4);
+    if (c) at.card = { id: c.dataset.game, top: c.getBoundingClientRect().top };
+  }
+  return at;
+}
+
+/** Back to a place from placeOf(); the top of the page if there isn't one. */
+function goTo(at) {
+  const c = at?.card && $(`#games article[data-game="${at.card.id}"]`);
+  const r = c?.getBoundingClientRect();
+  scrollTo(0, r?.height ? scrollY + r.top - at.card.top : at?.y || 0);
+}
+
+/** Tables wider than the screen: "wide" keeps the first column in view while swiping, and "more" fades
+ *  the right edge while there's more to swipe to. */
+function markScrollers() {
+  for (const w of $$(".table-wrap, .gd-shop-wrap")) {
+    const extra = w.scrollWidth - w.clientWidth;
+    w.classList.toggle("wide", extra > 4);
+    w.classList.toggle("more", extra - w.scrollLeft > 4);
+  }
+}
+
 function bind() {
+  // Every view keeps its own place: switch tabs, or go Back from a game, and you return to where you
+  // were; tap the tab you're already on to go to the top. The browser's own scroll restoring is off,
+  // because all the views share one page and it can only guess.
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   const showTab = () => {
     const h = location.hash.slice(1);
     const game = h.startsWith("game/") ? h.slice(5) : null;  // #game/<id>: game detail view (game.js)
     const name = game ? "game" : $(`.tabs button[data-tab="${h}"]`) ? h : "games";
+    if (view && view !== "game") places[view] = placeOf();  // hashchange comes before anything on screen changes
+    viewFrom = view; view = name;
     $$(".tabs button").forEach((x) => x.setAttribute("aria-selected", x.dataset.tab === (game ? "games" : name)));
     $(".tabs button[aria-selected=true]")?.scrollIntoView({ block: "nearest", inline: "nearest" });  // phones: keep it visible
     $$(".tab").forEach((s) => (s.hidden = s.id !== "tab-" + name));
+    if (!game) goTo(places[name]);  // a game always opens at its top (showGame)
     if (name === "picks") gradeOldPicks();
     if (typeof showGame === "function") { if (game) showGame(game); else leaveGame(); }
   };
-  $$(".tabs button").forEach((b) => b.addEventListener("click", () => { location.hash = b.dataset.tab; }));
+  $$(".tabs button").forEach((b) => b.addEventListener("click", () => {
+    if (view === b.dataset.tab) scrollTo({ top: 0, behavior: "smooth" });
+    else location.hash = b.dataset.tab;
+  }));
   window.addEventListener("hashchange", showTab);
   showTab();
+
+  document.addEventListener("scroll", (e) => { if (e.target.classList?.contains("table-wrap") || e.target.classList?.contains("gd-shop-wrap")) markScrollers(); }, true);
+  addEventListener("resize", markScrollers);
+  document.fonts?.ready.then(markScrollers);  // the web fonts change how wide every table is
+  new MutationObserver(markScrollers)  // after anything in the page is redrawn, shown or opened
+    .observe($("main"), { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden", "open"] });
+  // "Match my device": follow the phone or computer when it switches between light and dark
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => { if (state.settings.theme === "auto") swapLogos(); });
+
+  const guide = $("#guide");
+  $("#guide-btn").addEventListener("click", () => guide.showModal());
+  guide.addEventListener("click", (e) => { if (e.target === guide) guide.close(); });  // a click outside the panel
 
   $("#week-prev").addEventListener("click", () => { if (state.weekIndex > 0) refresh(--state.weekIndex); });
   $("#week-next").addEventListener("click", () => { if (state.weekIndex < state.calendar.length - 1) refresh(++state.weekIndex); });
@@ -985,6 +1069,8 @@ function bind() {
   $("#search").addEventListener("input", (e) => { state.search = e.target.value; renderGames(); });
   $$("#filter button").forEach((b) => b.addEventListener("click", () => { setFilter(b.dataset.filter); renderGames(); }));
   $("#games").addEventListener("click", (e) => {  // the buttons in the "no games match" message
+    const fold = e.target.closest(".finals > summary")?.parentElement;  // the click lands before it opens or closes
+    if (fold) { if (!("auto" in fold.dataset)) store.set("finalsOpen", !fold.open); return; }
     if (e.target.closest("[data-show-all]")) setFilter("all");
     else if (e.target.closest("[data-clear-search]")) { state.search = $("#search").value = ""; }
     else return;

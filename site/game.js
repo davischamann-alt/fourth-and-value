@@ -16,7 +16,7 @@ function gameFromSummary(s) {
   const t = Object.fromEntries(c.competitors.map((x) => [x.homeAway, x]));
   const team = (x) => ({
     id: x.team.id, name: x.team.location || x.team.displayName, abbr: x.team.abbreviation,
-    logo: x.team.logos?.[0]?.href || LOGO(x.team.id), rank: x.rank && x.rank < 26 ? x.rank : null,
+    rank: x.rank && x.rank < 26 ? x.rank : null,
     record: x.record?.find((r) => r.type === "total")?.summary || "", score: parseInt(x.score || 0, 10), winner: x.winner,
   });
   const g = {
@@ -48,6 +48,8 @@ function allSources(g) {
 }
 
 const TIER_TXT = TIER_LABEL;
+/** An edge badge, "Go for it · 4.1". In tables marked fit-sm, a phone shows just the number in the label's colors. */
+const edgeBadge = (tier, edge) => `<span class="badge ${tier}"><span class="tier-word">${esc(TIER_TXT[tier])} · </span>${edge.toFixed(1)}</span>`;
 const marginTxt = (g, m) => (Math.abs(m) < 0.05 ? "Even" : `${(m >= 0 ? g.home : g.away).abbr} by ${Math.abs(m).toFixed(1)}`);
 const lineTxt = (g, line) => (line == null ? "—" : `${g.home.abbr} ${fmtLine(line)}`);
 
@@ -58,7 +60,7 @@ function headerCard(g, s) {
   const ev = evaluate(g, "spread");  // the over/under has its own card below
   const hasPick = ev.margin != null && ev.line != null;
   const team = (t) => `<div class="gd-team${g.state === "post" && t.winner === false ? " lost" : ""}">
-      <img src="${esc(t.logo)}" alt="">
+      <img src="${LOGO(t.id, 160)}" alt="">
       <div class="gd-name">${t.rank ? `<span class="rank">${t.rank}</span>` : ""}${esc(t.name)}${hasPick && ev.team === t ? ` <span class="pick-tag">Pick</span>` : ""}<span>${esc(t.record)}</span></div>
       ${g.state === "pre" ? "" : `<div class="gd-score">${t.score}</div>`}
     </div>`;
@@ -93,13 +95,13 @@ function pickCard(g) {
     : `Projections split: ${same} take <b>${esc(chosen.team.name)}</b>, ${usable.length - same} take the other side. A split is a reason to punt.`;
   return `<div class="card"><h3>Why this pick</h3>
     <p>${verdict}</p>
-    <div class="table-wrap"><table class="data">
-      <tr><th>Projection</th><th>Model</th><th class="l">Pick</th><th>Edge</th><th>Cover</th></tr>
+    <div class="table-wrap"><table class="data fit-sm">
+      <tr><th>Projection</th><th class="sm-hide">Model</th><th class="l">Pick</th><th>Edge</th><th>Cover</th></tr>
       ${rows.map((r) => `<tr class="${r.src === chosen.src ? "gd-chosen" : ""}">
-        <td class="l">${esc(SOURCE_LABEL[r.src])}${r.src === state.source ? " ★" : ""}</td>
-        <td>${r.margin == null ? "—" : esc(marginTxt(g, r.margin))}</td>
+        <td class="l">${esc(SOURCE_LABEL[r.src])}${r.src === state.source ? "&nbsp;★" : ""}${r.margin == null ? "" : `<span class="sm-sub">${esc(marginTxt(g, r.margin))}</span>`}</td>
+        <td class="sm-hide">${r.margin == null ? "—" : esc(marginTxt(g, r.margin))}</td>
         <td class="l">${r.edge == null ? "—" : `<b>${esc(r.team.abbr)} ${fmtLine(r.pickLine)}</b>`}</td>
-        <td>${r.edge == null ? "—" : `<span class="badge ${r.tier}">${TIER_TXT[r.tier]} · ${r.edge.toFixed(1)}</span>`}</td>
+        <td>${r.edge == null ? "—" : edgeBadge(r.tier, r.edge)}</td>
         <td>${r.edge == null ? "—" : pct(r.prob)}</td></tr>`).join("")}
     </table></div>
     <p class="note">★ is the projection chosen on the Games tab. Each uses its own tested std dev for the cover chance.
@@ -238,8 +240,8 @@ function flowCard(g, s) {
   const wp = (s.winprobability || []).map((p, i) => [i, p.homeWinPercentage]);
   const leaders = (s.leaders || []).map((t) => {
     const cats = (t.leaders || []).map((c) => c.leaders?.[0] ? `<tr><td class="l">${esc(c.displayName)}</td>
-        <td class="l">${esc(c.leaders[0].athlete?.displayName || "")}</td><td class="l note">${esc(c.leaders[0].displayValue)}</td></tr>` : "").join("");
-    return cats ? `<h4 class="gd-h4">${esc(t.team?.displayName || "")}</h4><div class="table-wrap"><table class="data">${cats}</table></div>` : "";
+        <td class="l wrap-sm">${esc(c.leaders[0].athlete?.displayName || "")}</td><td class="l note wrap-sm">${esc(c.leaders[0].displayValue)}</td></tr>` : "").join("");
+    return cats ? `<h4 class="gd-h4">${esc(t.team?.displayName || "")}</h4><div class="table-wrap"><table class="data fit-sm">${cats}</table></div>` : "";
   }).join("");
   return `<div class="card gd-wide"><h3>${g.state === "in" ? "Live" : "How it played out"}</h3>
     ${wp.length > 1 ? `<p class="note">ESPN's win chance for ${esc(g.home.name)}, play by play.</p>
@@ -261,9 +263,9 @@ function totalCard(g, log) {
     const edge = proj[k] - g.total, s = state.model?.sigma_total?.[k] || 16;
     const believed = shrink("total", k) * edge;
     const over = edge >= 0, p = over ? 1 - normCdf(-believed / s) : normCdf(-believed / s);
-    return `<tr class="${k === state.totalSource ? "gd-chosen" : ""}"><td class="l">${esc(SOURCE_LABEL[k])}${k === state.totalSource ? " ★" : ""}</td>
-      <td>${proj[k].toFixed(1)}</td><td class="l"><b>${over ? "Over" : "Under"} ${g.total}</b></td>
-      <td><span class="badge ${gameTier(g, edge)}">${TIER_TXT[gameTier(g, edge)]} · ${Math.abs(edge).toFixed(1)}</span></td><td>${pct(p)}</td></tr>`;
+    return `<tr class="${k === state.totalSource ? "gd-chosen" : ""}"><td class="l">${esc(SOURCE_LABEL[k])}${k === state.totalSource ? "&nbsp;★" : ""}<span class="sm-sub">Projects ${proj[k].toFixed(1)}</span></td>
+      <td class="sm-hide">${proj[k].toFixed(1)}</td><td class="l"><b>${over ? "Over" : "Under"} ${g.total}</b></td>
+      <td>${edgeBadge(gameTier(g, edge), Math.abs(edge))}</td><td>${pct(p)}</td></tr>`;
   }).join("");
   const logged = T ? `<p>Forward test: recorded <b>${esc(new Date(T.at).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</b>
       at <b>${T.total}</b>${T.close != null ? `, ${g.state === "pre" ? "latest" : "closed at"} ${T.close}` : ""}:
@@ -276,8 +278,8 @@ function totalCard(g, log) {
   return `<div class="card"><h3>Over/under</h3>
     ${pickBox(g, ev, { tierTxt: TIER_LABEL })}
     ${split ? `<p>The two projections split: one takes the over, the other the under. A split is a reason to punt.</p>` : ""}
-    <div class="table-wrap"><table class="data">
-      <tr><th>Projection</th><th>Total</th><th class="l">Pick</th><th>Edge</th><th>Chance</th></tr>${rows}
+    <div class="table-wrap"><table class="data fit-sm">
+      <tr><th>Projection</th><th class="sm-hide">Total</th><th class="l">Pick</th><th>Edge</th><th>Chance</th></tr>${rows}
     </table></div>
     ${logged}
     <p class="note">${(() => {
@@ -296,18 +298,23 @@ function forwardCard(g, log) {
   if (!L) return `<div class="card"><h3>Forward test</h3><p class="note">This game isn't in the pick log${g.state === "pre" ? " yet. It's recorded the first time its line appears" : " (it may be outside the last three weeks)"}.</p></div>`;
   const res = { W: `<span class="badge win">Won</span>`, L: `<span class="badge loss">Lost</span>`, P: `<span class="badge pass">Push</span>` };
   const at = new Date(L.at).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  const keys = SPREAD_SOURCES.filter((k) => L.picks[k]);
+  const graded = keys.some((k) => L.picks[k].result);  // no Result column until there's a result to show
   return `<div class="card"><h3>Forward test</h3>
-    <p>Recorded <b>${esc(at)}</b> at <b>${esc(lineTxt(g, L.line))}</b>${L.close != null ? `, ${g.state === "pre" ? "latest line" : "closed at"} ${esc(lineTxt(g, L.close))}` : ""}. These picks can't be changed after the fact.</p>
-    <div class="table-wrap"><table class="data">
-      <tr><th>Projection</th><th class="l">Pick</th><th>Edge</th><th>Line moved</th><th class="l">Result</th></tr>
-      ${SPREAD_SOURCES.filter((k) => L.picks[k]).map((k) => {
+    <p>Recorded <b>${esc(at)}</b> at <b>${esc(lineTxt(g, L.line))}</b>${L.close != null ? `, ${g.state === "pre" ? "latest line" : "closed at"} ${esc(lineTxt(g, L.close))}` : ""}. These picks can't be changed after the fact${graded ? "" : "; they're graded when the game ends"}.</p>
+    <div class="table-wrap"><table class="data fit-sm">
+      <tr><th>Projection</th><th class="l">Pick</th><th>Edge</th><th class="${graded ? "xs-hide" : ""}"><span class="hide-sm">Line moved</span><span class="show-sm">Moved</span></th>${graded ? `<th class="l">Result</th>` : ""}</tr>
+      ${keys.map((k) => {
         const p = L.picks[k], team = p.side === "home" ? g.home : g.away;
         // until the game is graded, show movement so far from the logged line to the latest one
         const clv = p.clv ?? (L.close != null ? (L.line - L.close) * (p.side === "home" ? 1 : -1) : null);
-        return `<tr><td class="l">${esc(SOURCE_LABEL[k])}</td><td class="l"><b>${esc(team.abbr)} ${fmtLine(p.side === "home" ? L.line : -L.line)}</b></td>
+        const cls = clv > 0 ? "good" : clv < 0 ? "bad" : "", moved = clv == null ? "—" : (clv > 0 ? "+" : "") + clv;
+        // on a phone, a graded game has no room for both Moved and Result: the move goes under the pick
+        return `<tr><td class="l">${esc(SOURCE_LABEL[k])}</td><td class="l"><b>${esc(team.abbr)} ${fmtLine(p.side === "home" ? L.line : -L.line)}</b>${graded
+            ? `<span class="xs-sub">Moved <b class="${cls}">${moved}</b></span>` : ""}</td>
           <td><span class="badge ${tierOf(p.edge)}">${p.edge.toFixed(1)}</span></td>
-          <td class="${clv > 0 ? "good" : clv < 0 ? "bad" : ""}">${clv == null ? "—" : (clv > 0 ? "+" : "") + clv}</td>
-          <td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td></tr>`;
+          <td class="${cls}${graded ? " xs-hide" : ""}">${moved}</td>
+          ${graded ? `<td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td>` : ""}</tr>`;
       }).join("")}
     </table></div></div>`;
 }
@@ -375,9 +382,17 @@ async function renderGameDetail(id) {
 
 async function showGame(id) {
   $("#game-detail").innerHTML = `<div class="card note">Loading game…</div>`;
-  window.scrollTo(0, 0);
+  window.scrollTo(0, 0);  // a game always opens at its top; the list remembers where you were (app.js)
   try { await appReady; } catch { /* show what we can */ }
   renderGameDetail(id);
+}
+
+/** ‹ All games: back to the list, at the game you opened. When the list is the page before this one it's
+ *  the browser's Back, so Back and Forward still make sense afterward; from an alert or a shared link
+ *  (where Back would leave the site) it opens the list instead. */
+function backToGames() {
+  if (viewFrom === "games") history.back();
+  else location.hash = "games";
 }
 
 function leaveGame() {
