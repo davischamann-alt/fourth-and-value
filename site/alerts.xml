@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-12T09:56:14Z</updated>
+  <updated>2026-11-12T18:24:01Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-12:key:401870769:2026-11-12T18:23Z</id>
+    <title>Line onto 7: Kennesaw State @ Sam Houston</title>
+    <updated>2026-11-12T18:24:01Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401870769"/>
+    <summary>The line moved from Sam Houston +7.5 to Sam Houston +7, onto 7, toward the model's pick (Sam Houston). Sat Nov 14, 2:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-12:key:401856857:2026-11-12T09:55Z</id>
     <title>Line onto 3: Arizona State @ UCF</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-01T20:34:49Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862819"/>
     <summary>Charlotte @ UAB, Sat Nov 7, 3:30 PM ET. Market-anchored takes the over 49.5 (projects 51.2), a 1.7-point edge, logged when the total first appeared. QB change: Conner Harrell led Charlotte's passing in the last 3 games; Cole Gonzales led it in 5 of 8 games. The ratings mostly reflect Cole Gonzales's games.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:total:401856850</id>
-    <title>Check the news: Over 48.5</title>
-    <updated>2026-11-01T20:34:49Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856850"/>
-    <summary>UCF @ Kansas, Sat Nov 7, 3:45 PM ET. Market-anchored takes the over 48.5 (projects 50.7), a 2.2-point edge, logged when the total first appeared. QB change: Cole Ballard led Kansas's passing in the last game; Isaiah Marshall led it in 7 of 8 games. The ratings mostly reflect Isaiah Marshall's games.</summary>
   </entry>
 </feed>
