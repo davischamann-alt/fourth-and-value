@@ -7,6 +7,7 @@
   "key:401856857:2026-11-08T22:13Z",
   "key:401856857:2026-11-09T20:48Z",
   "key:401856857:2026-11-11T06:55Z",
+  "key:401856857:2026-11-12T00:48Z",
   "key:401856858:2026-11-05T23:41Z",
   "key:401856858:2026-11-08T09:06Z",
   "key:401856858:2026-11-08T16:43Z",
@@ -51,6 +52,8 @@
   "key:401871096:2026-10-26T15:15Z",
   "key:401871096:2026-10-29T05:55Z",
   "pick:401856742",
+  "pick:401856751",
+  "pick:401856754",
   "pick:401856842",
   "pick:401856843",
   "pick:401856851",
@@ -59,6 +62,7 @@
   "pick:401856860",
   "pick:401856861",
   "pick:401856862",
+  "pick:401856871",
   "pick:401856884",
   "pick:401856885",
   "pick:401856886",
@@ -86,6 +90,8 @@
   "pick:401858524",
   "pick:401858525",
   "pick:401858526",
+  "pick:401858527",
+  "pick:401858528",
   "pick:401859185",
   "pick:401860914",
   "pick:401860916",
@@ -127,6 +133,7 @@
   "total:401856736",
   "total:401856739",
   "total:401856742",
+  "total:401856753",
   "total:401856843",
   "total:401856844",
   "total:401856845",
@@ -173,6 +180,62 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401858528",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401858528",
+   "title": "New pick: Michigan +5.5",
+   "text": "UCLA @ Michigan, Sat Nov 21, time TBD. Blend takes Michigan +5.5, a 2.2-point edge, logged when the line first appeared. QB change: Tommy Carr led Michigan's passing in the last 3 games; Bryce Underwood led it in 6 of 9 games. The ratings mostly reflect Bryce Underwood's games. Worth a bet at Michigan +6.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856871",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401856871",
+   "title": "New pick: Baylor +1.5",
+   "text": "Texas Tech @ Baylor, Sat Nov 21, time TBD. Blend takes Baylor +1.5, a 3.2-point edge, logged when the line first appeared. QB change: Thomas Castellanos led Texas Tech's passing in the last 2 games; Will Hammond led it in 7 of 9 games. The ratings mostly reflect Will Hammond's games. Worth a bet at Baylor +2.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858527",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401858527",
+   "title": "New pick: Iowa -5.5",
+   "text": "Iowa @ Illinois, Sat Nov 21, 2:30 PM ET. Blend takes Iowa -5.5, a 3.0-point edge, logged when the line first appeared. Worth a bet at Iowa -4.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856754",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401856754",
+   "title": "New pick: LSU -1.5",
+   "text": "LSU @ Tennessee, Sat Nov 21, 3:30 PM ET. Blend takes LSU -1.5, a 3.9-point edge, logged when the line first appeared. Worth a bet at LSU -1 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856751",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401856751",
+   "title": "New pick: Kentucky +6.5",
+   "text": "Kentucky @ Missouri, Sat Nov 21, 7:30 PM ET. Blend takes Kentucky +6.5, a 1.9-point edge, logged when the line first appeared. Worth a bet at Kentucky +7.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "total:401856753",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "total",
+   "game_id": "401856753",
+   "title": "New pick: Over 50.5",
+   "text": "Georgia @ South Carolina, Sat Nov 21, 7:30 PM ET. Market-anchored takes the over 50.5 (projects 52.3), a 1.8-point edge, logged when the total first appeared. Worth a bet at Over 49.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401856857:2026-11-12T00:48Z",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "key",
+   "game_id": "401856857",
+   "title": "Line off 3: Arizona State @ UCF",
+   "text": "The line moved from UCF -3 to UCF -3.5, off 3, toward the model's pick (UCF). Sat Nov 14, 12:00 AM ET."
+  },
   {
    "key": "key:401856857:2026-11-11T06:55Z",
    "at": "2026-11-11T06:56:23Z",

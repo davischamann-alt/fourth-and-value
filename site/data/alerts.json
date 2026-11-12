@@ -1,9 +1,65 @@
 {
- "updated": "2026-11-11T21:21:43Z",
+ "updated": "2026-11-12T00:50:05Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401858528",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401858528",
+   "title": "New pick: Michigan +5.5",
+   "text": "UCLA @ Michigan, Sat Nov 21, time TBD. Blend takes Michigan +5.5, a 2.2-point edge, logged when the line first appeared. QB change: Tommy Carr led Michigan's passing in the last 3 games; Bryce Underwood led it in 6 of 9 games. The ratings mostly reflect Bryce Underwood's games. Worth a bet at Michigan +6.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856871",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401856871",
+   "title": "New pick: Baylor +1.5",
+   "text": "Texas Tech @ Baylor, Sat Nov 21, time TBD. Blend takes Baylor +1.5, a 3.2-point edge, logged when the line first appeared. QB change: Thomas Castellanos led Texas Tech's passing in the last 2 games; Will Hammond led it in 7 of 9 games. The ratings mostly reflect Will Hammond's games. Worth a bet at Baylor +2.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858527",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401858527",
+   "title": "New pick: Iowa -5.5",
+   "text": "Iowa @ Illinois, Sat Nov 21, 2:30 PM ET. Blend takes Iowa -5.5, a 3.0-point edge, logged when the line first appeared. Worth a bet at Iowa -4.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856754",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401856754",
+   "title": "New pick: LSU -1.5",
+   "text": "LSU @ Tennessee, Sat Nov 21, 3:30 PM ET. Blend takes LSU -1.5, a 3.9-point edge, logged when the line first appeared. Worth a bet at LSU -1 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856751",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "pick",
+   "game_id": "401856751",
+   "title": "New pick: Kentucky +6.5",
+   "text": "Kentucky @ Missouri, Sat Nov 21, 7:30 PM ET. Blend takes Kentucky +6.5, a 1.9-point edge, logged when the line first appeared. Worth a bet at Kentucky +7.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "total:401856753",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "total",
+   "game_id": "401856753",
+   "title": "New pick: Over 50.5",
+   "text": "Georgia @ South Carolina, Sat Nov 21, 7:30 PM ET. Market-anchored takes the over 50.5 (projects 52.3), a 1.8-point edge, logged when the total first appeared. Worth a bet at Over 49.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401856857:2026-11-12T00:48Z",
+   "at": "2026-11-12T00:50:05Z",
+   "kind": "key",
+   "game_id": "401856857",
+   "title": "Line off 3: Arizona State @ UCF",
+   "text": "The line moved from UCF -3 to UCF -3.5, off 3, toward the model's pick (UCF). Sat Nov 14, 12:00 AM ET."
+  },
   {
    "key": "key:401856857:2026-11-11T06:55Z",
    "at": "2026-11-11T06:56:23Z",
@@ -187,62 +243,6 @@
    "game_id": "401858522",
    "title": "Check the news: Ohio State -9.5",
    "text": "Northwestern @ Ohio State, Sat Nov 14, 12:00 PM ET. Market-anchored takes Ohio State -9.5, a 2.3-point edge, logged when the line first appeared. QB change: Luke Fahey led Ohio State's passing in the last game; Julian Sayin led it in 7 of 8 games. The ratings mostly reflect Julian Sayin's games."
-  },
-  {
-   "key": "pick:401858523",
-   "at": "2026-11-04T23:46:13Z",
-   "kind": "pick",
-   "game_id": "401858523",
-   "title": "Check the news: Oregon -5.5",
-   "text": "Michigan @ Oregon, Sat Nov 14, 3:30 PM ET. Market-anchored takes Oregon -5.5, a 1.9-point edge, logged when the line first appeared. QB change: Tommy Carr led Michigan's passing in the last 2 games; Bryce Underwood led it in 6 of 8 games. The ratings mostly reflect Bryce Underwood's games."
-  },
-  {
-   "key": "key:401866455:2026-11-04T18:02Z",
-   "at": "2026-11-04T18:03:46Z",
-   "kind": "key",
-   "game_id": "401866455",
-   "title": "Line through 3: Ball State @ Massachusetts",
-   "text": "The line moved from Massachusetts -3.5 to Massachusetts -2.5, through 3, away from the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET."
-  },
-  {
-   "key": "key:401866455:2026-11-04T09:25Z",
-   "at": "2026-11-04T09:25:56Z",
-   "kind": "key",
-   "game_id": "401866455",
-   "title": "Line off 3: Ball State @ Massachusetts",
-   "text": "The line moved from Massachusetts -3 to Massachusetts -3.5, off 3, toward the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET."
-  },
-  {
-   "key": "key:401858514:2026-11-03T19:33Z",
-   "at": "2026-11-03T19:34:04Z",
-   "kind": "key",
-   "game_id": "401858514",
-   "title": "Line off 7: Oregon @ Ohio State",
-   "text": "The line moved from Ohio State -7 to Ohio State -7.5, off 7, toward the model's pick (Ohio State). Sat Nov 7, 12:00 AM ET."
-  },
-  {
-   "key": "key:401864535:2026-11-02T20:23Z",
-   "at": "2026-11-02T20:25:05Z",
-   "kind": "key",
-   "game_id": "401864535",
-   "title": "Line off 7: Wyoming @ UNLV",
-   "text": "The line moved from UNLV -7 to UNLV -6, off 7, away from the model's pick (UNLV). Sat Nov 7, 10:30 PM ET."
-  },
-  {
-   "key": "key:401866455:2026-11-02T20:23Z",
-   "at": "2026-11-02T20:25:05Z",
-   "kind": "key",
-   "game_id": "401866455",
-   "title": "Line onto 3: Ball State @ Massachusetts",
-   "text": "The line moved from Massachusetts -3.5 to Massachusetts -3, onto 3, away from the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET."
-  },
-  {
-   "key": "key:401856742:2026-11-02T09:36Z",
-   "at": "2026-11-02T09:37:59Z",
-   "kind": "key",
-   "game_id": "401856742",
-   "title": "Line onto 3: Vanderbilt @ Mississippi State",
-   "text": "The line moved from Mississippi State -2.5 to Mississippi State -3, onto 3, toward the model's pick (Mississippi State). Sat Nov 7, 4:15 PM ET."
   }
  ]
 }
