@@ -509,7 +509,7 @@ Saving the file on `main` (on GitHub, or with a push) runs the job right away. A
 
 The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours, whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
 
-Each run also builds the QB watch and player props (`build_props.py`), sends alerts (`alerts.py`) and fetches kickoff forecasts (`weather.py`).
+Each run also builds the QB watch and player props (`build_props.py`), sends alerts (`alerts.py`) and fetches kickoff forecasts (`weather.py`). When a forecast can't be had (Open-Meteo, ESPN or CollegeFootballData down), `weather.py` keeps the forecast the site is already showing, if it's under 36 hours old, instead of publishing none; it gives Open-Meteo about a minute before falling back.
 
 **Sundays.** Next week's lines open on Sunday afternoon and move within hours, so a second, lighter job (`.github/workflows/lines.yml`) runs every 30 minutes from noon to 11 p.m. Eastern. It only records lines and picks, checks the sportsbooks and sends alerts, then commits; it finishes in about a minute. It doesn't publish, so the website catches up at the next two-hourly run.
 

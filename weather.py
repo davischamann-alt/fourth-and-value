@@ -11,17 +11,37 @@ the chance of rain and the temperature over its first three hours.
 Why wind: in 2023-2026, totals in games with 12+ mph of wind at kickoff fell about 1.8 points
 between the opening and closing number (0.35 in calm games), and overs went 47.7% against the
 opening total. The closing total prices the wind; the opening total doesn't fully. Rain and cold
-showed no reliable effect, so they're shown but not used."""
+showed no reliable effect, so they're shown but not used.
+
+When the forecasts can't be had (Open-Meteo, ESPN or CollegeFootballData down), this keeps the forecast
+the site is already showing, if it's under MAX_AGE old, so one bad run doesn't leave the site without
+one. site/data/weather.json isn't saved in the repository, so that copy comes from the live site."""
 import datetime as dt
 import json
+import os
 
 import pandas as pd
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 import sources
 
 OUT = sources.DATA.parent / "site" / "data" / "weather.json"
 FORECAST = "https://api.open-meteo.com/v1/forecast"
 WINDY = 12.0   # mph, average over the first three hours
+MAX_AGE = dt.timedelta(hours=36)   # an older published forecast is dropped rather than kept
+# Open-Meteo: two retries and a 30-second timeout, so an outage costs the job about a minute (sources.HTTP,
+# built for ESPN, kept trying for seven minutes on November 13, 2026)
+METEO = requests.Session()
+METEO.mount("https://", HTTPAdapter(max_retries=Retry(total=2, connect=2, read=2, backoff_factor=2,
+                                                      status_forcelist=(429, 500, 502, 503, 504))))
+
+
+def site_url():
+    """The website's address: from the repository the GitHub job runs in, else the project's own."""
+    owner, _, repo = os.environ.get("GITHUB_REPOSITORY", "davischamann-alt/fourth-and-value").partition("/")
+    return f"https://{owner}.github.io/{repo}/"
 
 
 def upcoming_games():
@@ -53,7 +73,7 @@ def forecast(points):
     out = []
     for i in range(0, len(points), 50):
         chunk = points[i:i + 50]
-        r = sources.HTTP.get(FORECAST, timeout=60, params=dict(
+        r = METEO.get(FORECAST, timeout=30, params=dict(
             latitude=",".join(str(p[0]) for p in chunk), longitude=",".join(str(p[1]) for p in chunk),
             hourly="wind_speed_10m,wind_gusts_10m,precipitation_probability,temperature_2m",
             wind_speed_unit="mph", temperature_unit="fahrenheit", timezone="GMT", forecast_days=16))
@@ -78,11 +98,39 @@ def at_kickoff(hourly, kickoff):
                 temp=round(col("temperature_2m").mean()), windy=bool(wind >= WINDY))
 
 
+def keep_published(now):
+    """Writes back the forecast the live site is showing, if it's under MAX_AGE old, so this run publishes it
+    again instead of none. Its "updated" time stays the original. Returns whether it kept one."""
+    try:
+        r = requests.get(site_url() + "data/weather.json", timeout=20)
+        r.raise_for_status()
+        last = r.json()
+        age = now - dt.datetime.fromisoformat(last["updated"])
+    except (requests.RequestException, ValueError, KeyError, TypeError) as e:
+        print(f"No published forecast to keep either ({type(e).__name__})")
+        return False
+    if age > MAX_AGE:
+        print(f"The published forecast is {age.total_seconds() / 3600:.0f} hours old: not keeping it")
+        return False
+    OUT.write_text(json.dumps(last, indent=1))
+    print(f"Kept the published forecast from {last['updated']} ({len(last.get('games', {}))} games)")
+    return True
+
+
 def main():
     now = dt.datetime.now(dt.timezone.utc)
     if not sources.cfbd_key():
         print("No CollegeFootballData key: no stadium locations, so no weather")
         return
+    try:
+        fresh(now)
+    except Exception as e:  # any source down or answering oddly; only the error's type is printed, never a URL or key
+        print(f"Couldn't get this run's forecasts ({type(e).__name__}); keeping the last published ones")
+        keep_published(now)
+
+
+def fresh(now):
+    """This run's forecasts for every upcoming game, written to OUT."""
     games, season = upcoming_games()
     where = venues(season)
     out, outdoor = {}, []
