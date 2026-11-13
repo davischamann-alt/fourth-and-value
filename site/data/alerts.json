@@ -1,9 +1,25 @@
 {
- "updated": "2026-11-13T17:51:05Z",
+ "updated": "2026-11-13T23:40:03Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401858293:2026-11-13T23:39Z",
+   "at": "2026-11-13T23:40:03Z",
+   "kind": "key",
+   "game_id": "401858293",
+   "title": "Line onto 3: Florida State @ Pittsburgh",
+   "text": "The line moved from Pittsburgh -3.5 to Pittsburgh -3, onto 3, away from the model's pick (Pittsburgh). Fri Nov 13, 7:00 PM ET."
+  },
+  {
+   "key": "key:401864537:2026-11-13T23:39Z",
+   "at": "2026-11-13T23:40:03Z",
+   "kind": "key",
+   "game_id": "401864537",
+   "title": "Line onto 7: North Dakota State @ Hawai'i",
+   "text": "The line moved from Hawai'i +6.5 to Hawai'i +7, onto 7, toward the model's pick (North Dakota State). Sat Nov 14, 11:00 PM ET."
+  },
   {
    "key": "key:401856861:2026-11-13T17:49Z",
    "at": "2026-11-13T17:51:05Z",
@@ -227,22 +243,6 @@
    "game_id": "401856889",
    "title": "Lean: Alabama -19.5",
    "text": "Alabama @ Vanderbilt, Sat Nov 14, 12:45 PM ET. Market-anchored takes Alabama -19.5, a 1.9-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401858294",
-   "at": "2026-11-08T09:06:42Z",
-   "kind": "pick",
-   "game_id": "401858294",
-   "title": "Lean: Notre Dame -31.5",
-   "text": "Boston College @ Notre Dame, Sat Nov 14, 3:30 PM ET. Market-anchored takes Notre Dame -31.5, a 2.2-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401858524",
-   "at": "2026-11-08T09:06:42Z",
-   "kind": "pick",
-   "game_id": "401858524",
-   "title": "Lean: Penn State -7",
-   "text": "Minnesota @ Penn State, Sat Nov 14, 7:00 PM ET. Market-anchored takes Penn State -7, a 1.8-point edge, logged when the line first appeared."
   }
  ]
 }

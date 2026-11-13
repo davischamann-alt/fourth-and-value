@@ -24,6 +24,7 @@
   "key:401858279:2026-10-26T00:27Z",
   "key:401858279:2026-10-26T15:15Z",
   "key:401858281:2026-10-25T20:56Z",
+  "key:401858293:2026-11-13T23:39Z",
   "key:401858301:2026-11-05T23:41Z",
   "key:401858301:2026-11-08T09:06Z",
   "key:401858509:2026-10-22T20:12Z",
@@ -44,6 +45,7 @@
   "key:401864535:2026-11-01T23:21Z",
   "key:401864535:2026-11-02T20:23Z",
   "key:401864537:2026-11-09T01:46Z",
+  "key:401864537:2026-11-13T23:39Z",
   "key:401866455:2026-11-02T20:23Z",
   "key:401866455:2026-11-04T09:25Z",
   "key:401866455:2026-11-04T18:02Z",
@@ -184,6 +186,22 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401858293:2026-11-13T23:39Z",
+   "at": "2026-11-13T23:40:03Z",
+   "kind": "key",
+   "game_id": "401858293",
+   "title": "Line onto 3: Florida State @ Pittsburgh",
+   "text": "The line moved from Pittsburgh -3.5 to Pittsburgh -3, onto 3, away from the model's pick (Pittsburgh). Fri Nov 13, 7:00 PM ET."
+  },
+  {
+   "key": "key:401864537:2026-11-13T23:39Z",
+   "at": "2026-11-13T23:40:03Z",
+   "kind": "key",
+   "game_id": "401864537",
+   "title": "Line onto 7: North Dakota State @ Hawai'i",
+   "text": "The line moved from Hawai'i +6.5 to Hawai'i +7, onto 7, toward the model's pick (North Dakota State). Sat Nov 14, 11:00 PM ET."
+  },
   {
    "key": "key:401856861:2026-11-13T17:49Z",
    "at": "2026-11-13T17:51:05Z",
