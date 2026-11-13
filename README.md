@@ -566,14 +566,6 @@ fourth-and-value/
 
 ---
 
-## Design and credits
-
-The site's look borrows from TV football graphics: a black header, ink on white (or white on near-black in dark mode), first-down yellow only where it means something (the line a pick has to clear, Go for it, the tab you're on), and green and red only for how picks are doing. Each game card puts the model's pick in a scorebug-style bar. It's all in `site/style.css`; the colors are variables at the top, with a dark set for dark mode.
-
-- **Font:** [Archivo](https://fonts.google.com/specimen/Archivo), free on Google Fonts (SIL Open Font License). One variable family: its width axis gives scores, lines and headlines a heavy condensed scoreboard look while body text stays at normal width.
-- **Icons:** [Lucide](https://lucide.dev) (ISC License), drawn inline in `site/index.html` and `site/app.js`, or as CSS masks in `site/style.css`. Copyright (c) Lucide Contributors 2022; portions copyright (c) Cole Bemis 2013-2022 as part of Feather (MIT). Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
-- **Team logos:** ESPN's, resized by ESPN's image server.
-
 ## Troubleshooting
 
 | Problem | Fix |
