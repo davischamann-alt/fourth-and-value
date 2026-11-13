@@ -1,5 +1,11 @@
 [
  {
+  "date": "2026-11-12",
+  "type": "design",
+  "title": "A bolder look that fits more games on screen",
+  "summary": "The site was redesigned after TV football graphics: a black header, ink on white (white on near-black in dark mode), first-down yellow only where it means something, and heavy condensed type for scores, lines and headlines, in Archivo, a free Google font. Each game card puts the model's pick in a scorebug-style bar that turns green or red once the game is decided. Cards are about 40% shorter: how the line moved and the Model pick label are on the game page now, and the model's number and edge sit in the card's footer. Laptops show four cards across instead of three, and the phone toolbar takes half the space. Icons are from Lucide."
+ },
+ {
   "date": "2026-11-11",
   "type": "feature",
   "title": "Link previews, a phone app, TBD kickoffs and a way to move your picks",

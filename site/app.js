@@ -7,12 +7,13 @@ const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/college-foo
  *  site shows them at 20-52 pixels (all of a week's games came to 5.5 MB; this is about 0.4 MB). On a
  *  dark background it uses ESPN's dark-mode versions, where navy and black logos (Akron's) turn light. */
 const isDark = () => (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) === "dark";
-const LOGO = (id, px = 96) =>
-  `https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/${isDark() ? "500-dark" : "500"}/${encodeURIComponent(id)}.png&w=${px}&h=${px}`;
-/** After the theme changes: every logo on the page switches to the version for the new background. */
+const LOGO = (id, px = 96, dark = isDark()) =>
+  `https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/${dark ? "500-dark" : "500"}/${encodeURIComponent(id)}.png&w=${px}&h=${px}`;
+/** After the theme changes: every logo on the page switches to the version for the new background, except
+ *  the ones that always sit on a dark bar (data-on-dark: the pick bar). */
 function swapLogos() {
   const v = isDark() ? "/ncaa/500-dark/" : "/ncaa/500/";
-  $$('img[src*="/teamlogos/ncaa/"]').forEach((img) => (img.src = img.src.replace(/\/ncaa\/500(-dark)?\//, v)));
+  $$('img[src*="/teamlogos/ncaa/"]:not([data-on-dark])').forEach((img) => (img.src = img.src.replace(/\/ncaa\/500(-dark)?\//, v)));
 }
 const STRONG = 3, LEAN = 1.5;          // edge thresholds in points
 const CHECK = 5;                       // bigger gaps usually mean the market knows something (injury, QB change)
@@ -555,7 +556,7 @@ function pickBox(g, ev, { tierTxt } = {}) {
     : `<span class="pick-chip">${esc(st.chip)}</span>`;
   const icon = ev.total
     ? `<span class="ou-icon" aria-hidden="true">${ev.side === "over" ? "▲" : "▼"}</span>`
-    : `<img src="${LOGO(ev.team.id)}" alt="" loading="lazy">`;
+    : `<img src="${LOGO(ev.team.id, 96, true)}" data-on-dark alt="" loading="lazy">`;  // the pick bar is dark in both themes
   const wx = ev.total && weatherOf(g);
   const windTxt = wx?.windy ? `${windNote(wx)}${ev.side === "over" ? ", so this over is fighting the market." : ": the market usually moves it toward the under."}` : "";
   const bowl = g.state === "pre" && isBowl(g) && ev.tier === "check";
@@ -564,14 +565,19 @@ function pickBox(g, ev, { tierTxt } = {}) {
   const priced = st.state === "pre" && (ev.tier === "strong" || ev.tier === "lean") && ev.value;
   const shop = st.state === "pre" && ev.tier === "check" && ev.value?.best.shop ? ev.value.best : null;
   const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out)}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
+  // pickbox-move is just how the line moved, which game cards leave to the game page; pickbox-warn is news they keep
+  const noteCls = st.text ? "" : out || bowl || windTxt ? " pickbox-warn" : " pickbox-move";
   return `<div class="pickbox pb-${st.state}">
-    <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
-    <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>
-    ${note ? `<div class="pickbox-note${st.text ? "" : " pickbox-move"}">${esc(note)}</div>` : ""}
+    <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span></div>
+    <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span>${chip}</div>
+    ${note ? `<div class="pickbox-note${noteCls}">${esc(note)}</div>` : ""}
     ${priced ? `<div class="pickbox-note pickbox-shop${ev.value.best.clears ? " is-better" : ""}">${esc(valueNote(ev))}</div>` : ""}
     ${shop ? `<div class="pickbox-note pickbox-shop${shop.better > 0 ? " is-better" : ""}">${esc(shopNote(shop))}</div>` : ""}
   </div>`;
 }
+
+/** Lucide's star (lucide.dev, ISC license); filled when the pick is tracked (style.css). */
+const STAR = `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>`;
 
 function card(g, ev, isTracked) {
   const time = g.state === "pre" ? kickTime(g) : g.status;
@@ -581,13 +587,14 @@ function card(g, ev, isTracked) {
   const movedTotal = g.openTotal != null && g.total != null && g.openTotal !== g.total
     ? `<span class="open"> opened ${g.openTotal}</span>` : "";
   const homeLine = g.line == null ? "—" : `${esc(g.home.abbr)} ${fmtLine(g.line)}`;
-  let body;
+  let body, model = `${esc(g.away.abbr)} @ ${esc(g.home.abbr)}`;  // the footer: the model's number when there is one
   if (ev.margin == null || ev.line == null) {
     body = `<div class="nopick">${esc(ev.reason)}</div>`;
   } else {
     const fav = ev.margin >= 0 ? g.home : g.away;
     const modelTxt = ev.total ? `${ev.margin.toFixed(1)} pts`
       : Math.abs(ev.margin) < 0.05 ? "Even" : `${esc(fav.abbr)} by ${Math.abs(ev.margin).toFixed(1)}`;
+    model = `Model <b>${modelTxt}</b> · edge <b>${ev.edge.toFixed(1)}</b>`;
     const hits = ev.total ? "hits" : "covers";
     // pregame, the bar is the chance at the best number on offer, and its yellow line the chance that price
     // needs to be worth a bet (break-even plus a point): Go for it is a bar past the line. One decimal, since
@@ -604,9 +611,6 @@ function card(g, ev, isTracked) {
           ${g.state === "in" ? `<div class="row"><span>Before kickoff</span><b>${pct(ev.pre)}</b></div>` : ""}
         </div>`;
     body = pickBox(g, ev, { tierTxt: TIER_LABEL }) + prob;
-    body += `
-      <div class="lines" style="margin-bottom:0"><div><span class="k">Model</span><span class="v">${modelTxt}</span></div>
-        <div><span class="k">Edge</span><span class="v">${ev.edge.toFixed(1)} pts</span></div></div>`;
   }
   const canTrack = g.state === "pre" && ev.margin != null && ev.line != null;
   return `<article class="card game${ev.tier === "strong" ? " strong" : ""}" data-game="${esc(g.id)}" tabindex="0"
@@ -623,9 +627,9 @@ function card(g, ev, isTracked) {
     </div>
     ${body}
     <div class="game-foot">
-      <span>${g.away.abbr} @ ${g.home.abbr}</span>
+      <span class="foot-model">${model}</span>
       <button class="track${isTracked ? " on" : ""}" data-track="${esc(trackKey(g))}" ${canTrack || isTracked ? "" : "disabled"}>
-        ${isTracked ? "★ Tracked" : "☆ Track pick"}</button>
+        ${STAR}${isTracked ? "Tracked" : "Track pick"}</button>
     </div>
   </article>`;
 }
@@ -710,7 +714,7 @@ function renderPicks() {
       <td class="l">${esc(SOURCE_LABEL[p.source] || p.source)}${p.market === "total" ? " · total" : ""}</td>
       <td class="l">${p.result ? res[p.result] : `<span class="note">Pending</span>`}</td>
       <td><button data-unpick="${esc(p.id)}" title="Remove">✕</button></td></tr>`).join("")
-      : `<tr><td colspan="7" class="empty">No tracked picks yet. Use ☆ Track pick on the Games tab.</td></tr>`);
+      : `<tr><td colspan="7" class="empty">No tracked picks yet. Use Track pick on a game card before kickoff.</td></tr>`);
 }
 
 // ---------- Bets ----------
