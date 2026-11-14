@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-14T06:38:31Z",
+ "updated": "2026-11-14T15:10:46Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401870769:2026-11-14T15:09Z",
+   "at": "2026-11-14T15:10:46Z",
+   "kind": "key",
+   "game_id": "401870769",
+   "title": "Line off 7: Kennesaw State @ Sam Houston",
+   "text": "The line moved from Sam Houston +7 to Sam Houston +7.5, off 7, away from the model's pick (Sam Houston). Sat Nov 14, 2:00 PM ET."
+  },
   {
    "key": "key:401862828:2026-11-14T06:37Z",
    "at": "2026-11-14T06:38:31Z",
@@ -235,14 +243,6 @@
    "game_id": "401858524",
    "title": "Line off 7: Minnesota @ Penn State",
    "text": "The line moved from Penn State -7 to Penn State -7.5, off 7, toward the model's pick (Penn State). Sat Nov 14, 7:00 PM ET."
-  },
-  {
-   "key": "pick:401869969",
-   "at": "2026-11-08T09:06:42Z",
-   "kind": "pick",
-   "game_id": "401869969",
-   "title": "Lean: Louisiana -11.5",
-   "text": "Louisiana @ UL Monroe, Thu Nov 12, 9:00 PM ET. Market-anchored takes Louisiana -11.5, a 2.6-point edge, logged when the line first appeared."
   }
  ]
 }

@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-14T06:38:31Z</updated>
+  <updated>2026-11-14T15:10:46Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-14:key:401870769:2026-11-14T15:09Z</id>
+    <title>Line off 7: Kennesaw State @ Sam Houston</title>
+    <updated>2026-11-14T15:10:46Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401870769"/>
+    <summary>The line moved from Sam Houston +7 to Sam Houston +7.5, off 7, away from the model's pick (Sam Houston). Sat Nov 14, 2:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-14:key:401862828:2026-11-14T06:37Z</id>
     <title>Line onto 3: Tulane @ Rice</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-01T20:34:49Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856851"/>
     <summary>Cincinnati @ Houston, Sat Nov 7, 3:30 PM ET. Market-anchored takes Houston -10.5, a 1.6-point edge, logged when the line first appeared.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:pick:401869951</id>
-    <title>Lean: Georgia Southern -9.5</title>
-    <updated>2026-11-01T20:34:49Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869951"/>
-    <summary>Marshall @ Georgia Southern, Sat Nov 7, 3:30 PM ET. Market-anchored takes Georgia Southern -9.5, a 1.9-point edge, logged when the line first appeared.</summary>
   </entry>
 </feed>

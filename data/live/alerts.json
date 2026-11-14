@@ -56,6 +56,7 @@
   "key:401870752:2026-11-08T22:13Z",
   "key:401870752:2026-11-09T01:46Z",
   "key:401870769:2026-11-12T18:23Z",
+  "key:401870769:2026-11-14T15:09Z",
   "key:401871095:2026-10-26T15:15Z",
   "key:401871096:2026-10-26T15:15Z",
   "key:401871096:2026-10-29T05:55Z",
@@ -188,6 +189,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401870769:2026-11-14T15:09Z",
+   "at": "2026-11-14T15:10:46Z",
+   "kind": "key",
+   "game_id": "401870769",
+   "title": "Line off 7: Kennesaw State @ Sam Houston",
+   "text": "The line moved from Sam Houston +7 to Sam Houston +7.5, off 7, away from the model's pick (Sam Houston). Sat Nov 14, 2:00 PM ET."
+  },
   {
    "key": "key:401862828:2026-11-14T06:37Z",
    "at": "2026-11-14T06:38:31Z",
