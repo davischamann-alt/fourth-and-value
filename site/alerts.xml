@@ -5,7 +5,21 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-13T23:40:03Z</updated>
+  <updated>2026-11-14T06:38:31Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-14:key:401862828:2026-11-14T06:37Z</id>
+    <title>Line onto 3: Tulane @ Rice</title>
+    <updated>2026-11-14T06:38:31Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862828"/>
+    <summary>The line moved from Rice -2.5 to Rice -3, onto 3, away from the model's pick (Tulane). Sat Nov 14, 2:00 PM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-14:key:401864540:2026-11-14T06:37Z</id>
+    <title>Line onto 7: Wyoming @ UTEP</title>
+    <updated>2026-11-14T06:38:31Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401864540"/>
+    <summary>The line moved from UTEP +7.5 to UTEP +7, onto 7, toward the model's pick (UTEP). Sat Nov 14, 10:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-13:key:401858293:2026-11-13T23:39Z</id>
     <title>Line onto 3: Florida State @ Pittsburgh</title>
@@ -341,19 +355,5 @@
     <updated>2026-11-01T20:34:49Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869951"/>
     <summary>Marshall @ Georgia Southern, Sat Nov 7, 3:30 PM ET. Market-anchored takes Georgia Southern -9.5, a 1.9-point edge, logged when the line first appeared.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:pick:401862821</id>
-    <title>Check the news: North Texas -16.5</title>
-    <updated>2026-11-01T20:34:49Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862821"/>
-    <summary>Rice @ North Texas, Sat Nov 7, 4:00 PM ET. Market-anchored takes North Texas -16.5, a 1.9-point edge, logged when the line first appeared. QB change: Gael Ochoa led Rice's passing in the last game; Jacurri Brown led it in 7 of 8 games. The ratings mostly reflect Jacurri Brown's games.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:pick:401856742</id>
-    <title>Check the news: Mississippi State -2.5</title>
-    <updated>2026-11-01T20:34:49Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856742"/>
-    <summary>Vanderbilt @ Mississippi State, Sat Nov 7, 4:15 PM ET. Market-anchored takes Mississippi State -2.5, a 3.2-point edge, logged when the line first appeared. QB change: AJ Swann led Mississippi State's passing in the last game; Kamario Taylor led it in 5 of 8 games. The ratings mostly reflect Kamario Taylor's games.</summary>
   </entry>
 </feed>

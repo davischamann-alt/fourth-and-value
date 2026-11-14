@@ -42,10 +42,12 @@
   "key:401861967:2026-11-08T22:13Z",
   "key:401862828:2026-11-09T01:46Z",
   "key:401862828:2026-11-09T20:48Z",
+  "key:401862828:2026-11-14T06:37Z",
   "key:401864535:2026-11-01T23:21Z",
   "key:401864535:2026-11-02T20:23Z",
   "key:401864537:2026-11-09T01:46Z",
   "key:401864537:2026-11-13T23:39Z",
+  "key:401864540:2026-11-14T06:37Z",
   "key:401866455:2026-11-02T20:23Z",
   "key:401866455:2026-11-04T09:25Z",
   "key:401866455:2026-11-04T18:02Z",
@@ -186,6 +188,22 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401862828:2026-11-14T06:37Z",
+   "at": "2026-11-14T06:38:31Z",
+   "kind": "key",
+   "game_id": "401862828",
+   "title": "Line onto 3: Tulane @ Rice",
+   "text": "The line moved from Rice -2.5 to Rice -3, onto 3, away from the model's pick (Tulane). Sat Nov 14, 2:00 PM ET."
+  },
+  {
+   "key": "key:401864540:2026-11-14T06:37Z",
+   "at": "2026-11-14T06:38:31Z",
+   "kind": "key",
+   "game_id": "401864540",
+   "title": "Line onto 7: Wyoming @ UTEP",
+   "text": "The line moved from UTEP +7.5 to UTEP +7, onto 7, toward the model's pick (UTEP). Sat Nov 14, 10:00 PM ET."
+  },
   {
    "key": "key:401858293:2026-11-13T23:39Z",
    "at": "2026-11-13T23:40:03Z",
