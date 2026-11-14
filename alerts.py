@@ -142,6 +142,25 @@ def qb_out():
             if f.get("starter") is not False and f["status"] in ("out", "doubtful")}
 
 
+def qb_logged():
+    """{game id: "2 points off Team"} for logged picks that included a quarterback placeholder
+    (record.py's qb_adjust_log.csv), so an alert can say what the edge it quotes is made of."""
+    f = LIVE / "qb_adjust_log.csv"
+    if not f.exists():
+        return {}
+    log = pd.read_csv(f, dtype={"id": str})
+    return {gid: " and ".join(f"{r.points:g} points off {r.team}" for r in d.itertuples()) for gid, d in log.groupby("id")}
+
+
+def qb_placeholders():
+    """{(game id, team name): points} for the quarterback placeholders in force now (qb.json "adjust")."""
+    try:
+        adjust = json.loads(QB.read_text()).get("adjust", {}).values()
+    except (OSError, ValueError):
+        return {}
+    return {(str(a["game_id"]), a["team"]): a["points"] for a in adjust}
+
+
 def bowl_games(picks, now):
     """Ids of upcoming bowls outside the playoff (labeled Check the news, as on the site), from the
     names ESPN gives postseason games. Only looked up when there are postseason picks."""
@@ -152,21 +171,23 @@ def bowl_games(picks, now):
     return set(games[~games.note.fillna("").str.contains("playoff|cfp", case=False)].id)
 
 
-def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None, tbd=()):
+def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None, tbd=(), qb_logged=None, qb_points=None):
     """{key: alert} for every lean-or-better pick by the default projections (Blend for spreads,
     Market-anchored for totals) on a game that hasn't started. A
     bowl outside the playoff is labeled Check the news, as on the site (a just-changed quarterback
     is noted but keeps its label), and so is a spread pick on a team whose starter is listed out or doubtful. When
-    that listing comes after the pick, it gets an alert of its own."""
-    qb, qb_listed = qb or {}, qb_listed or {}
+    that listing comes after the pick, it gets an alert of its own. qb_logged: the quarterback
+    placeholders that were part of a logged pick's edge; qb_points: the ones the site applies now."""
+    qb, qb_listed, qb_logged, qb_points = qb or {}, qb_listed or {}, qb_logged or {}, qb_points or {}
     out = {}
 
     def label(p, team=None):
         if listed := qb_listed.get((p.id, team)):
             return "Check the news", f" {listed['player']}, {team}'s usual starter, is listed {listed['status']} on the {listed['date']} availability report."
         note = qb.get(p.home) or qb.get(p.away)
-        if note:  # context only: over 2023-2026 these games did about as well as the rest
-            return tier_label(p.edge), f" QB change: {note}"
+        if note:  # the label doesn't change; the edge may already include a placeholder for it
+            took = f" The pick already takes {qb_logged[p.id]} as a placeholder." if team is not None and p.id in qb_logged else ""
+            return tier_label(p.edge), f" QB change: {note}{took}"
         if p.id in bowls:
             return "Check the news", " Bowl game: opt-outs and coaching changes aren't in the model, so check who's playing."
         return tier_label(p.edge), ""
@@ -184,7 +205,9 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None, tbd=(
                 kind="qb", game_id=p.id, title=f"Check the news: {team} QB {listed['status']}",
                 text=f"{listed['player']}, {team}'s usual starter, is listed {listed['status']} for {p.away} @ {p.home} "
                      f"({kickoff(p.kickoff, p.id in tbd)}). Blend's pick on {team} {fmt_line(line)} is now Check the news: in "
-                     f"2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.")
+                     f"2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line."
+                     + (f" The site's projections now take {qb_points[(p.id, team)]:g} points off {team} as a placeholder."
+                        if (p.id, team) in qb_points and p.id not in qb_logged else ""))
     for p in upcoming(totals[(totals.source == "anchored") & (totals.edge >= LEAN)], now).itertuples():
         tier, note = label(p)
         sign = -1 if p.side == "over" else 1  # a lower total is better for an over
@@ -289,7 +312,7 @@ def main():
         totals = pd.DataFrame(columns=["source", "edge", "kickoff", "id", "side", "total_logged", "proj", "home", "away"])
 
     tbd = tbd_games()
-    found = (new_pick_alerts(picks, totals, now, qb_changes(), bowl_games(picks, now), qb_out(), tbd)
+    found = (new_pick_alerts(picks, totals, now, qb_changes(), bowl_games(picks, now), qb_out(), tbd, qb_logged(), qb_placeholders())
              | key_number_alerts(lines, picks, now, tbd))
     first = not STATE.exists()
     state = json.loads(STATE.read_text()) if not first else {"sent": [], "items": []}

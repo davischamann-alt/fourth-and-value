@@ -1,0 +1,130 @@
+{
+ "113": {
+  "game_id": "401866467",
+  "note": "Logan Inagawa led Massachusetts's passing in its last game in place of William Watson III.",
+  "player": "William Watson III",
+  "points": 2.0,
+  "team": "Massachusetts",
+  "why": "change"
+ },
+ "154": {
+  "game_id": "401858301",
+  "note": "Steele Pizzella led Wake Forest's passing in its last game in place of Gio Lopez.",
+  "player": "Gio Lopez",
+  "points": 2.0,
+  "team": "Wake Forest",
+  "why": "change"
+ },
+ "189": {
+  "game_id": "401866468",
+  "note": "Austin Novosad led Bowling Green's passing in its last game in place of Jay Kastantin.",
+  "player": "Jay Kastantin",
+  "points": 2.0,
+  "team": "Bowling Green",
+  "why": "change"
+ },
+ "2005": {
+  "game_id": "401864538",
+  "note": "Evan Medders led Air Force's passing in its last game in place of Liam Szarka.",
+  "player": "Liam Szarka",
+  "points": 2.0,
+  "team": "Air Force",
+  "why": "change"
+ },
+ "2116": {
+  "game_id": "401856857",
+  "note": "Alonza Barnett III led UCF's passing in its last game in place of Keyone Jenkins.",
+  "player": "Keyone Jenkins",
+  "points": 2.0,
+  "team": "UCF",
+  "why": "change"
+ },
+ "218": {
+  "game_id": "401862829",
+  "note": "Jaxon Smolik led Temple's passing in its last game in place of Ajani Sheppard.",
+  "player": "Ajani Sheppard",
+  "points": 2.0,
+  "team": "Temple",
+  "why": "change"
+ },
+ "221": {
+  "game_id": "401858306",
+  "note": "Corey Dailey led Pittsburgh's passing in its last game in place of Mason Heintschel.",
+  "player": "Mason Heintschel",
+  "points": 2.0,
+  "team": "Pittsburgh",
+  "why": "change"
+ },
+ "23": {
+  "game_id": "401864538",
+  "note": "Daniel Rolovich led San Jos\u00e9 State's passing in its last game in place of Luke Weaver.",
+  "player": "Luke Weaver",
+  "points": 2.0,
+  "team": "San Jos\u00e9 State",
+  "why": "change"
+ },
+ "2306": {
+  "game_id": "401856862",
+  "note": "Dillon Duff led Kansas State's passing in its last game in place of Avery Johnson.",
+  "player": "Avery Johnson",
+  "points": 2.0,
+  "team": "Kansas State",
+  "why": "change"
+ },
+ "256": {
+  "game_id": "401861967",
+  "note": "JC Evans led James Madison's passing in its last game in place of Camden Coleman.",
+  "player": "Camden Coleman",
+  "points": 2.0,
+  "team": "James Madison",
+  "why": "change"
+ },
+ "2638": {
+  "game_id": "401864540",
+  "note": "Raymond Moore III led UTEP's passing in its last game in place of EJ Colson Jr..",
+  "player": "EJ Colson Jr.",
+  "points": 2.0,
+  "team": "UTEP",
+  "why": "change"
+ },
+ "275": {
+  "game_id": "401858520",
+  "note": "Ryan Hopkins led Wisconsin's passing in its last game in place of Colton Joseph.",
+  "player": "Colton Joseph",
+  "points": 2.0,
+  "team": "Wisconsin",
+  "why": "change"
+ },
+ "338": {
+  "game_id": "401870769",
+  "note": "Landon Varnes led Kennesaw State's passing in its last game in place of Rickie Collins.",
+  "player": "Rickie Collins",
+  "points": 2.0,
+  "team": "Kennesaw State",
+  "why": "change"
+ },
+ "6": {
+  "game_id": "401871100",
+  "note": "Bishop Davenport led South Alabama's passing in its last game in place of Jared Hollins.",
+  "player": "Jared Hollins",
+  "points": 2.0,
+  "team": "South Alabama",
+  "why": "change"
+ },
+ "68": {
+  "game_id": "401860914",
+  "note": "Max Cutforth led Boise State's passing in its last game in place of Maddux Madsen.",
+  "player": "Maddux Madsen",
+  "points": 2.0,
+  "team": "Boise State",
+  "why": "change"
+ },
+ "77": {
+  "game_id": "401858522",
+  "note": "Nicco Marchiol led Northwestern's passing in its last game in place of Aidan Chiles.",
+  "player": "Aidan Chiles",
+  "points": 2.0,
+  "team": "Northwestern",
+  "why": "change"
+ }
+}

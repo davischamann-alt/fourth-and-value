@@ -9,6 +9,7 @@ Writes these files:
                               has a line and never changed after; closing line and result are
                               filled in later
   data/live/total_picks.csv   the same for over/unders, logged the first time a game has a total
+  data/live/qb_adjust_log.csv the quarterback placeholders that were part of a logged pick
   site/data/live.json         the summary the website's Track record tab shows
   site/data/game_log.json     each recent game's line history and logged picks, for the website's
                               game detail view
@@ -28,6 +29,11 @@ LIVE = sources.DATA / "live"
 LINES, PICKS, TOTALS = LIVE / "line_history.csv", LIVE / "picks.csv", LIVE / "total_picks.csv"
 SITE_LIVE = sources.DATA.parent / "site" / "data" / "live.json"
 SITE_GAMES = sources.DATA.parent / "site" / "data" / "game_log.json"
+# Quarterback placeholders (model.QB_OUT_POINTS): build_props.py works out which teams get one and
+# commits them here, since it runs after this script. QB_LOG keeps the ones a logged pick included,
+# so a pick's margin can always be traced back to the ratings alone.
+QB_ADJUST, QB_LOG = LIVE / "qb_adjust.json", LIVE / "qb_adjust_log.csv"
+QB_LOG_COLS = ["logged_at", "id", "kickoff", "team", "side", "points", "why", "player"]
 STRONG, LEAN = 3.0, 1.5
 # Blend first: it's the site's default projection for spreads (Market-anchored was until November 10, 2026)
 SOURCES = {"blend": "Blend", "fpi": "ESPN FPI", "efficiency": "Efficiency", "success": "Success rate",
@@ -79,15 +85,43 @@ def record_lines(weeks, now):
     return len(new)
 
 
-def log_picks(weeks, picks, ratings, weights, now, eff_scale=None, sr_scale=None):
-    """Logs every source's pick for games seen with a line for the first time."""
+def qb_adjustments():
+    """{team id: placeholder} as build_props.qb_adjust last wrote them, or {} if there are none yet."""
+    try:
+        return json.loads(QB_ADJUST.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def qb_for(g, adjust):
+    """[(side, placeholder)] for the teams in this game with a quarterback placeholder on it."""
+    out = []
+    for side, tid in (("home", g.home_id), ("away", g.away_id)):
+        a = adjust.get(str(tid))
+        if a and str(a.get("game_id")) == str(g.id) and a.get("points"):
+            out.append((side, a))
+    return out
+
+
+def qb_shift(applied):
+    """Points to add to the home margin (model.projections' qb): off the home team, onto it for the away team's."""
+    return sum(a["points"] * (-1 if side == "home" else 1) for side, a in applied)
+
+
+def log_picks(weeks, picks, ratings, weights, now, eff_scale=None, sr_scale=None, adjust=None):
+    """Logs every source's pick for games seen with a line for the first time. adjust: the quarterback
+    placeholders in force (qb_adjustments), which are part of the projection being logged. Returns
+    (picks, games logged, the placeholders used as QB_LOG rows)."""
     have = set(picks["id"])
-    new = []
+    new, used = [], []
     for info, games in weeks:
         for g in games[(games.state == "pre") & games.line.notna()].itertuples():
             if g.id in have:
                 continue
-            proj = projections(g.home, g.away, ratings, g.neutral, HFA, g.line, weights, eff_scale, sr_scale)
+            applied = qb_for(g, adjust or {})
+            proj = projections(g.home, g.away, ratings, g.neutral, HFA, g.line, weights, eff_scale, sr_scale, qb=qb_shift(applied))
+            used += [dict(logged_at=now, id=g.id, kickoff=g.kickoff, team=a.get("team") or getattr(g, side), side=side,
+                          points=a["points"], why=a.get("why"), player=a.get("player")) for side, a in applied]
             for src, m in proj.items():
                 if m is None:
                     continue
@@ -97,7 +131,7 @@ def log_picks(weeks, picks, ratings, weights, now, eff_scale=None, sr_scale=None
                                 source=src, margin=round(m, 2), line_logged=g.line, open_line=g.open_line,
                                 edge=round(abs(edge), 2), side="home" if edge >= 0 else "away",
                                 tier=tier_of(abs(edge))))
-    return pd.concat([picks, pd.DataFrame(new, columns=PICK_COLS)], ignore_index=True), len({p["id"] for p in new})
+    return pd.concat([picks, pd.DataFrame(new, columns=PICK_COLS)], ignore_index=True), len({p["id"] for p in new}), used
 
 
 def tier_of(edge):
@@ -233,8 +267,11 @@ def summary(picks, totals, now):
 
 
 def game_log(picks, totals, days=21):
-    """{game id: line history and logged picks} for games from the last few weeks and upcoming ones."""
+    """{game id: line history and logged picks} for games from the last few weeks and upcoming ones.
+    A logged pick that included a quarterback placeholder says so ("qb": [{team, points}])."""
     cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=days)
+    qb = load(QB_LOG, QB_LOG_COLS)
+    qb = {gid: [dict(team=r.team, points=r.points) for r in d.itertuples()] for gid, d in qb.groupby("id")}
     hist = load(LINES, LINE_COLS)
     hist = hist[pd.to_datetime(hist.kickoff, utc=True) >= cutoff]
     out = {gid: {"lines": [[r.seen_at, r.line, None if pd.isna(r.total) else r.total] for r in g.itertuples()]}
@@ -248,6 +285,8 @@ def game_log(picks, totals, days=21):
             picks={p.source: dict(margin=p.margin, edge=p.edge, side=p.side, tier=p.tier,
                                   result=None if pd.isna(p.result_logged) else p.result_logged,
                                   clv=None if pd.isna(p.clv) else p.clv) for p in g.itertuples()})
+        if gid in qb:
+            out[gid]["logged"]["qb"] = qb[gid]
     for gid, g in totals[pd.to_datetime(totals.kickoff, utc=True) >= cutoff].groupby("id"):
         first = g.iloc[0]
         out.setdefault(gid, {"lines": []})["totals"] = dict(
@@ -269,7 +308,8 @@ def main():
     ratings, _, _ = sources.season_ratings(weeks[0][0]["season"])
     ratings = ratings.set_index("team")
     anchor = json.loads(sources.ANCHOR.read_text()) if sources.ANCHOR.exists() else {}
-    picks, n_new = log_picks(weeks, picks, ratings, anchor.get("weights"), now, anchor.get("eff_scale"), anchor.get("sr_scale"))
+    picks, n_new, used = log_picks(weeks, picks, ratings, anchor.get("weights"), now, anchor.get("eff_scale"),
+                                   anchor.get("sr_scale"), qb_adjustments())
     totals = load(TOTALS, TOTAL_COLS).astype({c: object for c in ("result_logged", "result_close")})
     totals, n_tot = log_totals(weeks, totals, ratings, anchor.get("total_weights"), now)
     scores = final_scores(weeks, picks, totals)
@@ -277,11 +317,15 @@ def main():
     totals = update_totals(totals, scores)
     picks.to_csv(PICKS, index=False)
     totals.to_csv(TOTALS, index=False)
+    if used:  # saved right after the picks they're part of; a rerun after a crash can't add them twice
+        (pd.concat([load(QB_LOG, QB_LOG_COLS), pd.DataFrame(used, columns=QB_LOG_COLS)], ignore_index=True)
+         .drop_duplicates(["id", "side"]).to_csv(QB_LOG, index=False))
 
     SITE_LIVE.write_text(json.dumps(clean(summary(picks, totals, now)), indent=1))
     SITE_GAMES.write_text(json.dumps(clean(game_log(picks, totals)), separators=(",", ":")))
     graded = picks.drop_duplicates("id").result_logged.notna().sum()
-    print(f"{n_lines} line changes, {n_new} new games logged, {graded} of {picks.id.nunique()} games graded; "
+    print(f"{n_lines} line changes, {n_new} new games logged ({len({u['id'] for u in used})} with a quarterback placeholder), "
+          f"{graded} of {picks.id.nunique()} games graded; "
           f"totals: {n_tot} new games logged, {totals.drop_duplicates('id').result_logged.notna().sum()} graded")
 
 

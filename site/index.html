@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=47">
+  <link rel="stylesheet" href="style.css?v=48">
   <link rel="alternate" type="application/atom+xml" title="Fourth &amp; Value alerts" href="alerts.xml">
 </head>
 <body>
@@ -235,7 +235,11 @@
             <li><b>Blend</b> (the default): the average of FPI, Efficiency and Success rate.</li>
             <li><b>Market-anchored:</b> starts from the betting line and shifts it toward what FPI and adjusted points say. It was the
               default until November 10, 2026; it tested worse than Blend.</li>
-            <li>The difference between a projection and the betting line is the <b>edge</b>. That's what the Games tab labels Go for it (3–5 points), Lean or Punt, or Check the news when the gap is 5+ points.</li>
+            <li><b>Quarterback placeholder:</b> when an established starting quarterback is out, every projection takes 2 points off his
+              team for that game. The model counts him out when he's listed out or doubtful on an official availability report, or when
+              a backup led the team's passing in its last game (that one game only). Market-anchored takes about a third of it, since
+              its line already has the news. Over/under projections and <b>Compare two teams</b> don't use it.</li>
+            <li>The difference between a projection and the betting line is the <b>edge</b>. Under 1.5 points is Punt and 5 or more is Check the news; in between, the best price on offer decides between Go for it and Lean.</li>
           </ul>
           <p class="rt-example" id="rt-example"></p>
           <h4 class="gd-h4">Tips</h4>
@@ -395,6 +399,10 @@
         <p> The <b>±</b> after a hit rate is its 95%
           margin of error. Totals are graded the same way against the opening and closing over/under. This is analysis, not
           betting advice.</p>
+        <p><b>The quarterback placeholder isn't in these tables.</b> It was added November 14, 2026 and tested on its own: replaying
+          2023–2026 with it changed the projection in about one game in seven, and Blend's 1.5+ edges went from 55.9% to 56.3% at
+          the opening line and from 52.0% to 52.4% at the closing line. That's a small gain, and small enough to be chance.
+          <b>Live results</b> include it from that date.</p>
       </details>
     </section>
   </main>
@@ -441,7 +449,9 @@
         <form method="dialog"><button class="notice-x" aria-label="Close">✕</button></form></div>
       <ul>
         <li><b>Line</b> is the betting spread from ESPN. The small gray number is where it opened, so you can see how it moved.</li>
-        <li><b>Model</b> is the predicted final margin. <b>Pick</b> is the side the model thinks covers the line.</li>
+        <li><b>Model</b> is the predicted final margin. <b>Pick</b> is the side the model thinks covers the line. A small note like
+          "incl. IOWA QB −2" means the number already takes 2 points off that team because its starting quarterback is out
+          (listed out or doubtful, or a backup led its last game). It's a placeholder, not a rating of the backup.</li>
         <li><b>Edge</b> is how many points the model disagrees with the line by. Under 1.5 is <span class="badge pass">Punt</span>: no bet. A gap of 5+ points says <span class="badge check">Check the news</span>: in testing, gaps that big did no better than smaller ones, and they usually mean the market knows something the model can't see, like an injury.</li>
         <li><b>Go for it or Lean</b> comes from the price, for edges in between. The model's edge is small, worth about half a point to a point of line, so a pick is only worth a bet at a good enough number. <span class="badge strong">Go for it</span> means the best line and price across the sportsbooks gives the pick a chance at least a point above that price's break-even. <span class="badge lean">Lean</span> means none does yet, and the pick box says the number to look for, like "worth a bet at +2 or better at -110." Sportsbooks aren't named, so check your own book against that number.</li>
         <li><b>Cover chance</b> is the model's chance the pick covers, scaled to how often picks with that edge really covered in 2024–2026; each point of better line adds about 3%. Before kickoff, the bar shows the chance at the best number on offer, and its yellow line the chance that price needs to be worth a bet: its break-even plus a point (53.4% at the usual -110, 51% at +100). A bar past the line is Go for it. Most chances are between 50% and 55%; that's how small the edge is. During a game it updates with the score and clock.</li>
@@ -462,12 +472,12 @@
     </div>
   </dialog>
 
-  <script src="projections.js?v=47"></script>
-  <script src="app.js?v=47"></script>
-  <script src="game.js?v=47"></script>
-  <script src="updates.js?v=47"></script>
-  <script src="props.js?v=47"></script>
-  <script src="ratings.js?v=47"></script>
-  <script src="alerts.js?v=47"></script>
+  <script src="projections.js?v=48"></script>
+  <script src="app.js?v=48"></script>
+  <script src="game.js?v=48"></script>
+  <script src="updates.js?v=48"></script>
+  <script src="props.js?v=48"></script>
+  <script src="ratings.js?v=48"></script>
+  <script src="alerts.js?v=48"></script>
 </body>
 </html>

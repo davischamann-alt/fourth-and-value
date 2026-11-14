@@ -2,4 +2,6 @@
 # One row per report: date (YYYY-MM-DD, the report's date), team (as the site spells it), player, status, source (link, optional).
 # status: out, doubtful, questionable, or available (clears an earlier row). A row applies to the team's next game within 8 days.
 # Only a usual starter listed out or doubtful changes a pick's label; the rest are shown on the game page.
+# An established starter listed out or doubtful also takes 2 points off his team's spread projections (the quarterback placeholder).
+# After a QB change, the placeholder is automatic for one game: list the quarterback who'll start as available to take it off.
 date,team,player,status,source

@@ -117,7 +117,17 @@ function pickCard(g) {
     </table></div>
     <p class="note">★ is the projection chosen on the Games tab. Each uses its own tested std dev for the cover chance. ${esc(pricedAt(g, usable))}
       ${g.state === "pre" ? "" : "These use today's ratings, which can include this game's own result. <b>Forward test</b> below shows the picks as they were recorded before kickoff."}</p>
+    ${qbPlaceholderNote(g)}
   </div>`;
+}
+
+/** Under the projections table: the quarterback placeholder in these numbers, if there is one. */
+function qbPlaceholderNote(g) {
+  const fx = qbEffects(g, "blend");
+  if (!fx.length) return "";
+  const anchored = fx[0].a.points * qbShare("anchored");
+  return `<p class="note"><b>Quarterback placeholder:</b> these projections take ${esc(qbEffectTxt(g, "blend"))}. ${fx.map((x) => esc(x.a.note)).join(" ")}
+    Market-anchored takes about ${fmtPts(anchored)}, since the line it starts from already has the market's view. More under Quarterbacks and injuries below.</p>`;
 }
 
 /** Small SVG line chart. points: [[x, y]]; x in ms. */
@@ -333,7 +343,9 @@ function forwardCard(g, log) {
   const keys = SPREAD_SOURCES.filter((k) => L.picks[k]);
   const graded = keys.some((k) => L.picks[k].result);  // no Result column until there's a result to show
   return `<div class="card"><h3>Forward test</h3>
-    <p>Recorded <b>${esc(at)}</b> at <b>${esc(lineTxt(g, L.line))}</b>${L.close != null ? `, ${g.state === "pre" ? "latest line" : "closed at"} ${esc(lineTxt(g, L.close))}` : ""}. These picks can't be changed after the fact${graded ? "" : "; they're graded when the game ends"}.</p>
+    <p>Recorded <b>${esc(at)}</b> at <b>${esc(lineTxt(g, L.line))}</b>${L.close != null ? `, ${g.state === "pre" ? "latest line" : "closed at"} ${esc(lineTxt(g, L.close))}` : ""}. These picks can't be changed after the fact${graded ? "" : "; they're graded when the game ends"}.${L.qb?.length
+      ? ` They were recorded with a quarterback placeholder: ${esc(L.qb.map((q) => `${fmtPts(q.points)} points off ${q.team}`).join(" and "))}.`
+      : g.state === "pre" && qbEffects(g).length ? " A quarterback placeholder was added after they were recorded, so the projections above differ from these." : ""}</p>
     <div class="table-wrap"><table class="data fit-sm">
       <tr><th>Projection</th><th class="l">Pick</th><th>Edge</th><th class="${graded ? "xs-hide" : ""}"><span class="hide-sm">Line moved</span><span class="show-sm">Moved</span></th>${graded ? `<th class="l">Result</th>` : ""}</tr>
       ${keys.map((k) => {
@@ -356,25 +368,48 @@ const REPORTS = [["ACC", "https://theacc.com/sports/2025/8/28/availability-repor
   ["Big Ten", "https://bigten.org/"], ["SEC", "https://www.secsports.com/fbreports"]];
 const STATUS_TXT = { out: "Out", doubtful: "Doubtful", questionable: "Questionable" };
 
-/** Quarterbacks on the availability reports and the QB watch from box scores, then the standing warning about injuries. */
+/** Quarterbacks on the availability reports and the QB watch from box scores, what the model does about each,
+ *  then the standing warning about injuries. */
 function injuryCard(g) {
-  const listed = [g.away, g.home].flatMap((t) => qbListed(g, t));
+  const sides = [g.away, g.home];
+  const listed = sides.flatMap((t) => qbListed(g, t));
+  const adj = g.state === "post" ? [] : sides.map((t) => ({ t, a: qbAdjust(g, t) })).filter((x) => x.a);
+  const offListed = adj.filter((x) => x.a.why === "listed");
   const reports = listed.length ? `<div class="gd-qb">${listed.map((f) => `<p><b>${esc(STATUS_TXT[f.status])}:</b> ${esc(f.player)}, ${esc(f.team)}
       (${f.starter === false ? "not the usual starter" : f.starter ? "usual starter" : "starter unknown"}), on the ${esc(f.date)} report${f.source
         ? ` · <a href="${esc(f.source)}" target="_blank" rel="noopener">source</a>` : ""}.</p>`).join("")}
       ${listed.some((f) => f.starter !== false && f.status !== "questionable") ? `<p class="note">In 2023-2026, teams whose starting quarterback sat
-        unexpectedly covered 43% at the opening line (317 games), so picks on that team are labeled Check the news. Picks against it did fine.</p>` : ""}</div>` : "";
-  const flags = g.state === "post" ? [] : [g.away, g.home].map((t) => state.qb?.[t.id]).filter(Boolean);
-  const qb = flags.length ? `<div class="gd-qb">${flags.map((f) => `<p><b>${f.kind === "change" ? "QB change" : "Starter back"}:</b> ${esc(f.note)}</p>`).join("")}
-      ${flags.some((f) => f.kind === "change") ? `<p class="note">For context only. Over 2023-2026, the model's picks did about as well in games
-        after a quarterback change (54% at the opening line) as in the rest (57%), so the labels don't change.</p>` : ""}</div>` : "";
-  return injuryNote.replace("<h3>Not included: injuries</h3>", `<h3>Quarterbacks and injuries</h3>${reports}${qb}`);
+        unexpectedly covered 43% at the opening line (317 games), so picks on that team are labeled Check the news. Picks against it did fine.
+        ${offListed.length ? `The projections also take ${esc(offListed.map((x) => `${fmtPts(x.a.points)} points off ${x.t.name}`).join(" and "))} (see below).` : ""}</p>` : ""}</div>` : "";
+  const flags = g.state === "post" ? [] : sides.map((t) => ({ t, f: state.qb?.[t.id] })).filter((x) => x.f);
+  // what the model does about each change: a placeholder, or the reason there isn't one
+  const does = ({ t, f }) => {
+    const a = qbAdjust(g, t), c = state.qbCleared?.[t.id];
+    if (f.kind !== "change") return "";
+    if (a) return ` <b>The projections take ${fmtPts(a.points)} points off ${esc(t.name)} for this game.</b>`;
+    if (c && String(c.game_id) === String(g.id)) return ` Nothing is taken off: ${esc(c.player)} is listed available on the ${esc(c.date)} report.`;
+    if (f.streak > 1) return " Nothing is taken off: by a second game with a new quarterback the ratings and the line have seen him, and those teams did about as projected in testing.";
+    if (f.established === false) return ` Nothing is taken off: ${esc(t.name)} had been rotating quarterbacks, and in testing a change like that cost nothing.`;
+    return "";
+  };
+  const cleared = g.state === "post" ? [] : sides.map((t) => state.qbCleared?.[t.id]).filter((c) => c && String(c.game_id) === String(g.id));
+  const qb = flags.length ? `<div class="gd-qb">${flags.map((x) => `<p><b>${x.f.kind === "change" ? "QB change" : "Starter back"}:</b> ${esc(x.f.note)}${does(x)}</p>`).join("")}</div>` : "";
+  const loose = cleared.filter((c) => !flags.some((x) => x.f.team === c.team)).map((c) => `<p><b>Available:</b> ${esc(c.player)}, ${esc(c.team)}, on the ${esc(c.date)} report.</p>`).join("");
+  const why = adj.length ? `<p class="note"><b>About the placeholder.</b> The ratings come from games the usual starter played, so they overrate a team the week he's out.
+      The ${fmtPts(adj[0].a.points)} points stand in for "a backup is playing"; they don't rate either quarterback. In 2023-2026, teams whose established starter sat did
+      about 2 points worse than the ratings said (596 games), and the same in the first game after a backup took over (352). About a point was the offense scoring
+      less and a point the opponent scoring more, so the over/under projections aren't changed. Season to season it ran from about 1 point (2023 to 2025) to
+      between 3 and 5 (2026), so it's rough. It comes off when the starter is listed available on a report.</p>`
+    : flags.some((x) => x.f.kind === "change") ? `<p class="note">A quarterback change moves the projections only in the first game after an established starter
+      gives way (2 points off that team), or when he's listed out or doubtful on a report.</p>` : "";
+  return injuryNote.replace("<h3>Not included: injuries</h3>", `<h3>Quarterbacks and injuries</h3>${reports}${qb}${loose ? `<div class="gd-qb">${loose}</div>` : ""}${why}`);
 }
 
 const injuryNote = `<div class="card gd-warn"><h3>Not included: injuries</h3>
-  <p>The model doesn't know about injuries. Starting quarterbacks listed out or doubtful on the official reports for Power 4
-  conference games are added by hand; everything else isn't. Check team news before betting, especially at quarterback, the
-  model's biggest blind spot. Official reports: ${REPORTS.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ")}.</p></div>`;
+  <p>The model doesn't know about injuries, with one exception: when an established starting quarterback is out, it takes 2 points off his team as a
+  placeholder. It knows he's out when he's listed out or doubtful on an official report (entered by hand, Power 4 conference games only) or when a backup
+  led the team's passing in its last game. It doesn't know how good the backup is, or about any other player. Check team news before betting, especially
+  at quarterback, the model's biggest blind spot. Official reports: ${REPORTS.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ")}.</p></div>`;
 
 async function renderGameDetail(id) {
   const box = $("#game-detail");

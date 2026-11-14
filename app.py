@@ -7,6 +7,7 @@ import streamlit as st
 import sources
 from model import (HFA, add_anchored, add_efficiency, cover_prob, fit_anchor, live_cover_prob, load_ratings,
                    projections, score_backtest)
+from record import qb_adjustments, qb_for, qb_shift
 from sources import ANCHOR, DATA, RATINGS, cfbd_key, season_of
 
 HISTORY, BETS = DATA / "history.csv", DATA / "bets.csv"
@@ -98,10 +99,18 @@ SOURCE_KEYS = {"Adjusted points": "points", "ESPN FPI": "fpi", "Efficiency": "ef
 
 def proj_margin(g, line):
     """The chosen source's projected home margin, from the same function the forward test uses.
-    Market-anchored starts from the line being bet (current, or the saved pregame line once started)."""
+    Market-anchored starts from the line being bet (current, or the saved pregame line once started).
+    A quarterback placeholder on the game is included, as on the site: the GitHub job saves them in
+    data/live/qb_adjust.json, so this folder has the latest ones after a git pull."""
     a = anchor or {}
-    p = projections(g.home, g.away, ratings, g.neutral, hfa, line, a.get("weights"), a.get("eff_scale"), a.get("sr_scale"))
+    p = projections(g.home, g.away, ratings, g.neutral, hfa, line, a.get("weights"), a.get("eff_scale"), a.get("sr_scale"),
+                    qb=qb_shift(qb_for(g, qb_placeholders)))
     return p[SOURCE_KEYS.get(source, "blend")]
+
+
+def qb_note(g):
+    """"QB: 2 off Temple" for a game with a quarterback placeholder, or ""."""
+    return " · ".join(f"QB: {a['points']:g} off {a.get('team') or getattr(g, side)}" for side, a in qb_for(g, qb_placeholders))
 
 
 def secs_left(g):
@@ -112,6 +121,7 @@ def secs_left(g):
     return 120 if g.period > 4 else (4 - g.period) * 900 + g.clock
 
 
+qb_placeholders = qb_adjustments()
 hist = sync_history(get_games(warn=False))
 t1, t2, t3, t4 = st.tabs(["Today's games", "Team ratings", "Bet tracker", "Backtest"])
 
@@ -137,7 +147,7 @@ def live_board():
             pre, live = (pre, live) if home_pick else (1 - pre, 1 - live)
             row.update({"Home line": line, "Proj margin": margin, "Edge (pts)": abs(margin + line),
                         "Pick": f"{g.home} {line:+g}" if home_pick else f"{g.away} {-line:+g}",
-                        "Pregame %": 100 * pre, "Live cover %": 100 * live})
+                        "Pregame %": 100 * pre, "Live cover %": 100 * live, "Note": qb_note(g)})
             if g.state == "pre":
                 log.append(dict(id=g.id, date=str(day), home=g.home, away=g.away, line=line,
                                 proj_margin=round(margin, 2), pick_side="home" if home_pick else "away",

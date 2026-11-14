@@ -22,6 +22,8 @@ import pandas as pd
 
 import sources
 from build_site import clean
+from model import QB_ESTABLISHED, QB_OUT_POINTS
+from record import weeks_to_check
 
 ROOT = Path(__file__).parent
 BOX = ROOT / "data" / "box"          # one small file per finished game (git-ignored, cached by the job)
@@ -33,6 +35,10 @@ QB_RECENT = 3       # flag a new starter for this many games; after that the rat
 QB_STATUS = ROOT / "data" / "qb_status.csv"
 QB_STATUS_LOG = ROOT / "data" / "live" / "qb_status_log.csv"   # when each status was first seen, for the forward test
 QB_STATUSES = ("out", "doubtful", "questionable", "available")  # available clears an earlier listing
+# The quarterback placeholders in force (qb_adjust), committed with the pick log: record.py runs before
+# this script and in the Sunday job that doesn't run it at all, and has to log picks with the same
+# adjustments the site shows.
+QB_ADJUST = ROOT / "data" / "live" / "qb_adjust.json"
 MARKETS = {  # stat key: (label, games that count toward the average, minimum per-game volume, spread floor)
     "pass_yds": ("Passing yards", lambda g: g.pass_att >= 10, ("pass_att", 15), 45.0),
     "pass_td": ("Passing TDs", lambda g: g.pass_att >= 10, ("pass_att", 15), None),   # Poisson on the page
@@ -147,22 +153,35 @@ def usual_starter(g):
     return g[g.pid.isin(counts[counts == counts.max()].index)].pid.iloc[-1]
 
 
+def starter_share(g, starter):
+    """(share of the team's games the usual starter led before the current run of games someone else
+    led, how many games that run is). g: the team's lead passers, oldest first. A starter who led
+    every game until he went out has a share of 1; QB_ESTABLISHED is the cutoff for the placeholder."""
+    away = int((g.pid.iloc[::-1] != starter).cumprod().sum())
+    before = len(g) - away
+    return (float((g.pid == starter).sum() / before) if before else 0.0), away
+
+
 def norm_name(name):
     words = "".join(c for c in str(name).lower() if c.isalnum() or c.isspace()).split()
     return " ".join(w for w in words if w not in ("jr", "sr", "ii", "iii", "iv"))
 
 
 def qb_listed(upcoming, logs, now):
-    """{team id: [listing, ...]} for quarterbacks in data/qb_status.csv whose team plays an upcoming
-    game. A row applies to the team's first game kicking off within 8 days after its date, and the
-    last row for a player and game wins. starter: whether the listed player is the team's usual starter
-    (None when the team has too few games to say)."""
+    """({team id: [listing, ...]}, {team id: cleared}) for quarterbacks in data/qb_status.csv whose
+    team plays an upcoming game. A row applies to the team's first game kicking off within 8 days
+    after its date, and the last row for a player and game wins. starter: whether the listed player
+    is the team's usual starter (None when the team has too few games to say); established: he is,
+    and he led at least QB_ESTABLISHED of its games before going out (see qb_adjust). cleared: the
+    team's starter listed available (its usual starter, or whoever led its last game: the QB watch
+    can't tell a backup from a first-stringer back from injury), which cancels a placeholder the
+    QB watch would have made."""
     if not QB_STATUS.exists():
-        return {}
+        return {}, {}
     text = "".join(line for line in QB_STATUS.read_text().splitlines(keepends=True) if not line.lstrip().startswith("#"))
     rows = pd.read_csv(io.StringIO(text), dtype=str).fillna("")
     lead = lead_passers(logs)
-    out = {}
+    out, cleared = {}, {}
     for r in rows.itertuples():
         status = r.status.strip().lower()
         try:
@@ -184,14 +203,24 @@ def qb_listed(upcoming, logs, now):
         g = games.sort_values("kickoff").iloc[0]
         tid = g.home_id if g.home.lower() == team else g.away_id
         passers = lead[lead.team_id == tid]
-        starter = None if len(passers) < 2 else norm_name(passers[passers.pid == usual_starter(passers)].name.iloc[-1]) == norm_name(r.player)
+        usual = usual_starter(passers) if len(passers) >= 2 else None
+        starter = None if usual is None else norm_name(passers[passers.pid == usual].name.iloc[-1]) == norm_name(r.player)
+        share = starter_share(passers, usual)[0] if starter else None
+        # the team's quarterback as far as anyone can tell: its usual starter, or whoever led its last game
+        plays = bool(starter or (len(passers) and norm_name(passers.name.iloc[-1]) == norm_name(r.player)))
         mine = out.setdefault(tid, {})
+        row = dict(team=g.home if tid == g.home_id else g.away, player=r.player.strip(), status=status, game_id=g.id,
+                   kickoff=g.kickoff, date=r.date.strip(), source=r.source.strip(), starter=starter,
+                   share=None if share is None else round(share, 3), established=bool(starter and share >= QB_ESTABLISHED))
         if status == "available":
             mine.pop(norm_name(r.player), None)
+            if plays:
+                cleared.setdefault(tid, {})[norm_name(r.player)] = row
         else:
-            mine[norm_name(r.player)] = dict(team=g.home if tid == g.home_id else g.away, player=r.player.strip(), status=status,
-                            game_id=g.id, kickoff=g.kickoff, date=r.date.strip(), source=r.source.strip(), starter=starter)
-    return {tid: list(players.values()) for tid, players in out.items() if players}
+            mine[norm_name(r.player)] = row
+            cleared.get(tid, {}).pop(norm_name(r.player), None)  # a later listing takes his "available" back
+    return ({tid: list(players.values()) for tid, players in out.items() if players},
+            {tid: next(iter(players.values())) for tid, players in cleared.items() if players})
 
 
 def log_qb_listed(listed, now):
@@ -225,8 +254,10 @@ def qb_watch(logs):
         name = lambda pid: g[g.pid == pid].name.iloc[-1]
         last, prev = g.iloc[-1], g.iloc[-2]
         streak = int((g.pid.iloc[::-1] != last.pid).cumsum().eq(0).sum())
+        share = starter_share(g, starter)[0]
         common = dict(team=last.team, qb=last["name"], att=int(last.pass_att), week=int(last.week),
-                      starter=name(starter), starter_games=int(counts[starter]), games=len(g))
+                      starter=name(starter), starter_games=int(counts[starter]), games=len(g),
+                      share=round(share, 3), established=bool(share >= QB_ESTABLISHED))
         if last.pid != starter and streak <= QB_RECENT:
             out[str(tid)] = dict(kind="change", streak=streak, **common,
                                  note=f"{last['name']} led {last.team}'s passing in the last "
@@ -241,6 +272,58 @@ def qb_watch(logs):
                                  note=f"{last['name']} is back as {last.team}'s leading passer after "
                                       f"{who} led the {'previous game' if missed == 1 else f'previous {missed} games'}.")
     return out
+
+
+def next_games(weeks):
+    """{team id: id of the team's next game that hasn't finished}, from this week's and next week's
+    scoreboards (record.weeks_to_check). The QB watch describes a team's latest game, so its
+    placeholder belongs to the game after that one and no other."""
+    games = pd.concat([g for _, g in weeks], ignore_index=True)
+    out = {}
+    for g in games[games.state != "post"].sort_values("kickoff").itertuples():
+        for tid in (g.home_id, g.away_id):
+            out.setdefault(str(tid), g.id)
+    return out
+
+
+def qb_adjust(flags, listed, cleared, nxt):
+    """{team id: placeholder} for teams whose established starter is out for their next game: the
+    points model.projections takes off that team's side (model.QB_OUT_POINTS). Two ways in:
+      listed: the usual starter is listed out or doubtful on an availability report (qb_status.csv)
+      change: a backup led the team's last game (the QB watch), for that one game. Later games get
+              nothing: by then the ratings and the line have seen the backup, and in 2023-2026 those
+              teams did about as projected (219 games, -0.5 points against FPI, +0.0 against the
+              opening line). The team's starter listed available cancels it (qb_listed).
+    Either way the starter has to be established (QB_ESTABLISHED): where quarterbacks were rotating,
+    one of them sitting cost nothing. Each entry names the game it applies to. Setting
+    model.QB_OUT_POINTS to 0 turns the placeholder off."""
+    out = {}
+    if not QB_OUT_POINTS:
+        return out
+    for tid, rows in listed.items():
+        f = next((f for f in rows if f["established"] and f["status"] in ("out", "doubtful")), None)
+        if f:
+            out[str(tid)] = dict(game_id=f["game_id"], team=f["team"], points=QB_OUT_POINTS, why="listed", player=f["player"],
+                                 note=f"{f['player']} is listed {f['status']} on the {f['date']} availability report.")
+    for tid, f in flags.items():
+        gid = nxt.get(str(tid))
+        if str(tid) in out or f["kind"] != "change" or f["streak"] != 1 or not f["established"] or gid is None:
+            continue
+        if cleared.get(tid, {}).get("game_id") == gid:
+            continue  # its starter is listed available for this game
+        out[str(tid)] = dict(game_id=gid, team=f["team"], points=QB_OUT_POINTS, why="change", player=f["starter"],
+                             note=f"{f['qb']} led {f['team']}'s passing in its last game in place of {f['starter']}.")
+    return out
+
+
+def keep_adjustments(now):
+    """When this run can't build the QB watch (ESPN down), publish the placeholders already in force
+    with nothing else, so the site's projections still match the picks record.py logs with them."""
+    if QB_OUT.exists() or not QB_ADJUST.exists():
+        return
+    QB_OUT.write_text(json.dumps({"updated": now.isoformat(), "teams": {}, "listed": {}, "cleared": {},
+                                  "adjust": json.loads(QB_ADJUST.read_text()), "kept": True}, indent=1))
+    print("kept the quarterback placeholders from the last run")
 
 
 def evaluate(logs, factors_by_week):
@@ -276,7 +359,8 @@ def main():
     fbs = {i for i, _ in sources.espn_fpi(season).items()}
     factors = defense_factors(logs, fbs)
 
-    upcoming, info = sources.week_scoreboard()
+    weeks = weeks_to_check()  # this week, and next week for the QB watch: its lines open on Sunday
+    info, upcoming = weeks[0]
     upcoming = upcoming[upcoming.state == "pre"]
     players, slate = [], []
     for g in upcoming.itertuples():
@@ -310,14 +394,24 @@ def main():
     }), separators=(",", ":")))
     print(f"wrote site/data/props.json: {len(players)} players in {len(slate)} games")
     qb = qb_watch(logs)
-    listed = qb_listed(upcoming, logs, now)
-    QB_OUT.write_text(json.dumps(clean({"updated": now.isoformat(), "teams": qb, "listed": listed}), indent=1))
+    listed, cleared = qb_listed(upcoming, logs, now)
+    adjust = qb_adjust(qb, listed, cleared, next_games(weeks))
+    QB_OUT.write_text(json.dumps(clean({"updated": now.isoformat(), "teams": qb, "listed": listed, "cleared": cleared,
+                                        "adjust": adjust}), indent=1))
+    # no timestamp in this one: it's committed, and should only change when a placeholder does
+    QB_ADJUST.parent.mkdir(parents=True, exist_ok=True)
+    QB_ADJUST.write_text(json.dumps(clean(adjust), indent=1, sort_keys=True) + "\n")
     print(f"wrote site/data/qb.json: {sum(f['kind'] == 'change' for f in qb.values())} QB changes, "
           f"{sum(f['kind'] == 'back' for f in qb.values())} starters back, {sum(map(len, listed.values()))} QBs listed on availability reports "
-          f"({log_qb_listed(listed, now)} new)")
+          f"({log_qb_listed(listed, now)} new), {len(adjust)} quarterback placeholders "
+          f"({sum(a['why'] == 'listed' for a in adjust.values())} from reports)")
     for m, a in accuracy.items():
         print(f"  {a['label']}: typical miss {a['mae_model']:.1f} vs season average {a['mae_season_avg']:.1f} ({a['n']} player-games)")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        keep_adjustments(dt.datetime.now(dt.timezone.utc))
+        raise

@@ -14,6 +14,21 @@ HFA = 3.0
 # see "Model changes" in the README).
 MAX_OPEN_MOVE = 7.0
 
+# Quarterback placeholder, in points (added November 14, 2026). The ratings are built from games the
+# usual starter played, so they overrate a team the week he's out. When an established starter is
+# out (listed out or doubtful on an availability report, or a backup led the team's last game: see
+# build_props.qb_adjust), this many points come off that team's side of every ratings-based spread
+# projection. It's a stand-in for "a backup is playing", not a rating of either quarterback.
+# Measured on 2023-2026 box scores: teams whose established starter sat did 1.7 points worse than
+# FPI said and 2.0 worse than adjusted points (596 games), and the same in the first game after a
+# backup took over (352 games). About a point of it was the offense scoring less and a point the
+# opponent scoring more, so totals didn't move and the over/under projections aren't changed.
+# Season to season it ran from about 1 point (2023-2025) to 3-5 (2026), so this is a rough number.
+QB_OUT_POINTS = 2.0
+# "Established": the starter led at least this share of the team's games before he went out. Below
+# it (teams rotating quarterbacks), a sitting "starter" cost nothing (101 games, +0.2 +/- 3.1 against FPI).
+QB_ESTABLISHED = 0.75
+
 
 def load_ratings(path):
     return pd.read_csv(path).set_index("team")
@@ -172,24 +187,31 @@ def anchored_margin(w, home_line, fpi, pts):
     return w["const"] - w["line"] * home_line + w["fpi"] * fpi + w["points"] * pts
 
 
-def projections(home, away, r, neutral, hfa, line, anchor_weights, eff_scale=None, sr_scale=None):
+def projections(home, away, r, neutral, hfa, line, anchor_weights, eff_scale=None, sr_scale=None, qb=0.0):
     """Projected home margin from every source, None where a source can't make one. The same
-    math as projections() in site/app.js. Market-anchored starts from the line being bet (the
-    current line, or the pregame line once a game has started): it was tested by starting from
-    the opening line and grading against that same line, and starting from an older line than
+    math as spreadProjections() in site/projections.js. Market-anchored starts from the line being
+    bet (the current line, or the pregame line once a game has started): it was tested by starting
+    from the opening line and grading against that same line, and starting from an older line than
     the one being bet would count the line's own movement as edge. Blend averages FPI,
     Efficiency and Success rate (FPI and adjusted points before October 29, 2026; FPI and
-    Efficiency until November 10, 2026)."""
+    Efficiency until November 10, 2026).
+
+    qb: points to add to the home margin for quarterbacks who are out (QB_OUT_POINTS: negative when
+    it's the home team's, positive when it's the away team's). It moves every ratings-based
+    projection by that much. Market-anchored moves by only its ratings' share of it (about a
+    third), since the line it starts from already has the market's view of the quarterback."""
+    qb = float(qb or 0.0)
     p = project(home, away, r, neutral, hfa)
-    pts = None if p is None else p[0] - p[1]
+    pts = None if p is None else p[0] - p[1] + qb
     fpi = fpi_margin(home, away, r, neutral, hfa)
+    fpi = None if fpi is None else fpi + qb
     def matchup(scale, off, dfn):  # an opponent-adjusted per-play rating turned into points
         if not scale or off not in r.columns or home not in r.index or away not in r.index:
             return None
         h, a = r.loc[home], r.loc[away]
         if pd.isna(h[off]) or pd.isna(a[off]):
             return None
-        return float(efficiency_margin((h[off] + a[dfn]) - (a[off] + h[dfn]), neutral, scale, hfa))
+        return float(efficiency_margin((h[off] + a[dfn]) - (a[off] + h[dfn]), neutral, scale, hfa)) + qb
 
     eff, sr = matchup(eff_scale, "off_eff", "def_eff"), matchup(sr_scale, "off_sr", "def_sr")
     both = [m for m in (fpi, eff, sr) if m is not None]

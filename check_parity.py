@@ -7,7 +7,8 @@ The same formulas live in Python (the forward test and the backtest) and in Java
 site). If someone changes one and not the other, the site would show picks the forward test
 never logged. This builds a few hundred matchups from the site's own data files
 (site/data/ratings.json and model.json), projects each one both ways for every spread and totals
-source, and exits with an error if any number differs by more than 0.01 points."""
+source, with and without the quarterback placeholder, and exits with an error if any number differs
+by more than 0.01 points."""
 import json
 import subprocess
 import sys
@@ -15,7 +16,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from model import anchored_total, project, projections
+from model import QB_OUT_POINTS, anchored_total, project, projections
 
 SITE = Path(__file__).parent / "site"
 TOLERANCE = 0.01
@@ -27,7 +28,7 @@ const cases = JSON.parse(fs.readFileSync(0));
 const byName = Object.fromEntries(ratings.teams.map((t) => [t.team, t]));
 const avg = P.leagueAverage(ratings.teams);
 console.log(JSON.stringify(cases.map((c) => ({
-  spread: P.spreadProjections(byName[c.home], byName[c.away], { neutral: c.neutral, line: c.line, hfa: model.hfa, model }),
+  spread: P.spreadProjections(byName[c.home], byName[c.away], { neutral: c.neutral, line: c.line, hfa: model.hfa, model, qb: c.qb }),
   total: P.totalProjectionsFor(byName[c.home], byName[c.away], { total: c.total, avg, model }),
 }))));
 """
@@ -35,14 +36,17 @@ console.log(JSON.stringify(cases.map((c) => ({
 
 def cases(teams):
     """Every team at home against the next few teams in the list: neutral and home sites, lines on
-    and off, and teams with missing ratings, so each branch of the math is covered."""
+    and off, teams with missing ratings, and a quarterback out on neither side, the home side, the
+    away side or both, so each branch of the math is covered."""
     out = []
     for i, home in enumerate(teams):
         for k in (1, 7, 31):
             away = teams[(i + k) % len(teams)]
             n = len(out)
+            # points added to the home margin: none in half the games, then the home quarterback out, the away one out, and a half-size one
+            qb = (0.0, -QB_OUT_POINTS, QB_OUT_POINTS, 0.0, 0.0, -QB_OUT_POINTS / 2)[n % 6]
             out.append(dict(home=home, away=away, neutral=n % 4 == 0, line=None if n % 9 == 0 else (n % 41) - 20.5,
-                            total=None if n % 11 == 0 else 38.5 + n % 35))
+                            total=None if n % 11 == 0 else 38.5 + n % 35, qb=qb))
     return out
 
 
@@ -50,7 +54,7 @@ def python_side(case, r, model):
     a = model.get("anchor") or {}
     line, total = case["line"], case["total"]
     spread = projections(case["home"], case["away"], r, case["neutral"], model["hfa"], line, a.get("weights"),
-                         model.get("eff_scale"), model.get("sr_scale"))
+                         model.get("eff_scale"), model.get("sr_scale"), qb=case["qb"])
     p = project(case["home"], case["away"], r, case["neutral"], model["hfa"])
     pts = None if p is None else p[0] + p[1]
     w = a.get("total_weights")

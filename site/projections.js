@@ -4,9 +4,12 @@
 // Change a formula here and in model.py together; the check fails the site build if they drift.
 
 /** Projected home margin from every source, or null where a source can't make one (model.projections).
- *  h, a: the home and away teams' rows from data/ratings.json (or undefined); model: data/model.json. */
-function spreadProjections(h, a, { neutral, line, hfa, model }) {
-  const bump = neutral ? 0 : hfa;
+ *  h, a: the home and away teams' rows from data/ratings.json (or undefined); model: data/model.json.
+ *  qb: points to add to the home margin for quarterbacks who are out (model.QB_OUT_POINTS: negative
+ *  when it's the home team's). Every ratings-based projection moves by that much; Market-anchored
+ *  moves by only its ratings' share, since the line it starts from already has the market's view. */
+function spreadProjections(h, a, { neutral, line, hfa, model, qb = 0 }) {
+  const bump = (neutral ? 0 : hfa) + (qb || 0);
   const points = h && a && h.ppg != null && a.ppg != null ? (h.ppg + a.papg) - (a.ppg + h.papg) + bump : null;
   const fpi = h && a && h.fpi != null && a.fpi != null ? h.fpi - a.fpi + bump : null;
   // an opponent-adjusted per-play rating turned into points (model.efficiency_margin)

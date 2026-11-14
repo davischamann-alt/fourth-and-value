@@ -38,7 +38,26 @@ const qbChange = (g) => (g.state === "post" ? null  // flags describe the latest
 /** A QB change is shown as a tag and a note but no longer changes a pick's label (it did from
  *  October 29 to November 10, 2026, on a 57-game sample from 2026). Over 2023-2026 box scores,
  *  Blend's 1.5+ edges in those games went 54% at the opening line against 57% in the rest, and
- *  53% against 53% at the close. */
+ *  53% against 53% at the close. Since November 14, 2026 it can change the projection instead:
+ *  see qbAdjust. */
+/** The quarterback placeholder on a team for this game, or null: {points, why, player, note} from
+ *  data/qb.json "adjust" (build_props.qb_adjust decides who gets one). An established starter is out:
+ *  listed out or doubtful on a report (why "listed"), or a backup led the team's last game (why
+ *  "change", that one game only). points come off the team's side of every spread projection. It's
+ *  tied to one game by id, so it never applies to another week or to the Ratings tab's what-ifs. */
+const qbAdjust = (g, t) => { const a = t && state.qbAdjust?.[t.id]; return a && g.id != null && String(a.game_id) === String(g.id) ? a : null; };
+/** Points the placeholders add to the home margin (the qb argument of spreadProjections). */
+const qbShift = (g) => (qbAdjust(g, g.away)?.points || 0) - (qbAdjust(g, g.home)?.points || 0);
+/** How much of a placeholder a projection takes: all of it, or for Market-anchored only its ratings' share
+ *  (about a third), since the line it starts from already has the market's view of the quarterback. */
+const qbShare = (src) => { const w = state.model?.anchor?.weights; return src === "anchored" ? (w ? w.fpi + w.points : 0) : 1; };
+const fmtPts = (x) => String(+x.toFixed(1));
+/** [{team, a, points}] for the teams in this game with a placeholder: points is what it takes off that
+ *  team in the projection named (2 for Blend, about 0.7 for Market-anchored). */
+const qbEffects = (g, src = state.source) => [g.away, g.home].map((t) => ({ team: t, a: qbAdjust(g, t) }))
+  .filter((x) => x.a).map((x) => ({ ...x, points: x.a.points * qbShare(src) }));
+/** "2 points off Iowa" for each placeholder, for notes. */
+const qbEffectTxt = (g, src = state.source) => qbEffects(g, src).map((x) => `${fmtPts(x.points)} ${x.points === 1 ? "point" : "points"} off ${x.team.name}`).join(" and ");
 /** A bowl outside the College Football Playoff. In 2023-2025 those went badly for every projection
  *  (FPI 42% at the opening line, 95 picks; Blend 47%): opt-outs, transfers and coaching changes
  *  aren't in the ratings. Playoff games did fine, so they keep their normal labels. */
@@ -50,7 +69,7 @@ const qbListed = (g, t) => (g.state === "pre" && t ? (state.qbListed?.[t.id] || 
 /** The team's usual starter listed Out or Doubtful, or null. In 2023-2026, a team whose starting QB sat
  *  unexpectedly covered 43% at the opening line (317 games), and the model's picks on it went 16-20. */
 const qbOut = (g, t) => qbListed(g, t).find((f) => f.starter !== false && (f.status === "out" || f.status === "doubtful")) || null;
-const QB_OUT_NOTE = (f) => `${f.player} (${f.team}'s usual starter) is listed ${f.status} on the ${f.date} availability report. In 2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line.`;
+const QB_OUT_NOTE = (f, placeholder) => `${f.player} (${f.team}'s usual starter) is listed ${f.status} on the ${f.date} availability report. In 2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line${placeholder ? `, and picks on them lost more than they won even after the ${placeholder} this projection takes off` : ""}.`;
 /** team: the picked team, for spread picks; picks against a team with its starter out did fine, so only picks on it change. */
 const gameTier = (g, edge, team) => { const t = tierOf(edge); return t !== "pass" && (isBowl(g) || qbOut(g, team)) ? "check" : t; };
 /** Kickoff forecast (data/weather.json), or null. windy: 12+ mph over the first three hours. */
@@ -89,6 +108,8 @@ const state = {
   changelog: [],        // changelog.json: dated model changes
   qb: null,             // qb.json: {team id: QB change flag}
   qbListed: null,       // qb.json: {team id: [QBs on the availability reports]}
+  qbAdjust: null,       // qb.json: {team id: quarterback placeholder for one game}
+  qbCleared: null,      // qb.json: {team id: starter listed available, which cancels a placeholder}
   odds: null,           // odds.json: {game id: best and middle numbers across sportsbooks}
   weather: null,        // weather.json: {game id: kickoff forecast}
 };
@@ -143,7 +164,7 @@ const shrink = (market, src) => state.model?.shrink?.[market]?.[src] ?? 1;
  *  The math is in projections.js, which check_parity.py compares with model.py. */
 function projections(g) {
   const r = state.ratings?.byId || {};
-  return spreadProjections(r[g.home.id], r[g.away.id], { neutral: g.neutral, line: g.line, hfa: hfa(), model: state.model });
+  return spreadProjections(r[g.home.id], r[g.away.id], { neutral: g.neutral, line: g.line, hfa: hfa(), model: state.model, qb: qbShift(g) });
 }
 
 /** Projected total points from each totals source (same math as record.log_totals). */
@@ -563,7 +584,9 @@ function pickBox(g, ev, { tierTxt } = {}) {
   // Go for it and Lean say where the pick is worth a bet; Check the news just where the best number is
   const priced = st.state === "pre" && (ev.tier === "strong" || ev.tier === "lean") && ev.value;
   const shop = st.state === "pre" && ev.tier === "check" && ev.value?.best.shop ? ev.value.best : null;
-  const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out)}` : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
+  const outAdj = out && qbAdjust(g, ev.team);
+  const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out, outAdj ? `${fmtPts(outAdj.points * qbShare(ev.src || state.source))} points` : "")}`
+    : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
   return `<div class="pickbox pb-${st.state}">
     <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
     <div class="pickbox-main">${icon}<span class="pick">${esc(pickName(ev))}</span></div>
@@ -604,15 +627,18 @@ function card(g, ev, isTracked) {
           ${g.state === "in" ? `<div class="row"><span>Before kickoff</span><b>${pct(ev.pre)}</b></div>` : ""}
         </div>`;
     body = pickBox(g, ev, { tierTxt: TIER_LABEL }) + prob;
+    // a quarterback placeholder in the spread projection: say so next to the number it changed
+    const qbFx = ev.total ? [] : qbEffects(g);
+    const qbTxt = qbFx.length ? `<span class="open" title="${esc(qbFx.map((x) => `${x.a.note} The projection takes ${fmtPts(x.points)} off ${x.team.name} as a placeholder.`).join(" "))}"> incl. ${qbFx.map((x) => `${esc(x.team.abbr)} QB −${fmtPts(x.points)}`).join(", ")}</span>` : "";
     body += `
-      <div class="lines" style="margin-bottom:0"><div><span class="k">Model</span><span class="v">${modelTxt}</span></div>
+      <div class="lines" style="margin-bottom:0"><div><span class="k">Model</span><span class="v">${modelTxt}</span>${qbTxt}</div>
         <div><span class="k">Edge</span><span class="v">${ev.edge.toFixed(1)} pts</span></div></div>`;
   }
   const canTrack = g.state === "pre" && ev.margin != null && ev.line != null;
   return `<article class="card game${ev.tier === "strong" ? " strong" : ""}" data-game="${esc(g.id)}" tabindex="0"
     aria-label="${esc(`${g.away.name} at ${g.home.name}: open game details`)}">
     <div class="game-top"><span class="${statusCls}">${esc(time)}</span>${isClose(g)
-      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}${g.state === "pre" && qbChange(g) ? `<span class="qb-tag" title="${esc(qbChange(g).note)}">QB change</span>` : ""}${[g.away, g.home].flatMap((t) => qbListed(g, t).filter((f) => f.starter !== false)
+      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}${g.state === "pre" && qbChange(g) ? `<span class="qb-tag" title="${esc(qbChange(g).note + (qbEffects(g).some((x) => x.a.why === "change") ? ` The projections take ${qbEffectTxt(g, "blend")} for it.` : ""))}">QB change</span>` : ""}${[g.away, g.home].flatMap((t) => qbListed(g, t).filter((f) => f.starter !== false)
       .map((f) => `<span class="qb-tag" title="${esc(`${f.player} is listed ${f.status} on the ${f.date} availability report`)}">${esc(t.abbr)} QB ${esc(f.status)}</span>`)).join("")}${weatherOf(g)?.windy
       ? `<span class="qb-tag wind-tag" title="${esc(windNote(weatherOf(g)))}.">Wind ${weatherOf(g).wind} mph</span>` : ""}<span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
     ${g.note ? `<div class="game-note">${esc(g.note)}</div>` : ""}
@@ -1251,6 +1277,8 @@ async function init() {
   state.oddsAt = odds?.updated || null;
   state.qb = qb?.teams || null;
   state.qbListed = qb?.listed || null;
+  state.qbAdjust = qb?.adjust || null;
+  state.qbCleared = qb?.cleared || null;
   state.weather = weather?.games || null;
   if (ratings) {
     const avg = leagueAverage(ratings.teams);  // model.project's avg

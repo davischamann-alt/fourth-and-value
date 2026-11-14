@@ -1,5 +1,13 @@
 [
  {
+  "date": "2026-11-14",
+  "type": "model",
+  "title": "A quarterback out now takes 2 points off his team",
+  "summary": "When an established starting quarterback is out, every spread projection takes 2 points off his team for that game, and the card says so next to the model's number, like \"incl. IOWA QB −2\". The model counts him out when he's listed out or doubtful on an official availability report, or when a backup led the team's passing in its last game (that one game only). It's a placeholder for \"a backup is playing\", not a rating of either quarterback. Market-anchored moves about a third as much, since its line already has the news, and over/unders aren't changed. Each game page says what was taken off and why under Quarterbacks and injuries.",
+  "why": "The ratings come from games the usual starter played, so they overrate his team the week he's out. In 2023-2026 box scores, teams whose established starter sat did about 2 points worse than the ratings said (596 games), and the same in the first game after a backup took over (352), in every season. About a point was the offense scoring less and a point the opponent scoring more, so totals didn't move. Where quarterbacks had been rotating, one of them sitting cost nothing, and by a second game with a backup the ratings and the line had caught up, so neither case gets a placeholder.",
+  "effect": "About 1 game in 7 changes. Replaying 2023-2026, Blend's 1.5+ edges went from 55.9% to 56.3% at the opening line and from 52.0% to 52.4% at the closing line, and its typical miss in those games from 12.3 to 12.1 points. That's a small gain, small enough to be chance, and the size is rough: about 1 point in 2023-2025 and 3 to 5 in 2026. This week it's on 12 games, switched the pick in 3 and changed the label in 7. Picks on a team whose starter is listed out still say Check the news. Picks logged from now on include it; the backtest tables don't."
+ },
+ {
   "date": "2026-11-11",
   "type": "feature",
   "title": "Link previews, a phone app, TBD kickoffs and a way to move your picks",
