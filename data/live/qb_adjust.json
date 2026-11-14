@@ -7,12 +7,12 @@
   "team": "Massachusetts",
   "why": "change"
  },
- "154": {
-  "game_id": "401858301",
-  "note": "Steele Pizzella led Wake Forest's passing in its last game in place of Gio Lopez.",
-  "player": "Gio Lopez",
+ "120": {
+  "game_id": "401858534",
+  "note": "Cardell Williams led Maryland's passing in its last game in place of Malik Washington.",
+  "player": "Malik Washington",
   "points": 2.0,
-  "team": "Wake Forest",
+  "team": "Maryland",
   "why": "change"
  },
  "189": {
@@ -71,28 +71,12 @@
   "team": "Kansas State",
   "why": "change"
  },
- "256": {
-  "game_id": "401861967",
-  "note": "JC Evans led James Madison's passing in its last game in place of Camden Coleman.",
-  "player": "Camden Coleman",
-  "points": 2.0,
-  "team": "James Madison",
-  "why": "change"
- },
  "2638": {
   "game_id": "401864540",
   "note": "Raymond Moore III led UTEP's passing in its last game in place of EJ Colson Jr..",
   "player": "EJ Colson Jr.",
   "points": 2.0,
   "team": "UTEP",
-  "why": "change"
- },
- "275": {
-  "game_id": "401858520",
-  "note": "Ryan Hopkins led Wisconsin's passing in its last game in place of Colton Joseph.",
-  "player": "Colton Joseph",
-  "points": 2.0,
-  "team": "Wisconsin",
   "why": "change"
  },
  "338": {
@@ -117,14 +101,6 @@
   "player": "Maddux Madsen",
   "points": 2.0,
   "team": "Boise State",
-  "why": "change"
- },
- "77": {
-  "game_id": "401858522",
-  "note": "Nicco Marchiol led Northwestern's passing in its last game in place of Aidan Chiles.",
-  "player": "Aidan Chiles",
-  "points": 2.0,
-  "team": "Northwestern",
   "why": "change"
  }
 }
