@@ -1,357 +1,357 @@
 {
- "updated": "2026-11-15T01:58Z",
+ "updated": "2026-11-15T09:34Z",
  "since": "2026-10-22T02:29Z",
- "games": 247,
+ "games": 259,
  "summary": [
   {
    "source": "Blend",
    "key": "blend",
    "tier": "all",
    "label": "Every game",
-   "picks": 247,
-   "pending": 32,
+   "picks": 259,
+   "pending": 23,
    "at_logged": {
-    "wins": 99,
-    "losses": 113,
+    "wins": 105,
+    "losses": 128,
     "pushes": 3,
-    "hit_rate": 0.467
+    "hit_rate": 0.4506
    },
    "at_close": {
-    "wins": 100,
-    "losses": 109,
+    "wins": 105,
+    "losses": 125,
     "pushes": 6,
-    "hit_rate": 0.4785
+    "hit_rate": 0.4565
    },
-   "avg_clv": 0.0163,
-   "clv_sd": 1.9879,
-   "clv_n": 215,
-   "moved_n": 165,
-   "clv_beat_rate": 0.5212
+   "avg_clv": 0.1377,
+   "clv_sd": 2.1564,
+   "clv_n": 236,
+   "moved_n": 182,
+   "clv_beat_rate": 0.533
   },
   {
    "source": "Blend",
    "key": "blend",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 147,
-   "pending": 16,
+   "picks": 153,
+   "pending": 11,
    "at_logged": {
-    "wins": 53,
-    "losses": 77,
+    "wins": 57,
+    "losses": 84,
     "pushes": 1,
-    "hit_rate": 0.4077
+    "hit_rate": 0.4043
    },
    "at_close": {
-    "wins": 53,
-    "losses": 76,
+    "wins": 56,
+    "losses": 84,
     "pushes": 2,
-    "hit_rate": 0.4109
+    "hit_rate": 0.4
    },
-   "avg_clv": 0.0496,
-   "clv_sd": 1.8624,
-   "clv_n": 131,
-   "moved_n": 99,
-   "clv_beat_rate": 0.5354
+   "avg_clv": 0.1796,
+   "clv_sd": 2.1416,
+   "clv_n": 142,
+   "moved_n": 108,
+   "clv_beat_rate": 0.5463
   },
   {
    "source": "Blend",
    "key": "blend",
    "tier": "strong",
    "label": "Edge 3+",
-   "picks": 76,
-   "pending": 7,
-   "at_logged": {
-    "wins": 28,
-    "losses": 40,
-    "pushes": 1,
-    "hit_rate": 0.4118
-   },
-   "at_close": {
-    "wins": 28,
-    "losses": 39,
-    "pushes": 2,
-    "hit_rate": 0.4179
-   },
-   "avg_clv": 0.0652,
-   "clv_sd": 1.8765,
-   "clv_n": 69,
-   "moved_n": 49,
-   "clv_beat_rate": 0.5918
-  },
-  {
-   "source": "ESPN FPI",
-   "key": "fpi",
-   "tier": "all",
-   "label": "Every game",
-   "picks": 247,
-   "pending": 32,
-   "at_logged": {
-    "wins": 94,
-    "losses": 118,
-    "pushes": 3,
-    "hit_rate": 0.4434
-   },
-   "at_close": {
-    "wins": 99,
-    "losses": 110,
-    "pushes": 6,
-    "hit_rate": 0.4737
-   },
-   "avg_clv": 0.0256,
-   "clv_sd": 1.9878,
-   "clv_n": 215,
-   "moved_n": 165,
-   "clv_beat_rate": 0.5394
-  },
-  {
-   "source": "ESPN FPI",
-   "key": "fpi",
-   "tier": "lean",
-   "label": "Edge 1.5+",
-   "picks": 148,
-   "pending": 15,
-   "at_logged": {
-    "wins": 60,
-    "losses": 71,
-    "pushes": 2,
-    "hit_rate": 0.458
-   },
-   "at_close": {
-    "wins": 62,
-    "losses": 69,
-    "pushes": 2,
-    "hit_rate": 0.4733
-   },
-   "avg_clv": 0.1692,
-   "clv_sd": 2.0706,
-   "clv_n": 133,
-   "moved_n": 105,
-   "clv_beat_rate": 0.5524
-  },
-  {
-   "source": "ESPN FPI",
-   "key": "fpi",
-   "tier": "strong",
-   "label": "Edge 3+",
-   "picks": 85,
-   "pending": 6,
-   "at_logged": {
-    "wins": 33,
-    "losses": 44,
-    "pushes": 2,
-    "hit_rate": 0.4286
-   },
-   "at_close": {
-    "wins": 35,
-    "losses": 43,
-    "pushes": 1,
-    "hit_rate": 0.4487
-   },
-   "avg_clv": 0.2278,
-   "clv_sd": 2.0705,
-   "clv_n": 79,
-   "moved_n": 62,
-   "clv_beat_rate": 0.5806
-  },
-  {
-   "source": "Efficiency",
-   "key": "efficiency",
-   "tier": "all",
-   "label": "Every game",
-   "picks": 126,
-   "pending": 32,
-   "at_logged": {
-    "wins": 40,
-    "losses": 53,
-    "pushes": 1,
-    "hit_rate": 0.4301
-   },
-   "at_close": {
-    "wins": 41,
-    "losses": 51,
-    "pushes": 2,
-    "hit_rate": 0.4457
-   },
-   "avg_clv": -0.0532,
-   "clv_sd": 2.1345,
-   "clv_n": 94,
-   "moved_n": 77,
-   "clv_beat_rate": 0.5065
-  },
-  {
-   "source": "Efficiency",
-   "key": "efficiency",
-   "tier": "lean",
-   "label": "Edge 1.5+",
-   "picks": 84,
-   "pending": 19,
-   "at_logged": {
-    "wins": 29,
-    "losses": 36,
-    "pushes": 0,
-    "hit_rate": 0.4462
-   },
-   "at_close": {
-    "wins": 28,
-    "losses": 37,
-    "pushes": 0,
-    "hit_rate": 0.4308
-   },
-   "avg_clv": 0.0538,
-   "clv_sd": 2.0504,
-   "clv_n": 65,
-   "moved_n": 51,
-   "clv_beat_rate": 0.549
-  },
-  {
-   "source": "Efficiency",
-   "key": "efficiency",
-   "tier": "strong",
-   "label": "Edge 3+",
-   "picks": 62,
-   "pending": 14,
-   "at_logged": {
-    "wins": 21,
-    "losses": 27,
-    "pushes": 0,
-    "hit_rate": 0.4375
-   },
-   "at_close": {
-    "wins": 20,
-    "losses": 28,
-    "pushes": 0,
-    "hit_rate": 0.4167
-   },
-   "avg_clv": -0.1146,
-   "clv_sd": 2.0635,
-   "clv_n": 48,
-   "moved_n": 38,
-   "clv_beat_rate": 0.5
-  },
-  {
-   "source": "Success rate",
-   "key": "success",
-   "tier": "all",
-   "label": "Every game",
-   "picks": 10,
-   "pending": 10,
-   "at_logged": {
-    "wins": 0,
-    "losses": 0,
-    "pushes": 0,
-    "hit_rate": null
-   },
-   "at_close": {
-    "wins": 0,
-    "losses": 0,
-    "pushes": 0,
-    "hit_rate": null
-   },
-   "avg_clv": null,
-   "clv_sd": null,
-   "clv_n": 0,
-   "moved_n": 0,
-   "clv_beat_rate": null
-  },
-  {
-   "source": "Success rate",
-   "key": "success",
-   "tier": "lean",
-   "label": "Edge 1.5+",
-   "picks": 8,
+   "picks": 82,
    "pending": 8,
    "at_logged": {
-    "wins": 0,
-    "losses": 0,
-    "pushes": 0,
-    "hit_rate": null
+    "wins": 31,
+    "losses": 42,
+    "pushes": 1,
+    "hit_rate": 0.4247
    },
    "at_close": {
-    "wins": 0,
-    "losses": 0,
-    "pushes": 0,
-    "hit_rate": null
+    "wins": 30,
+    "losses": 42,
+    "pushes": 2,
+    "hit_rate": 0.4167
    },
-   "avg_clv": null,
-   "clv_sd": null,
-   "clv_n": 0,
-   "moved_n": 0,
-   "clv_beat_rate": null
+   "avg_clv": 0.3311,
+   "clv_sd": 2.3674,
+   "clv_n": 74,
+   "moved_n": 53,
+   "clv_beat_rate": 0.6226
   },
   {
-   "source": "Success rate",
-   "key": "success",
-   "tier": "strong",
-   "label": "Edge 3+",
-   "picks": 6,
-   "pending": 6,
-   "at_logged": {
-    "wins": 0,
-    "losses": 0,
-    "pushes": 0,
-    "hit_rate": null
-   },
-   "at_close": {
-    "wins": 0,
-    "losses": 0,
-    "pushes": 0,
-    "hit_rate": null
-   },
-   "avg_clv": null,
-   "clv_sd": null,
-   "clv_n": 0,
-   "moved_n": 0,
-   "clv_beat_rate": null
-  },
-  {
-   "source": "Market-anchored",
-   "key": "anchored",
+   "source": "ESPN FPI",
+   "key": "fpi",
    "tier": "all",
    "label": "Every game",
-   "picks": 247,
-   "pending": 32,
+   "picks": 259,
+   "pending": 23,
    "at_logged": {
-    "wins": 103,
-    "losses": 109,
+    "wins": 104,
+    "losses": 129,
     "pushes": 3,
-    "hit_rate": 0.4858
+    "hit_rate": 0.4464
    },
    "at_close": {
-    "wins": 107,
-    "losses": 102,
+    "wins": 108,
+    "losses": 122,
     "pushes": 6,
-    "hit_rate": 0.512
+    "hit_rate": 0.4696
    },
-   "avg_clv": -0.0581,
-   "clv_sd": 1.9871,
-   "clv_n": 215,
-   "moved_n": 165,
-   "clv_beat_rate": 0.5091
+   "avg_clv": 0.1377,
+   "clv_sd": 2.1564,
+   "clv_n": 236,
+   "moved_n": 182,
+   "clv_beat_rate": 0.5549
   },
   {
-   "source": "Market-anchored",
-   "key": "anchored",
+   "source": "ESPN FPI",
+   "key": "fpi",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 65,
-   "pending": 6,
+   "picks": 159,
+   "pending": 19,
    "at_logged": {
-    "wins": 21,
-    "losses": 37,
+    "wins": 65,
+    "losses": 73,
+    "pushes": 2,
+    "hit_rate": 0.471
+   },
+   "at_close": {
+    "wins": 66,
+    "losses": 72,
+    "pushes": 2,
+    "hit_rate": 0.4783
+   },
+   "avg_clv": 0.2857,
+   "clv_sd": 2.3614,
+   "clv_n": 140,
+   "moved_n": 111,
+   "clv_beat_rate": 0.5676
+  },
+  {
+   "source": "ESPN FPI",
+   "key": "fpi",
+   "tier": "strong",
+   "label": "Edge 3+",
+   "picks": 90,
+   "pending": 8,
+   "at_logged": {
+    "wins": 36,
+    "losses": 44,
+    "pushes": 2,
+    "hit_rate": 0.45
+   },
+   "at_close": {
+    "wins": 37,
+    "losses": 44,
     "pushes": 1,
-    "hit_rate": 0.3621
+    "hit_rate": 0.4568
+   },
+   "avg_clv": 0.4451,
+   "clv_sd": 2.4783,
+   "clv_n": 82,
+   "moved_n": 65,
+   "clv_beat_rate": 0.6
+  },
+  {
+   "source": "Efficiency",
+   "key": "efficiency",
+   "tier": "all",
+   "label": "Every game",
+   "picks": 138,
+   "pending": 23,
+   "at_logged": {
+    "wins": 48,
+    "losses": 66,
+    "pushes": 1,
+    "hit_rate": 0.4211
+   },
+   "at_close": {
+    "wins": 48,
+    "losses": 65,
+    "pushes": 2,
+    "hit_rate": 0.4248
+   },
+   "avg_clv": 0.1739,
+   "clv_sd": 2.4279,
+   "clv_n": 115,
+   "moved_n": 94,
+   "clv_beat_rate": 0.5106
+  },
+  {
+   "source": "Efficiency",
+   "key": "efficiency",
+   "tier": "lean",
+   "label": "Edge 1.5+",
+   "picks": 92,
+   "pending": 14,
+   "at_logged": {
+    "wins": 34,
+    "losses": 44,
+    "pushes": 0,
+    "hit_rate": 0.4359
+   },
+   "at_close": {
+    "wins": 32,
+    "losses": 46,
+    "pushes": 0,
+    "hit_rate": 0.4103
+   },
+   "avg_clv": 0.3654,
+   "clv_sd": 2.5389,
+   "clv_n": 78,
+   "moved_n": 62,
+   "clv_beat_rate": 0.5645
+  },
+  {
+   "source": "Efficiency",
+   "key": "efficiency",
+   "tier": "strong",
+   "label": "Edge 3+",
+   "picks": 67,
+   "pending": 10,
+   "at_logged": {
+    "wins": 24,
+    "losses": 33,
+    "pushes": 0,
+    "hit_rate": 0.4211
    },
    "at_close": {
     "wins": 23,
-    "losses": 35,
-    "pushes": 1,
-    "hit_rate": 0.3966
+    "losses": 34,
+    "pushes": 0,
+    "hit_rate": 0.4035
    },
-   "avg_clv": -0.0254,
-   "clv_sd": 2.0687,
-   "clv_n": 59,
-   "moved_n": 46,
-   "clv_beat_rate": 0.5217
+   "avg_clv": 0.0439,
+   "clv_sd": 2.2186,
+   "clv_n": 57,
+   "moved_n": 45,
+   "clv_beat_rate": 0.5111
+  },
+  {
+   "source": "Success rate",
+   "key": "success",
+   "tier": "all",
+   "label": "Every game",
+   "picks": 22,
+   "pending": 22,
+   "at_logged": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "at_close": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "avg_clv": null,
+   "clv_sd": null,
+   "clv_n": 0,
+   "moved_n": 0,
+   "clv_beat_rate": null
+  },
+  {
+   "source": "Success rate",
+   "key": "success",
+   "tier": "lean",
+   "label": "Edge 1.5+",
+   "picks": 18,
+   "pending": 18,
+   "at_logged": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "at_close": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "avg_clv": null,
+   "clv_sd": null,
+   "clv_n": 0,
+   "moved_n": 0,
+   "clv_beat_rate": null
+  },
+  {
+   "source": "Success rate",
+   "key": "success",
+   "tier": "strong",
+   "label": "Edge 3+",
+   "picks": 14,
+   "pending": 14,
+   "at_logged": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "at_close": {
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": null
+   },
+   "avg_clv": null,
+   "clv_sd": null,
+   "clv_n": 0,
+   "moved_n": 0,
+   "clv_beat_rate": null
+  },
+  {
+   "source": "Market-anchored",
+   "key": "anchored",
+   "tier": "all",
+   "label": "Every game",
+   "picks": 259,
+   "pending": 23,
+   "at_logged": {
+    "wins": 115,
+    "losses": 118,
+    "pushes": 3,
+    "hit_rate": 0.4936
+   },
+   "at_close": {
+    "wins": 118,
+    "losses": 112,
+    "pushes": 6,
+    "hit_rate": 0.513
+   },
+   "avg_clv": 0.0742,
+   "clv_sd": 2.1595,
+   "clv_n": 236,
+   "moved_n": 182,
+   "clv_beat_rate": 0.522
+  },
+  {
+   "source": "Market-anchored",
+   "key": "anchored",
+   "tier": "lean",
+   "label": "Edge 1.5+",
+   "picks": 70,
+   "pending": 7,
+   "at_logged": {
+    "wins": 23,
+    "losses": 39,
+    "pushes": 1,
+    "hit_rate": 0.371
+   },
+   "at_close": {
+    "wins": 25,
+    "losses": 37,
+    "pushes": 1,
+    "hit_rate": 0.4032
+   },
+   "avg_clv": 0.1587,
+   "clv_sd": 2.181,
+   "clv_n": 63,
+   "moved_n": 50,
+   "clv_beat_rate": 0.56
   },
   {
    "source": "Market-anchored",
@@ -383,75 +383,75 @@
    "key": "points",
    "tier": "all",
    "label": "Every game",
-   "picks": 247,
-   "pending": 32,
+   "picks": 259,
+   "pending": 23,
    "at_logged": {
-    "wins": 93,
-    "losses": 119,
+    "wins": 101,
+    "losses": 132,
     "pushes": 3,
-    "hit_rate": 0.4387
+    "hit_rate": 0.4335
    },
    "at_close": {
-    "wins": 95,
-    "losses": 114,
+    "wins": 104,
+    "losses": 126,
     "pushes": 6,
-    "hit_rate": 0.4545
+    "hit_rate": 0.4522
    },
-   "avg_clv": -0.0302,
-   "clv_sd": 1.9878,
-   "clv_n": 215,
-   "moved_n": 165,
-   "clv_beat_rate": 0.5212
+   "avg_clv": -0.036,
+   "clv_sd": 2.1605,
+   "clv_n": 236,
+   "moved_n": 182,
+   "clv_beat_rate": 0.511
   },
   {
    "source": "Adjusted points",
    "key": "points",
    "tier": "lean",
    "label": "Edge 1.5+",
-   "picks": 169,
-   "pending": 19,
+   "picks": 175,
+   "pending": 11,
    "at_logged": {
-    "wins": 58,
-    "losses": 90,
+    "wins": 65,
+    "losses": 97,
     "pushes": 2,
-    "hit_rate": 0.3919
+    "hit_rate": 0.4012
    },
    "at_close": {
-    "wins": 58,
-    "losses": 89,
+    "wins": 65,
+    "losses": 96,
     "pushes": 3,
-    "hit_rate": 0.3946
+    "hit_rate": 0.4037
    },
-   "avg_clv": -0.0367,
-   "clv_sd": 1.9611,
-   "clv_n": 150,
-   "moved_n": 110,
-   "clv_beat_rate": 0.5364
+   "avg_clv": 0.0518,
+   "clv_sd": 2.0089,
+   "clv_n": 164,
+   "moved_n": 121,
+   "clv_beat_rate": 0.5372
   },
   {
    "source": "Adjusted points",
    "key": "points",
    "tier": "strong",
    "label": "Edge 3+",
-   "picks": 101,
-   "pending": 10,
+   "picks": 106,
+   "pending": 7,
    "at_logged": {
-    "wins": 33,
-    "losses": 57,
+    "wins": 37,
+    "losses": 61,
     "pushes": 1,
-    "hit_rate": 0.3667
+    "hit_rate": 0.3776
    },
    "at_close": {
-    "wins": 34,
-    "losses": 55,
+    "wins": 38,
+    "losses": 59,
     "pushes": 2,
-    "hit_rate": 0.382
+    "hit_rate": 0.3918
    },
-   "avg_clv": 0.0824,
-   "clv_sd": 1.9483,
-   "clv_n": 91,
-   "moved_n": 64,
-   "clv_beat_rate": 0.5625
+   "avg_clv": 0.1818,
+   "clv_sd": 1.9942,
+   "clv_n": 99,
+   "moved_n": 70,
+   "clv_beat_rate": 0.5714
   }
  ],
  "recent": [
@@ -495,19 +495,6 @@
    "clv": null
   },
   {
-   "id": "401856871",
-   "kickoff": "2026-11-21T05:00Z",
-   "game": "Texas Tech @ Baylor",
-   "side": "home",
-   "team": "Baylor",
-   "line": 1.5,
-   "edge": 3.24,
-   "tier": "strong",
-   "logged_at": "2026-11-12T00:48Z",
-   "result": null,
-   "clv": null
-  },
-  {
    "id": "401858528",
    "kickoff": "2026-11-21T05:00Z",
    "game": "UCLA @ Michigan",
@@ -521,6 +508,97 @@
    "clv": null
   },
   {
+   "id": "401856871",
+   "kickoff": "2026-11-21T05:00Z",
+   "game": "Texas Tech @ Baylor",
+   "side": "home",
+   "team": "Baylor",
+   "line": 1.5,
+   "edge": 3.24,
+   "tier": "strong",
+   "logged_at": "2026-11-12T00:48Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401856866",
+   "kickoff": "2026-11-21T05:00Z",
+   "game": "BYU @ Kansas",
+   "side": "home",
+   "team": "Kansas",
+   "line": 7.5,
+   "edge": 4.88,
+   "tier": "strong",
+   "logged_at": "2026-11-15T09:34Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401858303",
+   "kickoff": "2026-11-21T00:30Z",
+   "game": "Clemson @ Duke",
+   "side": "home",
+   "team": "Duke",
+   "line": -8.5,
+   "edge": 6.38,
+   "tier": "strong",
+   "logged_at": "2026-11-15T09:34Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401856869",
+   "kickoff": "2026-11-20T23:00Z",
+   "game": "Iowa State @ UCF",
+   "side": "home",
+   "team": "UCF",
+   "line": -1.5,
+   "edge": 3.08,
+   "tier": "strong",
+   "logged_at": "2026-11-15T09:34Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401866467",
+   "kickoff": "2026-11-19T00:00Z",
+   "game": "Akron @ Massachusetts",
+   "side": "home",
+   "team": "Massachusetts",
+   "line": -2.5,
+   "edge": 4.94,
+   "tier": "strong",
+   "logged_at": "2026-11-15T09:34Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401866464",
+   "kickoff": "2026-11-18T00:00Z",
+   "game": "Ball State @ Ohio",
+   "side": "home",
+   "team": "Ohio",
+   "line": -9.5,
+   "edge": 6.18,
+   "tier": "strong",
+   "logged_at": "2026-11-15T09:34Z",
+   "result": null,
+   "clv": null
+  },
+  {
+   "id": "401866466",
+   "kickoff": "2026-11-18T00:00Z",
+   "game": "Miami (OH) @ Kent State",
+   "side": "away",
+   "team": "Miami (OH)",
+   "line": -8.5,
+   "edge": 3.0,
+   "tier": "strong",
+   "logged_at": "2026-11-15T09:34Z",
+   "result": null,
+   "clv": null
+  },
+  {
    "id": "401864537",
    "kickoff": "2026-11-15T04:00Z",
    "game": "North Dakota State @ Hawai'i",
@@ -530,8 +608,8 @@
    "edge": 2.2,
    "tier": "lean",
    "logged_at": "2026-11-08T22:13Z",
-   "result": null,
-   "clv": null
+   "result": "W",
+   "clv": -0.0
   },
   {
    "id": "401860917",
@@ -543,8 +621,8 @@
    "edge": 2.52,
    "tier": "lean",
    "logged_at": "2026-11-08T16:43Z",
-   "result": null,
-   "clv": null
+   "result": "L",
+   "clv": -2.0
   },
   {
    "id": "401864540",
@@ -556,8 +634,8 @@
    "edge": 1.57,
    "tier": "lean",
    "logged_at": "2026-11-08T16:43Z",
-   "result": null,
-   "clv": null
+   "result": "L",
+   "clv": 3.0
   },
   {
    "id": "401862827",
@@ -569,21 +647,8 @@
    "edge": 4.79,
    "tier": "strong",
    "logged_at": "2026-11-08T16:43Z",
-   "result": null,
-   "clv": null
-  },
-  {
-   "id": "401864538",
-   "kickoff": "2026-11-15T00:00Z",
-   "game": "San Jos\u00e9 State @ Air Force",
-   "side": "away",
-   "team": "San Jos\u00e9 State",
-   "line": 11.5,
-   "edge": 2.82,
-   "tier": "lean",
-   "logged_at": "2026-11-08T22:13Z",
-   "result": null,
-   "clv": null
+   "result": "L",
+   "clv": 1.5
   },
   {
    "id": "401858524",
@@ -595,8 +660,21 @@
    "edge": 4.6,
    "tier": "strong",
    "logged_at": "2026-11-08T09:06Z",
-   "result": null,
-   "clv": null
+   "result": "W",
+   "clv": 5.5
+  },
+  {
+   "id": "401864538",
+   "kickoff": "2026-11-15T00:00Z",
+   "game": "San Jos\u00e9 State @ Air Force",
+   "side": "away",
+   "team": "San Jos\u00e9 State",
+   "line": 11.5,
+   "edge": 2.82,
+   "tier": "lean",
+   "logged_at": "2026-11-08T22:13Z",
+   "result": "L",
+   "clv": -2.5
   },
   {
    "id": "401860914",
@@ -608,8 +686,8 @@
    "edge": 3.55,
    "tier": "strong",
    "logged_at": "2026-11-04T23:45Z",
-   "result": null,
-   "clv": null
+   "result": "W",
+   "clv": 12.0
   },
   {
    "id": "401871099",
@@ -638,17 +716,17 @@
    "clv": -4.5
   },
   {
-   "id": "401862826",
+   "id": "401858518",
    "kickoff": "2026-11-14T20:30Z",
-   "game": "Florida Atlantic @ Tulsa",
+   "game": "USC @ Indiana",
    "side": "home",
-   "team": "Tulsa",
-   "line": -5.5,
-   "edge": 5.03,
-   "tier": "strong",
-   "logged_at": "2026-11-08T16:43Z",
-   "result": null,
-   "clv": null
+   "team": "Indiana",
+   "line": -7.0,
+   "edge": 2.4,
+   "tier": "lean",
+   "logged_at": "2026-11-04T23:45Z",
+   "result": "W",
+   "clv": 2.5
   },
   {
    "id": "401858295",
@@ -664,17 +742,17 @@
    "clv": -1.0
   },
   {
-   "id": "401858518",
+   "id": "401862826",
    "kickoff": "2026-11-14T20:30Z",
-   "game": "USC @ Indiana",
+   "game": "Florida Atlantic @ Tulsa",
    "side": "home",
-   "team": "Indiana",
-   "line": -7.0,
-   "edge": 2.4,
-   "tier": "lean",
-   "logged_at": "2026-11-04T23:45Z",
+   "team": "Tulsa",
+   "line": -5.5,
+   "edge": 5.03,
+   "tier": "strong",
+   "logged_at": "2026-11-08T16:43Z",
    "result": "W",
-   "clv": 2.5
+   "clv": 1.0
   },
   {
    "id": "401869952",
@@ -716,19 +794,6 @@
    "clv": 0.5
   },
   {
-   "id": "401870769",
-   "kickoff": "2026-11-14T19:00Z",
-   "game": "Kennesaw State @ Sam Houston",
-   "side": "home",
-   "team": "Sam Houston",
-   "line": 7.5,
-   "edge": 3.36,
-   "tier": "strong",
-   "logged_at": "2026-11-08T16:43Z",
-   "result": "L",
-   "clv": 0.0
-  },
-  {
    "id": "401862828",
    "kickoff": "2026-11-14T19:00Z",
    "game": "Tulane @ Rice",
@@ -740,6 +805,19 @@
    "logged_at": "2026-11-08T16:43Z",
    "result": "W",
    "clv": -2.5
+  },
+  {
+   "id": "401870769",
+   "kickoff": "2026-11-14T19:00Z",
+   "game": "Kennesaw State @ Sam Houston",
+   "side": "home",
+   "team": "Sam Houston",
+   "line": 7.5,
+   "edge": 3.36,
+   "tier": "strong",
+   "logged_at": "2026-11-08T16:43Z",
+   "result": "L",
+   "clv": 0.0
   },
   {
    "id": "401862829",
@@ -781,19 +859,6 @@
    "clv": 2.0
   },
   {
-   "id": "401856886",
-   "kickoff": "2026-11-14T17:00Z",
-   "game": "Auburn @ Mississippi State",
-   "side": "home",
-   "team": "Mississippi State",
-   "line": 3.5,
-   "edge": 4.81,
-   "tier": "strong",
-   "logged_at": "2026-11-08T16:43Z",
-   "result": "L",
-   "clv": 1.0
-  },
-  {
    "id": "401858522",
    "kickoff": "2026-11-14T17:00Z",
    "game": "Northwestern @ Ohio State",
@@ -820,6 +885,19 @@
    "clv": -5.0
   },
   {
+   "id": "401856886",
+   "kickoff": "2026-11-14T17:00Z",
+   "game": "Auburn @ Mississippi State",
+   "side": "home",
+   "team": "Mississippi State",
+   "line": 3.5,
+   "edge": 4.81,
+   "tier": "strong",
+   "logged_at": "2026-11-08T16:43Z",
+   "result": "L",
+   "clv": 1.0
+  },
+  {
    "id": "401861967",
    "kickoff": "2026-11-14T17:00Z",
    "game": "James Madison @ UConn",
@@ -833,17 +911,17 @@
    "clv": 1.5
   },
   {
-   "id": "401856858",
+   "id": "401856884",
    "kickoff": "2026-11-14T05:00Z",
-   "game": "Baylor @ BYU",
-   "side": "away",
-   "team": "Baylor",
-   "line": 7.5,
-   "edge": 2.69,
+   "game": "Florida @ Kentucky",
+   "side": "home",
+   "team": "Kentucky",
+   "line": -1.5,
+   "edge": 1.75,
    "tier": "lean",
    "logged_at": "2026-11-04T23:45Z",
-   "result": null,
-   "clv": null
+   "result": "L",
+   "clv": 1.5
   },
   {
    "id": "401856885",
@@ -855,21 +933,21 @@
    "edge": 4.05,
    "tier": "strong",
    "logged_at": "2026-11-04T23:45Z",
-   "result": null,
-   "clv": null
+   "result": "L",
+   "clv": 0.0
   },
   {
-   "id": "401856884",
+   "id": "401856858",
    "kickoff": "2026-11-14T05:00Z",
-   "game": "Florida @ Kentucky",
-   "side": "home",
-   "team": "Kentucky",
-   "line": -1.5,
-   "edge": 1.75,
+   "game": "Baylor @ BYU",
+   "side": "away",
+   "team": "Baylor",
+   "line": 7.5,
+   "edge": 2.69,
    "tier": "lean",
    "logged_at": "2026-11-04T23:45Z",
-   "result": null,
-   "clv": null
+   "result": "L",
+   "clv": -1.0
   },
   {
    "id": "401856888",
@@ -1093,30 +1171,17 @@
    "clv": 0.5
   },
   {
-   "id": "401871098",
+   "id": "401862821",
    "kickoff": "2026-11-07T21:00Z",
-   "game": "Louisiana Tech @ Troy",
-   "side": "away",
-   "team": "Louisiana Tech",
-   "line": -6.5,
-   "edge": 1.59,
-   "tier": "lean",
+   "game": "Rice @ North Texas",
+   "side": "home",
+   "team": "North Texas",
+   "line": -16.5,
+   "edge": 5.77,
+   "tier": "strong",
    "logged_at": "2026-11-01T20:34Z",
    "result": "W",
-   "clv": -0.0
-  },
-  {
-   "id": "401871074",
-   "kickoff": "2026-11-07T21:00Z",
-   "game": "Missouri State @ Florida International",
-   "side": "home",
-   "team": "Florida International",
-   "line": -4.5,
-   "edge": 1.57,
-   "tier": "lean",
-   "logged_at": "2026-11-01T20:34Z",
-   "result": "L",
-   "clv": 0.0
+   "clv": -1.0
   },
   {
    "id": "401864534",
@@ -1132,17 +1197,30 @@
    "clv": 1.0
   },
   {
-   "id": "401862821",
+   "id": "401871074",
    "kickoff": "2026-11-07T21:00Z",
-   "game": "Rice @ North Texas",
+   "game": "Missouri State @ Florida International",
    "side": "home",
-   "team": "North Texas",
-   "line": -16.5,
-   "edge": 5.77,
-   "tier": "strong",
+   "team": "Florida International",
+   "line": -4.5,
+   "edge": 1.57,
+   "tier": "lean",
+   "logged_at": "2026-11-01T20:34Z",
+   "result": "L",
+   "clv": 0.0
+  },
+  {
+   "id": "401871098",
+   "kickoff": "2026-11-07T21:00Z",
+   "game": "Louisiana Tech @ Troy",
+   "side": "away",
+   "team": "Louisiana Tech",
+   "line": -6.5,
+   "edge": 1.59,
+   "tier": "lean",
    "logged_at": "2026-11-01T20:34Z",
    "result": "W",
-   "clv": -1.0
+   "clv": -0.0
   },
   {
    "id": "401856850",
@@ -1156,114 +1234,36 @@
    "logged_at": "2026-11-01T20:34Z",
    "result": "L",
    "clv": 2.5
-  },
-  {
-   "id": "401871076",
-   "kickoff": "2026-11-07T20:30Z",
-   "game": "Western Kentucky @ Middle Tennessee",
-   "side": "home",
-   "team": "Middle Tennessee",
-   "line": -1.5,
-   "edge": 3.2,
-   "tier": "strong",
-   "logged_at": "2026-11-01T20:34Z",
-   "result": "W",
-   "clv": -4.0
-  },
-  {
-   "id": "401869951",
-   "kickoff": "2026-11-07T20:30Z",
-   "game": "Marshall @ Georgia Southern",
-   "side": "home",
-   "team": "Georgia Southern",
-   "line": -9.5,
-   "edge": 3.74,
-   "tier": "strong",
-   "logged_at": "2026-11-01T20:34Z",
-   "result": "W",
-   "clv": -2.5
-  },
-  {
-   "id": "401858516",
-   "kickoff": "2026-11-07T20:30Z",
-   "game": "Penn State @ Washington",
-   "side": "away",
-   "team": "Penn State",
-   "line": 2.5,
-   "edge": 4.55,
-   "tier": "strong",
-   "logged_at": "2026-11-01T20:34Z",
-   "result": "W",
-   "clv": -0.0
-  },
-  {
-   "id": "401871073",
-   "kickoff": "2026-11-07T20:00Z",
-   "game": "Delaware @ Kennesaw State",
-   "side": "home",
-   "team": "Kennesaw State",
-   "line": 2.5,
-   "edge": 3.48,
-   "tier": "strong",
-   "logged_at": "2026-11-01T20:34Z",
-   "result": "W",
-   "clv": 1.0
-  },
-  {
-   "id": "401869936",
-   "kickoff": "2026-11-07T20:00Z",
-   "game": "UL Monroe @ Arkansas State",
-   "side": "home",
-   "team": "Arkansas State",
-   "line": -14.5,
-   "edge": 3.51,
-   "tier": "strong",
-   "logged_at": "2026-11-01T20:34Z",
-   "result": "L",
-   "clv": 0.0
-  },
-  {
-   "id": "401856744",
-   "kickoff": "2026-11-07T20:00Z",
-   "game": "Texas A&M @ South Carolina",
-   "side": "away",
-   "team": "Texas A&M",
-   "line": 7.0,
-   "edge": 4.24,
-   "tier": "strong",
-   "logged_at": "2026-11-01T20:34Z",
-   "result": "L",
-   "clv": 0.5
   }
  ],
  "totals": {
   "since": "2026-10-29T23:15Z",
-  "games": 191,
+  "games": 203,
   "summary": [
    {
     "source": "Market-anchored",
     "key": "anchored",
     "tier": "all",
     "label": "Every game",
-    "picks": 191,
-    "pending": 32,
+    "picks": 203,
+    "pending": 23,
     "at_logged": {
-     "wins": 72,
-     "losses": 87,
+     "wins": 86,
+     "losses": 94,
      "pushes": 0,
-     "hit_rate": 0.4528
+     "hit_rate": 0.4778
     },
     "at_close": {
-     "wins": 71,
-     "losses": 88,
+     "wins": 86,
+     "losses": 94,
      "pushes": 0,
-     "hit_rate": 0.4465
+     "hit_rate": 0.4778
     },
-    "avg_clv": 0.0252,
-    "clv_sd": 2.1786,
-    "clv_n": 159,
-    "moved_n": 122,
-    "clv_beat_rate": 0.5246
+    "avg_clv": 0.05,
+    "clv_sd": 2.302,
+    "clv_n": 180,
+    "moved_n": 139,
+    "clv_beat_rate": 0.5108
    },
    {
     "source": "Market-anchored",
@@ -1320,75 +1320,75 @@
     "key": "points",
     "tier": "all",
     "label": "Every game",
-    "picks": 191,
-    "pending": 32,
+    "picks": 203,
+    "pending": 23,
     "at_logged": {
-     "wins": 78,
-     "losses": 81,
+     "wins": 92,
+     "losses": 88,
      "pushes": 0,
-     "hit_rate": 0.4906
+     "hit_rate": 0.5111
     },
     "at_close": {
-     "wins": 79,
-     "losses": 80,
+     "wins": 94,
+     "losses": 86,
      "pushes": 0,
-     "hit_rate": 0.4969
+     "hit_rate": 0.5222
     },
-    "avg_clv": 0.0755,
-    "clv_sd": 2.1774,
-    "clv_n": 159,
-    "moved_n": 122,
-    "clv_beat_rate": 0.5328
+    "avg_clv": 0.0944,
+    "clv_sd": 2.3006,
+    "clv_n": 180,
+    "moved_n": 139,
+    "clv_beat_rate": 0.518
    },
    {
     "source": "Adjusted points",
     "key": "points",
     "tier": "lean",
     "label": "Edge 1.5+",
-    "picks": 148,
-    "pending": 24,
+    "picks": 156,
+    "pending": 14,
     "at_logged": {
-     "wins": 60,
-     "losses": 64,
-     "pushes": 0,
-     "hit_rate": 0.4839
-    },
-    "at_close": {
-     "wins": 62,
-     "losses": 62,
+     "wins": 71,
+     "losses": 71,
      "pushes": 0,
      "hit_rate": 0.5
     },
-    "avg_clv": 0.1452,
-    "clv_sd": 2.1778,
-    "clv_n": 124,
-    "moved_n": 92,
-    "clv_beat_rate": 0.5543
+    "at_close": {
+     "wins": 74,
+     "losses": 68,
+     "pushes": 0,
+     "hit_rate": 0.5211
+    },
+    "avg_clv": 0.1831,
+    "clv_sd": 2.3266,
+    "clv_n": 142,
+    "moved_n": 106,
+    "clv_beat_rate": 0.5377
    },
    {
     "source": "Adjusted points",
     "key": "points",
     "tier": "strong",
     "label": "Edge 3+",
-    "picks": 100,
-    "pending": 16,
+    "picks": 105,
+    "pending": 10,
     "at_logged": {
-     "wins": 40,
-     "losses": 44,
+     "wins": 46,
+     "losses": 49,
      "pushes": 0,
-     "hit_rate": 0.4762
+     "hit_rate": 0.4842
     },
     "at_close": {
-     "wins": 42,
-     "losses": 42,
+     "wins": 48,
+     "losses": 47,
      "pushes": 0,
-     "hit_rate": 0.5
+     "hit_rate": 0.5053
     },
-    "avg_clv": 0.131,
-    "clv_sd": 2.3169,
-    "clv_n": 84,
-    "moved_n": 63,
-    "clv_beat_rate": 0.5397
+    "avg_clv": 0.0947,
+    "clv_sd": 2.2601,
+    "clv_n": 95,
+    "moved_n": 72,
+    "clv_beat_rate": 0.5278
    }
   ],
   "recent": [
@@ -1471,19 +1471,6 @@
     "clv": -2.0
    },
    {
-    "id": "401858517",
-    "kickoff": "2026-11-07T21:15Z",
-    "game": "Rutgers @ Wisconsin",
-    "side": "over",
-    "line": 46.5,
-    "proj": 48.95,
-    "edge": 2.45,
-    "tier": "lean",
-    "logged_at": "2026-11-01T20:34Z",
-    "result": "L",
-    "clv": -1.0
-   },
-   {
     "id": "401856742",
     "kickoff": "2026-11-07T21:15Z",
     "game": "Vanderbilt @ Mississippi State",
@@ -1495,6 +1482,19 @@
     "logged_at": "2026-11-01T20:34Z",
     "result": "W",
     "clv": 1.0
+   },
+   {
+    "id": "401858517",
+    "kickoff": "2026-11-07T21:15Z",
+    "game": "Rutgers @ Wisconsin",
+    "side": "over",
+    "line": 46.5,
+    "proj": 48.95,
+    "edge": 2.45,
+    "tier": "lean",
+    "logged_at": "2026-11-01T20:34Z",
+    "result": "L",
+    "clv": -1.0
    },
    {
     "id": "401871098",
@@ -1536,19 +1536,6 @@
     "clv": -1.0
    },
    {
-    "id": "401862819",
-    "kickoff": "2026-11-07T20:30Z",
-    "game": "Charlotte @ UAB",
-    "side": "over",
-    "line": 49.5,
-    "proj": 51.18,
-    "edge": 1.68,
-    "tier": "lean",
-    "logged_at": "2026-11-01T20:34Z",
-    "result": "L",
-    "clv": -2.0
-   },
-   {
     "id": "401858516",
     "kickoff": "2026-11-07T20:30Z",
     "game": "Penn State @ Washington",
@@ -1560,6 +1547,19 @@
     "logged_at": "2026-11-01T20:34Z",
     "result": "W",
     "clv": 1.0
+   },
+   {
+    "id": "401862819",
+    "kickoff": "2026-11-07T20:30Z",
+    "game": "Charlotte @ UAB",
+    "side": "over",
+    "line": 49.5,
+    "proj": 51.18,
+    "edge": 1.68,
+    "tier": "lean",
+    "logged_at": "2026-11-01T20:34Z",
+    "result": "L",
+    "clv": -2.0
    },
    {
     "id": "401869945",
@@ -1588,6 +1588,19 @@
     "clv": 1.0
    },
    {
+    "id": "401858512",
+    "kickoff": "2026-11-07T05:00Z",
+    "game": "UCLA @ Minnesota",
+    "side": "over",
+    "line": 42.5,
+    "proj": 45.43,
+    "edge": 2.93,
+    "tier": "lean",
+    "logged_at": "2026-10-29T23:15Z",
+    "result": "W",
+    "clv": -5.0
+   },
+   {
     "id": "401858513",
     "kickoff": "2026-11-07T05:00Z",
     "game": "Iowa @ Northwestern",
@@ -1612,19 +1625,6 @@
     "logged_at": "2026-10-29T23:15Z",
     "result": "L",
     "clv": 0.0
-   },
-   {
-    "id": "401858512",
-    "kickoff": "2026-11-07T05:00Z",
-    "game": "UCLA @ Minnesota",
-    "side": "over",
-    "line": 42.5,
-    "proj": 45.43,
-    "edge": 2.93,
-    "tier": "lean",
-    "logged_at": "2026-10-29T23:15Z",
-    "result": "W",
-    "clv": -5.0
    },
    {
     "id": "401856855",
@@ -1783,19 +1783,6 @@
     "clv": -1.0
    },
    {
-    "id": "401856736",
-    "kickoff": "2026-10-31T20:15Z",
-    "game": "South Carolina @ Oklahoma",
-    "side": "over",
-    "line": 44.5,
-    "proj": 47.05,
-    "edge": 2.55,
-    "tier": "lean",
-    "logged_at": "2026-10-29T23:15Z",
-    "result": "W",
-    "clv": 0.0
-   },
-   {
     "id": "401858508",
     "kickoff": "2026-10-31T20:15Z",
     "game": "Nevada @ UCLA",
@@ -1807,6 +1794,19 @@
     "logged_at": "2026-10-29T23:15Z",
     "result": "L",
     "clv": -2.0
+   },
+   {
+    "id": "401856736",
+    "kickoff": "2026-10-31T20:15Z",
+    "game": "South Carolina @ Oklahoma",
+    "side": "over",
+    "line": 44.5,
+    "proj": 47.05,
+    "edge": 2.55,
+    "tier": "lean",
+    "logged_at": "2026-10-29T23:15Z",
+    "result": "W",
+    "clv": 0.0
    },
    {
     "id": "401864529",
@@ -1848,19 +1848,6 @@
     "clv": -1.0
    },
    {
-    "id": "401864531",
-    "kickoff": "2026-10-31T19:30Z",
-    "game": "UTEP @ North Dakota State",
-    "side": "over",
-    "line": 42.5,
-    "proj": 45.56,
-    "edge": 3.06,
-    "tier": "strong",
-    "logged_at": "2026-10-29T23:15Z",
-    "result": "L",
-    "clv": 2.0
-   },
-   {
     "id": "401858505",
     "kickoff": "2026-10-31T19:30Z",
     "game": "Northwestern @ Oregon",
@@ -1885,6 +1872,19 @@
     "logged_at": "2026-10-29T23:15Z",
     "result": "L",
     "clv": 0.0
+   },
+   {
+    "id": "401864531",
+    "kickoff": "2026-10-31T19:30Z",
+    "game": "UTEP @ North Dakota State",
+    "side": "over",
+    "line": 42.5,
+    "proj": 45.56,
+    "edge": 3.06,
+    "tier": "strong",
+    "logged_at": "2026-10-29T23:15Z",
+    "result": "L",
+    "clv": 2.0
    },
    {
     "id": "401862815",
@@ -1939,14 +1939,14 @@
     "clv": 1.0
    },
    {
-    "id": "401866452",
+    "id": "401858502",
     "kickoff": "2026-10-31T16:00Z",
-    "game": "Bowling Green @ Western Michigan",
+    "game": "Wisconsin @ Iowa",
     "side": "over",
-    "line": 44.5,
-    "proj": 47.01,
-    "edge": 2.51,
-    "tier": "lean",
+    "line": 36.5,
+    "proj": 40.42,
+    "edge": 3.92,
+    "tier": "strong",
     "logged_at": "2026-10-29T23:15Z",
     "result": "L",
     "clv": 0.0
@@ -1965,14 +1965,14 @@
     "clv": -1.0
    },
    {
-    "id": "401858502",
+    "id": "401866452",
     "kickoff": "2026-10-31T16:00Z",
-    "game": "Wisconsin @ Iowa",
+    "game": "Bowling Green @ Western Michigan",
     "side": "over",
-    "line": 36.5,
-    "proj": 40.42,
-    "edge": 3.92,
-    "tier": "strong",
+    "line": 44.5,
+    "proj": 47.01,
+    "edge": 2.51,
+    "tier": "lean",
     "logged_at": "2026-10-29T23:15Z",
     "result": "L",
     "clv": 0.0

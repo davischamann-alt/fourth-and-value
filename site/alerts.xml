@@ -5,7 +5,56 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-15T01:59:50Z</updated>
+  <updated>2026-11-15T09:34:52Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401866464</id>
+    <title>Check the news: Ohio -9.5</title>
+    <updated>2026-11-15T09:34:52Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866464"/>
+    <summary>Ball State @ Ohio, Tue Nov 17, 7:00 PM ET. Blend takes Ohio -9.5, a 6.2-point edge, logged when the line first appeared. Worth a bet at Ohio -9 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401866466</id>
+    <title>New pick: Miami (OH) -8.5</title>
+    <updated>2026-11-15T09:34:52Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866466"/>
+    <summary>Miami (OH) @ Kent State, Tue Nov 17, 7:00 PM ET. Blend takes Miami (OH) -8.5, a 3.0-point edge, logged when the line first appeared. QB change: Drew Bellisari led Miami (OH)'s passing in the last game; Caleb Heavner led it in 5 of 10 games. The ratings mostly reflect Caleb Heavner's games. Worth a bet at Miami (OH) -7.5 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401866467</id>
+    <title>New pick: Massachusetts -2.5</title>
+    <updated>2026-11-15T09:34:52Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866467"/>
+    <summary>Akron @ Massachusetts, Wed Nov 18, 7:00 PM ET. Blend takes Massachusetts -2.5, a 4.9-point edge, logged when the line first appeared. QB change: Logan Inagawa led Massachusetts's passing in the last game; William Watson III led it in 7 of 10 games. The ratings mostly reflect William Watson III's games. The pick already takes 2 points off Massachusetts as a placeholder. Worth a bet at Massachusetts -2 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401856869</id>
+    <title>New pick: UCF -1.5</title>
+    <updated>2026-11-15T09:34:52Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856869"/>
+    <summary>Iowa State @ UCF, Fri Nov 20, 6:00 PM ET. Blend takes UCF -1.5, a 3.1-point edge, logged when the line first appeared. QB change: Alonza Barnett III led UCF's passing in the last 2 games; Keyone Jenkins led it in 6 of 10 games. The ratings mostly reflect Keyone Jenkins's games. Worth a bet at UCF -0.5 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401858303</id>
+    <title>Check the news: Duke -8.5</title>
+    <updated>2026-11-15T09:34:52Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858303"/>
+    <summary>Clemson @ Duke, Fri Nov 20, 7:30 PM ET. Blend takes Duke -8.5, a 6.4-point edge, logged when the line first appeared. QB change: Christopher Vizzina led Clemson's passing in the last game; Tait Reynolds led it in 7 of 9 games. The ratings mostly reflect Tait Reynolds's games. The pick already takes 2 points off Clemson as a placeholder. Worth a bet at Duke -8 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401856866</id>
+    <title>New pick: Kansas +7.5</title>
+    <updated>2026-11-15T09:34:52Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856866"/>
+    <summary>BYU @ Kansas, Sat Nov 21, time TBD. Blend takes Kansas +7.5, a 4.9-point edge, logged when the line first appeared. Worth a bet at Kansas +8 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:key:401858528:2026-11-15T09:34Z</id>
+    <title>Line onto 7: UCLA @ Michigan</title>
+    <updated>2026-11-15T09:34:52Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858528"/>
+    <summary>The line moved from Michigan +5.5 to Michigan +7, onto 7, away from the model's pick (Michigan). Sat Nov 21, 12:00 AM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-15:key:401862827:2026-11-15T01:58Z</id>
     <title>Line onto 3: North Texas @ UTSA</title>
@@ -306,54 +355,5 @@
     <updated>2026-11-04T09:25:56Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866455"/>
     <summary>The line moved from Massachusetts -3 to Massachusetts -3.5, off 3, toward the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-03:key:401858514:2026-11-03T19:33Z</id>
-    <title>Line off 7: Oregon @ Ohio State</title>
-    <updated>2026-11-03T19:34:04Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858514"/>
-    <summary>The line moved from Ohio State -7 to Ohio State -7.5, off 7, toward the model's pick (Ohio State). Sat Nov 7, 12:00 AM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-02:key:401864535:2026-11-02T20:23Z</id>
-    <title>Line off 7: Wyoming @ UNLV</title>
-    <updated>2026-11-02T20:25:05Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401864535"/>
-    <summary>The line moved from UNLV -7 to UNLV -6, off 7, away from the model's pick (UNLV). Sat Nov 7, 10:30 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-02:key:401866455:2026-11-02T20:23Z</id>
-    <title>Line onto 3: Ball State @ Massachusetts</title>
-    <updated>2026-11-02T20:25:05Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866455"/>
-    <summary>The line moved from Massachusetts -3.5 to Massachusetts -3, onto 3, away from the model's pick (Massachusetts). Wed Nov 4, 7:00 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-02:key:401856742:2026-11-02T09:36Z</id>
-    <title>Line onto 3: Vanderbilt @ Mississippi State</title>
-    <updated>2026-11-02T09:37:59Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856742"/>
-    <summary>The line moved from Mississippi State -2.5 to Mississippi State -3, onto 3, toward the model's pick (Mississippi State). Sat Nov 7, 4:15 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:key:401858514:2026-11-01T23:21Z</id>
-    <title>Line onto 7: Oregon @ Ohio State</title>
-    <updated>2026-11-01T23:22:02Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858514"/>
-    <summary>The line moved from Ohio State -7.5 to Ohio State -7, onto 7, away from the model's pick (Ohio State). Sat Nov 7, 12:00 AM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:key:401864535:2026-11-01T23:21Z</id>
-    <title>Line onto 7: Wyoming @ UNLV</title>
-    <updated>2026-11-01T23:22:02Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401864535"/>
-    <summary>The line moved from UNLV -7.5 to UNLV -7, onto 7, away from the model's pick (UNLV). Sat Nov 7, 10:30 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:pick:401869936</id>
-    <title>Lean: Arkansas State -14.5</title>
-    <updated>2026-11-01T20:34:49Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869936"/>
-    <summary>UL Monroe @ Arkansas State, Sat Nov 7, 3:00 PM ET. Market-anchored takes Arkansas State -14.5, a 2.5-point edge, logged when the line first appeared.</summary>
   </entry>
 </feed>

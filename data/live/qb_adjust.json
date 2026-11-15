@@ -32,11 +32,19 @@
   "why": "change"
  },
  "2005": {
-  "game_id": "401864538",
+  "game_id": "401864545",
   "note": "Evan Medders led Air Force's passing in its last game in place of Liam Szarka.",
   "player": "Liam Szarka",
   "points": 2.0,
   "team": "Air Force",
+  "why": "change"
+ },
+ "204": {
+  "game_id": "401860919",
+  "note": "Maalik Murphy led Oregon State's passing in its last game in place of Braden Atkinson.",
+  "player": "Braden Atkinson",
+  "points": 2.0,
+  "team": "Oregon State",
   "why": "change"
  },
  "221": {
@@ -55,20 +63,20 @@
   "team": "Clemson",
   "why": "change"
  },
- "23": {
-  "game_id": "401864538",
-  "note": "Daniel Rolovich led San Jos\u00e9 State's passing in its last game in place of Luke Weaver.",
-  "player": "Luke Weaver",
+ "2579": {
+  "game_id": "401856753",
+  "note": "Cutter Woods led South Carolina's passing in its last game in place of LaNorris Sellers.",
+  "player": "LaNorris Sellers",
   "points": 2.0,
-  "team": "San Jos\u00e9 State",
+  "team": "South Carolina",
   "why": "change"
  },
- "2638": {
-  "game_id": "401864540",
-  "note": "Raymond Moore III led UTEP's passing in its last game in place of EJ Colson Jr..",
-  "player": "EJ Colson Jr.",
+ "2751": {
+  "game_id": "401864542",
+  "note": "Landon Sims led Wyoming's passing in its last game in place of Tyler Hughes.",
+  "player": "Tyler Hughes",
   "points": 2.0,
-  "team": "UTEP",
+  "team": "Wyoming",
   "why": "change"
  },
  "344": {
@@ -77,22 +85,6 @@
   "player": "Kamario Taylor",
   "points": 2.0,
   "team": "Mississippi State",
-  "why": "change"
- },
- "6": {
-  "game_id": "401871100",
-  "note": "Bishop Davenport led South Alabama's passing in its last game in place of Jared Hollins.",
-  "player": "Jared Hollins",
-  "points": 2.0,
-  "team": "South Alabama",
-  "why": "change"
- },
- "68": {
-  "game_id": "401860914",
-  "note": "Max Cutforth led Boise State's passing in its last game in place of Maddux Madsen.",
-  "player": "Maddux Madsen",
-  "points": 2.0,
-  "team": "Boise State",
   "why": "change"
  },
  "84": {

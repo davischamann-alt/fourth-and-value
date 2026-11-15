@@ -1,9 +1,65 @@
 {
- "updated": "2026-11-15T01:59:50Z",
+ "updated": "2026-11-15T09:34:52Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401866464",
+   "at": "2026-11-15T09:34:52Z",
+   "kind": "pick",
+   "game_id": "401866464",
+   "title": "Check the news: Ohio -9.5",
+   "text": "Ball State @ Ohio, Tue Nov 17, 7:00 PM ET. Blend takes Ohio -9.5, a 6.2-point edge, logged when the line first appeared. Worth a bet at Ohio -9 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401866466",
+   "at": "2026-11-15T09:34:52Z",
+   "kind": "pick",
+   "game_id": "401866466",
+   "title": "New pick: Miami (OH) -8.5",
+   "text": "Miami (OH) @ Kent State, Tue Nov 17, 7:00 PM ET. Blend takes Miami (OH) -8.5, a 3.0-point edge, logged when the line first appeared. QB change: Drew Bellisari led Miami (OH)'s passing in the last game; Caleb Heavner led it in 5 of 10 games. The ratings mostly reflect Caleb Heavner's games. Worth a bet at Miami (OH) -7.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401866467",
+   "at": "2026-11-15T09:34:52Z",
+   "kind": "pick",
+   "game_id": "401866467",
+   "title": "New pick: Massachusetts -2.5",
+   "text": "Akron @ Massachusetts, Wed Nov 18, 7:00 PM ET. Blend takes Massachusetts -2.5, a 4.9-point edge, logged when the line first appeared. QB change: Logan Inagawa led Massachusetts's passing in the last game; William Watson III led it in 7 of 10 games. The ratings mostly reflect William Watson III's games. The pick already takes 2 points off Massachusetts as a placeholder. Worth a bet at Massachusetts -2 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856869",
+   "at": "2026-11-15T09:34:52Z",
+   "kind": "pick",
+   "game_id": "401856869",
+   "title": "New pick: UCF -1.5",
+   "text": "Iowa State @ UCF, Fri Nov 20, 6:00 PM ET. Blend takes UCF -1.5, a 3.1-point edge, logged when the line first appeared. QB change: Alonza Barnett III led UCF's passing in the last 2 games; Keyone Jenkins led it in 6 of 10 games. The ratings mostly reflect Keyone Jenkins's games. Worth a bet at UCF -0.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858303",
+   "at": "2026-11-15T09:34:52Z",
+   "kind": "pick",
+   "game_id": "401858303",
+   "title": "Check the news: Duke -8.5",
+   "text": "Clemson @ Duke, Fri Nov 20, 7:30 PM ET. Blend takes Duke -8.5, a 6.4-point edge, logged when the line first appeared. QB change: Christopher Vizzina led Clemson's passing in the last game; Tait Reynolds led it in 7 of 9 games. The ratings mostly reflect Tait Reynolds's games. The pick already takes 2 points off Clemson as a placeholder. Worth a bet at Duke -8 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856866",
+   "at": "2026-11-15T09:34:52Z",
+   "kind": "pick",
+   "game_id": "401856866",
+   "title": "New pick: Kansas +7.5",
+   "text": "BYU @ Kansas, Sat Nov 21, time TBD. Blend takes Kansas +7.5, a 4.9-point edge, logged when the line first appeared. Worth a bet at Kansas +8 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401858528:2026-11-15T09:34Z",
+   "at": "2026-11-15T09:34:52Z",
+   "kind": "key",
+   "game_id": "401858528",
+   "title": "Line onto 7: UCLA @ Michigan",
+   "text": "The line moved from Michigan +5.5 to Michigan +7, onto 7, away from the model's pick (Michigan). Sat Nov 21, 12:00 AM ET."
+  },
   {
    "key": "key:401862827:2026-11-15T01:58Z",
    "at": "2026-11-15T01:59:50Z",
@@ -187,62 +243,6 @@
    "game_id": "401861967",
    "title": "Line off 3: James Madison @ UConn",
    "text": "The line moved from UConn +3 to UConn +3.5, off 3, toward the model's pick (James Madison). Sat Nov 14, 12:00 PM ET."
-  },
-  {
-   "key": "pick:401856857",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "pick",
-   "game_id": "401856857",
-   "title": "Check the news: UCF -2.5",
-   "text": "Arizona State @ UCF, Sat Nov 14, 12:00 AM ET. Market-anchored takes UCF -2.5, a 1.5-point edge, logged when the line first appeared. QB change: Alonza Barnett III led UCF's passing in the last game; Keyone Jenkins led it in 6 of 9 games. The ratings mostly reflect Keyone Jenkins's games."
-  },
-  {
-   "key": "pick:401856886",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "pick",
-   "game_id": "401856886",
-   "title": "Check the news: Mississippi State +3.5",
-   "text": "Auburn @ Mississippi State, Sat Nov 14, 12:00 PM ET. Market-anchored takes Mississippi State +3.5, a 1.6-point edge, logged when the line first appeared. QB change: AJ Swann led Mississippi State's passing in the last 2 games; Kamario Taylor led it in 5 of 9 games. The ratings mostly reflect Kamario Taylor's games."
-  },
-  {
-   "key": "pick:401861967",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "pick",
-   "game_id": "401861967",
-   "title": "Check the news: James Madison -3",
-   "text": "James Madison @ UConn, Sat Nov 14, 12:00 PM ET. Market-anchored takes James Madison -3, a 1.9-point edge, logged when the line first appeared. QB change: JC Evans led James Madison's passing in the last game; Camden Coleman led it in 9 of 10 games. The ratings mostly reflect Camden Coleman's games."
-  },
-  {
-   "key": "pick:401862826",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "pick",
-   "game_id": "401862826",
-   "title": "Lean: Tulsa -5.5",
-   "text": "Florida Atlantic @ Tulsa, Sat Nov 14, 3:30 PM ET. Market-anchored takes Tulsa -5.5, a 1.6-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401871061",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "pick",
-   "game_id": "401871061",
-   "title": "Lean: Liberty -20.5",
-   "text": "Middle Tennessee @ Liberty, Sat Nov 14, 3:30 PM ET. Market-anchored takes Liberty -20.5, a 2.3-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401858299",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "pick",
-   "game_id": "401858299",
-   "title": "Lean: Virginia Tech -16.5",
-   "text": "Stanford @ Virginia Tech, Sat Nov 14, 12:00 AM ET. Market-anchored takes Virginia Tech -16.5, a 1.5-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "pick:401864539",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "pick",
-   "game_id": "401864539",
-   "title": "Lean: New Mexico -13.5",
-   "text": "UNLV @ New Mexico, Sat Nov 14, 7:30 PM ET. Market-anchored takes New Mexico -13.5, a 1.6-point edge, logged when the line first appeared."
   }
  ]
 }
