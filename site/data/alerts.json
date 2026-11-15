@@ -1,9 +1,49 @@
 {
- "updated": "2026-11-15T17:15:34Z",
+ "updated": "2026-11-15T21:42:35Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401858306",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "pick",
+   "game_id": "401858306",
+   "title": "New pick: Pittsburgh +12.5",
+   "text": "Pittsburgh @ Louisville, Sat Nov 21, time TBD. Blend takes Pittsburgh +12.5, a 1.5-point edge, logged when the line first appeared. Worth a bet at Pittsburgh +13.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856752",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "pick",
+   "game_id": "401856752",
+   "title": "New pick: Texas A&M +7.5",
+   "text": "Texas A&M @ Oklahoma, Sat Nov 21, 12:00 PM ET. Blend takes Texas A&M +7.5, a 1.7-point edge, logged when the line first appeared. Worth a bet at Texas A&M +8.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858305",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "pick",
+   "game_id": "401858305",
+   "title": "New pick: North Carolina +1.5",
+   "text": "North Carolina @ Virginia, Sat Nov 21, 12:30 PM ET. Blend takes North Carolina +1.5, a 3.4-point edge, logged when the line first appeared. Worth a bet at North Carolina +2.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401856870:2026-11-15T21:42Z",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "key",
+   "game_id": "401856870",
+   "title": "Line onto 3: Oklahoma State @ Arizona State",
+   "text": "The line moved from Arizona State +4 to Arizona State +3, onto 3, away from the model's pick (Oklahoma State). Sat Nov 21, 10:15 PM ET."
+  },
+  {
+   "key": "key:401858528:2026-11-15T21:42Z",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "key",
+   "game_id": "401858528",
+   "title": "Line through 7: UCLA @ Michigan",
+   "text": "The line moved from Michigan +7.5 to Michigan +6.5, through 7, toward the model's pick (Michigan). Sat Nov 21, 12:00 AM ET."
+  },
   {
    "key": "pick:401866468",
    "at": "2026-11-15T17:15:34Z",
@@ -203,46 +243,6 @@
    "game_id": "401856870",
    "title": "New pick: Oklahoma State -4",
    "text": "Oklahoma State @ Arizona State, Sat Nov 21, 10:15 PM ET. Blend takes Oklahoma State -4, a 2.3-point edge, logged when the line first appeared. QB change: Jake Fette led Arizona State's passing in the last 3 games; Cutter Boley led it in 5 of 10 games. The ratings mostly reflect Cutter Boley's games. Worth a bet at Oklahoma State -3 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "total:401856867",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "total",
-   "game_id": "401856867",
-   "title": "New pick: Under 60.5",
-   "text": "Colorado @ Cincinnati, Sat Nov 21, 12:00 PM ET. Market-anchored takes the under 60.5 (projects 59.0), a 1.5-point edge, logged when the total first appeared. Worth a bet at Under 62 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "total:401860918",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "total",
-   "game_id": "401860918",
-   "title": "New pick: Over 61.5",
-   "text": "Colorado State @ Fresno State, Sat Nov 21, 7:30 PM ET. Market-anchored takes the over 61.5 (projects 63.8), a 2.3-point edge, logged when the total first appeared. Worth a bet at Over 60.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "key:401856866:2026-11-15T17:14Z",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "key",
-   "game_id": "401856866",
-   "title": "Line through 7: BYU @ Kansas",
-   "text": "The line moved from Kansas +7.5 to Kansas +6.5, through 7, toward the model's pick (Kansas). Sat Nov 21, 12:00 AM ET."
-  },
-  {
-   "key": "key:401856871:2026-11-15T17:14Z",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "key",
-   "game_id": "401856871",
-   "title": "Line through 3: Texas Tech @ Baylor",
-   "text": "The line moved from Baylor +1.5 to Baylor +3.5, through 3, away from the model's pick (Baylor). Sat Nov 21, 12:00 AM ET."
-  },
-  {
-   "key": "key:401858528:2026-11-15T17:14Z",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "key",
-   "game_id": "401858528",
-   "title": "Line off 7: UCLA @ Michigan",
-   "text": "The line moved from Michigan +7 to Michigan +7.5, off 7, away from the model's pick (Michigan). Sat Nov 21, 12:00 AM ET."
   }
  ]
 }

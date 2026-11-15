@@ -5,7 +5,42 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-15T17:15:34Z</updated>
+  <updated>2026-11-15T21:42:35Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401858306</id>
+    <title>New pick: Pittsburgh +12.5</title>
+    <updated>2026-11-15T21:42:35Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858306"/>
+    <summary>Pittsburgh @ Louisville, Sat Nov 21, time TBD. Blend takes Pittsburgh +12.5, a 1.5-point edge, logged when the line first appeared. Worth a bet at Pittsburgh +13.5 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401856752</id>
+    <title>New pick: Texas A&amp;M +7.5</title>
+    <updated>2026-11-15T21:42:35Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856752"/>
+    <summary>Texas A&amp;M @ Oklahoma, Sat Nov 21, 12:00 PM ET. Blend takes Texas A&amp;M +7.5, a 1.7-point edge, logged when the line first appeared. Worth a bet at Texas A&amp;M +8.5 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:pick:401858305</id>
+    <title>New pick: North Carolina +1.5</title>
+    <updated>2026-11-15T21:42:35Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858305"/>
+    <summary>North Carolina @ Virginia, Sat Nov 21, 12:30 PM ET. Blend takes North Carolina +1.5, a 3.4-point edge, logged when the line first appeared. Worth a bet at North Carolina +2.5 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:key:401856870:2026-11-15T21:42Z</id>
+    <title>Line onto 3: Oklahoma State @ Arizona State</title>
+    <updated>2026-11-15T21:42:35Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856870"/>
+    <summary>The line moved from Arizona State +4 to Arizona State +3, onto 3, away from the model's pick (Oklahoma State). Sat Nov 21, 10:15 PM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:key:401858528:2026-11-15T21:42Z</id>
+    <title>Line through 7: UCLA @ Michigan</title>
+    <updated>2026-11-15T21:42:35Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858528"/>
+    <summary>The line moved from Michigan +7.5 to Michigan +6.5, through 7, toward the model's pick (Michigan). Sat Nov 21, 12:00 AM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-15:pick:401866468</id>
     <title>New pick: Toledo -15.5</title>
@@ -320,40 +355,5 @@
     <updated>2026-11-13T17:51:05Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856861"/>
     <summary>The line moved from West Virginia -3 to West Virginia -2.5, off 3, toward the model's pick (Kansas). Sat Nov 14, 12:00 AM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-13:key:401856884:2026-11-13T17:49Z</id>
-    <title>Line onto 3: Florida @ Kentucky</title>
-    <updated>2026-11-13T17:51:05Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856884"/>
-    <summary>The line moved from Kentucky -3.5 to Kentucky -3, onto 3, away from the model's pick (Kentucky). Sat Nov 14, 12:00 AM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-12:key:401870769:2026-11-12T18:23Z</id>
-    <title>Line onto 7: Kennesaw State @ Sam Houston</title>
-    <updated>2026-11-12T18:24:01Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401870769"/>
-    <summary>The line moved from Sam Houston +7.5 to Sam Houston +7, onto 7, toward the model's pick (Sam Houston). Sat Nov 14, 2:00 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-12:key:401856857:2026-11-12T09:55Z</id>
-    <title>Line onto 3: Arizona State @ UCF</title>
-    <updated>2026-11-12T09:56:14Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856857"/>
-    <summary>The line moved from UCF -3.5 to UCF -3, onto 3, away from the model's pick (UCF). Sat Nov 14, 12:00 AM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-12:pick:401858528</id>
-    <title>New pick: Michigan +5.5</title>
-    <updated>2026-11-12T00:50:05Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858528"/>
-    <summary>UCLA @ Michigan, Sat Nov 21, time TBD. Blend takes Michigan +5.5, a 2.2-point edge, logged when the line first appeared. QB change: Tommy Carr led Michigan's passing in the last 3 games; Bryce Underwood led it in 6 of 9 games. The ratings mostly reflect Bryce Underwood's games. Worth a bet at Michigan +6.5 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-12:pick:401856871</id>
-    <title>New pick: Baylor +1.5</title>
-    <updated>2026-11-12T00:50:05Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856871"/>
-    <summary>Texas Tech @ Baylor, Sat Nov 21, time TBD. Blend takes Baylor +1.5, a 3.2-point edge, logged when the line first appeared. QB change: Thomas Castellanos led Texas Tech's passing in the last 2 games; Will Hammond led it in 7 of 9 games. The ratings mostly reflect Will Hammond's games. Worth a bet at Baylor +2.5 or better at -110; the site shows the best number on offer.</summary>
   </entry>
 </feed>

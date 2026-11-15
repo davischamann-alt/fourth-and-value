@@ -16,6 +16,7 @@
   "key:401856861:2026-11-09T09:53Z",
   "key:401856861:2026-11-13T17:49Z",
   "key:401856866:2026-11-15T17:14Z",
+  "key:401856870:2026-11-15T21:42Z",
   "key:401856871:2026-11-15T17:14Z",
   "key:401856884:2026-11-08T22:13Z",
   "key:401856884:2026-11-09T20:48Z",
@@ -40,6 +41,7 @@
   "key:401858524:2026-11-08T16:43Z",
   "key:401858528:2026-11-15T09:34Z",
   "key:401858528:2026-11-15T17:14Z",
+  "key:401858528:2026-11-15T21:42Z",
   "key:401860914:2026-11-08T16:43Z",
   "key:401860916:2026-11-08T22:13Z",
   "key:401860917:2026-11-08T22:13Z",
@@ -68,6 +70,7 @@
   "key:401871096:2026-10-29T05:55Z",
   "pick:401856742",
   "pick:401856751",
+  "pick:401856752",
   "pick:401856754",
   "pick:401856842",
   "pick:401856843",
@@ -100,6 +103,8 @@
   "pick:401858299",
   "pick:401858301",
   "pick:401858303",
+  "pick:401858305",
+  "pick:401858306",
   "pick:401858308",
   "pick:401858501",
   "pick:401858504",
@@ -228,6 +233,46 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401858306",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "pick",
+   "game_id": "401858306",
+   "title": "New pick: Pittsburgh +12.5",
+   "text": "Pittsburgh @ Louisville, Sat Nov 21, time TBD. Blend takes Pittsburgh +12.5, a 1.5-point edge, logged when the line first appeared. Worth a bet at Pittsburgh +13.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856752",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "pick",
+   "game_id": "401856752",
+   "title": "New pick: Texas A&M +7.5",
+   "text": "Texas A&M @ Oklahoma, Sat Nov 21, 12:00 PM ET. Blend takes Texas A&M +7.5, a 1.7-point edge, logged when the line first appeared. Worth a bet at Texas A&M +8.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858305",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "pick",
+   "game_id": "401858305",
+   "title": "New pick: North Carolina +1.5",
+   "text": "North Carolina @ Virginia, Sat Nov 21, 12:30 PM ET. Blend takes North Carolina +1.5, a 3.4-point edge, logged when the line first appeared. Worth a bet at North Carolina +2.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401856870:2026-11-15T21:42Z",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "key",
+   "game_id": "401856870",
+   "title": "Line onto 3: Oklahoma State @ Arizona State",
+   "text": "The line moved from Arizona State +4 to Arizona State +3, onto 3, away from the model's pick (Oklahoma State). Sat Nov 21, 10:15 PM ET."
+  },
+  {
+   "key": "key:401858528:2026-11-15T21:42Z",
+   "at": "2026-11-15T21:42:35Z",
+   "kind": "key",
+   "game_id": "401858528",
+   "title": "Line through 7: UCLA @ Michigan",
+   "text": "The line moved from Michigan +7.5 to Michigan +6.5, through 7, toward the model's pick (Michigan). Sat Nov 21, 12:00 AM ET."
+  },
   {
    "key": "pick:401866468",
    "at": "2026-11-15T17:15:34Z",
