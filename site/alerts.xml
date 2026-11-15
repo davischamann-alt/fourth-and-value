@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-14T15:10:46Z</updated>
+  <updated>2026-11-15T01:59:50Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-15:key:401862827:2026-11-15T01:58Z</id>
+    <title>Line onto 3: North Texas @ UTSA</title>
+    <updated>2026-11-15T01:59:50Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862827"/>
+    <summary>The line moved from UTSA +2.5 to UTSA +3, onto 3, toward the model's pick (North Texas). Sat Nov 14, 9:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-14:key:401870769:2026-11-14T15:09Z</id>
     <title>Line off 7: Kennesaw State @ Sam Houston</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-01T20:34:49Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869936"/>
     <summary>UL Monroe @ Arkansas State, Sat Nov 7, 3:00 PM ET. Market-anchored takes Arkansas State -14.5, a 2.5-point edge, logged when the line first appeared.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-01:pick:401856851</id>
-    <title>Lean: Houston -10.5</title>
-    <updated>2026-11-01T20:34:49Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856851"/>
-    <summary>Cincinnati @ Houston, Sat Nov 7, 3:30 PM ET. Market-anchored takes Houston -10.5, a 1.6-point edge, logged when the line first appeared.</summary>
   </entry>
 </feed>

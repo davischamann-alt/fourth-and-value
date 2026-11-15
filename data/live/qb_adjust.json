@@ -15,6 +15,14 @@
   "team": "Maryland",
   "why": "change"
  },
+ "127": {
+  "game_id": "401858529",
+  "note": "Cam Fancher led Michigan State's passing in its last game in place of Alessio Milivojevic.",
+  "player": "Alessio Milivojevic",
+  "points": 2.0,
+  "team": "Michigan State",
+  "why": "change"
+ },
  "189": {
   "game_id": "401866468",
   "note": "Austin Novosad led Bowling Green's passing in its last game in place of Jay Kastantin.",
@@ -31,28 +39,20 @@
   "team": "Air Force",
   "why": "change"
  },
- "2116": {
-  "game_id": "401856857",
-  "note": "Alonza Barnett III led UCF's passing in its last game in place of Keyone Jenkins.",
-  "player": "Keyone Jenkins",
-  "points": 2.0,
-  "team": "UCF",
-  "why": "change"
- },
- "218": {
-  "game_id": "401862829",
-  "note": "Jaxon Smolik led Temple's passing in its last game in place of Ajani Sheppard.",
-  "player": "Ajani Sheppard",
-  "points": 2.0,
-  "team": "Temple",
-  "why": "change"
- },
  "221": {
   "game_id": "401858306",
   "note": "Corey Dailey led Pittsburgh's passing in its last game in place of Mason Heintschel.",
   "player": "Mason Heintschel",
   "points": 2.0,
   "team": "Pittsburgh",
+  "why": "change"
+ },
+ "228": {
+  "game_id": "401858303",
+  "note": "Christopher Vizzina led Clemson's passing in its last game in place of Tait Reynolds.",
+  "player": "Tait Reynolds",
+  "points": 2.0,
+  "team": "Clemson",
   "why": "change"
  },
  "23": {
@@ -63,14 +63,6 @@
   "team": "San Jos\u00e9 State",
   "why": "change"
  },
- "2306": {
-  "game_id": "401856862",
-  "note": "Dillon Duff led Kansas State's passing in its last game in place of Avery Johnson.",
-  "player": "Avery Johnson",
-  "points": 2.0,
-  "team": "Kansas State",
-  "why": "change"
- },
  "2638": {
   "game_id": "401864540",
   "note": "Raymond Moore III led UTEP's passing in its last game in place of EJ Colson Jr..",
@@ -79,12 +71,12 @@
   "team": "UTEP",
   "why": "change"
  },
- "338": {
-  "game_id": "401870769",
-  "note": "Landon Varnes led Kennesaw State's passing in its last game in place of Rickie Collins.",
-  "player": "Rickie Collins",
+ "344": {
+  "game_id": "401856750",
+  "note": "Parker Puckett led Mississippi State's passing in its last game in place of Kamario Taylor.",
+  "player": "Kamario Taylor",
   "points": 2.0,
-  "team": "Kennesaw State",
+  "team": "Mississippi State",
   "why": "change"
  },
  "6": {
@@ -101,6 +93,14 @@
   "player": "Maddux Madsen",
   "points": 2.0,
   "team": "Boise State",
+  "why": "change"
+ },
+ "84": {
+  "game_id": "401858535",
+  "note": "Grant Wilson led Indiana's passing in its last game in place of Josh Hoover.",
+  "player": "Josh Hoover",
+  "points": 2.0,
+  "team": "Indiana",
   "why": "change"
  }
 }

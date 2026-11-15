@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-14T20:47:59Z",
+ "updated": "2026-11-15T01:59:50Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401862827:2026-11-15T01:58Z",
+   "at": "2026-11-15T01:59:50Z",
+   "kind": "key",
+   "game_id": "401862827",
+   "title": "Line onto 3: North Texas @ UTSA",
+   "text": "The line moved from UTSA +2.5 to UTSA +3, onto 3, toward the model's pick (North Texas). Sat Nov 14, 9:00 PM ET."
+  },
   {
    "key": "key:401870769:2026-11-14T15:09Z",
    "at": "2026-11-14T15:10:46Z",
@@ -235,14 +243,6 @@
    "game_id": "401864539",
    "title": "Lean: New Mexico -13.5",
    "text": "UNLV @ New Mexico, Sat Nov 14, 7:30 PM ET. Market-anchored takes New Mexico -13.5, a 1.6-point edge, logged when the line first appeared."
-  },
-  {
-   "key": "key:401858524:2026-11-08T16:43Z",
-   "at": "2026-11-08T16:43:48Z",
-   "kind": "key",
-   "game_id": "401858524",
-   "title": "Line off 7: Minnesota @ Penn State",
-   "text": "The line moved from Penn State -7 to Penn State -7.5, off 7, toward the model's pick (Penn State). Sat Nov 14, 7:00 PM ET."
   }
  ]
 }
