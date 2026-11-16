@@ -1,9 +1,33 @@
 {
- "updated": "2026-11-16T06:09:04Z",
+ "updated": "2026-11-16T18:39:17Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401856865:2026-11-16T18:38Z",
+   "at": "2026-11-16T18:39:17Z",
+   "kind": "key",
+   "game_id": "401856865",
+   "title": "Line onto 7: Arizona @ Kansas State",
+   "text": "The line moved from Kansas State +7.5 to Kansas State +7, onto 7, toward the model's pick (Kansas State). Sat Nov 21, 7:00 PM ET."
+  },
+  {
+   "key": "key:401856868:2026-11-16T18:38Z",
+   "at": "2026-11-16T18:39:17Z",
+   "kind": "key",
+   "game_id": "401856868",
+   "title": "Line off 7: Houston @ West Virginia",
+   "text": "The line moved from West Virginia +7 to West Virginia +8.5, off 7, toward the model's pick (Houston). Sat Nov 21, 1:00 PM ET."
+  },
+  {
+   "key": "key:401858527:2026-11-16T18:38Z",
+   "at": "2026-11-16T18:39:17Z",
+   "kind": "key",
+   "game_id": "401858527",
+   "title": "Line onto 7: Iowa @ Illinois",
+   "text": "The line moved from Illinois +6.5 to Illinois +7, onto 7, toward the model's pick (Iowa). Sat Nov 21, 2:30 PM ET."
+  },
   {
    "key": "pick:401856879",
    "at": "2026-11-16T06:09:04Z",
@@ -219,30 +243,6 @@
    "game_id": "401858308",
    "title": "Check the news: California +2.5",
    "text": "Stanford @ California, Sat Nov 21, 7:30 PM ET. Blend takes California +2.5, a 6.9-point edge, logged when the line first appeared. Worth a bet at this number at -110."
-  },
-  {
-   "key": "pick:401860918",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401860918",
-   "title": "Check the news: Colorado State +19.5",
-   "text": "Colorado State @ Fresno State, Sat Nov 21, 7:30 PM ET. Blend takes Colorado State +19.5, a 6.0-point edge, logged when the line first appeared. Worth a bet at Colorado State +20 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401862836",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401862836",
-   "title": "New pick: UAB +6.5",
-   "text": "UTSA @ UAB, Sat Nov 21, 8:00 PM ET. Blend takes UAB +6.5, a 4.9-point edge, logged when the line first appeared. Worth a bet at UAB +7 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401860925",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401860925",
-   "title": "Check the news: Boise State -17.5",
-   "text": "San Diego State @ Boise State, Sat Nov 21, 9:30 PM ET. Blend takes Boise State -17.5, a 7.0-point edge, logged when the line first appeared. Worth a bet at this number at -110."
   }
  ]
 }

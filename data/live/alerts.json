@@ -15,7 +15,9 @@
   "key:401856858:2026-11-08T22:13Z",
   "key:401856861:2026-11-09T09:53Z",
   "key:401856861:2026-11-13T17:49Z",
+  "key:401856865:2026-11-16T18:38Z",
   "key:401856866:2026-11-15T17:14Z",
+  "key:401856868:2026-11-16T18:38Z",
   "key:401856870:2026-11-15T21:42Z",
   "key:401856871:2026-11-15T17:14Z",
   "key:401856884:2026-11-08T22:13Z",
@@ -39,6 +41,7 @@
   "key:401858518:2026-11-08T22:13Z",
   "key:401858523:2026-11-08T09:06Z",
   "key:401858524:2026-11-08T16:43Z",
+  "key:401858527:2026-11-16T18:38Z",
   "key:401858528:2026-11-15T09:34Z",
   "key:401858528:2026-11-15T17:14Z",
   "key:401858528:2026-11-15T21:42Z",
@@ -234,6 +237,30 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401856865:2026-11-16T18:38Z",
+   "at": "2026-11-16T18:39:17Z",
+   "kind": "key",
+   "game_id": "401856865",
+   "title": "Line onto 7: Arizona @ Kansas State",
+   "text": "The line moved from Kansas State +7.5 to Kansas State +7, onto 7, toward the model's pick (Kansas State). Sat Nov 21, 7:00 PM ET."
+  },
+  {
+   "key": "key:401856868:2026-11-16T18:38Z",
+   "at": "2026-11-16T18:39:17Z",
+   "kind": "key",
+   "game_id": "401856868",
+   "title": "Line off 7: Houston @ West Virginia",
+   "text": "The line moved from West Virginia +7 to West Virginia +8.5, off 7, toward the model's pick (Houston). Sat Nov 21, 1:00 PM ET."
+  },
+  {
+   "key": "key:401858527:2026-11-16T18:38Z",
+   "at": "2026-11-16T18:39:17Z",
+   "kind": "key",
+   "game_id": "401858527",
+   "title": "Line onto 7: Iowa @ Illinois",
+   "text": "The line moved from Illinois +6.5 to Illinois +7, onto 7, toward the model's pick (Iowa). Sat Nov 21, 2:30 PM ET."
+  },
   {
    "key": "pick:401856879",
    "at": "2026-11-16T06:09:04Z",
