@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-16T01:55:53Z",
+ "updated": "2026-11-16T06:09:04Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401856879",
+   "at": "2026-11-16T06:09:04Z",
+   "kind": "pick",
+   "game_id": "401856879",
+   "title": "Check the news: TCU +16.5",
+   "text": "TCU @ Texas Tech, Thu Nov 26, 8:00 PM ET. Blend takes TCU +16.5, a 8.1-point edge, logged when the line first appeared. Worth a bet at this number at -110."
+  },
   {
    "key": "pick:401858306",
    "at": "2026-11-15T21:42:35Z",
@@ -235,14 +243,6 @@
    "game_id": "401860925",
    "title": "Check the news: Boise State -17.5",
    "text": "San Diego State @ Boise State, Sat Nov 21, 9:30 PM ET. Blend takes Boise State -17.5, a 7.0-point edge, logged when the line first appeared. Worth a bet at this number at -110."
-  },
-  {
-   "key": "pick:401856870",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401856870",
-   "title": "New pick: Oklahoma State -4",
-   "text": "Oklahoma State @ Arizona State, Sat Nov 21, 10:15 PM ET. Blend takes Oklahoma State -4, a 2.3-point edge, logged when the line first appeared. QB change: Jake Fette led Arizona State's passing in the last 3 games; Cutter Boley led it in 5 of 10 games. The ratings mostly reflect Cutter Boley's games. Worth a bet at Oklahoma State -3 or better at -110; the site shows the best number on offer."
   }
  ]
 }

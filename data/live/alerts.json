@@ -86,6 +86,7 @@
   "pick:401856869",
   "pick:401856870",
   "pick:401856871",
+  "pick:401856879",
   "pick:401856884",
   "pick:401856885",
   "pick:401856886",
@@ -233,6 +234,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401856879",
+   "at": "2026-11-16T06:09:04Z",
+   "kind": "pick",
+   "game_id": "401856879",
+   "title": "Check the news: TCU +16.5",
+   "text": "TCU @ Texas Tech, Thu Nov 26, 8:00 PM ET. Blend takes TCU +16.5, a 8.1-point edge, logged when the line first appeared. Worth a bet at this number at -110."
+  },
   {
    "key": "pick:401858306",
    "at": "2026-11-15T21:42:35Z",

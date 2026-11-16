@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-15T21:42:35Z</updated>
+  <updated>2026-11-16T06:09:04Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-16:pick:401856879</id>
+    <title>Check the news: TCU +16.5</title>
+    <updated>2026-11-16T06:09:04Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856879"/>
+    <summary>TCU @ Texas Tech, Thu Nov 26, 8:00 PM ET. Blend takes TCU +16.5, a 8.1-point edge, logged when the line first appeared. Worth a bet at this number at -110.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-15:pick:401858306</id>
     <title>New pick: Pittsburgh +12.5</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-13T23:40:03Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401864537"/>
     <summary>The line moved from Hawai'i +6.5 to Hawai'i +7, onto 7, toward the model's pick (North Dakota State). Sat Nov 14, 11:00 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-13:key:401856861:2026-11-13T17:49Z</id>
-    <title>Line off 3: Kansas @ West Virginia</title>
-    <updated>2026-11-13T17:51:05Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856861"/>
-    <summary>The line moved from West Virginia -3 to West Virginia -2.5, off 3, toward the model's pick (Kansas). Sat Nov 14, 12:00 AM ET.</summary>
   </entry>
 </feed>
