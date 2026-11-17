@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-16T18:39:17Z",
+ "updated": "2026-11-17T02:59:13Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401858527:2026-11-17T02:58Z",
+   "at": "2026-11-17T02:59:13Z",
+   "kind": "key",
+   "game_id": "401858527",
+   "title": "Line off 7: Iowa @ Illinois",
+   "text": "The line moved from Illinois +7 to Illinois +8.5, off 7, toward the model's pick (Iowa). Sat Nov 21, 2:30 PM ET."
+  },
   {
    "key": "key:401856865:2026-11-16T18:38Z",
    "at": "2026-11-16T18:39:17Z",
@@ -235,14 +243,6 @@
    "game_id": "401856865",
    "title": "New pick: Kansas State +10.5",
    "text": "Arizona @ Kansas State, Sat Nov 21, 7:00 PM ET. Blend takes Kansas State +10.5, a 4.5-point edge, logged when the line first appeared. QB change: Dillon Duff led Kansas State's passing in the last 2 games; Avery Johnson led it in 6 of 10 games. The ratings mostly reflect Avery Johnson's games. Worth a bet at Kansas State +11 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401858308",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401858308",
-   "title": "Check the news: California +2.5",
-   "text": "Stanford @ California, Sat Nov 21, 7:30 PM ET. Blend takes California +2.5, a 6.9-point edge, logged when the line first appeared. Worth a bet at this number at -110."
   }
  ]
 }

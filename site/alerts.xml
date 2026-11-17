@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-16T18:39:17Z</updated>
+  <updated>2026-11-17T02:59:13Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-17:key:401858527:2026-11-17T02:58Z</id>
+    <title>Line off 7: Iowa @ Illinois</title>
+    <updated>2026-11-17T02:59:13Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858527"/>
+    <summary>The line moved from Illinois +7 to Illinois +8.5, off 7, toward the model's pick (Iowa). Sat Nov 21, 2:30 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-16:key:401856865:2026-11-16T18:38Z</id>
     <title>Line onto 7: Arizona @ Kansas State</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-14T15:10:46Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401870769"/>
     <summary>The line moved from Sam Houston +7 to Sam Houston +7.5, off 7, away from the model's pick (Sam Houston). Sat Nov 14, 2:00 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-14:key:401862828:2026-11-14T06:37Z</id>
-    <title>Line onto 3: Tulane @ Rice</title>
-    <updated>2026-11-14T06:38:31Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862828"/>
-    <summary>The line moved from Rice -2.5 to Rice -3, onto 3, away from the model's pick (Tulane). Sat Nov 14, 2:00 PM ET.</summary>
   </entry>
 </feed>
