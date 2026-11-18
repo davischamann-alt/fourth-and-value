@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-18T07:39:38Z",
+ "updated": "2026-11-18T17:20:25Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401866467:2026-11-18T17:19Z",
+   "at": "2026-11-18T17:20:25Z",
+   "kind": "key",
+   "game_id": "401866467",
+   "title": "Line off 3: Akron @ Massachusetts",
+   "text": "The line moved from Massachusetts -3 to Massachusetts -3.5, off 3, toward the model's pick (Massachusetts). Wed Nov 18, 7:00 PM ET."
+  },
   {
    "key": "key:401858527:2026-11-17T02:58Z",
    "at": "2026-11-17T02:59:13Z",
@@ -235,14 +243,6 @@
    "game_id": "401858534",
    "title": "New pick: USC -16.5",
    "text": "Maryland @ USC, Sat Nov 21, 6:15 PM ET. Blend takes USC -16.5, a 3.0-point edge, logged when the line first appeared. QB change: Cardell Williams led Maryland's passing in the last game; Malik Washington led it in 9 of 10 games. The ratings mostly reflect Malik Washington's games. The pick already takes 2 points off Maryland as a placeholder. Worth a bet at USC -15.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401856865",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401856865",
-   "title": "New pick: Kansas State +10.5",
-   "text": "Arizona @ Kansas State, Sat Nov 21, 7:00 PM ET. Blend takes Kansas State +10.5, a 4.5-point edge, logged when the line first appeared. QB change: Dillon Duff led Kansas State's passing in the last 2 games; Avery Johnson led it in 6 of 10 games. The ratings mostly reflect Avery Johnson's games. Worth a bet at Kansas State +11 or better at -110; the site shows the best number on offer."
   }
  ]
 }

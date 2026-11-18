@@ -64,6 +64,7 @@
   "key:401866455:2026-11-04T18:02Z",
   "key:401866461:2026-11-08T22:13Z",
   "key:401866467:2026-11-15T17:14Z",
+  "key:401866467:2026-11-18T17:19Z",
   "key:401869951:2026-11-07T16:29Z",
   "key:401870752:2026-11-08T22:13Z",
   "key:401870752:2026-11-09T01:46Z",
@@ -238,6 +239,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401866467:2026-11-18T17:19Z",
+   "at": "2026-11-18T17:20:25Z",
+   "kind": "key",
+   "game_id": "401866467",
+   "title": "Line off 3: Akron @ Massachusetts",
+   "text": "The line moved from Massachusetts -3 to Massachusetts -3.5, off 3, toward the model's pick (Massachusetts). Wed Nov 18, 7:00 PM ET."
+  },
   {
    "key": "key:401858527:2026-11-17T02:58Z",
    "at": "2026-11-17T02:59:13Z",
