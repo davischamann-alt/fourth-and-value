@@ -381,12 +381,12 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-12T00:48Z,401858307,2026,2,12,2026-11-22T00:30Z,Notre Dame,SMU,False,anchored,57.64,57.5,56.5,0.14,over,small,56.5,,,,
 2026-11-12T00:48Z,401856751,2026,2,12,2026-11-22T00:30Z,Missouri,Kentucky,False,points,53.2,49.5,49.5,3.7,over,strong,48.5,,,,
 2026-11-12T00:48Z,401856751,2026,2,12,2026-11-22T00:30Z,Missouri,Kentucky,False,anchored,50.24,49.5,49.5,0.74,over,small,48.5,,,,
-2026-11-15T09:34Z,401866465,2026,2,12,2026-11-17T23:00Z,Western Michigan,Eastern Michigan,False,points,46.14,47.5,47.5,1.36,under,small,46.5,,,,
-2026-11-15T09:34Z,401866465,2026,2,12,2026-11-17T23:00Z,Western Michigan,Eastern Michigan,False,anchored,47.23,47.5,47.5,0.27,under,small,46.5,,,,
-2026-11-15T09:34Z,401866464,2026,2,12,2026-11-18T00:00Z,Ohio,Ball State,False,points,55.83,50.5,50.5,5.33,over,strong,50.5,,,,
-2026-11-15T09:34Z,401866464,2026,2,12,2026-11-18T00:00Z,Ohio,Ball State,False,anchored,51.57,50.5,50.5,1.07,over,small,50.5,,,,
-2026-11-15T09:34Z,401866466,2026,2,12,2026-11-18T00:00Z,Kent State,Miami (OH),False,points,49.32,45.5,45.5,3.82,over,strong,45.5,,,,
-2026-11-15T09:34Z,401866466,2026,2,12,2026-11-18T00:00Z,Kent State,Miami (OH),False,anchored,46.26,45.5,45.5,0.76,over,small,45.5,,,,
+2026-11-15T09:34Z,401866465,2026,2,12,2026-11-17T23:00Z,Western Michigan,Eastern Michigan,False,points,46.14,47.5,47.5,1.36,under,small,46.5,61,L,L,1.0
+2026-11-15T09:34Z,401866465,2026,2,12,2026-11-17T23:00Z,Western Michigan,Eastern Michigan,False,anchored,47.23,47.5,47.5,0.27,under,small,46.5,61,L,L,1.0
+2026-11-15T09:34Z,401866464,2026,2,12,2026-11-18T00:00Z,Ohio,Ball State,False,points,55.83,50.5,50.5,5.33,over,strong,50.5,63,W,W,0.0
+2026-11-15T09:34Z,401866464,2026,2,12,2026-11-18T00:00Z,Ohio,Ball State,False,anchored,51.57,50.5,50.5,1.07,over,small,50.5,63,W,W,0.0
+2026-11-15T09:34Z,401866466,2026,2,12,2026-11-18T00:00Z,Kent State,Miami (OH),False,points,49.32,45.5,45.5,3.82,over,strong,45.5,23,L,L,0.0
+2026-11-15T09:34Z,401866466,2026,2,12,2026-11-18T00:00Z,Kent State,Miami (OH),False,anchored,46.26,45.5,45.5,0.76,over,small,45.5,23,L,L,0.0
 2026-11-15T09:34Z,401866467,2026,2,12,2026-11-19T00:00Z,Massachusetts,Akron,False,points,46.43,45.5,47.5,0.93,over,small,46.5,,,,
 2026-11-15T09:34Z,401866467,2026,2,12,2026-11-19T00:00Z,Massachusetts,Akron,False,anchored,45.69,45.5,47.5,0.19,over,small,46.5,,,,
 2026-11-15T09:34Z,401866469,2026,2,12,2026-11-19T00:30Z,Buffalo,Central Michigan,False,points,41.68,43.5,43.5,1.82,under,lean,45.5,,,,
@@ -401,8 +401,8 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-15T09:34Z,401856866,2026,2,12,2026-11-21T05:00Z,Kansas,BYU,False,anchored,49.85,50.5,50.5,0.65,under,small,47.5,,,,
 2026-11-15T09:34Z,401858310,2026,2,12,2026-11-21T05:00Z,Georgia Tech,Wake Forest,False,points,56.75,56.5,56.5,0.25,over,small,56.5,,,,
 2026-11-15T09:34Z,401858310,2026,2,12,2026-11-21T05:00Z,Georgia Tech,Wake Forest,False,anchored,56.55,56.5,56.5,0.05,over,small,56.5,,,,
-2026-11-15T09:34Z,401856755,2026,2,12,2026-11-21T20:30Z,Texas,Arkansas,False,points,42.94,48.5,48.5,5.56,under,strong,47.5,,,,
-2026-11-15T09:34Z,401856755,2026,2,12,2026-11-21T20:30Z,Texas,Arkansas,False,anchored,47.39,48.5,48.5,1.11,under,small,47.5,,,,
+2026-11-15T09:34Z,401856755,2026,2,12,2026-11-21T20:30Z,Texas,Arkansas,False,points,42.94,48.5,48.5,5.56,under,strong,46.5,,,,
+2026-11-15T09:34Z,401856755,2026,2,12,2026-11-21T20:30Z,Texas,Arkansas,False,anchored,47.39,48.5,48.5,1.11,under,small,46.5,,,,
 2026-11-15T09:34Z,401858535,2026,2,12,2026-11-21T20:30Z,Washington,Indiana,False,points,42.29,43.5,43.5,1.21,under,small,43.5,,,,
 2026-11-15T09:34Z,401858535,2026,2,12,2026-11-21T20:30Z,Washington,Indiana,False,anchored,43.26,43.5,43.5,0.24,under,small,43.5,,,,
 2026-11-15T17:14Z,401862830,2026,2,12,2026-11-20T00:30Z,Temple,Rice,False,points,51.03,47.5,47.5,3.53,over,strong,50.5,,,,
@@ -415,8 +415,8 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-15T17:14Z,401864542,2026,2,12,2026-11-21T02:00Z,Wyoming,New Mexico,False,anchored,39.35,38.5,38.5,0.85,over,small,37.5,,,,
 2026-11-15T17:14Z,401862835,2026,2,12,2026-11-21T05:00Z,Tulane,North Texas,False,points,61.87,60.5,60.5,1.37,over,small,55.5,,,,
 2026-11-15T17:14Z,401862835,2026,2,12,2026-11-21T05:00Z,Tulane,North Texas,False,anchored,60.77,60.5,60.5,0.27,over,small,55.5,,,,
-2026-11-15T17:14Z,401856748,2026,2,12,2026-11-21T17:00Z,Florida,Vanderbilt,False,points,50.98,48.5,48.5,2.48,over,lean,47.5,,,,
-2026-11-15T17:14Z,401856748,2026,2,12,2026-11-21T17:00Z,Florida,Vanderbilt,False,anchored,49.0,48.5,48.5,0.5,over,small,47.5,,,,
+2026-11-15T17:14Z,401856748,2026,2,12,2026-11-21T17:00Z,Florida,Vanderbilt,False,points,50.98,48.5,48.5,2.48,over,lean,46.5,,,,
+2026-11-15T17:14Z,401856748,2026,2,12,2026-11-21T17:00Z,Florida,Vanderbilt,False,anchored,49.0,48.5,48.5,0.5,over,small,46.5,,,,
 2026-11-15T17:14Z,401856867,2026,2,12,2026-11-21T17:00Z,Cincinnati,Colorado,False,points,52.97,60.5,59.5,7.53,under,strong,58.5,,,,
 2026-11-15T17:14Z,401856867,2026,2,12,2026-11-21T17:00Z,Cincinnati,Colorado,False,anchored,58.99,60.5,59.5,1.51,under,lean,58.5,,,,
 2026-11-15T17:14Z,401858309,2026,2,12,2026-11-21T17:00Z,Boston College,Syracuse,False,points,50.4,50.5,50.5,0.1,under,small,50.5,,,,
@@ -431,8 +431,8 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-15T17:14Z,401862834,2026,2,12,2026-11-21T17:00Z,Navy,Memphis,False,anchored,64.79,64.5,64.5,0.29,over,small,67.5,,,,
 2026-11-15T17:14Z,401856868,2026,2,12,2026-11-21T18:00Z,West Virginia,Houston,False,points,67.84,71.5,71.5,3.66,under,strong,70.5,,,,
 2026-11-15T17:14Z,401856868,2026,2,12,2026-11-21T18:00Z,West Virginia,Houston,False,anchored,70.77,71.5,71.5,0.73,under,small,70.5,,,,
-2026-11-15T17:14Z,401871080,2026,2,12,2026-11-21T18:00Z,Liberty,Western Kentucky,False,points,52.61,52.5,52.5,0.11,over,small,53.5,,,,
-2026-11-15T17:14Z,401871080,2026,2,12,2026-11-21T18:00Z,Liberty,Western Kentucky,False,anchored,52.52,52.5,52.5,0.02,over,small,53.5,,,,
+2026-11-15T17:14Z,401871080,2026,2,12,2026-11-21T18:00Z,Liberty,Western Kentucky,False,points,52.61,52.5,52.5,0.11,over,small,52.5,,,,
+2026-11-15T17:14Z,401871080,2026,2,12,2026-11-21T18:00Z,Liberty,Western Kentucky,False,anchored,52.52,52.5,52.5,0.02,over,small,52.5,,,,
 2026-11-15T17:14Z,401862832,2026,2,12,2026-11-21T19:00Z,Tulsa,Charlotte,False,points,53.88,52.5,52.5,1.38,over,small,52.5,,,,
 2026-11-15T17:14Z,401862832,2026,2,12,2026-11-21T19:00Z,Tulsa,Charlotte,False,anchored,52.78,52.5,52.5,0.28,over,small,52.5,,,,
 2026-11-15T17:14Z,401871079,2026,2,12,2026-11-21T19:00Z,Jacksonville State,Missouri State,False,points,53.81,53.5,53.5,0.31,over,small,52.5,,,,
