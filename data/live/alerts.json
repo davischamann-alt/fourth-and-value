@@ -77,6 +77,8 @@
   "pick:401856751",
   "pick:401856752",
   "pick:401856754",
+  "pick:401856756",
+  "pick:401856761",
   "pick:401856842",
   "pick:401856843",
   "pick:401856851",
@@ -112,6 +114,8 @@
   "pick:401858305",
   "pick:401858306",
   "pick:401858308",
+  "pick:401858312",
+  "pick:401858314",
   "pick:401858501",
   "pick:401858504",
   "pick:401858506",
@@ -128,6 +132,8 @@
   "pick:401858530",
   "pick:401858533",
   "pick:401858534",
+  "pick:401858536",
+  "pick:401858540",
   "pick:401859185",
   "pick:401860914",
   "pick:401860916",
@@ -239,6 +245,54 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401858536",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858536",
+   "title": "New pick: Nebraska +6.5",
+   "text": "Nebraska @ Iowa, Fri Nov 27, 12:00 PM ET. Blend takes Nebraska +6.5, a 3.0-point edge, logged when the line first appeared. Worth a bet at Nebraska +7.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856756",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401856756",
+   "title": "New pick: Texas A&M +7.5",
+   "text": "Texas @ Texas A&M, Fri Nov 27, 7:30 PM ET. Blend takes Texas A&M +7.5, a 1.8-point edge, logged when the line first appeared. Worth a bet at Texas A&M +8.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858312",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858312",
+   "title": "Check the news: Wake Forest -10.5",
+   "text": "Duke @ Wake Forest, Sat Nov 28, time TBD. Blend takes Wake Forest -10.5, a 5.5-point edge, logged when the line first appeared. Worth a bet at Wake Forest -10 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856761",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401856761",
+   "title": "Check the news: Louisville +1.5",
+   "text": "Louisville @ Kentucky, Sat Nov 28, time TBD. Blend takes Louisville +1.5, a 6.0-point edge, logged when the line first appeared. Worth a bet at Louisville +2 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858314",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858314",
+   "title": "New pick: Notre Dame -20.5",
+   "text": "Notre Dame @ Syracuse, Sat Nov 28, 12:00 PM ET. Blend takes Notre Dame -20.5, a 1.6-point edge, logged when the line first appeared. Worth a bet at Notre Dame -19.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858540",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858540",
+   "title": "Check the news: Ohio State -12.5",
+   "text": "Michigan @ Ohio State, Sat Nov 28, 12:00 PM ET. Blend takes Ohio State -12.5, a 5.4-point edge, logged when the line first appeared. QB change: Luke Fahey led Ohio State's passing in the last 3 games; Julian Sayin led it in 7 of 10 games. The ratings mostly reflect Julian Sayin's games. Worth a bet at Ohio State -12 or better at -110; the site shows the best number on offer."
+  },
   {
    "key": "key:401866467:2026-11-18T17:19Z",
    "at": "2026-11-18T17:20:25Z",

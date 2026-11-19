@@ -1,9 +1,57 @@
 {
- "updated": "2026-11-18T17:20:25Z",
+ "updated": "2026-11-19T00:29:30Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401858536",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858536",
+   "title": "New pick: Nebraska +6.5",
+   "text": "Nebraska @ Iowa, Fri Nov 27, 12:00 PM ET. Blend takes Nebraska +6.5, a 3.0-point edge, logged when the line first appeared. Worth a bet at Nebraska +7.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856756",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401856756",
+   "title": "New pick: Texas A&M +7.5",
+   "text": "Texas @ Texas A&M, Fri Nov 27, 7:30 PM ET. Blend takes Texas A&M +7.5, a 1.8-point edge, logged when the line first appeared. Worth a bet at Texas A&M +8.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858312",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858312",
+   "title": "Check the news: Wake Forest -10.5",
+   "text": "Duke @ Wake Forest, Sat Nov 28, time TBD. Blend takes Wake Forest -10.5, a 5.5-point edge, logged when the line first appeared. Worth a bet at Wake Forest -10 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856761",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401856761",
+   "title": "Check the news: Louisville +1.5",
+   "text": "Louisville @ Kentucky, Sat Nov 28, time TBD. Blend takes Louisville +1.5, a 6.0-point edge, logged when the line first appeared. Worth a bet at Louisville +2 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858314",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858314",
+   "title": "New pick: Notre Dame -20.5",
+   "text": "Notre Dame @ Syracuse, Sat Nov 28, 12:00 PM ET. Blend takes Notre Dame -20.5, a 1.6-point edge, logged when the line first appeared. Worth a bet at Notre Dame -19.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858540",
+   "at": "2026-11-19T00:29:30Z",
+   "kind": "pick",
+   "game_id": "401858540",
+   "title": "Check the news: Ohio State -12.5",
+   "text": "Michigan @ Ohio State, Sat Nov 28, 12:00 PM ET. Blend takes Ohio State -12.5, a 5.4-point edge, logged when the line first appeared. QB change: Luke Fahey led Ohio State's passing in the last 3 games; Julian Sayin led it in 7 of 10 games. The ratings mostly reflect Julian Sayin's games. Worth a bet at Ohio State -12 or better at -110; the site shows the best number on offer."
+  },
   {
    "key": "key:401866467:2026-11-18T17:19Z",
    "at": "2026-11-18T17:20:25Z",
@@ -195,54 +243,6 @@
    "game_id": "401869946",
    "title": "New pick: Louisiana -7.5",
    "text": "Coastal Carolina @ Louisiana, Sat Nov 21, 3:00 PM ET. Blend takes Louisiana -7.5, a 4.9-point edge, logged when the line first appeared. Worth a bet at Louisiana -7 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401871078",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401871078",
-   "title": "New pick: Kennesaw State -3.5",
-   "text": "Florida International @ Kennesaw State, Sat Nov 21, 3:00 PM ET. Blend takes Kennesaw State -3.5, a 3.9-point edge, logged when the line first appeared. QB change: Landon Varnes led Kennesaw State's passing in the last 2 games; Rickie Collins led it in 8 of 10 games. The ratings mostly reflect Rickie Collins's games. Worth a bet at Kennesaw State -3 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401861968",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401861968",
-   "title": "New pick: Old Dominion +14.5",
-   "text": "Old Dominion @ UConn, Sat Nov 21, 3:30 PM ET. Blend takes Old Dominion +14.5, a 1.8-point edge, logged when the line first appeared. QB change: Jaxon Potter led Old Dominion's passing in the last 3 games; Quinn Henicle led it in 5 of 10 games. The ratings mostly reflect Quinn Henicle's games. Worth a bet at Old Dominion +15.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401869958",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401869958",
-   "title": "New pick: Georgia State -1.5",
-   "text": "Georgia State @ Marshall, Sat Nov 21, 4:00 PM ET. Blend takes Georgia State -1.5, a 4.1-point edge, logged when the line first appeared. Worth a bet at Georgia State -1 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401871101",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401871101",
-   "title": "New pick: Southern Miss +5.5",
-   "text": "South Alabama @ Southern Miss, Sat Nov 21, 4:00 PM ET. Blend takes Southern Miss +5.5, a 4.2-point edge, logged when the line first appeared. QB change: John White led Southern Miss's passing in the last 2 games; Landry Lyddy led it in 4 of 9 games. The ratings mostly reflect Landry Lyddy's games. Worth a bet at Southern Miss +6 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401860920",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401860920",
-   "title": "New pick: Texas State -14",
-   "text": "Washington State @ Texas State, Sat Nov 21, 6:00 PM ET. Blend takes Texas State -14, a 1.9-point edge, logged when the line first appeared. Worth a bet at Texas State -13 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401858534",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401858534",
-   "title": "New pick: USC -16.5",
-   "text": "Maryland @ USC, Sat Nov 21, 6:15 PM ET. Blend takes USC -16.5, a 3.0-point edge, logged when the line first appeared. QB change: Cardell Williams led Maryland's passing in the last game; Malik Washington led it in 9 of 10 games. The ratings mostly reflect Malik Washington's games. The pick already takes 2 points off Maryland as a placeholder. Worth a bet at USC -15.5 or better at -110; the site shows the best number on offer."
   }
  ]
 }
