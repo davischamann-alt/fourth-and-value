@@ -19,6 +19,7 @@
   "key:401856866:2026-11-15T17:14Z",
   "key:401856868:2026-11-16T18:38Z",
   "key:401856870:2026-11-15T21:42Z",
+  "key:401856870:2026-11-19T10:28Z",
   "key:401856871:2026-11-15T17:14Z",
   "key:401856884:2026-11-08T22:13Z",
   "key:401856884:2026-11-09T20:48Z",
@@ -46,6 +47,7 @@
   "key:401858528:2026-11-15T09:34Z",
   "key:401858528:2026-11-15T17:14Z",
   "key:401858528:2026-11-15T21:42Z",
+  "key:401858530:2026-11-19T10:28Z",
   "key:401860914:2026-11-08T16:43Z",
   "key:401860916:2026-11-08T22:13Z",
   "key:401860917:2026-11-08T22:13Z",
@@ -245,6 +247,22 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401856870:2026-11-19T10:28Z",
+   "at": "2026-11-19T10:29:29Z",
+   "kind": "key",
+   "game_id": "401856870",
+   "title": "Line off 3: Oklahoma State @ Arizona State",
+   "text": "The line moved from Arizona State +3 to Arizona State +2.5, off 3, away from the model's pick (Oklahoma State). Sat Nov 21, 10:15 PM ET."
+  },
+  {
+   "key": "key:401858530:2026-11-19T10:28Z",
+   "at": "2026-11-19T10:29:29Z",
+   "kind": "key",
+   "game_id": "401858530",
+   "title": "Line off 3: Northwestern @ Minnesota",
+   "text": "The line moved from Minnesota +3 to Minnesota +2.5, off 3, away from the model's pick (Northwestern). Sat Nov 21, 12:00 PM ET."
+  },
   {
    "key": "pick:401858536",
    "at": "2026-11-19T00:29:30Z",

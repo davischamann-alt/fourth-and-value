@@ -1,9 +1,25 @@
 {
- "updated": "2026-11-19T00:29:30Z",
+ "updated": "2026-11-19T10:29:29Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401856870:2026-11-19T10:28Z",
+   "at": "2026-11-19T10:29:29Z",
+   "kind": "key",
+   "game_id": "401856870",
+   "title": "Line off 3: Oklahoma State @ Arizona State",
+   "text": "The line moved from Arizona State +3 to Arizona State +2.5, off 3, away from the model's pick (Oklahoma State). Sat Nov 21, 10:15 PM ET."
+  },
+  {
+   "key": "key:401858530:2026-11-19T10:28Z",
+   "at": "2026-11-19T10:29:29Z",
+   "kind": "key",
+   "game_id": "401858530",
+   "title": "Line off 3: Northwestern @ Minnesota",
+   "text": "The line moved from Minnesota +3 to Minnesota +2.5, off 3, away from the model's pick (Northwestern). Sat Nov 21, 12:00 PM ET."
+  },
   {
    "key": "pick:401858536",
    "at": "2026-11-19T00:29:30Z",
@@ -227,22 +243,6 @@
    "game_id": "401871081",
    "title": "New pick: Sam Houston +5.5",
    "text": "Middle Tennessee @ Sam Houston, Sat Nov 21, 2:00 PM ET. Blend takes Sam Houston +5.5, a 3.9-point edge, logged when the line first appeared. Worth a bet at Sam Houston +6 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401862833",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401862833",
-   "title": "New pick: Florida Atlantic +1.5",
-   "text": "South Florida @ Florida Atlantic, Sat Nov 21, 2:30 PM ET. Blend takes Florida Atlantic +1.5, a 3.9-point edge, logged when the line first appeared. QB change: Luke Kromenhoek led South Florida's passing in the last 3 games; Michael Van Buren Jr. led it in 7 of 10 games. The ratings mostly reflect Michael Van Buren Jr.'s games. Worth a bet at Florida Atlantic +2 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401869946",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401869946",
-   "title": "New pick: Louisiana -7.5",
-   "text": "Coastal Carolina @ Louisiana, Sat Nov 21, 3:00 PM ET. Blend takes Louisiana -7.5, a 4.9-point edge, logged when the line first appeared. Worth a bet at Louisiana -7 or better at -110; the site shows the best number on offer."
   }
  ]
 }
