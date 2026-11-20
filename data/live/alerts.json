@@ -74,6 +74,7 @@
   "key:401870769:2026-11-12T18:23Z",
   "key:401870769:2026-11-14T15:09Z",
   "key:401871078:2026-11-20T13:03Z",
+  "key:401871078:2026-11-20T21:52Z",
   "key:401871095:2026-10-26T15:15Z",
   "key:401871096:2026-10-26T15:15Z",
   "key:401871096:2026-10-29T05:55Z",
@@ -249,6 +250,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401871078:2026-11-20T21:52Z",
+   "at": "2026-11-20T21:53:42Z",
+   "kind": "key",
+   "game_id": "401871078",
+   "title": "Line off 3: Florida International @ Kennesaw State",
+   "text": "The line moved from Kennesaw State -3 to Kennesaw State -2.5, off 3, away from the model's pick (Kennesaw State). Sat Nov 21, 3:00 PM ET."
+  },
   {
    "key": "key:401856865:2026-11-20T13:03Z",
    "at": "2026-11-20T13:04:20Z",
