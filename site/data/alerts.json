@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-20T21:53:42Z",
+ "updated": "2026-11-20T23:05:41Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401856752:2026-11-20T23:04Z",
+   "at": "2026-11-20T23:05:41Z",
+   "kind": "key",
+   "game_id": "401856752",
+   "title": "Line onto 7: Texas A&M @ Oklahoma",
+   "text": "The line moved from Oklahoma -7.5 to Oklahoma -7, onto 7, toward the model's pick (Texas A&M). Sat Nov 21, 12:00 PM ET."
+  },
   {
    "key": "key:401871078:2026-11-20T21:52Z",
    "at": "2026-11-20T21:53:42Z",
@@ -235,14 +243,6 @@
    "game_id": "401856868",
    "title": "New pick: Houston -7",
    "text": "Houston @ West Virginia, Sat Nov 21, 1:00 PM ET. Blend takes Houston -7, a 3.6-point edge, logged when the line first appeared. Worth a bet at Houston -6 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401871080",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401871080",
-   "title": "Check the news: Liberty -14.5",
-   "text": "Western Kentucky @ Liberty, Sat Nov 21, 1:00 PM ET. Blend takes Liberty -14.5, a 8.2-point edge, logged when the line first appeared. QB change: Rodney Tisdale Jr. led Western Kentucky's passing in the last game; Brock Glenn led it in 6 of 10 games. The ratings mostly reflect Brock Glenn's games. Worth a bet at this number at -110."
   }
  ]
 }

@@ -1,6 +1,7 @@
 {
  "sent": [
   "key:401856742:2026-11-02T09:36Z",
+  "key:401856752:2026-11-20T23:04Z",
   "key:401856842:2026-10-25T07:39Z",
   "key:401856842:2026-10-26T15:15Z",
   "key:401856842:2026-10-27T01:31Z",
@@ -250,6 +251,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401856752:2026-11-20T23:04Z",
+   "at": "2026-11-20T23:05:41Z",
+   "kind": "key",
+   "game_id": "401856752",
+   "title": "Line onto 7: Texas A&M @ Oklahoma",
+   "text": "The line moved from Oklahoma -7.5 to Oklahoma -7, onto 7, toward the model's pick (Texas A&M). Sat Nov 21, 12:00 PM ET."
+  },
   {
    "key": "key:401871078:2026-11-20T21:52Z",
    "at": "2026-11-20T21:53:42Z",

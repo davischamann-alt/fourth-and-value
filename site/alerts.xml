@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-20T21:53:42Z</updated>
+  <updated>2026-11-20T23:05:41Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-20:key:401856752:2026-11-20T23:04Z</id>
+    <title>Line onto 7: Texas A&amp;M @ Oklahoma</title>
+    <updated>2026-11-20T23:05:41Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856752"/>
+    <summary>The line moved from Oklahoma -7.5 to Oklahoma -7, onto 7, toward the model's pick (Texas A&amp;M). Sat Nov 21, 12:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-20:key:401871078:2026-11-20T21:52Z</id>
     <title>Line off 3: Florida International @ Kennesaw State</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-15T17:15:34Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401860918"/>
     <summary>Colorado State @ Fresno State, Sat Nov 21, 7:30 PM ET. Market-anchored takes the over 61.5 (projects 63.8), a 2.3-point edge, logged when the total first appeared. Worth a bet at Over 60.5 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-15:key:401856866:2026-11-15T17:14Z</id>
-    <title>Line through 7: BYU @ Kansas</title>
-    <updated>2026-11-15T17:15:34Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856866"/>
-    <summary>The line moved from Kansas +7.5 to Kansas +6.5, through 7, toward the model's pick (Kansas). Sat Nov 21, 12:00 AM ET.</summary>
   </entry>
 </feed>
