@@ -32,9 +32,6 @@ const TIER_LABEL = { check: "Check the news", strong: "Go for it", lean: "Lean",
  *  2023-2026 backtest it did no better than 3-5, and a gap that big usually means the model is missing
  *  news the market has). Between them, withValue() decides Go for it or Lean from the best price on offer. */
 const tierOf = (edge) => { const e = Math.abs(edge); return e >= CHECK ? "check" : e >= STRONG ? "strong" : e >= LEAN ? "lean" : "pass"; };
-/** A team's quarterback situation just changed (data/qb.json, from box scores), or null. */
-const qbChange = (g) => (g.state === "post" ? null  // flags describe the latest games, not past ones
-  : [g.home, g.away].map((t) => state.qb?.[t.id]).find((f) => f?.kind === "change") || null);
 /** A QB change is shown as a tag and a note but no longer changes a pick's label (it did from
  *  October 29 to November 10, 2026, on a 57-game sample from 2026). Over 2023-2026 box scores,
  *  Blend's 1.5+ edges in those games went 54% at the opening line against 57% in the rest, and
@@ -58,6 +55,18 @@ const qbEffects = (g, src = state.source) => [g.away, g.home].map((t) => ({ team
   .filter((x) => x.a).map((x) => ({ ...x, points: x.a.points * qbShare(src) }));
 /** "2 points off Iowa" for each placeholder, for notes. */
 const qbEffectTxt = (g, src = state.source) => qbEffects(g, src).map((x) => `${fmtPts(x.points)} ${x.points === 1 ? "point" : "points"} off ${x.team.name}`).join(" and ");
+/** How the site shows a QB adjustment, the same way everywhere: a chip ("MSU QB −2") and a plain
+ *  sentence saying why. x: one of qbEffects(). */
+const qbChip = (x) => `<span class="qb-adj-chip">${esc(x.team.abbr)} QB −${fmtPts(x.points)}</span>`;
+function qbWhy(g, x) {
+  const pts = `${fmtPts(x.points)} ${x.points === 1 ? "point" : "points"}`;
+  return x.a.why === "listed"
+    ? `${x.a.player}, ${x.team.abbr}'s starting QB, is listed ${x.a.status || qbOut(g, x.team)?.status || "out"}, so the model takes ${pts} off ${x.team.abbr}.`
+    : `A backup played QB in ${x.team.abbr}'s last game, so the model takes ${pts} off ${x.team.abbr}.`;
+}
+/** The rows under a card's model number (or on the game page): one per adjusted team. */
+const qbAdjRows = (g, src = state.source) => qbEffects(g, src)
+  .map((x) => `<div class="qb-adj">${qbChip(x)}<span class="qb-adj-txt">${esc(qbWhy(g, x))}</span></div>`).join("");
 /** A bowl outside the College Football Playoff. In 2023-2025 those went badly for every projection
  *  (FPI 42% at the opening line, 95 picks; Blend 47%): opt-outs, transfers and coaching changes
  *  aren't in the ratings. Playoff games did fine, so they keep their normal labels. */
@@ -69,7 +78,7 @@ const qbListed = (g, t) => (g.state === "pre" && t ? (state.qbListed?.[t.id] || 
 /** The team's usual starter listed Out or Doubtful, or null. In 2023-2026, a team whose starting QB sat
  *  unexpectedly covered 43% at the opening line (317 games), and the model's picks on it went 16-20. */
 const qbOut = (g, t) => qbListed(g, t).find((f) => f.starter !== false && (f.status === "out" || f.status === "doubtful")) || null;
-const QB_OUT_NOTE = (f, placeholder) => `${f.player} (${f.team}'s usual starter) is listed ${f.status} on the ${f.date} availability report. In 2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line${placeholder ? `, and picks on them lost more than they won even after the ${placeholder} this projection takes off` : ""}.`;
+const QB_OUT_NOTE = (f, adj) => `${f.player} (${f.team}'s usual starter) is listed ${f.status} on the ${f.date} availability report. In 2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line${adj ? `, and picks on them lost more than they won even after the ${adj} QB adjustment` : ""}.`;
 /** team: the picked team, for spread picks; picks against a team with its starter out did fine, so only picks on it change. */
 const gameTier = (g, edge, team) => { const t = tierOf(edge); return t !== "pass" && (isBowl(g) || qbOut(g, team)) ? "check" : t; };
 /** Kickoff forecast (data/weather.json), or null. windy: 12+ mph over the first three hours. */
@@ -108,8 +117,8 @@ const state = {
   changelog: [],        // changelog.json: dated model changes
   qb: null,             // qb.json: {team id: QB change flag}
   qbListed: null,       // qb.json: {team id: [QBs on the availability reports]}
-  qbAdjust: null,       // qb.json: {team id: quarterback placeholder for one game}
-  qbCleared: null,      // qb.json: {team id: starter listed available, which cancels a placeholder}
+  qbAdjust: null,       // qb.json: {team id: QB adjustment for one game}
+  qbCleared: null,      // qb.json: {team id: starter listed available, which cancels an adjustment}
   odds: null,           // odds.json: {game id: best and middle numbers across sportsbooks}
   weather: null,        // weather.json: {game id: kickoff forecast}
 };
@@ -585,7 +594,7 @@ function pickBox(g, ev, { tierTxt } = {}) {
   const priced = st.state === "pre" && (ev.tier === "strong" || ev.tier === "lean") && ev.value;
   const shop = st.state === "pre" && ev.tier === "check" && ev.value?.best.shop ? ev.value.best : null;
   const outAdj = out && qbAdjust(g, ev.team);
-  const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out, outAdj ? `${fmtPts(outAdj.points * qbShare(ev.src || state.source))} points` : "")}`
+  const note = st.text || (out ? `QB ${out.status}: ${QB_OUT_NOTE(out, outAdj ? `${fmtPts(outAdj.points * qbShare(ev.src || state.source))}-point` : "")}`
     : bowl ? BOWL_NOTE : windTxt || moveNote(g, ev));
   return `<div class="pickbox pb-${st.state}">
     <div class="pickbox-top"><span class="pickbox-label">Model pick${ev.total ? " · total" : ""}</span>${chip}</div>
@@ -594,6 +603,16 @@ function pickBox(g, ev, { tierTxt } = {}) {
     ${priced ? `<div class="pickbox-note pickbox-shop${ev.value.best.clears ? " is-better" : ""}">${esc(valueNote(ev))}</div>` : ""}
     ${shop ? `<div class="pickbox-note pickbox-shop${shop.better > 0 ? " is-better" : ""}">${esc(shopNote(shop))}</div>` : ""}
   </div>`;
+}
+
+/** The tags at the top of a card (Close, QB change, QB out, Wind), together in one group. */
+function tagsHtml(g) {
+  const tags = `${isClose(g)
+      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}${g.state === "pre" ? [g.away, g.home].filter((t) => state.qb?.[t.id]?.kind === "change")
+      .map((t) => `<span class="qb-tag" title="${esc(state.qb[t.id].note)}">${esc(t.abbr)} QB change</span>`).join("") : ""}${[g.away, g.home].flatMap((t) => qbListed(g, t).filter((f) => f.starter !== false)
+      .map((f) => `<span class="qb-tag" title="${esc(`${f.player} is listed ${f.status} on the ${f.date} availability report`)}">${esc(t.abbr)} QB ${esc(f.status)}</span>`)).join("")}${weatherOf(g)?.windy
+      ? `<span class="qb-tag wind-tag" title="${esc(windNote(weatherOf(g)))}.">Wind ${weatherOf(g).wind} mph</span>` : ""}`;
+  return tags ? `<span class="game-tags">${tags}</span>` : "";
 }
 
 function card(g, ev, isTracked) {
@@ -627,20 +646,16 @@ function card(g, ev, isTracked) {
           ${g.state === "in" ? `<div class="row"><span>Before kickoff</span><b>${pct(ev.pre)}</b></div>` : ""}
         </div>`;
     body = pickBox(g, ev, { tierTxt: TIER_LABEL }) + prob;
-    // a quarterback placeholder in the spread projection: say so next to the number it changed
-    const qbFx = ev.total ? [] : qbEffects(g);
-    const qbTxt = qbFx.length ? `<span class="open" title="${esc(qbFx.map((x) => `${x.a.note} The projection takes ${fmtPts(x.points)} off ${x.team.name} as a placeholder.`).join(" "))}"> incl. ${qbFx.map((x) => `${esc(x.team.abbr)} QB −${fmtPts(x.points)}`).join(", ")}</span>` : "";
+    // a QB adjustment in the spread projection: a row in the same box as the number it changed
+    const qbRows = ev.total ? "" : qbAdjRows(g);
     body += `
-      <div class="lines" style="margin-bottom:0"><div><span class="k">Model</span><span class="v">${modelTxt}</span>${qbTxt}</div>
-        <div><span class="k">Edge</span><span class="v">${ev.edge.toFixed(1)} pts</span></div></div>`;
+      <div class="lines" style="margin-bottom:0"><div><span class="k">Model</span><span class="v">${modelTxt}</span></div>
+        <div><span class="k">Edge</span><span class="v">${ev.edge.toFixed(1)} pts</span></div>${qbRows}</div>`;
   }
   const canTrack = g.state === "pre" && ev.margin != null && ev.line != null;
   return `<article class="card game${ev.tier === "strong" ? " strong" : ""}" data-game="${esc(g.id)}" tabindex="0"
     aria-label="${esc(`${g.away.name} at ${g.home.name}: open game details`)}">
-    <div class="game-top"><span class="${statusCls}">${esc(time)}</span>${isClose(g)
-      ? `<span class="close-tag" title="The score is within ${CLOSE} points of the spread">Close · ${Math.abs(spreadGap(g)) === 0 ? "on the number" : `${Math.abs(spreadGap(g))} from the spread`}</span>` : ""}${g.state === "pre" && qbChange(g) ? `<span class="qb-tag" title="${esc(qbChange(g).note + (qbEffects(g).some((x) => x.a.why === "change") ? ` The projections take ${qbEffectTxt(g, "blend")} for it.` : ""))}">QB change</span>` : ""}${[g.away, g.home].flatMap((t) => qbListed(g, t).filter((f) => f.starter !== false)
-      .map((f) => `<span class="qb-tag" title="${esc(`${f.player} is listed ${f.status} on the ${f.date} availability report`)}">${esc(t.abbr)} QB ${esc(f.status)}</span>`)).join("")}${weatherOf(g)?.windy
-      ? `<span class="qb-tag wind-tag" title="${esc(windNote(weatherOf(g)))}.">Wind ${weatherOf(g).wind} mph</span>` : ""}<span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
+    <div class="game-top"><span class="${statusCls}">${esc(time)}</span>${tagsHtml(g)}<span>${esc(g.tv)}${g.neutral ? " · Neutral site" : ""}</span></div>
     ${g.note ? `<div class="game-note">${esc(g.note)}</div>` : ""}
     ${teamRow(g.away, g, ev.side === "away")}${teamRow(g.home, g, ev.side === "home")}
     <div class="lines">

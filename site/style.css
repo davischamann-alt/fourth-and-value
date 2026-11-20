@@ -242,6 +242,7 @@ input:focus-visible, select:focus-visible, .chips button:focus-visible {
 .game.strong::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--yellow); }
 .game-top { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 8px; gap: 8px;
   text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
+.game-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
 .status.live { color: var(--live); font-weight: 700; }
 .status.live::before { content: "● "; }
 .team { display: flex; align-items: center; gap: 10px; padding: 3px 0; }
@@ -637,6 +638,19 @@ table.data .moe { font-size: 11px; font-weight: 500; }
 .qb-tag { padding: 2px 7px; border-radius: 5px; font: 800 12px/1.3 var(--display); letter-spacing: .05em; text-transform: uppercase;
   color: var(--lean); box-shadow: inset 0 0 0 1.5px var(--lean); white-space: nowrap; }
 .gd-qb p { margin: 0 0 8px; }
+.gd-qb .qb-adj { margin: -2px 0 10px; font-size: 14px; }
+
+/* QB adjustment: the model's number already takes points off a team whose starting quarterback is out.
+   A chip ("MSU QB −2") and a plain sentence, in the card's Model / Edge box and on the game page. */
+.qb-adj { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.35; color: var(--text); }
+.qb-adj-chip { flex: none; padding: 2px 7px; border-radius: 5px; font: 800 12px/1.3 var(--display); letter-spacing: .05em; text-transform: uppercase;
+  color: var(--lean); background: var(--lean-bg); box-shadow: inset 0 0 0 1.5px var(--lean); white-space: nowrap; }
+.qb-adj-txt { padding-top: 1px; }
+.lines .qb-adj { grid-column: 1 / -1; padding-top: 8px; border-top: 1px solid var(--border); }
+.lines .qb-adj + .qb-adj { padding-top: 0; border-top: 0; }
+.qb-adj-box { margin: 10px 0; padding: 10px; border-radius: 8px; background: var(--surface-2); }
+.qb-adj-box .qb-adj + .qb-adj { margin-top: 6px; }
+.qb-adj-box .note { margin: 8px 0 0; font-size: 12px; }
 
 /* Bowl, playoff and conference championship names */
 .game-note { margin: -2px 0 6px; font: 700 13px/1.25 var(--display); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }

@@ -106,6 +106,7 @@ function pickCard(g) {
     : `Projections split: ${same} take <b>${esc(chosen.team.name)}</b>, ${usable.length - same} take the other side. A split is a reason to punt.`;
   return `<div class="card"><h3>Why this pick</h3>
     <p>${verdict}</p>
+    ${qbAdjustNote(g)}
     <div class="table-wrap"><table class="data fit-sm">
       <tr><th>Projection</th><th class="sm-hide">Model</th><th class="l">Pick</th><th>Edge</th><th>Cover</th></tr>
       ${rows.map((r) => `<tr class="${r.src === chosen.src ? "gd-chosen" : ""}">
@@ -117,18 +118,21 @@ function pickCard(g) {
     </table></div>
     <p class="note">★ is the projection chosen on the Games tab. Each uses its own tested std dev for the cover chance. ${esc(pricedAt(g, usable))}
       ${g.state === "pre" ? "" : "These use today's ratings, which can include this game's own result. <b>Forward test</b> below shows the picks as they were recorded before kickoff."}</p>
-    ${qbPlaceholderNote(g)}
   </div>`;
 }
 
-/** Under the projections table: the quarterback placeholder in these numbers, if there is one. */
-function qbPlaceholderNote(g) {
+/** Above the projections table: the QB adjustment in these numbers, the same row the game cards show. */
+function qbAdjustNote(g) {
   const fx = qbEffects(g, "blend");
   if (!fx.length) return "";
-  const anchored = fx[0].a.points * qbShare("anchored");
-  return `<p class="note"><b>Quarterback placeholder:</b> these projections take ${esc(qbEffectTxt(g, "blend"))}. ${fx.map((x) => esc(x.a.note)).join(" ")}
-    Market-anchored takes about ${fmtPts(anchored)}, since the line it starts from already has the market's view. More under Quarterbacks and injuries below.</p>`;
+  return `<div class="qb-adj-box">${qbAdjRows(g, "blend")}
+    <p class="note">Every projection below includes it except Market-anchored, which takes about ${fmtPts(fx[0].a.points * qbShare("anchored"))} because
+      the betting line it starts from already reflects the news. More under Quarterbacks and injuries.</p></div>`;
 }
+
+/** "MSU QB −2 · The model takes 2 points off Michigan State for this game." for the Quarterbacks and injuries card. */
+const qbRowFor = (t, a) => `<div class="qb-adj">${qbChip({ team: t, a, points: a.points })}<span class="qb-adj-txt">The model takes
+  ${fmtPts(a.points)} points off ${esc(t.name)} for this game.</span></div>`;
 
 /** Small SVG line chart. points: [[x, y]]; x in ms. */
 function lineChart(points, { yFmt = (v) => v, height = 140, step = false, yMin, yMax, mid } = {}) {
@@ -344,8 +348,8 @@ function forwardCard(g, log) {
   const graded = keys.some((k) => L.picks[k].result);  // no Result column until there's a result to show
   return `<div class="card"><h3>Forward test</h3>
     <p>Recorded <b>${esc(at)}</b> at <b>${esc(lineTxt(g, L.line))}</b>${L.close != null ? `, ${g.state === "pre" ? "latest line" : "closed at"} ${esc(lineTxt(g, L.close))}` : ""}. These picks can't be changed after the fact${graded ? "" : "; they're graded when the game ends"}.${L.qb?.length
-      ? ` They were recorded with a quarterback placeholder: ${esc(L.qb.map((q) => `${fmtPts(q.points)} points off ${q.team}`).join(" and "))}.`
-      : g.state === "pre" && qbEffects(g).length ? " A quarterback placeholder was added after they were recorded, so the projections above differ from these." : ""}</p>
+      ? ` They include the QB adjustment: ${esc(L.qb.map((q) => `${fmtPts(q.points)} points off ${q.team}`).join(" and "))}.`
+      : g.state === "pre" && qbEffects(g).length ? " The QB adjustment came after they were recorded, so the projections above differ from these." : ""}</p>
     <div class="table-wrap"><table class="data fit-sm">
       <tr><th>Projection</th><th class="l">Pick</th><th>Edge</th><th class="${graded ? "xs-hide" : ""}"><span class="hide-sm">Line moved</span><span class="show-sm">Moved</span></th>${graded ? `<th class="l">Result</th>` : ""}</tr>
       ${keys.map((k) => {
@@ -379,23 +383,25 @@ function injuryCard(g) {
       (${f.starter === false ? "not the usual starter" : f.starter ? "usual starter" : "starter unknown"}), on the ${esc(f.date)} report${f.source
         ? ` · <a href="${esc(f.source)}" target="_blank" rel="noopener">source</a>` : ""}.</p>`).join("")}
       ${listed.some((f) => f.starter !== false && f.status !== "questionable") ? `<p class="note">In 2023-2026, teams whose starting quarterback sat
-        unexpectedly covered 43% at the opening line (317 games), so picks on that team are labeled Check the news. Picks against it did fine.
-        ${offListed.length ? `The projections also take ${esc(offListed.map((x) => `${fmtPts(x.a.points)} points off ${x.t.name}`).join(" and "))} (see below).` : ""}</p>` : ""}</div>` : "";
+        unexpectedly covered 43% at the opening line (317 games), so picks on that team are labeled Check the news. Picks against it did fine.</p>` : ""}
+      ${offListed.map((x) => qbRowFor(x.t, x.a)).join("")}</div>` : "";
   const flags = g.state === "post" ? [] : sides.map((t) => ({ t, f: state.qb?.[t.id] })).filter((x) => x.f);
-  // what the model does about each change: a placeholder, or the reason there isn't one
+  // what the model does about each change: an adjustment (shown as its own row), or the reason there isn't one
   const does = ({ t, f }) => {
     const a = qbAdjust(g, t), c = state.qbCleared?.[t.id];
-    if (f.kind !== "change") return "";
-    if (a) return ` <b>The projections take ${fmtPts(a.points)} points off ${esc(t.name)} for this game.</b>`;
+    if (f.kind !== "change" || a) return "";
     if (c && String(c.game_id) === String(g.id)) return ` Nothing is taken off: ${esc(c.player)} is listed available on the ${esc(c.date)} report.`;
     if (f.streak > 1) return " Nothing is taken off: by a second game with a new quarterback the ratings and the line have seen him, and those teams did about as projected in testing.";
     if (f.established === false) return ` Nothing is taken off: ${esc(t.name)} had been rotating quarterbacks, and in testing a change like that cost nothing.`;
     return "";
   };
   const cleared = g.state === "post" ? [] : sides.map((t) => state.qbCleared?.[t.id]).filter((c) => c && String(c.game_id) === String(g.id));
-  const qb = flags.length ? `<div class="gd-qb">${flags.map((x) => `<p><b>${x.f.kind === "change" ? "QB change" : "Starter back"}:</b> ${esc(x.f.note)}${does(x)}</p>`).join("")}</div>` : "";
+  const qb = flags.length ? `<div class="gd-qb">${flags.map((x) => {
+    const a = x.f.kind === "change" && qbAdjust(g, x.t);
+    return `<p><b>${x.f.kind === "change" ? "QB change" : "Starter back"}:</b> ${esc(x.f.note)}${does(x)}</p>${a && a.why === "change" ? qbRowFor(x.t, a) : ""}`;
+  }).join("")}</div>` : "";
   const loose = cleared.filter((c) => !flags.some((x) => x.f.team === c.team)).map((c) => `<p><b>Available:</b> ${esc(c.player)}, ${esc(c.team)}, on the ${esc(c.date)} report.</p>`).join("");
-  const why = adj.length ? `<p class="note"><b>About the placeholder.</b> The ratings come from games the usual starter played, so they overrate a team the week he's out.
+  const why = adj.length ? `<p class="note"><b>About the QB adjustment.</b> The ratings come from games the usual starter played, so they overrate a team the week he's out.
       The ${fmtPts(adj[0].a.points)} points stand in for "a backup is playing"; they don't rate either quarterback. In 2023-2026, teams whose established starter sat did
       about 2 points worse than the ratings said (596 games), and the same in the first game after a backup took over (352). About a point was the offense scoring
       less and a point the opponent scoring more, so the over/under projections aren't changed. Season to season it ran from about 1 point (2023 to 2025) to
@@ -406,8 +412,8 @@ function injuryCard(g) {
 }
 
 const injuryNote = `<div class="card gd-warn"><h3>Not included: injuries</h3>
-  <p>The model doesn't know about injuries, with one exception: when an established starting quarterback is out, it takes 2 points off his team as a
-  placeholder. It knows he's out when he's listed out or doubtful on an official report (entered by hand, Power 4 conference games only) or when a backup
+  <p>The model doesn't know about injuries, with one exception: when an established starting quarterback is out, it takes 2 points off his team
+  (the QB adjustment). It knows he's out when he's listed out or doubtful on an official report (entered by hand, Power 4 conference games only) or when a backup
   led the team's passing in its last game. It doesn't know how good the backup is, or about any other player. Check team news before betting, especially
   at quarterback, the model's biggest blind spot. Official reports: ${REPORTS.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ")}.</p></div>`;
 

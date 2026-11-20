@@ -1,5 +1,11 @@
 [
  {
+  "date": "2026-11-20",
+  "type": "design",
+  "title": "The QB adjustment is easier to spot",
+  "summary": "When the model takes points off a team whose starting quarterback is out, the game card now says so in its own row under the model's number: a chip like \"MSU QB −2\" and a plain sentence saying why, instead of a small gray note squeezed next to the number. The game page shows the same row above the projections table and under Quarterbacks and injuries, the QB change tag names the team, and the How to read a game card guide explains the chip. The numbers themselves haven't changed."
+ },
+ {
   "date": "2026-11-14",
   "type": "model",
   "title": "A quarterback out now takes 2 points off his team",

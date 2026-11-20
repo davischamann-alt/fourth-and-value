@@ -143,7 +143,7 @@ def qb_out():
 
 
 def qb_logged():
-    """{game id: "2 points off Team"} for logged picks that included a quarterback placeholder
+    """{game id: "2 points off Team"} for logged picks that included a QB adjustment
     (record.py's qb_adjust_log.csv), so an alert can say what the edge it quotes is made of."""
     f = LIVE / "qb_adjust_log.csv"
     if not f.exists():
@@ -153,7 +153,7 @@ def qb_logged():
 
 
 def qb_placeholders():
-    """{(game id, team name): points} for the quarterback placeholders in force now (qb.json "adjust")."""
+    """{(game id, team name): points} for the QB adjustments in force now (qb.json "adjust")."""
     try:
         adjust = json.loads(QB.read_text()).get("adjust", {}).values()
     except (OSError, ValueError):
@@ -176,8 +176,8 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None, tbd=(
     Market-anchored for totals) on a game that hasn't started. A
     bowl outside the playoff is labeled Check the news, as on the site (a just-changed quarterback
     is noted but keeps its label), and so is a spread pick on a team whose starter is listed out or doubtful. When
-    that listing comes after the pick, it gets an alert of its own. qb_logged: the quarterback
-    placeholders that were part of a logged pick's edge; qb_points: the ones the site applies now."""
+    that listing comes after the pick, it gets an alert of its own. qb_logged: the QB adjustments
+    that were part of a logged pick's edge; qb_points: the ones the site applies now."""
     qb, qb_listed, qb_logged, qb_points = qb or {}, qb_listed or {}, qb_logged or {}, qb_points or {}
     out = {}
 
@@ -185,8 +185,8 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None, tbd=(
         if listed := qb_listed.get((p.id, team)):
             return "Check the news", f" {listed['player']}, {team}'s usual starter, is listed {listed['status']} on the {listed['date']} availability report."
         note = qb.get(p.home) or qb.get(p.away)
-        if note:  # the label doesn't change; the edge may already include a placeholder for it
-            took = f" The pick already takes {qb_logged[p.id]} as a placeholder." if team is not None and p.id in qb_logged else ""
+        if note:  # the label doesn't change; the edge may already include a QB adjustment for it
+            took = f" The pick includes the QB adjustment: {qb_logged[p.id]}." if team is not None and p.id in qb_logged else ""
             return tier_label(p.edge), f" QB change: {note}{took}"
         if p.id in bowls:
             return "Check the news", " Bowl game: opt-outs and coaching changes aren't in the model, so check who's playing."
@@ -206,7 +206,7 @@ def new_pick_alerts(picks, totals, now, qb=None, bowls=(), qb_listed=None, tbd=(
                 text=f"{listed['player']}, {team}'s usual starter, is listed {listed['status']} for {p.away} @ {p.home} "
                      f"({kickoff(p.kickoff, p.id in tbd)}). Blend's pick on {team} {fmt_line(line)} is now Check the news: in "
                      f"2023-2026, teams whose starting quarterback sat unexpectedly covered 43% at the opening line."
-                     + (f" The site's projections now take {qb_points[(p.id, team)]:g} points off {team} as a placeholder."
+                     + (f" The site's projections now include a QB adjustment: {qb_points[(p.id, team)]:g} points off {team}."
                         if (p.id, team) in qb_points and p.id not in qb_logged else ""))
     for p in upcoming(totals[(totals.source == "anchored") & (totals.edge >= LEAN)], now).itertuples():
         tier, note = label(p)

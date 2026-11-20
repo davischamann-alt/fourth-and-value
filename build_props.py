@@ -304,7 +304,7 @@ def qb_adjust(flags, listed, cleared, nxt):
         f = next((f for f in rows if f["established"] and f["status"] in ("out", "doubtful")), None)
         if f:
             out[str(tid)] = dict(game_id=f["game_id"], team=f["team"], points=QB_OUT_POINTS, why="listed", player=f["player"],
-                                 note=f"{f['player']} is listed {f['status']} on the {f['date']} availability report.")
+                                 status=f["status"], note=f"{f['player']} is listed {f['status']} on the {f['date']} availability report.")
     for tid, f in flags.items():
         gid = nxt.get(str(tid))
         if str(tid) in out or f["kind"] != "change" or f["streak"] != 1 or not f["established"] or gid is None:
