@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-21T12:47:13Z</updated>
+  <updated>2026-11-21T20:35:30Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-21:key:401869958:2026-11-21T20:34Z</id>
+    <title>Line onto 3: Georgia State @ Marshall</title>
+    <updated>2026-11-21T20:35:30Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869958"/>
+    <summary>The line moved from Marshall -2.5 to Marshall -3, onto 3, away from the model's pick (Georgia State). Sat Nov 21, 4:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-21:key:401856868:2026-11-21T12:45Z</id>
     <title>Line onto 7: Houston @ West Virginia</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-15T17:15:34Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856870"/>
     <summary>Oklahoma State @ Arizona State, Sat Nov 21, 10:15 PM ET. Blend takes Oklahoma State -4, a 2.3-point edge, logged when the line first appeared. QB change: Jake Fette led Arizona State's passing in the last 3 games; Cutter Boley led it in 5 of 10 games. The ratings mostly reflect Cutter Boley's games. Worth a bet at Oklahoma State -3 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-15:total:401856867</id>
-    <title>New pick: Under 60.5</title>
-    <updated>2026-11-15T17:15:34Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856867"/>
-    <summary>Colorado @ Cincinnati, Sat Nov 21, 12:00 PM ET. Market-anchored takes the under 60.5 (projects 59.0), a 1.5-point edge, logged when the total first appeared. Worth a bet at Under 62 or better at -110; the site shows the best number on offer.</summary>
   </entry>
 </feed>
