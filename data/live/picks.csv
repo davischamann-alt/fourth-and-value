@@ -1063,12 +1063,12 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-08T22:13Z,401864537,2026,2,11,2026-11-15T04:00Z,Hawai'i,North Dakota State,False,efficiency,-10.71,7.0,9.5,3.71,away,strong,7.0,-8.0,W,W,-0.0
 2026-11-08T22:13Z,401864537,2026,2,11,2026-11-15T04:00Z,Hawai'i,North Dakota State,False,blend,-9.2,7.0,9.5,2.2,away,lean,7.0,-8.0,W,W,-0.0
 2026-11-08T22:13Z,401864537,2026,2,11,2026-11-15T04:00Z,Hawai'i,North Dakota State,False,anchored,-7.99,7.0,9.5,0.99,away,small,7.0,-8.0,W,W,-0.0
-2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,points,-4.99,5.5,5.5,0.51,home,small,7.5,,,,
-2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,fpi,-8.05,5.5,5.5,2.55,away,lean,7.5,,,,
-2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,efficiency,-4.56,5.5,5.5,0.94,home,small,7.5,,,,
-2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,success,-5.95,5.5,5.5,0.45,away,small,7.5,,,,
-2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,blend,-6.19,5.5,5.5,0.69,away,small,7.5,,,,
-2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,anchored,-6.28,5.5,5.5,0.78,away,small,7.5,,,,
+2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,points,-4.99,5.5,5.5,0.51,home,small,8.5,,,,
+2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,fpi,-8.05,5.5,5.5,2.55,away,lean,8.5,,,,
+2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,efficiency,-4.56,5.5,5.5,0.94,home,small,8.5,,,,
+2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,success,-5.95,5.5,5.5,0.45,away,small,8.5,,,,
+2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,blend,-6.19,5.5,5.5,0.69,away,small,8.5,,,,
+2026-11-12T00:48Z,401856872,2026,2,12,2026-11-21T05:00Z,TCU,Utah,False,anchored,-6.28,5.5,5.5,0.78,away,small,8.5,,,,
 2026-11-12T00:48Z,401858528,2026,2,12,2026-11-21T05:00Z,Michigan,UCLA,False,points,-10.06,5.5,5.5,4.56,away,strong,3.5,,,,
 2026-11-12T00:48Z,401858528,2026,2,12,2026-11-21T05:00Z,Michigan,UCLA,False,fpi,-0.42,5.5,5.5,5.08,home,strong,3.5,,,,
 2026-11-12T00:48Z,401858528,2026,2,12,2026-11-21T05:00Z,Michigan,UCLA,False,efficiency,-6.12,5.5,5.5,0.62,away,small,3.5,,,,
@@ -1153,12 +1153,12 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-15T09:34Z,401866469,2026,2,12,2026-11-19T00:30Z,Buffalo,Central Michigan,False,success,1.37,-1.5,-1.5,0.13,away,small,-2.5,19.0,L,L,-1.0
 2026-11-15T09:34Z,401866469,2026,2,12,2026-11-19T00:30Z,Buffalo,Central Michigan,False,blend,2.56,-1.5,-1.5,1.06,home,small,-2.5,19.0,W,W,1.0
 2026-11-15T09:34Z,401866469,2026,2,12,2026-11-19T00:30Z,Buffalo,Central Michigan,False,anchored,2.0,-1.5,-1.5,0.5,home,small,-2.5,19.0,W,W,1.0
-2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,points,3.24,-1.5,-1.5,1.74,home,lean,1.5,31,W,W,-3.0
-2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,fpi,3.89,-1.5,-1.5,2.39,home,lean,1.5,31,W,W,-3.0
-2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,efficiency,0.64,-1.5,-1.5,0.86,away,small,1.5,31,L,L,3.0
-2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,success,9.22,-1.5,-1.5,7.72,home,strong,1.5,31,W,W,-3.0
-2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,blend,4.58,-1.5,-1.5,3.08,home,strong,1.5,31,W,W,-3.0
-2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,anchored,2.31,-1.5,-1.5,0.81,home,small,1.5,31,W,W,-3.0
+2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,points,3.24,-1.5,-1.5,1.74,home,lean,1.5,31.0,W,W,-3.0
+2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,fpi,3.89,-1.5,-1.5,2.39,home,lean,1.5,31.0,W,W,-3.0
+2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,efficiency,0.64,-1.5,-1.5,0.86,away,small,1.5,31.0,L,L,3.0
+2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,success,9.22,-1.5,-1.5,7.72,home,strong,1.5,31.0,W,W,-3.0
+2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,blend,4.58,-1.5,-1.5,3.08,home,strong,1.5,31.0,W,W,-3.0
+2026-11-15T09:34Z,401856869,2026,2,12,2026-11-20T23:00Z,UCF,Iowa State,False,anchored,2.31,-1.5,-1.5,0.81,home,small,1.5,31.0,W,W,-3.0
 2026-11-15T09:34Z,401858303,2026,2,12,2026-11-21T00:30Z,Duke,Clemson,False,points,16.76,-8.5,-8.5,8.26,home,strong,-11.5,,,,
 2026-11-15T09:34Z,401858303,2026,2,12,2026-11-21T00:30Z,Duke,Clemson,False,fpi,10.26,-8.5,-8.5,1.76,home,lean,-11.5,,,,
 2026-11-15T09:34Z,401858303,2026,2,12,2026-11-21T00:30Z,Duke,Clemson,False,efficiency,19.86,-8.5,-8.5,11.36,home,strong,-11.5,,,,
@@ -1201,12 +1201,12 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-15T17:14Z,401862830,2026,2,12,2026-11-20T00:30Z,Temple,Rice,False,success,0.65,-4.0,-4.0,3.35,away,strong,-2.5,-4.0,W,W,1.5
 2026-11-15T17:14Z,401862830,2026,2,12,2026-11-20T00:30Z,Temple,Rice,False,blend,4.5,-4.0,-4.0,0.5,home,small,-2.5,-4.0,L,L,-1.5
 2026-11-15T17:14Z,401862830,2026,2,12,2026-11-20T00:30Z,Temple,Rice,False,anchored,4.56,-4.0,-4.0,0.56,home,small,-2.5,-4.0,L,L,-1.5
-2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,points,20.26,-15.5,-15.5,4.76,home,strong,-16.5,,,,
-2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,fpi,19.29,-15.5,-15.5,3.79,home,strong,-16.5,,,,
-2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,efficiency,22.7,-15.5,-15.5,7.2,home,strong,-16.5,,,,
-2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,success,19.2,-15.5,-15.5,3.7,home,strong,-16.5,,,,
-2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,blend,20.39,-15.5,-15.5,4.89,home,strong,-16.5,,,,
-2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,anchored,17.77,-15.5,-15.5,2.27,home,lean,-16.5,,,,
+2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,points,20.26,-15.5,-15.5,4.76,home,strong,-16.5,19,W,W,1.0
+2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,fpi,19.29,-15.5,-15.5,3.79,home,strong,-16.5,19,W,W,1.0
+2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,efficiency,22.7,-15.5,-15.5,7.2,home,strong,-16.5,19,W,W,1.0
+2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,success,19.2,-15.5,-15.5,3.7,home,strong,-16.5,19,W,W,1.0
+2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,blend,20.39,-15.5,-15.5,4.89,home,strong,-16.5,19,W,W,1.0
+2026-11-15T17:14Z,401866468,2026,2,12,2026-11-21T00:30Z,Toledo,Bowling Green,False,anchored,17.77,-15.5,-15.5,2.27,home,lean,-16.5,19,W,W,1.0
 2026-11-15T17:14Z,401864545,2026,2,12,2026-11-21T01:00Z,Air Force,UTEP,False,points,21.29,-21.5,-21.5,0.21,away,small,-22.5,,,,
 2026-11-15T17:14Z,401864545,2026,2,12,2026-11-21T01:00Z,Air Force,UTEP,False,fpi,23.65,-21.5,-21.5,2.15,home,lean,-22.5,,,,
 2026-11-15T17:14Z,401864545,2026,2,12,2026-11-21T01:00Z,Air Force,UTEP,False,efficiency,20.11,-21.5,-21.5,1.39,away,small,-22.5,,,,
