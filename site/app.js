@@ -384,6 +384,7 @@ function renderGames() {
     if (state.filter === "open") return atOpen(g, ev);
     if (state.filter === "live") return g.state === "in";
     if (state.filter === "close") return isClose(g);
+    if (state.filter === "final") return g.state === "post";
     return true;
   });
   if (state.filter === "close") rows.sort((a, b) => Math.abs(spreadGap(a.g)) - Math.abs(spreadGap(b.g)));  // tightest first
@@ -394,6 +395,7 @@ function renderGames() {
     all: found.length, edge: all.filter((e) => e.edge >= LEAN).length,
     strong: all.filter((e) => e.tier === "strong").length, open: found.filter((g, i) => atOpen(g, all[i])).length,
     live: found.filter((g) => g.state === "in").length, close: found.filter(isClose).length,
+    final: found.filter((g) => g.state === "post").length,
   };
   $$("[data-count]").forEach((el) => (el.textContent = state.games.length ? counts[el.dataset.count] : ""));
   $('#filter [data-filter="live"]').classList.toggle("is-live", counts.live > 0);
@@ -411,7 +413,8 @@ function renderGames() {
   if (!rows.length) {
     box.innerHTML = `<div class="card nopick">${!state.games.length ? "No games this week." : state.filter === "close" ? `No live games within ${CLOSE} points of the spread right now.`
       : q ? noMatch(q, found.length)
-      : state.filter === "open" ? "No edges of 1.5+ are still at their opening number. Lines for next week usually post on Sunday." : "No games match these filters."}</div>`;
+      : state.filter === "open" ? "No edges of 1.5+ are still at their opening number. Lines for next week usually post on Sunday."
+      : state.filter === "final" ? "No games have finished this week yet." : "No games match these filters."}</div>`;
     return;
   }
   const tracked = new Set(store.get("picks", []).map((p) => p.id));
@@ -430,6 +433,7 @@ function renderGames() {
   // and stay open once you open them. With nothing left to play (a past week), they're simply shown.
   const ahead = rows.filter(({ g }) => g.state !== "post"), done = rows.filter(({ g }) => g.state === "post");
   if (byDay) done.reverse();
+  if (state.filter === "final") { box.innerHTML = cards(done); return; }  // the Final filter: just the finished games, no fold
   const open = !ahead.length || store.get("finalsOpen", false);
   box.innerHTML = cards(ahead) + (done.length ? `<details class="finals"${open ? " open" : ""}${ahead.length ? "" : " data-auto"}>
       <summary><h2 class="day-head">Final · ${done.length} game${done.length === 1 ? "" : "s"}<span class="finals-act" aria-hidden="true"></span></h2></summary>
@@ -440,7 +444,7 @@ function renderGames() {
 function noMatch(q, n) {
   if (!n) return `No games this week match "${esc(q)}". <button class="link" type="button" data-clear-search>Clear the search</button>`;
   const label = $(`#filter [data-filter="${state.filter}"]`)?.querySelector(".lbl").textContent.replace(/\s+/g, " ").trim();
-  const on = ["live", "close"].includes(state.filter) ? "" : ` on the ${state.market === "total" ? "total" : "spread"}`;
+  const on = ["live", "close", "final"].includes(state.filter) ? "" : ` on the ${state.market === "total" ? "total" : "spread"}`;
   return `${n} game${n === 1 ? " matches" : "s match"} "${esc(q)}", but ${n === 1 ? "it isn't" : "none are"} <b>${esc(label)}</b>${on}.
     <button class="link" type="button" data-show-all>Show ${n === 1 ? "it" : "them"}</button> ·
     <button class="link" type="button" data-clear-search>Clear the search</button>`;
