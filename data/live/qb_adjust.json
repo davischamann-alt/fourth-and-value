@@ -8,15 +8,23 @@
   "why": "change"
  },
  "127": {
-  "game_id": "401858529",
-  "note": "Cam Fancher led Michigan State's passing in its last game in place of Alessio Milivojevic.",
+  "game_id": "401858542",
+  "note": "Kayd Coffman led Michigan State's passing in its last game in place of Alessio Milivojevic.",
   "player": "Alessio Milivojevic",
   "points": 2.0,
   "team": "Michigan State",
   "why": "change"
  },
+ "167": {
+  "game_id": "401864546",
+  "note": "Luke Moga led New Mexico's passing in its last game in place of Toa Fa'avae.",
+  "player": "Toa Fa'avae",
+  "points": 2.0,
+  "team": "New Mexico",
+  "why": "change"
+ },
  "2005": {
-  "game_id": "401864545",
+  "game_id": "401864546",
   "note": "Evan Medders led Air Force's passing in its last game in place of Liam Szarka.",
   "player": "Liam Szarka",
   "points": 2.0,
@@ -48,8 +56,8 @@
   "why": "change"
  },
  "228": {
-  "game_id": "401858303",
-  "note": "Christopher Vizzina led Clemson's passing in its last game in place of Tait Reynolds.",
+  "game_id": "401856764",
+  "note": "Trent Pearman led Clemson's passing in its last game in place of Tait Reynolds.",
   "player": "Tait Reynolds",
   "points": 2.0,
   "team": "Clemson",
@@ -61,14 +69,6 @@
   "player": "LaNorris Sellers",
   "points": 2.0,
   "team": "South Carolina",
-  "why": "change"
- },
- "2751": {
-  "game_id": "401864542",
-  "note": "Landon Sims led Wyoming's passing in its last game in place of Tyler Hughes.",
-  "player": "Tyler Hughes",
-  "points": 2.0,
-  "team": "Wyoming",
   "why": "change"
  },
  "344": {

@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-21T04:02:12Z",
+ "updated": "2026-11-21T12:47:13Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401856868:2026-11-21T12:45Z",
+   "at": "2026-11-21T12:47:13Z",
+   "kind": "key",
+   "game_id": "401856868",
+   "title": "Line onto 7: Houston @ West Virginia",
+   "text": "The line moved from West Virginia +7.5 to West Virginia +7, onto 7, away from the model's pick (Houston). Sat Nov 21, 1:00 PM ET."
+  },
   {
    "key": "key:401856752:2026-11-20T23:04Z",
    "at": "2026-11-20T23:05:41Z",
@@ -235,14 +243,6 @@
    "game_id": "401862831",
    "title": "New pick: East Carolina +6",
    "text": "East Carolina @ Army, Sat Nov 21, 12:00 PM ET. Blend takes East Carolina +6, a 3.1-point edge, logged when the line first appeared. Worth a bet at East Carolina +7 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401856868",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401856868",
-   "title": "New pick: Houston -7",
-   "text": "Houston @ West Virginia, Sat Nov 21, 1:00 PM ET. Blend takes Houston -7, a 3.6-point edge, logged when the line first appeared. Worth a bet at Houston -6 or better at -110; the site shows the best number on offer."
   }
  ]
 }
