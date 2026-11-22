@@ -74,6 +74,7 @@
   "key:401866467:2026-11-15T17:14Z",
   "key:401866467:2026-11-18T17:19Z",
   "key:401866471:2026-11-22T20:45Z",
+  "key:401866475:2026-11-22T22:26Z",
   "key:401869951:2026-11-07T16:29Z",
   "key:401869958:2026-11-21T20:34Z",
   "key:401870752:2026-11-08T22:13Z",
@@ -292,6 +293,14 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401866475:2026-11-22T22:26Z",
+   "at": "2026-11-22T22:26:28Z",
+   "kind": "key",
+   "game_id": "401866475",
+   "title": "Line onto 3: Massachusetts @ Bowling Green",
+   "text": "The line moved from Bowling Green -2.5 to Bowling Green -3, onto 3, away from the model's pick (Massachusetts). Sat Nov 28, 3:30 PM ET."
+  },
   {
    "key": "pick:401866473",
    "at": "2026-11-22T20:45:48Z",
