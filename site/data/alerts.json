@@ -1,9 +1,49 @@
 {
- "updated": "2026-11-21T20:35:30Z",
+ "updated": "2026-11-22T02:19:15Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401866470",
+   "at": "2026-11-22T02:19:15Z",
+   "kind": "pick",
+   "game_id": "401866470",
+   "title": "New pick: Eastern Michigan -6.5",
+   "text": "Kent State @ Eastern Michigan, Tue Nov 24, 7:00 PM ET. Blend takes Eastern Michigan -6.5, a 2.3-point edge, logged when the line first appeared. QB change: Brogan McCaughey led Eastern Michigan's passing in the last 3 games; Noah Kim led it in 8 of 11 games. The ratings mostly reflect Noah Kim's games. Worth a bet at Eastern Michigan -5.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401866471",
+   "at": "2026-11-22T02:19:15Z",
+   "kind": "pick",
+   "game_id": "401866471",
+   "title": "New pick: Miami (OH) +7.5",
+   "text": "Miami (OH) @ Western Michigan, Tue Nov 24, 7:00 PM ET. Blend takes Miami (OH) +7.5, a 3.7-point edge, logged when the line first appeared. QB change: Drew Bellisari led Miami (OH)'s passing in the last 2 games; Caleb Heavner led it in 5 of 11 games. The ratings mostly reflect Caleb Heavner's games. Worth a bet at Miami (OH) +8.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401856762",
+   "at": "2026-11-22T02:19:15Z",
+   "kind": "pick",
+   "game_id": "401856762",
+   "title": "New pick: Mississippi State +19.5",
+   "text": "Mississippi State @ Ole Miss, Fri Nov 27, 12:00 PM ET. Blend takes Mississippi State +19.5, a 2.9-point edge, logged when the line first appeared. QB change: Parker Puckett led Mississippi State's passing in the last 2 games; Kamario Taylor led it in 5 of 11 games. The ratings mostly reflect Kamario Taylor's games. Worth a bet at Mississippi State +20.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401866472",
+   "at": "2026-11-22T02:19:15Z",
+   "kind": "pick",
+   "game_id": "401866472",
+   "title": "Check the news: Akron +10",
+   "text": "Buffalo @ Akron, Fri Nov 27, 12:00 PM ET. Blend takes Akron +10, a 9.1-point edge, logged when the line first appeared. QB change: Cibastian Broughton led Akron's passing in the last 3 games; Brayden Roggow led it in 6 of 11 games. The ratings mostly reflect Brayden Roggow's games. Worth a bet at this number at -110."
+  },
+  {
+   "key": "pick:401858537",
+   "at": "2026-11-22T02:19:15Z",
+   "kind": "pick",
+   "game_id": "401858537",
+   "title": "Check the news: Northwestern -4.5",
+   "text": "Illinois @ Northwestern, Sat Nov 28, 12:30 PM ET. Blend takes Northwestern -4.5, a 5.2-point edge, logged when the line first appeared. QB change: Nicco Marchiol led Northwestern's passing in the last 3 games; Aidan Chiles led it in 8 of 11 games. The ratings mostly reflect Aidan Chiles's games. Worth a bet at Northwestern -4 or better at -110; the site shows the best number on offer."
+  },
   {
    "key": "key:401869958:2026-11-21T20:34Z",
    "at": "2026-11-21T20:35:30Z",
@@ -203,46 +243,6 @@
    "game_id": "401858528",
    "title": "Line through 7: UCLA @ Michigan",
    "text": "The line moved from Michigan +7.5 to Michigan +6.5, through 7, toward the model's pick (Michigan). Sat Nov 21, 12:00 AM ET."
-  },
-  {
-   "key": "pick:401866468",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401866468",
-   "title": "New pick: Toledo -15.5",
-   "text": "Bowling Green @ Toledo, Fri Nov 20, 7:30 PM ET. Blend takes Toledo -15.5, a 4.9-point edge, logged when the line first appeared. QB change: Austin Novosad led Bowling Green's passing in the last game; Jay Kastantin led it in 9 of 10 games. The ratings mostly reflect Jay Kastantin's games. The pick already takes 2 points off Bowling Green as a placeholder. Worth a bet at Toledo -15 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401864545",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401864545",
-   "title": "New pick: Air Force -21.5",
-   "text": "UTEP @ Air Force, Fri Nov 20, 8:00 PM ET. Blend takes Air Force -21.5, a 1.7-point edge, logged when the line first appeared. QB change: Evan Medders led Air Force's passing in the last game; Liam Szarka led it in 4 of 6 games. The ratings mostly reflect Liam Szarka's games. The pick already takes 2 points off Air Force as a placeholder. Worth a bet at Air Force -20.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401864542",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401864542",
-   "title": "Check the news: New Mexico -10.5",
-   "text": "New Mexico @ Wyoming, Fri Nov 20, 9:00 PM ET. Blend takes New Mexico -10.5, a 5.5-point edge, logged when the line first appeared. QB change: Landon Sims led Wyoming's passing in the last game; Tyler Hughes led it in 9 of 10 games. The ratings mostly reflect Tyler Hughes's games. The pick already takes 2 points off Wyoming as a placeholder. Worth a bet at New Mexico -10 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401858530",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401858530",
-   "title": "New pick: Northwestern -3",
-   "text": "Northwestern @ Minnesota, Sat Nov 21, 12:00 PM ET. Blend takes Northwestern -3, a 4.3-point edge, logged when the line first appeared. QB change: Nicco Marchiol led Northwestern's passing in the last 2 games; Aidan Chiles led it in 8 of 10 games. The ratings mostly reflect Aidan Chiles's games. Worth a bet at Northwestern -2.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401858533",
-   "at": "2026-11-15T17:15:34Z",
-   "kind": "pick",
-   "game_id": "401858533",
-   "title": "New pick: Purdue +6",
-   "text": "Wisconsin @ Purdue, Sat Nov 21, 12:00 PM ET. Blend takes Purdue +6, a 3.2-point edge, logged when the line first appeared. QB change: Ryan Hopkins led Wisconsin's passing in the last 2 games; Colton Joseph led it in 8 of 10 games. The ratings mostly reflect Colton Joseph's games. Worth a bet at Purdue +7 or better at -110; the site shows the best number on offer."
   }
  ]
 }
