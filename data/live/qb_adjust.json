@@ -1,12 +1,4 @@
 {
- "120": {
-  "game_id": "401858534",
-  "note": "Cardell Williams led Maryland's passing in its last game in place of Malik Washington.",
-  "player": "Malik Washington",
-  "points": 2.0,
-  "team": "Maryland",
-  "why": "change"
- },
  "127": {
   "game_id": "401858542",
   "note": "Kayd Coffman led Michigan State's passing in its last game in place of Alessio Milivojevic.",
@@ -47,14 +39,6 @@
   "team": "Air Force",
   "why": "change"
  },
- "204": {
-  "game_id": "401860919",
-  "note": "Maalik Murphy led Oregon State's passing in its last game in place of Braden Atkinson.",
-  "player": "Braden Atkinson",
-  "points": 2.0,
-  "team": "Oregon State",
-  "why": "change"
- },
  "218": {
   "game_id": "401862838",
   "note": "Jaxon Smolik led Temple's passing in its last game in place of Ajani Sheppard.",
@@ -64,8 +48,8 @@
   "why": "change"
  },
  "221": {
-  "game_id": "401858306",
-  "note": "Corey Dailey led Pittsburgh's passing in its last game in place of Mason Heintschel.",
+  "game_id": "401858315",
+  "note": "Holden Geriner led Pittsburgh's passing in its last game in place of Mason Heintschel.",
   "player": "Mason Heintschel",
   "points": 2.0,
   "team": "Pittsburgh",
@@ -119,12 +103,12 @@
   "team": "Sam Houston",
   "why": "change"
  },
- "2579": {
-  "game_id": "401856753",
-  "note": "Cutter Woods led South Carolina's passing in its last game in place of LaNorris Sellers.",
-  "player": "LaNorris Sellers",
+ "2628": {
+  "game_id": "401856879",
+  "note": "Adam Schobel led TCU's passing in its last game in place of Jaden Craig.",
+  "player": "Jaden Craig",
   "points": 2.0,
-  "team": "South Carolina",
+  "team": "TCU",
   "why": "change"
  },
  "333": {
