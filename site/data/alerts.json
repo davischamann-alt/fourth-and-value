@@ -1,9 +1,41 @@
 {
- "updated": "2026-11-22T22:26:28Z",
+ "updated": "2026-11-23T02:54:05Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401858317:2026-11-23T02:53Z",
+   "at": "2026-11-23T02:54:05Z",
+   "kind": "key",
+   "game_id": "401858317",
+   "title": "Line onto 3: Virginia @ Virginia Tech",
+   "text": "The line moved from Virginia Tech -3.5 to Virginia Tech -3, onto 3, toward the model's pick (Virginia). Sat Nov 28, 3:00 PM ET."
+  },
+  {
+   "key": "key:401858544:2026-11-23T02:53Z",
+   "at": "2026-11-23T02:54:05Z",
+   "kind": "key",
+   "game_id": "401858544",
+   "title": "Line off 7: Minnesota @ Wisconsin",
+   "text": "The line moved from Wisconsin -7 to Wisconsin -7.5, off 7, toward the model's pick (Wisconsin). Fri Nov 27, 7:30 PM ET."
+  },
+  {
+   "key": "key:401860927:2026-11-23T02:53Z",
+   "at": "2026-11-23T02:54:05Z",
+   "kind": "key",
+   "game_id": "401860927",
+   "title": "Line onto 3: Oregon State @ Fresno State",
+   "text": "The line moved from Fresno State -2.5 to Fresno State -3, onto 3, away from the model's pick (Oregon State). Sat Nov 28, 10:00 PM ET."
+  },
+  {
+   "key": "key:401866471:2026-11-23T02:53Z",
+   "at": "2026-11-23T02:54:05Z",
+   "kind": "key",
+   "game_id": "401866471",
+   "title": "Line off 7: Miami (OH) @ Western Michigan",
+   "text": "The line moved from Western Michigan -7 to Western Michigan -7.5, off 7, away from the model's pick (Miami (OH)). Tue Nov 24, 7:00 PM ET."
+  },
   {
    "key": "key:401866475:2026-11-22T22:26Z",
    "at": "2026-11-22T22:26:28Z",
@@ -211,38 +243,6 @@
    "game_id": "401856874",
    "title": "New pick: Baylor +5.5",
    "text": "Baylor @ Houston, Sat Nov 28, 9:30 PM ET. Blend takes Baylor +5.5, a 2.3-point edge, logged when the line first appeared. QB change: Keisean Henderson led Houston's passing in the last game; Conner Weigman led it in 10 of 11 games. The ratings mostly reflect Conner Weigman's games. The pick includes the QB adjustment: 2 points off Houston. Worth a bet at Baylor +6.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401860927",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401860927",
-   "title": "Check the news: Oregon State +2.5",
-   "text": "Oregon State @ Fresno State, Sat Nov 28, 10:00 PM ET. Blend takes Oregon State +2.5, a 6.5-point edge, logged when the line first appeared. QB change: Maalik Murphy led Oregon State's passing in the last 2 games; Braden Atkinson led it in 9 of 11 games. The ratings mostly reflect Braden Atkinson's games. Worth a bet at Oregon State +3 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "total:401862843",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "total",
-   "game_id": "401862843",
-   "title": "New pick: Over 48.5",
-   "text": "UAB @ North Texas, Sat Nov 28, 4:00 PM ET. Market-anchored takes the over 48.5 (projects 50.6), a 2.1-point edge, logged when the total first appeared. QB change: Chris Jimerson Jr. led North Texas's passing in the last game; Tayven Jackson led it in 10 of 11 games. The ratings mostly reflect Tayven Jackson's games. Worth a bet at Over 47.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "total:401860926",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "total",
-   "game_id": "401860926",
-   "title": "New pick: Over 75.5",
-   "text": "Boise State @ Colorado State, Sat Nov 28, 6:00 PM ET. Market-anchored takes the over 75.5 (projects 77.2), a 1.7-point edge, logged when the total first appeared. Worth a bet at Over 74 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "key:401856761:2026-11-22T20:45Z",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "key",
-   "game_id": "401856761",
-   "title": "Line onto 3: Louisville @ Kentucky",
-   "text": "The line moved from Kentucky +1.5 to Kentucky +3, onto 3, toward the model's pick (Louisville). Sat Nov 28, 12:00 AM ET."
   }
  ]
 }
