@@ -1,9 +1,33 @@
 {
- "updated": "2026-11-23T02:54:05Z",
+ "updated": "2026-11-23T07:21:09Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401869542",
+   "at": "2026-11-23T07:21:09Z",
+   "kind": "pick",
+   "game_id": "401869542",
+   "title": "New pick: Boise State -15.5",
+   "text": "San Diego State @ Boise State, Fri Dec 4, 8:00 PM ET. Blend takes Boise State -15.5, a 2.5-point edge, logged when the line first appeared. Worth a bet at Boise State -14.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858318",
+   "at": "2026-11-23T07:21:09Z",
+   "kind": "pick",
+   "game_id": "401858318",
+   "title": "New pick: Wake Forest +2.5",
+   "text": "Wake Forest @ Miami, Sat Dec 5, 12:00 PM ET. Blend takes Wake Forest +2.5, a 4.9-point edge, logged when the line first appeared. Worth a bet at Wake Forest +3 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "total:401858318",
+   "at": "2026-11-23T07:21:09Z",
+   "kind": "total",
+   "game_id": "401858318",
+   "title": "New pick: Over 56.5",
+   "text": "Wake Forest @ Miami, Sat Dec 5, 12:00 PM ET. Market-anchored takes the over 56.5 (projects 58.4), a 1.9-point edge, logged when the total first appeared. Worth a bet at Over 55.5 or better at -110; the site shows the best number on offer."
+  },
   {
    "key": "key:401858317:2026-11-23T02:53Z",
    "at": "2026-11-23T02:54:05Z",
@@ -219,30 +243,6 @@
    "game_id": "401860929",
    "title": "Check the news: Washington State +2.5",
    "text": "San Diego State @ Washington State, Sat Nov 28, 6:30 PM ET. Blend takes Washington State +2.5, a 8.9-point edge, logged when the line first appeared. Worth a bet at this number at -110."
-  },
-  {
-   "key": "pick:401858315",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401858315",
-   "title": "New pick: Pittsburgh -8.5",
-   "text": "Pittsburgh @ California, Sat Nov 28, 7:30 PM ET. Blend takes Pittsburgh -8.5, a 1.9-point edge, logged when the line first appeared. QB change: Holden Geriner led Pittsburgh's passing in the last game; Mason Heintschel led it in 5 of 11 games. The ratings mostly reflect Mason Heintschel's games. The pick includes the QB adjustment: 2 points off Pittsburgh. Worth a bet at Pittsburgh -7.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401856873",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401856873",
-   "title": "New pick: Arizona -7.5",
-   "text": "Arizona State @ Arizona, Sat Nov 28, 9:00 PM ET. Blend takes Arizona -7.5, a 2.1-point edge, logged when the line first appeared. Worth a bet at Arizona -6.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401856874",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401856874",
-   "title": "New pick: Baylor +5.5",
-   "text": "Baylor @ Houston, Sat Nov 28, 9:30 PM ET. Blend takes Baylor +5.5, a 2.3-point edge, logged when the line first appeared. QB change: Keisean Henderson led Houston's passing in the last game; Conner Weigman led it in 10 of 11 games. The ratings mostly reflect Conner Weigman's games. The pick includes the QB adjustment: 2 points off Houston. Worth a bet at Baylor +6.5 or better at -110; the site shows the best number on offer."
   }
  ]
 }

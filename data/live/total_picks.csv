@@ -631,3 +631,7 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,proj,total_
 2026-11-22T20:45Z,401860927,2026,2,13,2026-11-29T03:00Z,Fresno State,Oregon State,False,anchored,57.3,56.5,56.5,0.8,over,small,57.5,,,,
 2026-11-22T20:45Z,401864547,2026,2,13,2026-11-29T04:00Z,Hawai'i,Sacramento State,False,points,40.59,38.5,44.5,2.09,over,lean,38.5,,,,
 2026-11-22T20:45Z,401864547,2026,2,13,2026-11-29T04:00Z,Hawai'i,Sacramento State,False,anchored,38.92,38.5,44.5,0.42,over,small,38.5,,,,
+2026-11-23T07:21Z,401869542,2026,2,14,2026-12-05T01:00Z,Boise State,San Diego State,False,points,60.64,57.5,57.5,3.14,over,strong,57.5,,,,
+2026-11-23T07:21Z,401869542,2026,2,14,2026-12-05T01:00Z,Boise State,San Diego State,False,anchored,58.13,57.5,57.5,0.63,over,small,57.5,,,,
+2026-11-23T07:21Z,401858318,2026,2,14,2026-12-05T17:00Z,Miami,Wake Forest,True,points,65.91,56.5,56.5,9.41,over,strong,56.5,,,,
+2026-11-23T07:21Z,401858318,2026,2,14,2026-12-05T17:00Z,Miami,Wake Forest,True,anchored,58.38,56.5,56.5,1.88,over,lean,56.5,,,,

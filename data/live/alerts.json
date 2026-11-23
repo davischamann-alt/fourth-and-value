@@ -145,6 +145,7 @@
   "pick:401858315",
   "pick:401858316",
   "pick:401858317",
+  "pick:401858318",
   "pick:401858501",
   "pick:401858504",
   "pick:401858506",
@@ -220,6 +221,7 @@
   "pick:401866473",
   "pick:401866474",
   "pick:401866475",
+  "pick:401869542",
   "pick:401869930",
   "pick:401869936",
   "pick:401869939",
@@ -256,6 +258,7 @@
   "total:401856852",
   "total:401856855",
   "total:401856867",
+  "total:401858318",
   "total:401858501",
   "total:401858502",
   "total:401858505",
@@ -297,6 +300,30 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401869542",
+   "at": "2026-11-23T07:21:09Z",
+   "kind": "pick",
+   "game_id": "401869542",
+   "title": "New pick: Boise State -15.5",
+   "text": "San Diego State @ Boise State, Fri Dec 4, 8:00 PM ET. Blend takes Boise State -15.5, a 2.5-point edge, logged when the line first appeared. Worth a bet at Boise State -14.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "pick:401858318",
+   "at": "2026-11-23T07:21:09Z",
+   "kind": "pick",
+   "game_id": "401858318",
+   "title": "New pick: Wake Forest +2.5",
+   "text": "Wake Forest @ Miami, Sat Dec 5, 12:00 PM ET. Blend takes Wake Forest +2.5, a 4.9-point edge, logged when the line first appeared. Worth a bet at Wake Forest +3 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "total:401858318",
+   "at": "2026-11-23T07:21:09Z",
+   "kind": "total",
+   "game_id": "401858318",
+   "title": "New pick: Over 56.5",
+   "text": "Wake Forest @ Miami, Sat Dec 5, 12:00 PM ET. Market-anchored takes the over 56.5 (projects 58.4), a 1.9-point edge, logged when the total first appeared. Worth a bet at Over 55.5 or better at -110; the site shows the best number on offer."
+  },
   {
    "key": "key:401858317:2026-11-23T02:53Z",
    "at": "2026-11-23T02:54:05Z",
