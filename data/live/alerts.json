@@ -78,7 +78,9 @@
   "key:401866467:2026-11-18T17:19Z",
   "key:401866471:2026-11-22T20:45Z",
   "key:401866471:2026-11-23T02:53Z",
+  "key:401866471:2026-11-23T14:49Z",
   "key:401866475:2026-11-22T22:26Z",
+  "key:401869930:2026-11-23T14:49Z",
   "key:401869951:2026-11-07T16:29Z",
   "key:401869958:2026-11-21T20:34Z",
   "key:401870752:2026-11-08T22:13Z",
@@ -300,6 +302,22 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401866471:2026-11-23T14:49Z",
+   "at": "2026-11-23T14:50:02Z",
+   "kind": "key",
+   "game_id": "401866471",
+   "title": "Line onto 7: Miami (OH) @ Western Michigan",
+   "text": "The line moved from Western Michigan -7.5 to Western Michigan -7, onto 7, toward the model's pick (Miami (OH)). Tue Nov 24, 7:00 PM ET."
+  },
+  {
+   "key": "key:401869930:2026-11-23T14:49Z",
+   "at": "2026-11-23T14:50:02Z",
+   "kind": "key",
+   "game_id": "401869930",
+   "title": "Line off 3: App State @ South Alabama",
+   "text": "The line moved from South Alabama -3 to South Alabama -2.5, off 3, toward the model's pick (App State). Fri Nov 27, 3:00 PM ET."
+  },
   {
    "key": "pick:401869542",
    "at": "2026-11-23T07:21:09Z",

@@ -1,9 +1,25 @@
 {
- "updated": "2026-11-23T07:21:09Z",
+ "updated": "2026-11-23T14:50:02Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401866471:2026-11-23T14:49Z",
+   "at": "2026-11-23T14:50:02Z",
+   "kind": "key",
+   "game_id": "401866471",
+   "title": "Line onto 7: Miami (OH) @ Western Michigan",
+   "text": "The line moved from Western Michigan -7.5 to Western Michigan -7, onto 7, toward the model's pick (Miami (OH)). Tue Nov 24, 7:00 PM ET."
+  },
+  {
+   "key": "key:401869930:2026-11-23T14:49Z",
+   "at": "2026-11-23T14:50:02Z",
+   "kind": "key",
+   "game_id": "401869930",
+   "title": "Line off 3: App State @ South Alabama",
+   "text": "The line moved from South Alabama -3 to South Alabama -2.5, off 3, toward the model's pick (App State). Fri Nov 27, 3:00 PM ET."
+  },
   {
    "key": "pick:401869542",
    "at": "2026-11-23T07:21:09Z",
@@ -227,22 +243,6 @@
    "game_id": "401871062",
    "title": "New pick: Jacksonville State +2.5",
    "text": "Jacksonville State @ Delaware, Sat Nov 28, 3:30 PM ET. Blend takes Jacksonville State +2.5, a 1.6-point edge, logged when the line first appeared. Worth a bet at Jacksonville State +3.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401862843",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401862843",
-   "title": "Check the news: North Texas -4",
-   "text": "UAB @ North Texas, Sat Nov 28, 4:00 PM ET. Blend takes North Texas -4, a 6.8-point edge, logged when the line first appeared. QB change: Chris Jimerson Jr. led North Texas's passing in the last game; Tayven Jackson led it in 10 of 11 games. The ratings mostly reflect Tayven Jackson's games. The pick includes the QB adjustment: 2 points off North Texas. Worth a bet at this number at -110."
-  },
-  {
-   "key": "pick:401860929",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401860929",
-   "title": "Check the news: Washington State +2.5",
-   "text": "San Diego State @ Washington State, Sat Nov 28, 6:30 PM ET. Blend takes Washington State +2.5, a 8.9-point edge, logged when the line first appeared. Worth a bet at this number at -110."
   }
  ]
 }
