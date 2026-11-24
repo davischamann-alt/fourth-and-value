@@ -5,7 +5,28 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-23T14:50:02Z</updated>
+  <updated>2026-11-24T02:57:54Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-24:key:401866471:2026-11-24T02:56Z</id>
+    <title>Line off 7: Miami (OH) @ Western Michigan</title>
+    <updated>2026-11-24T02:57:54Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866471"/>
+    <summary>The line moved from Western Michigan -7 to Western Michigan -6.5, off 7, toward the model's pick (Miami (OH)). Tue Nov 24, 7:00 PM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-24:key:401866473:2026-11-24T02:56Z</id>
+    <title>Line onto 3: Toledo @ Ohio</title>
+    <updated>2026-11-24T02:57:54Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866473"/>
+    <summary>The line moved from Ohio +3.5 to Ohio +3, onto 3, toward the model's pick (Ohio). Fri Nov 27, 12:00 PM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-24:key:401869930:2026-11-24T02:56Z</id>
+    <title>Line through 3: App State @ South Alabama</title>
+    <updated>2026-11-24T02:57:54Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869930"/>
+    <summary>The line moved from South Alabama -2.5 to South Alabama -3.5, through 3, away from the model's pick (App State). Fri Nov 27, 3:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-23:key:401866471:2026-11-23T14:49Z</id>
     <title>Line onto 7: Miami (OH) @ Western Michigan</title>
@@ -334,26 +355,5 @@
     <updated>2026-11-22T02:19:15Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856762"/>
     <summary>Mississippi State @ Ole Miss, Fri Nov 27, 12:00 PM ET. Blend takes Mississippi State +19.5, a 2.9-point edge, logged when the line first appeared. QB change: Parker Puckett led Mississippi State's passing in the last 2 games; Kamario Taylor led it in 5 of 11 games. The ratings mostly reflect Kamario Taylor's games. Worth a bet at Mississippi State +20.5 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:pick:401866472</id>
-    <title>Check the news: Akron +10</title>
-    <updated>2026-11-22T02:19:15Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866472"/>
-    <summary>Buffalo @ Akron, Fri Nov 27, 12:00 PM ET. Blend takes Akron +10, a 9.1-point edge, logged when the line first appeared. QB change: Cibastian Broughton led Akron's passing in the last 3 games; Brayden Roggow led it in 6 of 11 games. The ratings mostly reflect Brayden Roggow's games. Worth a bet at this number at -110.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:pick:401858537</id>
-    <title>Check the news: Northwestern -4.5</title>
-    <updated>2026-11-22T02:19:15Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858537"/>
-    <summary>Illinois @ Northwestern, Sat Nov 28, 12:30 PM ET. Blend takes Northwestern -4.5, a 5.2-point edge, logged when the line first appeared. QB change: Nicco Marchiol led Northwestern's passing in the last 3 games; Aidan Chiles led it in 8 of 11 games. The ratings mostly reflect Aidan Chiles's games. Worth a bet at Northwestern -4 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-21:key:401869958:2026-11-21T20:34Z</id>
-    <title>Line onto 3: Georgia State @ Marshall</title>
-    <updated>2026-11-21T20:35:30Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869958"/>
-    <summary>The line moved from Marshall -2.5 to Marshall -3, onto 3, away from the model's pick (Georgia State). Sat Nov 21, 4:00 PM ET.</summary>
   </entry>
 </feed>
