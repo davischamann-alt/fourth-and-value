@@ -57,6 +57,12 @@ jobs:
           NTFY_TOPIC: ${{ vars.NTFY_TOPIC }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python alerts.py
+      # NFL lines for a possible NFL version in 2027 (nfl_lines.py): a record of real openers and
+      # closers, which free data doesn't have for past seasons. Nothing on the site uses it yet, and a
+      # problem here never touches the college picks.
+      - name: Record NFL lines
+        continue-on-error: true
+        run: python nfl_lines.py
       - name: Commit the pick log
         run: |
           git config user.name "github-actions[bot]"

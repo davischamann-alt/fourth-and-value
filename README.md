@@ -539,11 +539,20 @@ It works for the team's usual starter or for whoever led its last game. The adju
 
 ---
 
+## NFL lines
+
+Getting ready for a possible NFL version in 2027 ([An NFL version](#an-nfl-version-2027)). Free data has only *closing* lines for past NFL seasons, so an NFL backtest can't be graded at the opening line, where the college model did best. Since November 25, 2026, `nfl_lines.py` records them from ESPN's NFL feed, in the same jobs and on the same schedule as the college lines: every two hours, and every 30 minutes on Sunday afternoons and evenings.
+
+- `data/live/nfl/line_history.csv`: a row the first time a game has a line or total, and again whenever either changes, until kickoff. Columns: `seen_at, id, season, seasontype, week, kickoff, home, away, home_id, away_id, line, open_line, total, open_total`. `line` is the home team's spread (negative when it's favored), and teams are full names, since cities repeat in the NFL.
+- `data/live/nfl/results.csv`: each recorded game's final score, once.
+
+It covers the regular season and playoffs, checks last week, this week and next week each run, and between seasons watches weeks 1 and 2 of the coming season, whose lines post months ahead. No picks are made and nothing on the site uses it yet. The job commits these files with the college log, so git history shows when each line was seen. ESPN's "opening" line is sometimes a look-ahead number from weeks earlier (Dallas opened −1.5 and sat at −8.5 the first time this ran), so the backtest will need the same look-ahead filter as college (`MAX_OPEN_MOVE`).
+
 ## Publishing the website
 
 The website is the `site/` folder, published free by GitHub Pages. The job in `.github/workflows/site.yml` runs every two hours, whenever the site's code changes on `main`, and when you click **Run workflow** on the repo's **Actions** tab. Each run records lines and picks ([The forward test](#the-forward-test)) and commits them, then runs `build_site.py` to refresh `site/data/` (ratings, Market-anchored weights, recommended std dev and track record), and publishes the site.
 
-Each run also builds the QB watch and player props (`build_props.py`), sends alerts (`alerts.py`) and fetches kickoff forecasts (`weather.py`). When a forecast can't be had (Open-Meteo, ESPN or CollegeFootballData down), `weather.py` keeps the forecast the site is already showing, if it's under 36 hours old, instead of publishing none; it gives Open-Meteo about a minute before falling back.
+Each run also builds the QB watch and player props (`build_props.py`), sends alerts (`alerts.py`), records NFL lines ([NFL lines](#nfl-lines)) and fetches kickoff forecasts (`weather.py`). When a forecast can't be had (Open-Meteo, ESPN or CollegeFootballData down), `weather.py` keeps the forecast the site is already showing, if it's under 36 hours old, instead of publishing none; it gives Open-Meteo about a minute before falling back.
 
 **Sundays.** Next week's lines open on Sunday afternoon and move within hours, so a second, lighter job (`.github/workflows/lines.yml`) runs every 30 minutes from noon to 11 p.m. Eastern. It only records lines and picks, checks the sportsbooks and sends alerts, then commits; it finishes in about a minute. It doesn't publish, so the website catches up at the next two-hourly run.
 
@@ -576,6 +585,7 @@ fourth-and-value/
 ├── alerts.py                 # alerts: new edges and key-number line moves, to the feed, ntfy and Discord
 ├── weather.py                # kickoff forecasts for this week's games (Open-Meteo), for wind flags on totals
 ├── odds.py                   # line shopping: the best spread and total across sportsbooks (The Odds API)
+├── nfl_lines.py              # records NFL lines and results for a possible NFL version (not on the site yet)
 ├── check_parity.py           # checks that the site's projection math matches model.py (run before every publish)
 ├── build_props.py            # player prop projections for the Props tab, the QB watch (ESPN box scores), QB availability and the QB adjustments
 ├── site/                     # the website: index.html, style.css, app.js, game.js (game details), props.js (Props tab), ratings.js, updates.js (Updates tab), alerts.js (Alerts panel), alerts.xml (feed), data/ (changelog.json is the change log), manifest.json and icon-*.png (installing it as a phone app), share.png (link previews)
@@ -590,7 +600,7 @@ fourth-and-value/
     ├── closing_lines.csv     # this season's opening and closing lines and totals (backtest)
     ├── anchor_weights.json   # Market-anchored weights for spreads and totals (saved by the backtest)
     ├── qb_status.csv         # quarterbacks listed on the official availability reports (you edit it; see QB availability)
-    ├── live/                 # forward test: line_history.csv, picks.csv, total_picks.csv, qb_status_log.csv, qb_adjust.json and qb_adjust_log.csv (QB adjustments), best_lines.json and odds_history.csv (line shopping), and alerts.json (what's been sent); written by the GitHub job
+    ├── live/                 # forward test (nfl/ holds the NFL line log): line_history.csv, picks.csv, total_picks.csv, qb_status_log.csv, qb_adjust.json and qb_adjust_log.csv (QB adjustments), best_lines.json and odds_history.csv (line shopping), and alerts.json (what's been sent); written by the GitHub job
     ├── history.csv           # your logged picks (created when you log; kept private)
     ├── bets.csv              # your bets (created when you save; kept private)
     └── cfbd/                 # past seasons' data (downloaded; kept private)
@@ -642,3 +652,31 @@ A **Full game / 1st half** switch on the Games tab, with Full game selected by d
 **Two ways to build it:**
 1. **Free:** show an *estimated* first-half line (0.59 × the full-game line, clearly labeled as an estimate), and let visitors type their book's real first-half line on any card to replace it. Since the estimate comes from the full-game line, the estimated pick mostly echoes the full-game pick; the real value comes when visitors enter actual lines.
 2. **Paid (about $30/month, The Odds API):** real first-half spreads from sportsbooks, fetched by the GitHub job like the ratings. This would also let first-half picks go into the forward test, and the same subscription could fill in real player prop lines on the Props tab. Check the service's terms on displaying odds publicly first.
+
+### An NFL version (2027)
+
+The same site with a **College | NFL** switch: NFL spreads and totals, its own track record, the same labels. Planned November 25, 2026.
+
+**Data, checked November 25, 2026.** Everything needed is free except past opening lines:
+
+| Need | Free source |
+| --- | --- |
+| Schedule, scores, current lines and openers | ESPN's NFL feed, the same one the site uses for college |
+| FPI, current and week by week | ESPN NFL FPI (weekly snapshots go back at least to 2024) |
+| Past results and closing lines, rest days, division games, roof and weather, each game's starting QB | nflverse (`games.csv`), back to 1999 |
+| Efficiency and success rate | nflverse play-by-play, about 22 MB a season |
+| Injuries, including quarterbacks | ESPN's NFL injuries feed: official designations, no hand entry |
+| Past opening lines | **None free**: being recorded from now on ([NFL lines](#nfl-lines)) |
+| Line shopping | The Odds API covers the NFL, but college already uses about 370 of the 500 free credits a month |
+
+**What can't be copied from college** (each needs its own test): home field (the NFL's has shrunk, so fit it rather than use 3), quarterbacks (a value per starter instead of a flat 2 points; nflverse lists every game's starter), key numbers 3 and 7 (more common in the NFL, so cover chances need adjusting near them), a sharper market (expect less edge than college; set the bar before launch), smaller samples (272 games a season, so use more seasons), and rest, byes and Thursday games.
+
+**Code.** College-only code is mostly in `sources.py`, `site/app.js` and `model.py` (FBS/FCS pooling and fixed constants). `ratings.js`, `props.js` and `check_parity.py` don't assume a league. Each league gets its own data folders, so the college pick log is never touched.
+
+**Steps:**
+1. **November 2026 on:** record NFL lines (done: `nfl_lines.py`).
+2. **February–April 2027:** backtest NFL seasons from about 2015 at the closing line, and decide go or no-go against a bar set in advance.
+3. **May–July:** make the code handle two leagues and build the site switch, hidden until ready.
+4. **August–September:** start the NFL forward test when week 1 lines post; launch labeled new and unproven.
+
+**Still to decide:** spreads and totals first, props later (recommended); whether to pay for The Odds API to cover both leagues or skip NFL line shopping at first; and what to do if the backtest doesn't beat the closing line (publish as experimental, or hold back).

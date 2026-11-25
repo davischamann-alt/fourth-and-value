@@ -12,7 +12,7 @@ on:
     - cron: "17 */2 * * *"
   push:
     branches: [main]
-    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "odds.py", "sources.py", "model.py", "check_parity.py", "data/qb_status.csv", ".github/workflows/site.yml"]
+    paths: ["site/**", "build_site.py", "build_props.py", "record.py", "alerts.py", "weather.py", "odds.py", "sources.py", "model.py", "check_parity.py", "nfl_lines.py", "data/qb_status.csv", ".github/workflows/site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -78,6 +78,12 @@ jobs:
           NTFY_TOPIC: ${{ vars.NTFY_TOPIC }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python alerts.py
+      # NFL lines for a possible NFL version in 2027 (nfl_lines.py): a record of real openers and
+      # closers, which free data doesn't have for past seasons. Nothing on the site uses it yet, and a
+      # problem here never touches the college picks.
+      - name: Record NFL lines
+        continue-on-error: true
+        run: python nfl_lines.py
       - name: Commit the pick log
         run: |
           git config user.name "github-actions[bot]"
