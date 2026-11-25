@@ -1525,24 +1525,24 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-19T00:28Z,401856763,2026,2,13,2026-11-28T21:15Z,Missouri,Oklahoma,False,success,3.64,-1.5,-1.5,2.14,home,lean,-2.5,,,,
 2026-11-19T00:28Z,401856763,2026,2,13,2026-11-28T21:15Z,Missouri,Oklahoma,False,blend,1.83,-1.5,-1.5,0.33,home,small,-2.5,,,,
 2026-11-19T00:28Z,401856763,2026,2,13,2026-11-28T21:15Z,Missouri,Oklahoma,False,anchored,1.72,-1.5,-1.5,0.22,home,small,-2.5,,,,
-2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,points,10.21,-6.5,-6.5,3.71,home,strong,-5.5,,,,
-2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,fpi,9.68,-6.5,-6.5,3.18,home,strong,-5.5,,,,
-2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,efficiency,7.39,-6.5,-6.5,0.89,home,small,-5.5,,,,
-2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,success,9.36,-6.5,-6.5,2.86,home,lean,-5.5,,,,
-2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,blend,8.81,-6.5,-6.5,2.31,home,lean,-5.5,,,,
-2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,anchored,7.99,-6.5,-6.5,1.49,home,small,-5.5,,,,
-2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,points,7.66,-7.5,-7.5,0.16,home,small,-6.5,,,,
-2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,fpi,8.16,-7.5,-7.5,0.66,home,small,-6.5,,,,
-2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,efficiency,2.05,-7.5,-7.5,5.45,away,strong,-6.5,,,,
-2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,success,1.27,-7.5,-7.5,6.23,away,strong,-6.5,,,,
-2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,blend,3.83,-7.5,-7.5,3.67,away,strong,-6.5,,,,
-2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,anchored,8.11,-7.5,-7.5,0.61,home,small,-6.5,,,,
-2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,points,14.78,-19.5,-14.5,4.72,away,strong,-18.5,,,,
-2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,fpi,16.66,-19.5,-14.5,2.84,away,lean,-18.5,,,,
-2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,efficiency,13.47,-19.5,-14.5,6.03,away,strong,-18.5,,,,
-2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,success,19.81,-19.5,-14.5,0.31,home,small,-18.5,,,,
-2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,blend,16.65,-19.5,-14.5,2.85,away,lean,-18.5,,,,
-2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,anchored,19.52,-19.5,-14.5,0.02,home,small,-18.5,,,,
+2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,points,10.21,-6.5,-6.5,3.71,home,strong,-5.5,5,L,L,-1.0
+2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,fpi,9.68,-6.5,-6.5,3.18,home,strong,-5.5,5,L,L,-1.0
+2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,efficiency,7.39,-6.5,-6.5,0.89,home,small,-5.5,5,L,L,-1.0
+2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,success,9.36,-6.5,-6.5,2.86,home,lean,-5.5,5,L,L,-1.0
+2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,blend,8.81,-6.5,-6.5,2.31,home,lean,-5.5,5,L,L,-1.0
+2026-11-22T02:18Z,401866470,2026,2,13,2026-11-25T00:00Z,Eastern Michigan,Kent State,False,anchored,7.99,-6.5,-6.5,1.49,home,small,-5.5,5,L,L,-1.0
+2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,points,7.66,-7.5,-7.5,0.16,home,small,-6.5,-4,L,L,-1.0
+2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,fpi,8.16,-7.5,-7.5,0.66,home,small,-6.5,-4,L,L,-1.0
+2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,efficiency,2.05,-7.5,-7.5,5.45,away,strong,-6.5,-4,W,W,1.0
+2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,success,1.27,-7.5,-7.5,6.23,away,strong,-6.5,-4,W,W,1.0
+2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,blend,3.83,-7.5,-7.5,3.67,away,strong,-6.5,-4,W,W,1.0
+2026-11-22T02:18Z,401866471,2026,2,13,2026-11-25T00:00Z,Western Michigan,Miami (OH),False,anchored,8.11,-7.5,-7.5,0.61,home,small,-6.5,-4,L,L,-1.0
+2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,points,14.78,-19.5,-14.5,4.72,away,strong,-19.5,,,,
+2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,fpi,16.66,-19.5,-14.5,2.84,away,lean,-19.5,,,,
+2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,efficiency,13.47,-19.5,-14.5,6.03,away,strong,-19.5,,,,
+2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,success,19.81,-19.5,-14.5,0.31,home,small,-19.5,,,,
+2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,blend,16.65,-19.5,-14.5,2.85,away,lean,-19.5,,,,
+2026-11-22T02:18Z,401856762,2026,2,13,2026-11-27T17:00Z,Ole Miss,Mississippi State,False,anchored,19.52,-19.5,-14.5,0.02,home,small,-19.5,,,,
 2026-11-22T02:18Z,401866472,2026,2,13,2026-11-27T17:00Z,Akron,Buffalo,False,points,-5.49,10.0,10.0,4.51,home,strong,7.5,,,,
 2026-11-22T02:18Z,401866472,2026,2,13,2026-11-27T17:00Z,Akron,Buffalo,False,fpi,-10.07,10.0,10.0,0.07,away,small,7.5,,,,
 2026-11-22T02:18Z,401866472,2026,2,13,2026-11-27T17:00Z,Akron,Buffalo,False,efficiency,-3.15,10.0,10.0,6.85,home,strong,7.5,,,,
@@ -1723,12 +1723,12 @@ logged_at,id,season,seasontype,week,kickoff,home,away,neutral,source,margin,line
 2026-11-22T20:45Z,401869959,2026,2,13,2026-11-28T19:00Z,Georgia State,Louisiana,False,success,5.06,5.5,3.0,10.56,home,strong,5.5,,,,
 2026-11-22T20:45Z,401869959,2026,2,13,2026-11-28T19:00Z,Georgia State,Louisiana,False,blend,0.27,5.5,3.0,5.77,home,strong,5.5,,,,
 2026-11-22T20:45Z,401869959,2026,2,13,2026-11-28T19:00Z,Georgia State,Louisiana,False,anchored,-4.5,5.5,3.0,1.0,home,small,5.5,,,,
-2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,points,-15.69,15.5,14.5,0.19,away,small,16.5,,,,
-2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,fpi,-16.94,15.5,14.5,1.44,away,small,16.5,,,,
-2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,efficiency,-20.91,15.5,14.5,5.41,away,strong,16.5,,,,
-2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,success,-22.52,15.5,14.5,7.02,away,strong,16.5,,,,
-2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,blend,-20.12,15.5,14.5,4.62,away,strong,16.5,,,,
-2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,anchored,-16.71,15.5,14.5,1.21,away,small,16.5,,,,
+2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,points,-15.69,15.5,14.5,0.19,away,small,17.5,,,,
+2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,fpi,-16.94,15.5,14.5,1.44,away,small,17.5,,,,
+2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,efficiency,-20.91,15.5,14.5,5.41,away,strong,17.5,,,,
+2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,success,-22.52,15.5,14.5,7.02,away,strong,17.5,,,,
+2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,blend,-20.12,15.5,14.5,4.62,away,strong,17.5,,,,
+2026-11-22T20:45Z,401871063,2026,2,13,2026-11-28T19:00Z,Missouri State,Liberty,False,anchored,-16.71,15.5,14.5,1.21,away,small,17.5,,,,
 2026-11-22T20:45Z,401871082,2026,2,13,2026-11-28T19:00Z,Florida International,Sam Houston,False,points,11.35,-11.5,-10.5,0.15,away,small,-11.5,,,,
 2026-11-22T20:45Z,401871082,2026,2,13,2026-11-28T19:00Z,Florida International,Sam Houston,False,fpi,13.59,-11.5,-10.5,2.09,home,lean,-11.5,,,,
 2026-11-22T20:45Z,401871082,2026,2,13,2026-11-28T19:00Z,Florida International,Sam Houston,False,efficiency,9.26,-11.5,-10.5,2.24,away,lean,-11.5,,,,
