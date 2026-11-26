@@ -1,9 +1,17 @@
 {
- "updated": "2026-11-25T21:48:06Z",
+ "updated": "2026-11-26T04:13:31Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401858537:2026-11-26T04:12Z",
+   "at": "2026-11-26T04:13:31Z",
+   "kind": "key",
+   "game_id": "401858537",
+   "title": "Line off 3: Illinois @ Northwestern",
+   "text": "The line moved from Northwestern -3 to Northwestern -2.5, off 3, away from the model's pick (Northwestern). Sat Nov 28, 12:30 PM ET."
+  },
   {
    "key": "key:401862843:2026-11-25T18:00Z",
    "at": "2026-11-25T18:01:28Z",
@@ -235,14 +243,6 @@
    "game_id": "401856760",
    "title": "Check the news: Georgia Tech +35.5",
    "text": "Georgia Tech @ Georgia, Sat Nov 28, 3:30 PM ET. Blend takes Georgia Tech +35.5, a 5.2-point edge, logged when the line first appeared. Worth a bet at Georgia Tech +36 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401858316",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401858316",
-   "title": "New pick: SMU -8.5",
-   "text": "SMU @ Stanford, Sat Nov 28, 3:30 PM ET. Blend takes SMU -8.5, a 2.0-point edge, logged when the line first appeared. Worth a bet at SMU -7.5 or better at -110; the site shows the best number on offer."
   }
  ]
 }

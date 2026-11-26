@@ -5,7 +5,14 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-25T18:01:28Z</updated>
+  <updated>2026-11-26T04:13:31Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-26:key:401858537:2026-11-26T04:12Z</id>
+    <title>Line off 3: Illinois @ Northwestern</title>
+    <updated>2026-11-26T04:13:31Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858537"/>
+    <summary>The line moved from Northwestern -3 to Northwestern -2.5, off 3, away from the model's pick (Northwestern). Sat Nov 28, 12:30 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-25:key:401862843:2026-11-25T18:00Z</id>
     <title>Line onto 3: UAB @ North Texas</title>
@@ -348,12 +355,5 @@
     <updated>2026-11-22T02:19:15Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866470"/>
     <summary>Kent State @ Eastern Michigan, Tue Nov 24, 7:00 PM ET. Blend takes Eastern Michigan -6.5, a 2.3-point edge, logged when the line first appeared. QB change: Brogan McCaughey led Eastern Michigan's passing in the last 3 games; Noah Kim led it in 8 of 11 games. The ratings mostly reflect Noah Kim's games. Worth a bet at Eastern Michigan -5.5 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:pick:401866471</id>
-    <title>New pick: Miami (OH) +7.5</title>
-    <updated>2026-11-22T02:19:15Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866471"/>
-    <summary>Miami (OH) @ Western Michigan, Tue Nov 24, 7:00 PM ET. Blend takes Miami (OH) +7.5, a 3.7-point edge, logged when the line first appeared. QB change: Drew Bellisari led Miami (OH)'s passing in the last 2 games; Caleb Heavner led it in 5 of 11 games. The ratings mostly reflect Caleb Heavner's games. Worth a bet at Miami (OH) +8.5 or better at -110; the site shows the best number on offer.</summary>
   </entry>
 </feed>
