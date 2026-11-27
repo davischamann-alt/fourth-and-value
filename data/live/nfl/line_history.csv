@@ -50,3 +50,7 @@ seen_at,id,season,seasontype,week,kickoff,home,away,home_id,away_id,line,open_li
 2026-11-26T23:04Z,401873089,2026,2,12,2026-11-29T18:00Z,Miami Dolphins,New York Jets,15,20,4.5,-1.5,39.5,41.5
 2026-11-26T23:04Z,401873093,2026,2,12,2026-11-29T21:05Z,Los Angeles Chargers,New England Patriots,24,17,2.5,-2.5,35.5,45.5
 2026-11-26T23:04Z,401873091,2026,2,12,2026-11-29T21:25Z,San Francisco 49ers,Seattle Seahawks,25,26,-3.0,-1.5,43.5,46.5
+2026-11-27T08:46Z,401873083,2026,2,12,2026-11-27T20:00Z,Pittsburgh Steelers,Denver Broncos,23,7,4.5,1.5,37.5,41.5
+2026-11-27T08:46Z,401873089,2026,2,12,2026-11-29T18:00Z,Miami Dolphins,New York Jets,15,20,5.5,-1.5,39.5,41.5
+2026-11-27T08:46Z,401873104,2026,2,13,2026-12-06T21:05Z,Arizona Cardinals,Philadelphia Eagles,22,21,3.0,8.5,37.5,43.5
+2026-11-27T08:46Z,401873108,2026,2,13,2026-12-08T01:15Z,Seattle Seahawks,Dallas Cowboys,26,6,-6.0,-4.5,51.5,48.5

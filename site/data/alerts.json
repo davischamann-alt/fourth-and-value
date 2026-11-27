@@ -1,9 +1,25 @@
 {
- "updated": "2026-11-26T23:04:16Z",
+ "updated": "2026-11-27T08:46:21Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401869533",
+   "at": "2026-11-27T08:46:21Z",
+   "kind": "pick",
+   "game_id": "401869533",
+   "title": "New pick: Utah -2.5",
+   "text": "Texas Tech @ Utah, Fri Dec 4, 8:00 PM ET. Blend takes Utah -2.5, a 1.7-point edge, logged when the line first appeared. Worth a bet at Utah -1.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401862843:2026-11-27T08:44Z",
+   "at": "2026-11-27T08:46:21Z",
+   "kind": "key",
+   "game_id": "401862843",
+   "title": "Line off 3: UAB @ North Texas",
+   "text": "The line moved from North Texas -3 to North Texas -2.5, off 3, away from the model's pick (North Texas). Sat Nov 28, 4:00 PM ET."
+  },
   {
    "key": "key:401858316:2026-11-26T23:03Z",
    "at": "2026-11-26T23:04:16Z",
@@ -227,22 +243,6 @@
    "game_id": "401869959",
    "title": "Check the news: Georgia State +5.5",
    "text": "Louisiana @ Georgia State, Sat Nov 28, 2:00 PM ET. Blend takes Georgia State +5.5, a 5.8-point edge, logged when the line first appeared. Worth a bet at Georgia State +6 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401871063",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401871063",
-   "title": "New pick: Liberty -15.5",
-   "text": "Liberty @ Missouri State, Sat Nov 28, 2:00 PM ET. Blend takes Liberty -15.5, a 4.6-point edge, logged when the line first appeared. Worth a bet at Liberty -15 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401869939",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401869939",
-   "title": "New pick: Arkansas State -3.5",
-   "text": "Troy @ Arkansas State, Sat Nov 28, 3:00 PM ET. Blend takes Arkansas State -3.5, a 4.4-point edge, logged when the line first appeared. Worth a bet at Arkansas State -3 or better at -110; the site shows the best number on offer."
   }
  ]
 }

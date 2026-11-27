@@ -1,3 +1,5 @@
 seen_at,id,season,seasontype,week,kickoff,home,away,home_id,away_id,home_score,away_score
 2026-11-26T14:00Z,401873079,2026,2,12,2026-11-26T01:00Z,Los Angeles Rams,Green Bay Packers,14,9,26,13
 2026-11-26T23:04Z,401873081,2026,2,12,2026-11-26T18:00Z,Detroit Lions,Chicago Bears,8,3,35,39
+2026-11-27T08:46Z,401873080,2026,2,12,2026-11-26T21:30Z,Dallas Cowboys,Philadelphia Eagles,6,21,38,39
+2026-11-27T08:46Z,401873082,2026,2,12,2026-11-27T01:20Z,Buffalo Bills,Kansas City Chiefs,2,12,13,10
