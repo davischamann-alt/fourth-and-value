@@ -5,7 +5,28 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-27T08:46:21Z</updated>
+  <updated>2026-11-27T19:31:28Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-27:key:401858316:2026-11-27T19:30Z</id>
+    <title>Line off 7: SMU @ Stanford</title>
+    <updated>2026-11-27T19:31:28Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858316"/>
+    <summary>The line moved from Stanford +7 to Stanford +7.5, off 7, toward the model's pick (SMU). Sat Nov 28, 3:30 PM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-27:key:401864546:2026-11-27T19:30Z</id>
+    <title>Line onto 7: Air Force @ New Mexico</title>
+    <updated>2026-11-27T19:31:28Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401864546"/>
+    <summary>The line moved from New Mexico -6.5 to New Mexico -7, onto 7, toward the model's pick (New Mexico). Fri Nov 27, 4:30 PM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-27:key:401869930:2026-11-27T19:30Z</id>
+    <title>Line onto 3: App State @ South Alabama</title>
+    <updated>2026-11-27T19:31:28Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869930"/>
+    <summary>The line moved from South Alabama -3.5 to South Alabama -3, onto 3, toward the model's pick (App State). Fri Nov 27, 3:00 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-27:pick:401869533</id>
     <title>New pick: Utah -2.5</title>
@@ -334,26 +355,5 @@
     <updated>2026-11-22T20:45:48Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856761"/>
     <summary>The line moved from Kentucky +1.5 to Kentucky +3, onto 3, toward the model's pick (Louisville). Sat Nov 28, 12:00 AM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:key:401858317:2026-11-22T20:45Z</id>
-    <title>Line off 3: Virginia @ Virginia Tech</title>
-    <updated>2026-11-22T20:45:48Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858317"/>
-    <summary>The line moved from Virginia Tech -3 to Virginia Tech -3.5, off 3, away from the model's pick (Virginia). Sat Nov 28, 3:00 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:key:401858537:2026-11-22T20:45Z</id>
-    <title>Line onto 3: Illinois @ Northwestern</title>
-    <updated>2026-11-22T20:45:48Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858537"/>
-    <summary>The line moved from Northwestern -4 to Northwestern -3, onto 3, away from the model's pick (Northwestern). Sat Nov 28, 12:30 PM ET.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:key:401866471:2026-11-22T20:45Z</id>
-    <title>Line onto 7: Miami (OH) @ Western Michigan</title>
-    <updated>2026-11-22T20:45:48Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401866471"/>
-    <summary>The line moved from Western Michigan -7.5 to Western Michigan -7, onto 7, toward the model's pick (Miami (OH)). Tue Nov 24, 7:00 PM ET.</summary>
   </entry>
 </feed>

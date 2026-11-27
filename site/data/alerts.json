@@ -1,9 +1,33 @@
 {
- "updated": "2026-11-27T08:46:21Z",
+ "updated": "2026-11-27T19:31:28Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "key:401858316:2026-11-27T19:30Z",
+   "at": "2026-11-27T19:31:28Z",
+   "kind": "key",
+   "game_id": "401858316",
+   "title": "Line off 7: SMU @ Stanford",
+   "text": "The line moved from Stanford +7 to Stanford +7.5, off 7, toward the model's pick (SMU). Sat Nov 28, 3:30 PM ET."
+  },
+  {
+   "key": "key:401864546:2026-11-27T19:30Z",
+   "at": "2026-11-27T19:31:28Z",
+   "kind": "key",
+   "game_id": "401864546",
+   "title": "Line onto 7: Air Force @ New Mexico",
+   "text": "The line moved from New Mexico -6.5 to New Mexico -7, onto 7, toward the model's pick (New Mexico). Fri Nov 27, 4:30 PM ET."
+  },
+  {
+   "key": "key:401869930:2026-11-27T19:30Z",
+   "at": "2026-11-27T19:31:28Z",
+   "kind": "key",
+   "game_id": "401869930",
+   "title": "Line onto 3: App State @ South Alabama",
+   "text": "The line moved from South Alabama -3.5 to South Alabama -3, onto 3, toward the model's pick (App State). Fri Nov 27, 3:00 PM ET."
+  },
   {
    "key": "pick:401869533",
    "at": "2026-11-27T08:46:21Z",
@@ -219,30 +243,6 @@
    "game_id": "401862837",
    "title": "New pick: East Carolina -1.5",
    "text": "Florida Atlantic @ East Carolina, Sat Nov 28, 1:00 PM ET. Blend takes East Carolina -1.5, a 2.1-point edge, logged when the line first appeared. Worth a bet at East Carolina -0.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401856875",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401856875",
-   "title": "New pick: UCF +2.5",
-   "text": "UCF @ Colorado, Sat Nov 28, 2:00 PM ET. Blend takes UCF +2.5, a 1.5-point edge, logged when the line first appeared. QB change: Alonza Barnett III led UCF's passing in the last 3 games; Keyone Jenkins led it in 6 of 11 games. The ratings mostly reflect Keyone Jenkins's games. Worth a bet at UCF +3.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401856878",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401856878",
-   "title": "New pick: Kansas State +4.5",
-   "text": "Kansas State @ Iowa State, Sat Nov 28, 2:00 PM ET. Blend takes Kansas State +4.5, a 3.9-point edge, logged when the line first appeared. QB change: Dillon Duff led Kansas State's passing in the last 3 games; Avery Johnson led it in 6 of 11 games. The ratings mostly reflect Avery Johnson's games. Worth a bet at Kansas State +5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401869959",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401869959",
-   "title": "Check the news: Georgia State +5.5",
-   "text": "Louisiana @ Georgia State, Sat Nov 28, 2:00 PM ET. Blend takes Georgia State +5.5, a 5.8-point edge, logged when the line first appeared. Worth a bet at Georgia State +6 or better at -110; the site shows the best number on offer."
   }
  ]
 }

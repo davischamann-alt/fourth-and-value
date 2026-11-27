@@ -38,6 +38,7 @@
   "key:401858301:2026-11-05T23:41Z",
   "key:401858301:2026-11-08T09:06Z",
   "key:401858316:2026-11-26T23:03Z",
+  "key:401858316:2026-11-27T19:30Z",
   "key:401858317:2026-11-22T20:45Z",
   "key:401858317:2026-11-23T02:53Z",
   "key:401858509:2026-10-22T20:12Z",
@@ -74,6 +75,7 @@
   "key:401864537:2026-11-09T01:46Z",
   "key:401864537:2026-11-13T23:39Z",
   "key:401864540:2026-11-14T06:37Z",
+  "key:401864546:2026-11-27T19:30Z",
   "key:401866455:2026-11-02T20:23Z",
   "key:401866455:2026-11-04T09:25Z",
   "key:401866455:2026-11-04T18:02Z",
@@ -88,6 +90,7 @@
   "key:401866475:2026-11-22T22:26Z",
   "key:401869930:2026-11-23T14:49Z",
   "key:401869930:2026-11-24T02:56Z",
+  "key:401869930:2026-11-27T19:30Z",
   "key:401869951:2026-11-07T16:29Z",
   "key:401869958:2026-11-21T20:34Z",
   "key:401870752:2026-11-08T22:13Z",
@@ -310,6 +313,30 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "key:401858316:2026-11-27T19:30Z",
+   "at": "2026-11-27T19:31:28Z",
+   "kind": "key",
+   "game_id": "401858316",
+   "title": "Line off 7: SMU @ Stanford",
+   "text": "The line moved from Stanford +7 to Stanford +7.5, off 7, toward the model's pick (SMU). Sat Nov 28, 3:30 PM ET."
+  },
+  {
+   "key": "key:401864546:2026-11-27T19:30Z",
+   "at": "2026-11-27T19:31:28Z",
+   "kind": "key",
+   "game_id": "401864546",
+   "title": "Line onto 7: Air Force @ New Mexico",
+   "text": "The line moved from New Mexico -6.5 to New Mexico -7, onto 7, toward the model's pick (New Mexico). Fri Nov 27, 4:30 PM ET."
+  },
+  {
+   "key": "key:401869930:2026-11-27T19:30Z",
+   "at": "2026-11-27T19:31:28Z",
+   "kind": "key",
+   "game_id": "401869930",
+   "title": "Line onto 3: App State @ South Alabama",
+   "text": "The line moved from South Alabama -3.5 to South Alabama -3, onto 3, toward the model's pick (App State). Fri Nov 27, 3:00 PM ET."
+  },
   {
    "key": "pick:401869533",
    "at": "2026-11-27T08:46:21Z",
