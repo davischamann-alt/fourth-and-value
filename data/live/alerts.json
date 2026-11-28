@@ -58,11 +58,13 @@
   "key:401858530:2026-11-19T10:28Z",
   "key:401858537:2026-11-22T20:45Z",
   "key:401858537:2026-11-26T04:12Z",
+  "key:401858537:2026-11-28T02:45Z",
   "key:401858544:2026-11-23T02:53Z",
   "key:401860914:2026-11-08T16:43Z",
   "key:401860916:2026-11-08T22:13Z",
   "key:401860917:2026-11-08T22:13Z",
   "key:401860927:2026-11-23T02:53Z",
+  "key:401860929:2026-11-28T02:45Z",
   "key:401861967:2026-11-08T22:13Z",
   "key:401862827:2026-11-15T01:58Z",
   "key:401862828:2026-11-09T01:46Z",
@@ -234,6 +236,7 @@
   "pick:401866474",
   "pick:401866475",
   "pick:401869533",
+  "pick:401869536",
   "pick:401869542",
   "pick:401869930",
   "pick:401869936",
@@ -313,6 +316,30 @@
   "total:401871098"
  ],
  "items": [
+  {
+   "key": "pick:401869536",
+   "at": "2026-11-28T02:47:04Z",
+   "kind": "pick",
+   "game_id": "401869536",
+   "title": "New pick: Toledo -7",
+   "text": "Toledo @ Buffalo, Sat Dec 5, 12:00 PM ET. Blend takes Toledo -7, a 5.0-point edge, logged when the line first appeared. Worth a bet at Toledo -6.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401858537:2026-11-28T02:45Z",
+   "at": "2026-11-28T02:47:04Z",
+   "kind": "key",
+   "game_id": "401858537",
+   "title": "Line onto 3: Illinois @ Northwestern",
+   "text": "The line moved from Northwestern -2.5 to Northwestern -3, onto 3, toward the model's pick (Northwestern). Sat Nov 28, 12:30 PM ET."
+  },
+  {
+   "key": "key:401860929:2026-11-28T02:45Z",
+   "at": "2026-11-28T02:47:04Z",
+   "kind": "key",
+   "game_id": "401860929",
+   "title": "Line onto 3: San Diego State @ Washington State",
+   "text": "The line moved from Washington State -2.5 to Washington State -3, onto 3, toward the model's pick (Washington State). Sat Nov 28, 6:30 PM ET."
+  },
   {
    "key": "key:401858316:2026-11-27T19:30Z",
    "at": "2026-11-27T19:31:28Z",
@@ -1888,30 +1915,6 @@
    "game_id": "401866453",
    "title": "Lean: Over 49.5",
    "text": "Ohio @ Akron, Tue Nov 3, 7:00 PM ET. Market-anchored takes the over 49.5 (projects 51.3), a 1.8-point edge, logged when the total first appeared."
-  },
-  {
-   "key": "total:401866454",
-   "at": "2026-10-31T23:26:41Z",
-   "kind": "total",
-   "game_id": "401866454",
-   "title": "Lean: Over 45.5",
-   "text": "Buffalo @ Miami (OH), Tue Nov 3, 8:00 PM ET. Market-anchored takes the over 45.5 (projects 48.0), a 2.5-point edge, logged when the total first appeared."
-  },
-  {
-   "key": "total:401866455",
-   "at": "2026-10-31T23:26:41Z",
-   "kind": "total",
-   "game_id": "401866455",
-   "title": "Lean: Over 48.5",
-   "text": "Ball State @ Massachusetts, Wed Nov 4, 7:00 PM ET. Market-anchored takes the over 48.5 (projects 50.3), a 1.8-point edge, logged when the total first appeared."
-  },
-  {
-   "key": "total:401866456",
-   "at": "2026-10-31T23:26:41Z",
-   "kind": "total",
-   "game_id": "401866456",
-   "title": "Check the news: Over 46.5",
-   "text": "Central Michigan @ Eastern Michigan, Wed Nov 4, 7:30 PM ET. Market-anchored takes the over 46.5 (projects 48.1), a 1.6-point edge, logged when the total first appeared. QB change: Brogan McCaughey led Eastern Michigan's passing in the last game; Noah Kim led it in 8 of 9 games. The ratings mostly reflect Noah Kim's games."
   }
  ]
 }

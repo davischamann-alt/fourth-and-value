@@ -1,9 +1,33 @@
 {
- "updated": "2026-11-27T19:31:28Z",
+ "updated": "2026-11-28T02:47:04Z",
  "feed": "https://davischamann-alt.github.io/fourth-and-value/alerts.xml",
  "ntfy_topic": "fourth-and-value-c1943a06",
  "discord": false,
  "items": [
+  {
+   "key": "pick:401869536",
+   "at": "2026-11-28T02:47:04Z",
+   "kind": "pick",
+   "game_id": "401869536",
+   "title": "New pick: Toledo -7",
+   "text": "Toledo @ Buffalo, Sat Dec 5, 12:00 PM ET. Blend takes Toledo -7, a 5.0-point edge, logged when the line first appeared. Worth a bet at Toledo -6.5 or better at -110; the site shows the best number on offer."
+  },
+  {
+   "key": "key:401858537:2026-11-28T02:45Z",
+   "at": "2026-11-28T02:47:04Z",
+   "kind": "key",
+   "game_id": "401858537",
+   "title": "Line onto 3: Illinois @ Northwestern",
+   "text": "The line moved from Northwestern -2.5 to Northwestern -3, onto 3, toward the model's pick (Northwestern). Sat Nov 28, 12:30 PM ET."
+  },
+  {
+   "key": "key:401860929:2026-11-28T02:45Z",
+   "at": "2026-11-28T02:47:04Z",
+   "kind": "key",
+   "game_id": "401860929",
+   "title": "Line onto 3: San Diego State @ Washington State",
+   "text": "The line moved from Washington State -2.5 to Washington State -3, onto 3, toward the model's pick (Washington State). Sat Nov 28, 6:30 PM ET."
+  },
   {
    "key": "key:401858316:2026-11-27T19:30Z",
    "at": "2026-11-27T19:31:28Z",
@@ -219,30 +243,6 @@
    "game_id": "401858311",
    "title": "New pick: Miami -25.5",
    "text": "Boston College @ Miami, Sat Nov 28, 12:00 PM ET. Blend takes Miami -25.5, a 2.9-point edge, logged when the line first appeared. Worth a bet at Miami -24.5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401866474",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401866474",
-   "title": "Check the news: Ball State +4.5",
-   "text": "Central Michigan @ Ball State, Sat Nov 28, 12:00 PM ET. Blend takes Ball State +4.5, a 5.2-point edge, logged when the line first appeared. Worth a bet at Ball State +5 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401856758",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401856758",
-   "title": "Check the news: LSU -13.5",
-   "text": "LSU @ Arkansas, Sat Nov 28, 12:45 PM ET. Blend takes LSU -13.5, a 5.0-point edge, logged when the line first appeared. Worth a bet at LSU -13 or better at -110; the site shows the best number on offer."
-  },
-  {
-   "key": "pick:401862837",
-   "at": "2026-11-22T20:45:48Z",
-   "kind": "pick",
-   "game_id": "401862837",
-   "title": "New pick: East Carolina -1.5",
-   "text": "Florida Atlantic @ East Carolina, Sat Nov 28, 1:00 PM ET. Blend takes East Carolina -1.5, a 2.1-point edge, logged when the line first appeared. Worth a bet at East Carolina -0.5 or better at -110; the site shows the best number on offer."
   }
  ]
 }

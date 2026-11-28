@@ -5,7 +5,28 @@
   <id>https://davischamann-alt.github.io/fourth-and-value/alerts.xml</id>
   <link rel="self" href="https://davischamann-alt.github.io/fourth-and-value/alerts.xml"/>
   <link href="https://davischamann-alt.github.io/fourth-and-value/"/>
-  <updated>2026-11-27T19:31:28Z</updated>
+  <updated>2026-11-28T02:47:04Z</updated>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-28:pick:401869536</id>
+    <title>New pick: Toledo -7</title>
+    <updated>2026-11-28T02:47:04Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401869536"/>
+    <summary>Toledo @ Buffalo, Sat Dec 5, 12:00 PM ET. Blend takes Toledo -7, a 5.0-point edge, logged when the line first appeared. Worth a bet at Toledo -6.5 or better at -110; the site shows the best number on offer.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-28:key:401858537:2026-11-28T02:45Z</id>
+    <title>Line onto 3: Illinois @ Northwestern</title>
+    <updated>2026-11-28T02:47:04Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401858537"/>
+    <summary>The line moved from Northwestern -2.5 to Northwestern -3, onto 3, toward the model's pick (Northwestern). Sat Nov 28, 12:30 PM ET.</summary>
+  </entry>
+  <entry>
+    <id>tag:fourth-and-value,2026-11-28:key:401860929:2026-11-28T02:45Z</id>
+    <title>Line onto 3: San Diego State @ Washington State</title>
+    <updated>2026-11-28T02:47:04Z</updated>
+    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401860929"/>
+    <summary>The line moved from Washington State -2.5 to Washington State -3, onto 3, toward the model's pick (Washington State). Sat Nov 28, 6:30 PM ET.</summary>
+  </entry>
   <entry>
     <id>tag:fourth-and-value,2026-11-27:key:401858316:2026-11-27T19:30Z</id>
     <title>Line off 7: SMU @ Stanford</title>
@@ -334,26 +355,5 @@
     <updated>2026-11-22T20:45:48Z</updated>
     <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401860927"/>
     <summary>Oregon State @ Fresno State, Sat Nov 28, 10:00 PM ET. Blend takes Oregon State +2.5, a 6.5-point edge, logged when the line first appeared. QB change: Maalik Murphy led Oregon State's passing in the last 2 games; Braden Atkinson led it in 9 of 11 games. The ratings mostly reflect Braden Atkinson's games. Worth a bet at Oregon State +3 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:total:401862843</id>
-    <title>New pick: Over 48.5</title>
-    <updated>2026-11-22T20:45:48Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401862843"/>
-    <summary>UAB @ North Texas, Sat Nov 28, 4:00 PM ET. Market-anchored takes the over 48.5 (projects 50.6), a 2.1-point edge, logged when the total first appeared. QB change: Chris Jimerson Jr. led North Texas's passing in the last game; Tayven Jackson led it in 10 of 11 games. The ratings mostly reflect Tayven Jackson's games. Worth a bet at Over 47.5 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:total:401860926</id>
-    <title>New pick: Over 75.5</title>
-    <updated>2026-11-22T20:45:48Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401860926"/>
-    <summary>Boise State @ Colorado State, Sat Nov 28, 6:00 PM ET. Market-anchored takes the over 75.5 (projects 77.2), a 1.7-point edge, logged when the total first appeared. Worth a bet at Over 74 or better at -110; the site shows the best number on offer.</summary>
-  </entry>
-  <entry>
-    <id>tag:fourth-and-value,2026-11-22:key:401856761:2026-11-22T20:45Z</id>
-    <title>Line onto 3: Louisville @ Kentucky</title>
-    <updated>2026-11-22T20:45:48Z</updated>
-    <link href="https://davischamann-alt.github.io/fourth-and-value/#game/401856761"/>
-    <summary>The line moved from Kentucky +1.5 to Kentucky +3, onto 3, toward the model's pick (Louisville). Sat Nov 28, 12:00 AM ET.</summary>
   </entry>
 </feed>
